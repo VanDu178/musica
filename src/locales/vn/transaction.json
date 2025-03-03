@@ -1,0 +1,13 @@
+{
+    "header": {
+        "title": "Chào mừng đến với Website của tôi",
+        "subtitle": "Khám phá nội dung của chúng tôi"
+    },
+    "button": {
+        "login": "Đăng nhập",
+        "signup": "Đăng ký"
+    },
+    "homepage": {
+        "content": "noi dung homepage tieng viet"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "header": {
+        "title": "Welcome to My Website",
+        "subtitle": "Explore our content"
+    },
+    "button": {
+        "login": "Login",
+        "signup": "Sign Up"
+    },
+    "homepage": {
+        "content": "content home"
+    }
+}
