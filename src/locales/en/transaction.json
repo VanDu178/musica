@@ -9,5 +9,69 @@
     },
     "homepage": {
         "content": "content home"
+    },
+    "login": {
+        "title": "Log in to Spotify",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithFacebook": "Continue with Facebook",
+        "continueWithApple": "Continue with Apple",
+        "continueWithPhone": "Continue with Phone Number",
+        "enterYourEmail": "Enter your email",
+        "password": "Password",
+        "loginButton": "Log in",
+        "forgotPassword": "Forgot your password?",
+        "noAccount": "Don't have an account?",
+        "signUp": "Sign up for Spotify"
+    },
+    "signup": {
+        "title": "Sign up to start listening",
+        "enterYourEmail": "Enter your email address",
+        "usePhoneInstead": "Use phone number.",
+        "nextButton": "Next",
+        "or": "or",
+        "continueWithGoogle": "Sign up with Google",
+        "continueWithFacebook": "Sign up with Facebook",
+        "continueWithApple": "Sign up with Apple",
+        "haveAccount": "Already have an account?",
+        "login": "Log in now"
+    },
+    "signupStep2": {
+        "title": "Create a Password",
+        "step": "Step",
+        "passwordPlaceholder": "Enter your password",
+        "passwordRules": "Your password must contain at least:",
+        "ruleHasLetter": "1 letter",
+        "ruleHasNumberOrSpecial": "1 number or special character (e.g. # ? ! &)",
+        "ruleHasMinLength": "10 characters",
+        "nextButton": "Next"
+    },
+    "signupStep3": {
+        "title": "Tell us about yourself",
+        "step": "Step",
+        "nameLabel": "Name",
+        "namePlaceholder": "Enter your name",
+        "nameDescription": "This name will appear on your profile.",
+        "dobLabel": "Date of Birth",
+        "dobDescription": "We need to know your date of birth to determine age-appropriate content.",
+        "selectDay": "Select Day",
+        "selectMonth": "Select Month",
+        "selectYear": "Select Year",
+        "genderLabel": "Gender",
+        "genderDescription": "We need to know your gender to suggest the right music.",
+        "genderOptions": {
+            "male": "Male",
+            "female": "Female",
+            "nonBinary": "Non-binary",
+            "other": "Other",
+            "preferNotToSay": "Prefer not to say"
+        },
+        "nextButton": "Sign Up"
+    },
+    "resetPassword": {
+        "title": "Reset Your Password",
+        "subtitle": "Enter the email address associated with your Spotify account and we'll send you a password recovery email.",
+        "emailLabel": "Enter your email address",
+        "helpLink": "Need help?",
+        "submitButton": "Send Link"
     }
 }

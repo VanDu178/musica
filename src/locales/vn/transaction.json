@@ -9,5 +9,69 @@
     },
     "homepage": {
         "content": "noi dung homepage tieng viet"
+    },
+    "login": {
+        "title": "Đăng nhập vào Spotify",
+        "continueWithGoogle": "Tiếp tục bằng Google",
+        "continueWithFacebook": "Tiếp tục bằng Facebook",
+        "continueWithApple": "Tiếp tục bằng Apple",
+        "continueWithPhone": "Tiếp tục bằng số điện thoại",
+        "enterYourEmail": "Nhập email của bạn",
+        "password": "Mật khẩu",
+        "loginButton": "Đăng nhập",
+        "forgotPassword": "Quên mật khẩu của bạn?",
+        "noAccount": "Bạn chưa có tài khoản?",
+        "signUp": "Đăng ký Spotify"
+    },
+    "signup": {
+        "title": "Đăng ký để bắt đầu nghe",
+        "enterYourEmail": "Nhập địa chỉ email",
+        "usePhoneInstead": "Dùng số điện thoại.",
+        "nextButton": "Tiếp theo",
+        "or": "hoặc",
+        "continueWithGoogle": "Đăng ký bằng Google",
+        "continueWithFacebook": "Đăng ký bằng Facebook",
+        "continueWithApple": "Đăng ký bằng Apple",
+        "haveAccount": "Bạn đã có tài khoản?",
+        "login": "Đăng nhập ngay"
+    },
+    "signupStep2": {
+        "title": "Tạo mật khẩu",
+        "step": "Bước",
+        "passwordPlaceholder": "Nhập mật khẩu của bạn",
+        "passwordRules": "Mật khẩu của bạn phải chứa ít nhất:",
+        "ruleHasLetter": "1 chữ cái",
+        "ruleHasNumberOrSpecial": "1 chữ số hoặc ký tự đặc biệt (ví dụ: # ? ! &)",
+        "ruleHasMinLength": "10 ký tự",
+        "nextButton": "Tiếp theo"
+    },
+    "signupStep3": {
+        "title": "Giới thiệu thông tin về bản thân bạn",
+        "step": "Bước",
+        "nameLabel": "Tên",
+        "namePlaceholder": "Nhập tên của bạn",
+        "nameDescription": "Tên này sẽ xuất hiện trên hồ sơ của bạn.",
+        "dobLabel": "Ngày sinh",
+        "dobDescription": "Chúng tôi cần biết ngày sinh của bạn để xác định độ tuổi tương thích với bài hát.",
+        "selectDay": "Chọn Ngày",
+        "selectMonth": "Chọn Tháng",
+        "selectYear": "Chọn Năm",
+        "genderLabel": "Giới tính",
+        "genderDescription": "Chúng tôi cần biết giới tính của bạn để đề xuất các bài hát thích hợp.",
+        "genderOptions": {
+            "male": "Nam",
+            "female": "Nữ",
+            "nonBinary": "Phi nhị giới",
+            "other": "Khác",
+            "preferNotToSay": "Không muốn nêu cụ thể"
+        },
+        "nextButton": "Đăng ký"
+    },
+    "resetPassword": {
+        "title": "Đặt lại mật khẩu của bạn",
+        "subtitle": "Nhập địa chỉ email liên kết với tài khoản Spotify của bạn để chúng tôi gửi email khôi phục mật khẩu cho bạn.",
+        "emailLabel": "Nhập địa chỉ email",
+        "helpLink": "Bạn cần hỗ trợ?",
+        "submitButton": "Gửi đường liên kết"
     }
 }

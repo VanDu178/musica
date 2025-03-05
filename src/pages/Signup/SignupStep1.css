@@ -1,0 +1,120 @@
+/* Toàn bộ container */
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #121212;
+  color: white;
+}
+
+/* Hộp đăng ký */
+.signup-box {
+  text-align: center;
+  width: 350px;
+}
+
+/* Logo */
+.spotify-logo {
+  width: 70px;
+  margin-bottom: 20px;
+}
+
+/* Tiêu đề */
+.signup-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 0.1rem solid #fff;
+  background-color: #000; /* Giữ nền đen */
+  color: #B3B3B3;
+  outline: none; /* Loại bỏ viền xanh của trình duyệt */
+}
+
+/* Khi input được focus (đang nhập) */
+.form-control:focus {
+  background-color: #000; /* Giữ nền đen khi nhập */
+  color: #fff; /* Chữ trắng rõ ràng hơn */
+  border-color: #1DB954; /* Viền xanh lá giống Spotify */
+}
+
+
+/* Link sử dụng số điện thoại */
+.phone-link {
+  display: block;
+  margin-top: 5px;
+  color: #1db954;
+}
+
+.phone-link:hover {
+  text-decoration: underline;
+}
+
+/* Nút tiếp theo */
+.signup-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #1db954;
+  border: none;
+  border-radius: 50px;
+  margin-top: 10px;
+  color: #000;
+}
+.signup-btn:hover {
+  transform: scale(1.05);
+  background-color: #1db954;
+  color: #000;
+}
+/* Khi nút bị disabled */
+.signup-btn:disabled {
+  background-color: #014119;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Dòng phân cách */
+.divider {
+  margin: 15px 0;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* Nút mạng xã hội */
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid white;
+  border-radius: 50px;
+  background-color: black;
+  color: white;
+  margin-top: 10px;
+}
+
+.social-btn .icon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+/* Hiệu ứng hover */
+.social-btn:hover {
+  background-color: #333;
+}
