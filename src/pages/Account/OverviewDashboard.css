@@ -1,0 +1,109 @@
+.overview-container {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .overview-main {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  /* Search Bar */
+  .overview-search-bar {
+    display: flex;
+    align-items: center;
+    background: #222;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .overview-search-icon {
+    margin-right: 10px;
+  }
+  
+  .overview-search-input {
+    background: none;
+    border: none;
+    color: #fff;
+    outline: none;
+    flex: 1;
+  }
+  
+  /* Subscription Section */
+  .overview-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .overview-column {
+    flex: 1;
+  }
+  
+  .overview-card {
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .overview-text-secondary {
+    color: #aaa;
+  }
+  
+  .overview-title {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  .overview-title-child {
+    font-size: 24px;
+    margin: 10px 0;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 10px;
+  }
+  
+  .overview-button {
+    background: #333;
+    border: none;
+    color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  /* Account Settings */
+  .overview-account-settings {
+    margin-top: 30px;
+    background-color: #121212;
+    border-radius: 5px;
+  }
+  
+  .overview-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .overview-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #121212;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  .overview-list-item:hover {
+    background: #222222; /* Màu nền sáng hơn một chút khi hover */
+    transform: scale(1.001); /* Phóng to nhẹ để tạo hiệu ứng nổi bật */
+  }
+  
+  .overview-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
