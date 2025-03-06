@@ -4,19 +4,21 @@ import Home from "./pages/Home";
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import ResetPassword from './pages/ForgotPassword/ForgotPassword';
-
-
+import Overview from './pages/Account/OverviewDashboard';
+import Profile from './pages/Account/Profile/Profile';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
         {/* Điều hướng trang */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Trang mặc định là Home */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/password-reset" element={<ResetPassword />} />
+          <Route path="/account/overview/" element={<Overview />} />
+          <Route path="/account/profile/" element={<Profile />} />
         </Routes>
       </div>
     </Router>
