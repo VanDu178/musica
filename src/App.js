@@ -6,6 +6,7 @@ import Signup from './pages/Signup/Signup';
 import ResetPassword from './pages/ForgotPassword/ForgotPassword';
 import Overview from './pages/Account/OverviewDashboard';
 import Profile from './pages/Account/Profile/Profile';
+import Chat from './pages/Chat/DeepSeekChat';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/password-reset" element={<ResetPassword />} />
           <Route path="/account/overview/" element={<Overview />} />
           <Route path="/account/profile/" element={<Profile />} />
+          <Route path="/chat/" element={<Chat />} />
         </Routes>
       </div>
     </Router>
