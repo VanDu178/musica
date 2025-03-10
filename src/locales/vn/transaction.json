@@ -74,7 +74,6 @@
         "helpLink": "Bạn cần hỗ trợ?",
         "submitButton": "Gửi đường liên kết"
     },
-
     "overview": {
         "searchPlaceholder": "Tìm kiếm tài khoản hoặc bài viết trợ giúp",
         "yourPlan": "Gói của bạn",
@@ -125,7 +124,6 @@
         "vietnam": "Việt Nam",
         "cancel": "Hủy",
         "save": "Lưu hồ sơ"
-    
     },
     "playlist": {
         "title": "Tiêu đề",

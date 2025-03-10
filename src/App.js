@@ -12,10 +12,7 @@ import Chat from "./pages/Chat/DeepSeekChat";
 function App() {
   return (
     <Router>
-      <div
-        className="App"
-        style={{ backgroundColor: "#000000", minHeight: "100vh" }}
-      >
+      <div className="App" style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
         {/* Điều hướng trang */}
         <Routes>
           <Route path="/" element={<Main />} /> {/* Trang mặc định là Main */}
