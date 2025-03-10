@@ -74,6 +74,59 @@
         "helpLink": "Need help?",
         "submitButton": "Send Link"
     },
+
+    "overview": {
+        "searchPlaceholder": "Search for accounts or help articles",
+        "yourPlan": "Your Plan",
+        "spotifyFree": "Spotify Free",
+        "learnMore": "Learn More",
+        "account": "Account",
+        "manageSubscription": "Manage Subscription",
+        "editProfile": "Edit Profile",
+        "restorePlaylist": "Restore Playlist",
+        "payment": "Payment",
+        "orderHistory": "Order History",
+        "savedCards": "Saved Cards",
+        "changePlan": "Change Plan",
+        "securityPrivacy": "Security & Privacy",
+        "manageApps": "Manage Apps",
+        "notificationSettings": "Notification Settings",
+        "privacySettings": "Account Privacy",
+        "editLoginMethods": "Edit Login Methods",
+        "resetPassword": "Reset Password on Device",
+        "logoutEverywhere": "Log Out Everywhere",
+        "help": "Help",
+        "spotifySupport": "Spotify Support Team"
+    },
+    "profile": {
+        "editProfile": "Edit Profile",
+        "username": "Username",
+        "email": "Email",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "birthday": "Date of Birth",
+        "months": {
+            "1": "January",
+            "2": "February",
+            "3": "March",
+            "4": "April",
+            "5": "May",
+            "6": "June",
+            "7": "July",
+            "8": "August",
+            "9": "September",
+            "10": "October",
+            "11": "November",
+            "12": "December"
+        },
+        "country": "Country or Region",
+        "vietnam": "Vietnam",
+        "cancel": "Cancel",
+        "save": "Save Profile"
+
+    },
     "playlist": {
         "title": "Title",
         "time": "Time"

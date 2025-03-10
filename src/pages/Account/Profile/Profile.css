@@ -1,0 +1,106 @@
+.profile-container {
+    color: white;
+    padding: 30px;
+    width: 70%;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.profile-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.profile-label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.profile-input,
+.profile-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #222;
+    color: white;
+}
+
+.profile-control {
+    cursor: pointer;
+}
+
+.profile-birthday-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-button-group {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+.profile-cancel-btn {
+    background: gray;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    color: white;
+    width: 10%;
+}
+.profile-cancel-btn:hover {
+    transform: scale(1.1); 
+}
+.profile-save-btn {
+    background: #1db954;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    margin-left: 2%;
+    width: 15%;
+}
+.profile-save-btn:hover {
+    transform: scale(1.1); 
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    position: relative;
+    /* Giữ vị trí cho nút quay lại */
+}
+
+.profile-back-btn {
+    position: absolute;
+    left: 0;
+    /* Đưa nút về bên trái */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.profile-title {
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    /* Giữ văn bản ở giữa */
+    flex-grow: 1;
+    /* Đảm bảo tiêu đề chiếm hết phần còn lại */
+}
+
+
+.profile-back-btn:hover {
+    color: #1DB954;
+}
