@@ -1,0 +1,30 @@
+/* Playlist.css */
+
+.playlist-container {
+    background: linear-gradient(to bottom, #2a2a2a, #121212);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .playlist-container h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+  
+  .playlist-container p {
+    color: #bbb;
+  }
+  
+  .song-header {
+    background: #1e1e1e;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+    color: #fff;
+  }
+  
+  .song-item.active {
+    background: #333 !important;
+    color: #1db954;
+  }
+  

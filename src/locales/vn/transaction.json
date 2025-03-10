@@ -124,5 +124,14 @@
         "vietnam": "Việt Nam",
         "cancel": "Hủy",
         "save": "Lưu hồ sơ"
+    },
+    "playlist": {
+        "title": "Tiêu đề",
+        "time": "Thời gian"
+    },
+    "home": {
+        "all": "Tất cả",
+        "music": "Nhạc",
+        "playlists": "Danh sách phát"
     }
 }

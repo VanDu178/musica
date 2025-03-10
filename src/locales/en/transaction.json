@@ -124,5 +124,15 @@
         "vietnam": "Vietnam",
         "cancel": "Cancel",
         "save": "Save Profile"
+
+    },
+    "playlist": {
+        "title": "Title",
+        "time": "Time"
+    },
+    "home": {
+        "all": "All",
+        "music": "Music",
+        "playlists": "Playlists"
     }
 }
