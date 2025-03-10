@@ -73,5 +73,14 @@
         "emailLabel": "Enter your email address",
         "helpLink": "Need help?",
         "submitButton": "Send Link"
+    },
+    "playlist": {
+        "title": "Title",
+        "time": "Time"
+    },
+    "home": {
+        "all": "All",
+        "music": "Music",
+        "playlists": "Playlists"
     }
 }

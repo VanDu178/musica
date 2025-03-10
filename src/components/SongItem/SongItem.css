@@ -1,0 +1,27 @@
+/* SongItem.css */
+
+.song-item {
+    background: #121212;
+    color: white;
+    border: none;
+  }
+  
+  .song-item:hover {
+    background: #1e1e1e !important;
+    cursor: pointer;
+  }
+  
+  .song-info {
+    text-align: left;
+  }
+  
+  .song-title {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  
+  .song-artist {
+    font-size: 0.9em;
+    color: #bbb;
+  }
+  

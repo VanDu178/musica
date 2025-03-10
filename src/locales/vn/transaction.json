@@ -73,5 +73,15 @@
         "emailLabel": "Nhập địa chỉ email",
         "helpLink": "Bạn cần hỗ trợ?",
         "submitButton": "Gửi đường liên kết"
+    },
+
+    "playlist": {
+        "title": "Tiêu đề",
+        "time": "Thời gian"
+    },
+    "home": {
+        "all": "Tất cả",
+        "music": "Nhạc",
+        "playlists": "Danh sách phát"
     }
 }
