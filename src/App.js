@@ -8,6 +8,7 @@ import ResetPassword from "./pages/ForgotPassword/ForgotPassword";
 import Overview from "./pages/Account/OverviewDashboard";
 import Profile from "./pages/Account/Profile/Profile";
 import Chat from "./pages/Chat/DeepSeekChat";
+import Premium from "./pages/Premium/premium";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/account/overview/" element={<Overview />} />
           <Route path="/account/profile/" element={<Profile />} />
           <Route path="/chat/" element={<Chat />} />
+          <Route path="/premium/" element={<Premium />} />
         </Routes>
       </div>
     </Router>
