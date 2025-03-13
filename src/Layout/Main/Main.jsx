@@ -1,11 +1,10 @@
-import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./Main.css"
+import React from "react";
+import Footer from "../../components/Header/Footer-Header/footer";
+import Header from "../../components/Header/Footer-Header/header";
+import SideBar from "../../components/Sidebar/Left_sidebar";
 import Home from "../../pages/Home/Home";
-import PlaylistDetail from "../../pages/PlaylistDetail/PlaylistDetail";
-import Header from "../../components/Header/footer-header/header";
-import Footer from "../../components/Header/footer-header/footer";
-import SideBar from "../../components/Sidebar/left_sidebar";
+import "./Main.css";
 const Main = () => {
     return (
         <div className="container-flud">

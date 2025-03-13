@@ -4,7 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
-import "./components.css";
+import "./Components.css";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -14,6 +14,10 @@ const Header = () => {
     i18n.changeLanguage(lng);
     setActiveLang(lng);
   };
+
+  const getButtonClass = (lang) => {
+    return activeLang === lang ? "hd-lang-on" : "hd-lang-off";
+  }
 
   return (
     <header className="hd-spotify-header">
@@ -34,14 +38,14 @@ const Header = () => {
           <button>{t("header2.explorePremium")}</button>
         </nav>
         <nav className="hd-nav-links hd-download">
-          <button><MdOutlineDownloadForOffline size={20} color="white" />{t("header2.download")}</button>
+          <button><MdOutlineDownloadForOffline size={20} color="white" />{t("header2.installApp")}</button>
         </nav>
         <nav className="hd-nav-links hd-news com-glow-zoom">
           <button><GoBell size={20} color="white" title={t("header2.news")} /></button>
         </nav>
         <nav className="hd-nav-links hd-language">
-          <button onClick={() => changeLanguage("vi")} disabled={activeLang === "vi"}>VI</button>
-          <button onClick={() => changeLanguage("en")} disabled={activeLang === "en"}>EN</button>
+          <button className={`${getButtonClass("vi")} glow-zoom`} onClick={() => changeLanguage("vi")} disabled={activeLang === "vi"}>VI</button>
+          <button className={`${getButtonClass("en")} glow-zoom`} onClick={() => changeLanguage("en")} disabled={activeLang === "en"}>EN</button>
         </nav>
       </div>
 
