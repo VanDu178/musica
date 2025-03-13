@@ -9,7 +9,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
-import "./Components.css";
+import "./components.css";
 
 const song_title = "Thin song title";
 const artist = "Artist";
@@ -41,17 +41,17 @@ const Footer = () => {
           <p title={song_title}>{artist}</p>
         </div>
         <button>
-          <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")}/>
+          <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")} />
         </button>
       </div>
 
       <div className="ft-center com-horizontal-align">
         <div className="com-button-controls ft-vertical-align">
-          <button className="ft-disabled-button" title={t("footer.shuffle")}><LuShuffle color="green" size={20}/></button>
-          <button className="ft-disabled-button" title={t("footer.prev")}><FaStepBackward size={20}/></button>
+          <button className="ft-disabled-button" title={t("footer.shuffle")}><LuShuffle color="green" size={20} /></button>
+          <button className="ft-disabled-button" title={t("footer.prev")}><FaStepBackward size={20} /></button>
           <button style={{ opacity: 1 }} title={t("footer.play")}><FaPlayCircle size={32} /></button>
-          <button title={t("footer.next")}><FaStepForward size={20}/></button>
-          <button title={t("footer.repeat")}><BiRepeat size={20}/></button>
+          <button title={t("footer.next")}><FaStepForward size={20} /></button>
+          <button title={t("footer.repeat")}><BiRepeat size={20} /></button>
         </div>
         <div className="ft-progress-bar">
           <span>0:00</span>
