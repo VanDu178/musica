@@ -9,7 +9,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
-import "../Header/Components.css";
+import "./MusicPlayerControl.css";
 
 const song_title = "Thin song title";
 const artist = "Artist";

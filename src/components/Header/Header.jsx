@@ -4,7 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
-import "./Components.css";
+import "./Header.css";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -18,6 +18,7 @@ const Header = () => {
   const getButtonClass = (lang) => {
     return activeLang === lang ? "hd-lang-on" : "hd-lang-off";
   }
+  const isLoggedIn = false;
 
   return (
     <header className="hd-spotify-header">
@@ -49,9 +50,17 @@ const Header = () => {
         </nav>
       </div>
 
-      <div className="hd-user-profile com-vertical-align">
-        <img src="https://via.placeholder.com/40" alt="User" />
-      </div>
+      
+      {/* <img src="https://via.placeholder.com/40" alt="User" /> */}
+      {isLoggedIn===true? (
+        <div className="hd-user-profile com-vertical-align">
+          <img src="https://via.placeholder.com/40" alt="User" />
+        </div>
+      ) : (
+        <button className="hd-login">
+          {t("header2.login")}
+        </button>
+      )}
     </header>
   );
 };
