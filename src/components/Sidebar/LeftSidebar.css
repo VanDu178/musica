@@ -68,16 +68,13 @@
   padding-block: 8px;
   background: #121212;
   color: white;
-  /* min-width: 250px; */
   width: 20%;
   height: 80%;
-  /* height: 100%; */
-  overflow-y: hidden;
+  overflow-y: auto;
   scrollbar-width: none;
   border-radius: 8px;
   position: fixed;
-  top: 64px;
-  z-index: 1000;
+  margin-top: 0.2%;
 }
 
 .ls-left-sidebar::-webkit-scrollbar {

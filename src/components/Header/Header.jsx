@@ -36,7 +36,11 @@ const Header = () => {
 
       <div className="hd-premium-download">
         <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button>{t("header2.explorePremium")}</button>
+          <button>
+            <a href="/premium">
+              {t("header2.explorePremium")}
+            </a>
+          </button>
         </nav>
         <nav className="hd-nav-links hd-download">
           <button><MdOutlineDownloadForOffline size={20} color="white" />{t("header2.installApp")}</button>
@@ -50,16 +54,16 @@ const Header = () => {
         </nav>
       </div>
 
-      
+
       {/* <img src="https://via.placeholder.com/40" alt="User" /> */}
-      {isLoggedIn===true? (
+      {isLoggedIn === true ? (
         <div className="hd-user-profile com-vertical-align">
           <img src="https://via.placeholder.com/40" alt="User" />
         </div>
       ) : (
-        <button className="hd-login">
+        <a className="hd-login" href="/login">
           {t("header2.login")}
-        </button>
+        </a>
       )}
     </header>
   );

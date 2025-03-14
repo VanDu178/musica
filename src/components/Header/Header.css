@@ -164,12 +164,16 @@
   .hd-premium button{
     color:black;
     font-weight: 800;
-    font-size: small;
+    font-size: smaller;
   }
 
   .hd-premium:hover, .hd-login:hover{
-    background-color: rgba(255,255,255,80%);
     transform: scale(1.1);
+    font-size: medium;
+  }
+  .hd-nav-links a {
+    text-decoration: none; /* Xóa gạch chân */
+    color: black; /* Đổi màu chữ thành đen */
   }
   .hd-download:hover{
     opacity: 1;
@@ -247,9 +251,11 @@
     margin: 16px 32px;
     background-color: white;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: medium;
     font-weight: bold;
-    /* color: ; */
-    border: 1px solid white;
+    color: #000000;
     transition: all 0.2s ease-out;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-decoration: none
   }

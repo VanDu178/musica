@@ -69,7 +69,7 @@ const Home = () => {
         <div className="col home-content">
             <div className="p-3 border rounded-3 home-content">
                 <nav className="navbar navbar-expand-lg navbar-light">
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center ">
                         {/* Các button sử dụng dịch từ i18n */}
                         <button className="custom-btn active mx-2">{t("home.all")}</button>
                         <button className="custom-btn mx-2">{t("home.music")}</button>

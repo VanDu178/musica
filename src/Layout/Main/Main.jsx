@@ -10,7 +10,9 @@ import "./Main.css";
 const Main = () => {
     return (
         <div className="main-container">
-            <Header />
+            <header className="main-header">
+                <Header />
+            </header>
             <div className="main-content">
                 <div className="sidebar-container">
                     <SideBar />
@@ -22,6 +24,7 @@ const Main = () => {
             </div>
             <MusicPlayerControls />
         </div>
+
     );
 };
 

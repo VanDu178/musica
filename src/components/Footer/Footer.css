@@ -1,6 +1,6 @@
 .footer-container {
     background-color: #121212; /* Thay theme.bg bằng màu cụ thể */
-    margin-bottom: 5%;
+    margin-bottom: 4%;
     border: none !important;
   }
   
@@ -25,4 +25,22 @@
   .footer-payment {
     width: 50%;
   }
+  .footer-container p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6); /* Làm mờ màu chữ */
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+    font-size: medium;
+  }
+
+.footer-container p:hover {
+    color: rgba(255, 255, 255, 0.9); /* Khi hover sẽ sáng hơn */
+}
+.footer-copyright {
+  font-size: 20px !important;
+  color: rgba(255, 255, 255, 0.6) !important; /* Làm mờ như các thẻ khác */
+  cursor: default !important; /* Không có hiệu ứng con trỏ */
+  transition: none !important; /* Không hiệu ứng */
+}
+
   
