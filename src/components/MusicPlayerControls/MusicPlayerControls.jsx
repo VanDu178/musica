@@ -28,7 +28,7 @@ const Footer = () => {
     <footer className="ft-spotify-footer">
       <div className="ft-left com-button-controls com-vertical-align">
         <div className="ft-img_container">
-          <img src="https://placehold.co/400/white" alt="Song" />
+          <img src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" alt="Song" />
         </div>
         <div className="ft-song_info com-horizontal-align">
           <h4 title={song_title}>{song_title}</h4>

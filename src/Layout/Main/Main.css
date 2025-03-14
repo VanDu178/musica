@@ -1,6 +1,6 @@
 /*----------Home Content Styles-------------*/
 
-.container{
+.main-container{
     background-color: #000000;
 }
 
@@ -23,25 +23,24 @@
 }
 .custom-btn.active:hover{
     background-color: #f1efef;
+    color: black;
 }
+
 .main-content-container{
-    flex: 3; /* Chiếm phần lớn hơn */
     display: flex;
     flex-direction: column;
     padding: 20px;
-    margin-top: 4%;
-    margin-left: 1%;
+    margin-left: auto;
+    width: 80%;
 }
 .main-content{
     display: flex;
-    flex-direction: row;
+    margin-top: 4%;
 }
 .sidebar-container{
-    flex: 1; /* Chiếm 1 phần nhỏ */
     max-width: 250px;
     padding: 15px;
     height: 100%;
-    border-right: 2px solid #ccc;
 }
 /* Footer cố định ở dưới */
 .footer-container {

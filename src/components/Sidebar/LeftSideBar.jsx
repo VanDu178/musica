@@ -8,9 +8,9 @@ import { RiBookShelfFill, RiBookShelfLine } from "react-icons/ri";
 import "./LeftSidebar.css";
 
 const libraryItems = [
-    { id: 1, type: "playlist", name: "Liked Songs", details: "Playlist • 228 songs", image: "https://i.imgur.com/yourimage.png", pinned: true },
-    { id: 2, type: "artist", name: "Camellia", details: "Artist", image: "https://i.imgur.com/yourimage.png", playing: true },
-    { id: 3, type: "artist", name: "BlackY", details: "Artist", image: "https://i.imgur.com/yourimage.png" }
+    { id: 1, type: "playlist", name: "Liked Songs", details: "Playlist • 228 songs", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D", pinned: true },
+    { id: 2, type: "artist", name: "Camellia", details: "Artist", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D", playing: true },
+    { id: 3, type: "artist", name: "BlackY", details: "Artist", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }
 ];
 
 const Left_Sidebar = () => {
@@ -31,10 +31,6 @@ const Left_Sidebar = () => {
         }
     };
 
-    const toggle_flexDirection = () => {
-        setFlexDirection((direction) => (direction === "row" ? "column" : "row"));
-    }
-
     //Scroll button controls
     const scrollRight = () => {
         toggle_scrollButton(1, 0);
@@ -48,29 +44,11 @@ const Left_Sidebar = () => {
         setRight_scroll(state2);
     };
 
-    // Opacity: 0 <=> 1
-    const toggle_display = () => {
-        setDisplay((prevDisplay) => (prevDisplay === "flex" ? "none" : "flex"));
-    };
-
-    // Sidebar width: 20% <=> 35%
-    const toggle_sidebarWidth = () => {
-        setSidebarWidth((prevWidth) => (prevWidth === "20%" ? "35%" : "20%"));
-        if (sidebarWidth === "20%") toggle_scrollButton(0, 0);
-        else toggle_scrollButton(0, 1);
-    };
-    // any <=> 56px
-    const toggle_sidebarWidth2 = () => {
-        setSidebarWidth((prevWidth) => (prevWidth === "56px" ? "20%" : "56px"));
-        toggle_display();
-        toggle_flexDirection();
-    };
-
     return (
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
             <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
                 <div className="ls-library-header" style={{ flexDirection: flexDirection }}>
-                    <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")} onClick={toggle_sidebarWidth2}>
+                    <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")} >
                         <div>
                             {sidebarWidth === "56px" ? (<RiBookShelfLine size={32} color="white" />) :
                                 (<RiBookShelfFill size={32} color="white" />)}
@@ -81,9 +59,6 @@ const Left_Sidebar = () => {
                         <button className="com-glow-only com-vertical-align" title={t("leftSidebar.createListDesc")}>
                             <IoMdAdd size={20} color="white" />
                             <span className="ls-create-span" style={{ display: sidebarWidth === "35%" ? "flex" : "none", marginInline: sidebarWidth === "20%" ? "0" : "8px" }}>{t("leftSidebar.createList")}</span>
-                        </button>
-                        <button className="com-glow-only" style={{ backgroundColor: "rgba(0,0,0,0)", display: display }} onClick={toggle_sidebarWidth}>
-                            <FaArrowRight size={20} color="#8a8a8a" style={{ transform: sidebarWidth === "20%" ? "rotate(0deg)" : "rotate(180deg)" }} />
                         </button>
                     </div>
                 </div>
