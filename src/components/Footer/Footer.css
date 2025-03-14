@@ -1,0 +1,28 @@
+.footer-container {
+    background-color: #121212; /* Thay theme.bg bằng màu cụ thể */
+    margin-bottom: 5%;
+    border: none !important;
+  }
+  
+  .footer-wrapper {
+    color: #ffffff; /* Thay theme.text bằng màu cụ thể */
+    display: flex;
+    margin: auto;
+    max-width: 1200px;
+  }
+  
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    flex: 1;
+    padding: 1.25rem;
+  }
+  
+  .footer-title {
+    margin-bottom: 1.875rem;
+  }
+  
+  .footer-payment {
+    width: 50%;
+  }
+  

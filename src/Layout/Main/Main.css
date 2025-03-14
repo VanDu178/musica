@@ -1,10 +1,8 @@
 /*----------Home Content Styles-------------*/
 
-.home-content{
-    background-color: #151515;
+.container{
+    background-color: #000000;
 }
-
-
 
 /*Custom button style*/
 .custom-btn {
@@ -25,4 +23,32 @@
 }
 .custom-btn.active:hover{
     background-color: #f1efef;
+}
+.main-content-container{
+    flex: 3; /* Chiếm phần lớn hơn */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 4%;
+    margin-left: 1%;
+}
+.main-content{
+    display: flex;
+    flex-direction: row;
+}
+.sidebar-container{
+    flex: 1; /* Chiếm 1 phần nhỏ */
+    max-width: 250px;
+    padding: 15px;
+    height: 100%;
+    border-right: 2px solid #ccc;
+}
+/* Footer cố định ở dưới */
+.footer-container {
+    margin-top: auto;
+    background-color: #121212;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 2px solid #ccc;
 }

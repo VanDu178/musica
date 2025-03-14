@@ -7,7 +7,7 @@ import Profile from "./pages/Account/Profile/Profile";
 import Chat from "./pages/Chat/DeepSeekChat";
 import ResetPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
-import Premium from "./pages/Premium/Premium";
+import Premium from "./pages/Premium/premium";
 import Signup from "./pages/Signup/Signup";
 
 function App() {

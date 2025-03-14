@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight, FaList, FaPlay, FaSearch } from "react-i
 import { FaArrowRight } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { RiBookShelfFill, RiBookShelfLine } from "react-icons/ri";
-import "./Components.css";
+import "./LeftSidebar.css";
 
 const libraryItems = [
     { id: 1, type: "playlist", name: "Liked Songs", details: "Playlist • 228 songs", image: "https://i.imgur.com/yourimage.png", pinned: true },
@@ -22,16 +22,10 @@ const Left_Sidebar = () => {
     const [display, setDisplay] = useState("flex");
     const [flexDirection, setFlexDirection] = useState("row");
 
-    const { t, i18n } = useTranslation();
-    const [activeLang, setActiveLang] = useState(i18n.language);
-
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-        setActiveLang(lng);
-    };
+    const { t } = useTranslation();
 
     const scrollLeft = () => {
-        toggle_scrollButton(0,1);
+        toggle_scrollButton(0, 1);
         if (categoryRef.current) {
             categoryRef.current.scrollBy({ left: -170, behavior: "smooth" });
         }
@@ -43,7 +37,7 @@ const Left_Sidebar = () => {
 
     //Scroll button controls
     const scrollRight = () => {
-        toggle_scrollButton(1,0);
+        toggle_scrollButton(1, 0);
         if (categoryRef.current) {
             categoryRef.current.scrollBy({ left: 170, behavior: "smooth" });
         }
@@ -62,8 +56,8 @@ const Left_Sidebar = () => {
     // 250px <=> 550px
     const toggle_sidebarWidth = () => {
         setSidebarWidth((prevWidth) => (prevWidth === "250px" ? "550px" : "250px"));
-        if(sidebarWidth==="250px") toggle_scrollButton(0,0);
-            else toggle_scrollButton(0,1);
+        if (sidebarWidth === "250px") toggle_scrollButton(0, 0);
+        else toggle_scrollButton(0, 1);
     };
     // any <=> 40px
     const toggle_sidebarWidth2 = () => {
@@ -73,40 +67,40 @@ const Left_Sidebar = () => {
     };
 
     return (
-        <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth==="56px"?"4px":"16px"}}>
-            <div style={{position: "sticky", top: 0, zIndex: 1}}>
-                <div className="com-vertical-align ls-library-header" style={{flexDirection: flexDirection}}>
+        <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
+            <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+                <div className="com-vertical-align ls-library-header" style={{ flexDirection: flexDirection }}>
                     <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")} onClick={toggle_sidebarWidth2}>
                         <div>
-                            {sidebarWidth === "56px" ? (<RiBookShelfLine size={32} color="white"/>):
-                            (<RiBookShelfFill size={32} color="white"/>)}
+                            {sidebarWidth === "56px" ? (<RiBookShelfLine size={32} color="white" />) :
+                                (<RiBookShelfFill size={32} color="white" />)}
                         </div>
-                        <span style={{display: display}}>{t("leftSidebar.library")}</span>
+                        <span style={{ display: display }}>{t("leftSidebar.library")}</span>
                     </button>
                     <div className="ls-add-expand com-vertical-align">
                         <button className="com-glow-only com-vertical-align" title={t("leftSidebar.createListDesc")}>
                             <IoMdAdd size={20} color="white" />
-                            <span className="ls-create-span" style={{ display: sidebarWidth==="250px"?"none":"flex", marginInline: sidebarWidth==="250px"?"0":"8px"}}>{t("leftSidebar.createList")}</span>
+                            <span className="ls-create-span" style={{ display: sidebarWidth === "250px" ? "none" : "flex", marginInline: sidebarWidth === "250px" ? "0" : "8px" }}>{t("leftSidebar.createList")}</span>
                         </button>
-                        <button className="com-glow-only" style={{ backgroundColor: "rgba(0,0,0,0)", display: display}} onClick={toggle_sidebarWidth}>
+                        <button className="com-glow-only" style={{ backgroundColor: "rgba(0,0,0,0)", display: display }} onClick={toggle_sidebarWidth}>
                             <FaArrowRight size={20} color="#8a8a8a" style={{ transform: sidebarWidth === "250px" ? "rotate(0deg)" : "rotate(180deg)" }} />
                         </button>
                     </div>
                 </div>
-                <div className="ls-category-search" style={{flexDirection:sidebarWidth==="250px"?"column":"row"}}>
-                    <div className="ls-category-container" style={{display:display}}>
-                        <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{opacity:left_scroll}}><FaChevronLeft /></button>
+                <div className="ls-category-search" style={{ flexDirection: sidebarWidth === "250px" ? "column" : "row" }}>
+                    <div className="ls-category-container" style={{ display: display }}>
+                        <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{ opacity: left_scroll }}><FaChevronLeft /></button>
                         <div className="ls-category-holder" ref={categoryRef}>
                             <button>{t("leftSidebar.playlists")}</button>
                             <button>{t("leftSidebar.artists")}</button>
                             <button>Albums</button>
                             <button>Podcasts</button>
                         </div>
-                        <button className="ls-scroll-btn ls-right-positioned com-glow-zoom com-vertical-align" onClick={scrollRight} style={{opacity:right_scroll}}><FaChevronRight/>
+                        <button className="ls-scroll-btn ls-right-positioned com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}><FaChevronRight />
                         </button>
                     </div>
 
-                    <div className="ls-search-sort" style={{display: display}}>
+                    <div className="ls-search-sort" style={{ display: display }}>
                         <button className="com-glow-only"><FaSearch size={14} color="white" /></button>
                         <button className="ls-sort-btn com-glow-zoom ls-vertical-align">
                             <span>{t("leftSidebar.recents")}</span>
@@ -123,13 +117,13 @@ const Left_Sidebar = () => {
                             <div className="ls-img-play-btn"><FaPlay /></div>
                             <img src={item.image} alt={item.name} />
                         </div>
-                        <div className="com-vertical-align" style={{justifyContent: "space-between", display: display}}>
+                        <div className="com-vertical-align" style={{ justifyContent: "space-between", display: display }}>
                             <div className="ls-library-item-info">
                                 <span className="ls-library-item-name">{item.name}</span>
                                 <span className="ls-library-item-details">{item.details}</span>
                             </div>
-                            {item.pinned && <span className="ls-pinned" style={{right: 0}}>📌</span>}
-                            {item.playing && <BsFillVolumeUpFill size={16} color="green" style={{right:0}}/>}
+                            {item.pinned && <span className="ls-pinned" style={{ right: 0 }}>📌</span>}
+                            {item.playing && <BsFillVolumeUpFill size={16} color="green" style={{ right: 0 }} />}
                         </div>
                     </div>
                 ))}

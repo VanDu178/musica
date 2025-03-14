@@ -67,7 +67,7 @@ const SpotifyLogin = () => {
                     <span style={{ fontSize: "1.5rem", color: "#000", fontWeight: "bold" }}>{t("login.loginButton")}</span>
                 </button>
                 <div className="text-center mt-3" style={{ width: "50%" }}>
-                    <a href="forgotpassword" className=" text-light">{t("login.forgotPassword")}</a>
+                    <a href="password-reset" className=" text-light">{t("login.forgotPassword")}</a>
                 </div>
                 <div className="text-center mt-2" style={{ width: "50%" }}>
                     <span>{t("login.noAccount")} </span>
