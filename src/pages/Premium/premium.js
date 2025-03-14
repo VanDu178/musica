@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaCheck, FaCheckCircle, FaMinus, FaSpotify } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
-import "./Components.css";
+import "./Premium.css";
 
 const Premium = () => {
     const planCardsRef = React.useRef(null);

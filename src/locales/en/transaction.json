@@ -140,7 +140,8 @@
         "upgradeToPremium": "Upgrade to Premium",
         "explorePremium": "Explore Premium",
         "installApp": "Install App",
-        "news": "What's New"
+        "news": "What's New",
+        "login": "Login"
     },
     "footer":{
         "addToLiked":"Add to Liked Songs",
