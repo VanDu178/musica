@@ -66,9 +66,9 @@ const Home = () => {
 
     return (
 
-        <div class="col">
-            <div class="p-3 border rounded-3 home-content">
-                <nav class="navbar navbar-expand-lg navbar-light">
+        <div className="col home-content">
+            <div className="p-3 border rounded-3 home-content">
+                <nav className="navbar navbar-expand-lg navbar-light">
                     <div className="d-flex justify-content-center">
                         {/* Các button sử dụng dịch từ i18n */}
                         <button className="custom-btn active mx-2">{t("home.all")}</button>
@@ -78,10 +78,10 @@ const Home = () => {
                 </nav>
 
                 <div>
-                    <div class="card-group card-group-scroll">
+                    <div className="card-group card-group-scroll">
                         <MusicSlider items={playlists} type="playlist" />
                     </div>
-                    <div class="card-group card-group-scroll">
+                    <div className="card-group card-group-scroll">
                         <MusicSlider items={albums} type="album" />
                     </div>
                 </div>

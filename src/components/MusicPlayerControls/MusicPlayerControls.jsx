@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { BiRepeat } from "react-icons/bi";
 import { BsFilePlay } from "react-icons/bs";
@@ -9,7 +9,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
-import "./Components.css";
+import "../Header/Components.css";
 
 const song_title = "Thin song title";
 const artist = "Artist";
@@ -22,13 +22,7 @@ function timeFormat(seconds) {
 }
 
 const Footer = () => {
-  const { t, i18n } = useTranslation();
-  const [activeLang, setActiveLang] = useState(i18n.language);
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setActiveLang(lng);
-  };
+  const { t } = useTranslation();
 
   return (
     <footer className="ft-spotify-footer">
