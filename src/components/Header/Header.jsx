@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
+import { AuthContext } from "../../context/AuthContext";
 import "./Header.css";
 
 const Header = () => {
@@ -18,7 +19,7 @@ const Header = () => {
   const getButtonClass = (lang) => {
     return activeLang === lang ? "hd-lang-on" : "hd-lang-off";
   }
-  const isLoggedIn = false;
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
   return (
     <header className="hd-spotify-header">
@@ -56,9 +57,12 @@ const Header = () => {
 
 
       {/* <img src="https://via.placeholder.com/40" alt="User" /> */}
-      {isLoggedIn === true ? (
+      {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align">
           <img src="https://via.placeholder.com/40" alt="User" />
+          <button onClick={logout} className="hd-logout-button">
+            {t("header2.logout")}
+          </button>
         </div>
       ) : (
         <a className="hd-login" href="/login">

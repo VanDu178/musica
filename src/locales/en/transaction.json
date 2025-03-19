@@ -22,6 +22,7 @@
         "forgotPassword": "Forgot your password?",
         "noAccount": "Don't have an account?",
         "signUp": "Sign up for Spotify"
+       
     },
     "signup": {
         "title": "Sign up to start listening",
@@ -34,6 +35,7 @@
         "continueWithApple": "Sign up with Apple",
         "haveAccount": "Already have an account?",
         "login": "Log in now"
+       
     },
     "signupStep2": {
         "title": "Create a Password",
@@ -141,7 +143,8 @@
         "explorePremium": "Explore Premium",
         "installApp": "Install App",
         "news": "What's New",
-        "login": "Login"
+        "login": "Login",
+        "logout":"logout"
     },
     "footer":{
         "addToLiked":"Add to Liked Songs",
@@ -209,5 +212,23 @@
         "tableRow_4": "High quality audio",
         "tableRow_5": "Listen with friends in real time",
         "tableRow_6": "Organize listening queue"
+    },
+    "messages":{
+      "errorOccurred": "An error occurred. Please try again.",
+      "passwordResetSuccess": "Password reset successfully. Check your email for the new password.",
+        "passwordResetFailed": "Account does not exist",
+        "serverError": "Server error",
+        "signupSuccess": "Signup successful. Please check your email to activate your account.",
+    "emailAlreadyExists": "The email address is already registered.",
+    "usernameAlreadyExists": "The username is already taken.",
+    "invalidData": "The provided data is invalid. Please check your input.",
+    "signupFailed": "Signup failed. Please try again.",
+    "loginSuccess": "Login successful.",
+    "loginFailed": "Login failed. Please try again.",
+    "accountNotActivated": "Your account is not activated. Please check your email for the activation link.",
+    "invalidCredentials": "Invalid email or password.",
+    "accessTokenRequired": "Access token is required.",
+    "invalidGoogleToken": "Invalid Google token.",
+    "invalidToken": "Invalid token."
     }
 }
