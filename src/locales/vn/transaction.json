@@ -140,7 +140,8 @@
         "explorePremium": "Khám phá Premium",
         "installApp": "Cài đặt ứng dụng",
         "news": "Có gì mới",
-        "login": "Đăng nhập"
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất"
     },
     "footer": {
         "addToLiked": "Thêm vào bài hát yêu thích",
@@ -208,5 +209,23 @@
         "tableRow_4": "Chất lượng âm thanh cao",
         "tableRow_5": "Nghe cùng bạn bè theo thời gian thực",
         "tableRow_6": "Sắp xếp danh sách chờ nghe"
+    },
+    "messages":{
+      "passwordResetSuccess":  "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
+      "passwordResetFailed": "Tài khoản không tồn tại",
+      "serverError": "Lỗi máy chủ",
+        "signupSuccess": "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
+        "emailAlreadyExists": "Địa chỉ email đã được đăng ký.",
+        "usernameAlreadyExists": "Tên người dùng đã được sử dụng.",
+        "invalidData": "Dữ liệu cung cấp không hợp lệ. Vui lòng kiểm tra lại thông tin của bạn.",
+        "signupFailed": "Đăng ký thất bại. Vui lòng thử lại.",
+        "errorOccurred": "Đã xảy ra lỗi. Vui lòng thử lại.",
+        "loginSuccess": "Đăng nhập thành công.",
+        "loginFailed": "Đăng nhập thất bại. Vui lòng thử lại.",
+        "accountNotActivated": "Tài khoản của bạn chưa được kích hoạt. Vui lòng kiểm tra email để nhận liên kết kích hoạt.",
+        "invalidCredentials": "Email hoặc mật khẩu không hợp lệ.",
+        "accessTokenRequired": "Yêu cầu access token truy cập.",
+        "invalidGoogleToken": "Google token không hợp lệ.",
+        "invalidToken": "Access token không hợp lệ."
     }
 }
