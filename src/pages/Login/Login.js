@@ -8,9 +8,9 @@ import facebookicon from "../../assets/images/icon/facebookicon.png";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap"; // Import Spinner
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import showToast from "../../helpers/toast";
+import { Toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { handleSuccess, handleError } from '../../helpers/toast';
 import { useGoogleLogin } from "@react-oauth/google";
 import auth from "../../utils/auth";
 
@@ -33,7 +33,7 @@ const SpotifyLogin = () => {
     setIsLoading(false);
     if (response.status === 200) {
       navigate("/", { replace: true });
-      showToast(response.message, "success"); // Hiển thị toast thành công
+      handleSuccess(response.message); // Hiển thị toast thành công
     } else {
       setError(response.message);
       // showToast(response.message, "error"); // Hiển thị toast lỗi
@@ -46,18 +46,18 @@ const SpotifyLogin = () => {
         const response = await auth.googleLogin(tokenResponse.access_token);
         if (response.success) {
           navigate("/", { replace: true });
-          showToast(response.message); // Hiển thị thông báo thành công
+          handleSuccess(response.message); // Hiển thị thông báo thành công
         } else {
           console.error("Google Login Error:", response.message);
-          showToast(response.message, "error"); // Hiển thị toast lỗi
+          handleError(response.message); // Hiển thị toast lỗi
         }
       } catch (error) {
         console.error("Google Login Failed:", error);
-        showToast(t("messages.loginFailed"), "error"); // Hiển thị toast lỗi
+        handleError(t("messages.loginFailed")); // Hiển thị toast lỗi
       }
     },
     onError: () => {
-      showToast(t("messages.loginFailed"), "error"); // Hiển thị toast lỗi
+      handleError(t("messages.loginFailed")); // Hiển thị toast lỗi
     },
   });
 
@@ -252,7 +252,6 @@ const SpotifyLogin = () => {
           </a>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

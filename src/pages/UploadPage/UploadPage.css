@@ -1,0 +1,86 @@
+.upload-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: #121212;
+  color: white;
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding-top: 7%; /* Add padding to the top to prevent header from covering content */
+  padding-bottom: 5%;
+}
+
+.upload-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.upload-header h1 {
+  font-size: 24px;
+}
+
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-input {
+  padding: 10px;
+  border: 1px solid #1db954;
+  border-radius: 5px;
+  background-color: #282828;
+  color: white;
+  width: 100%;
+}
+
+.upload-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1db954;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  justify-content: center;
+}
+
+.upload-button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.upload-button:hover:not(:disabled) {
+  background-color: #1ed760;
+}
+
+.upload-message {
+  font-size: 14px;
+  color: rgb(245, 78, 78);
+}
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+}
+
+.upload-label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
