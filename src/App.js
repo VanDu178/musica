@@ -13,6 +13,8 @@ import Profile from "./pages/Account/Profile/Profile";
 import Chat from "./pages/Chat/DeepSeekChat";
 import Premium from "./pages/Premium/premium";
 import Home from "./pages/Home/Home";
+import Upload from "./pages/UploadPage/UploadPage";
+import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
 const App = () => {
   return (
@@ -33,8 +35,21 @@ const App = () => {
               <Route path="/chat/" element={<Chat />} />
               <Route path="/premium/" element={<Premium />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/upload" element={<Upload />} />
             </Routes>
-            <ToastContainer />
+
+            {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </div>
         </Router>
       </AuthProvider>
