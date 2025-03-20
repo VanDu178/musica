@@ -1,5 +1,5 @@
 /* Định dạng placeholder màu trắng nhạt */
-.form-control::placeholder {
+.login-form-control::placeholder {
   color: rgba(255, 255, 255, 0.6);
   font-size: large;
 }
@@ -17,7 +17,7 @@
   transform: scale(1.05);
   background-color: #35e272;
 }
-.form-control {
+.login-form-control {
   width: 100%;
   padding: 10px;
   border-radius: 5px;
@@ -27,28 +27,28 @@
   outline: none; /* Loại bỏ viền xanh của trình duyệt */
 }
 
-.form-control:focus {
+.login-form-control:focus {
   background-color: #000; /* Giữ nền đen khi nhập */
   color: #fff; /* Chữ trắng rõ ràng hơn */
   border-color: #1DB954; /* Viền xanh lá giống Spotify */
 }
-.input-group {
+.login-input-group {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Căn trái nội dung bên trong */
   width: 100%;
   margin-left: 50%;
 }
-.spotify-logo {
+.login-spotify-logo {
   width: 70px;
   height: auto;
 }
-.google-facebook-logo {
+.login-google-facebook-logo {
   width: 30px; /* Điều chỉnh kích thước */
   height: 30px;
   margin-right: 5%;
 }
-.text-light:hover {
+.login-text-light:hover {
   color: #1db954 !important; /* Màu xanh của Spotify */
   transition: color 0.3s ease-in-out;
   text-decoration: none;

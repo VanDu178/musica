@@ -1,8 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify"; // Import thư viện toast
-import { useContext } from "react"; // Import useContext
-import { AuthContext } from "../context/AuthContext";
+import auth from "../utils/auth";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -10,6 +9,36 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+const refreshToken = async () => {
+  try {
+    const refresh_token = Cookies.get("refresh_token");
+    if (!refresh_token) {
+      console.error("No refresh token found.");
+      auth.logout(); // Gọi hàm logout khi không có refresh token
+      return null;
+    }
+
+    const response = await axiosInstance.post("/auth/refresh/", {
+      refresh: refresh_token,
+    });
+
+    if (response.status === 200) {
+      Cookies.set("access_token", response.data.access, { expires: 0.02 });
+      Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+      console.log("Token refreshed successfully.", response);
+      // return response.data.access;
+    } else {
+      console.error("Failed to refresh token.");
+      auth.logout();
+      return null;
+    }
+  } catch (error) {
+    console.error("Error refreshing token:", error.message);
+    auth.logout();
+    return null;
+  }
+};
 
 axiosInstance.interceptors.request.use(
   async (config) => {
@@ -38,21 +67,17 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      // Lấy hàm refreshToken từ AuthContext
-      const { refreshToken, logout } = useContext(AuthContext);
+    if (error.response.status === 401) {
+      // originalRequest._retry = true;
       try {
-        // Gọi hàm refreshToken để lấy token mới
         const newToken = await refreshToken();
 
-        if (newToken) {
-          // Gán token mới vào header Authorization
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
-          return axiosInstance(originalRequest);
-        }
+        // if (newToken) {
+        //   originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        //   return axiosInstance(originalRequest);
+        // }
       } catch (err) {
-        logout(); // Gọi hàm logout khi không thể lấy token mới
+        auth.logout(); // Gọi hàm logout khi không thể refresh token
         window.location.href = "/login";
         toast.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."); // Hiển thị thông báo lỗi
         return Promise.reject(err);

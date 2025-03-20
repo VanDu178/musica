@@ -7,12 +7,12 @@ import googleicon from "../../assets/images/icon/googleicon.png";
 import facebookicon from "../../assets/images/icon/facebookicon.png";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import { Spinner } from "react-bootstrap"; // Import Spinner
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import showToast from "../../helpers/toast";
 import { useGoogleLogin } from "@react-oauth/google";
+import auth from "../../utils/auth";
 
 const SpotifyLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,34 +23,29 @@ const SpotifyLogin = () => {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoggedIn, login, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/", { replace: true });
-    }
-  }, [isLoggedIn, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    const result = await login(dataLogin);
+    const response = await auth.login(dataLogin);
     setIsLoading(false);
-    if (result.success) {
-      showToast(result.message, "success"); // Hiển thị toast thành công
+    if (response.status === 200) {
+      navigate("/", { replace: true });
+      showToast(response.message, "success"); // Hiển thị toast thành công
     } else {
-      setError(result.message);
-      // showToast(result.message, "error"); // Hiển thị toast lỗi
+      setError(response.message);
+      // showToast(response.message, "error"); // Hiển thị toast lỗi
     }
   };
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const response = await googleLogin(tokenResponse.access_token);
+        const response = await auth.googleLogin(tokenResponse.access_token);
         if (response.success) {
+          navigate("/", { replace: true });
           showToast(response.message); // Hiển thị thông báo thành công
         } else {
           console.error("Google Login Error:", response.message);
@@ -82,7 +77,7 @@ const SpotifyLogin = () => {
         }}
       >
         <div className="text-center mb-4">
-          <img src={logo} alt="Spotify Logo" className="spotify-logo" />
+          <img src={logo} alt="Spotify Logo" className="login-spotify-logo" />
         </div>
         <div className="text-center mb-3" style={{ width: "50%" }}>
           <h3 className="fw-bold">{t("login.title")}</h3>
@@ -102,7 +97,7 @@ const SpotifyLogin = () => {
           <img
             src={googleicon}
             alt="Google Logo"
-            className="google-facebook-logo"
+            className="login-google-facebook-logo"
           />
           <span style={{ fontSize: "1rem" }}>
             {t("login.continueWithGoogle")}
@@ -122,7 +117,7 @@ const SpotifyLogin = () => {
           <img
             src={facebookicon}
             alt="Facebook Logo"
-            className="google-facebook-logo"
+            className="login-google-facebook-logo"
           />
           <span style={{ fontSize: "1rem" }}>
             {t("login.continueWithFacebook")}
@@ -172,7 +167,7 @@ const SpotifyLogin = () => {
           }}
         />
         <form onSubmit={handleLogin} style={{ width: "50%" }}>
-          <div className="input-group">
+          <div className="login-input-group">
             <label className="form-label fw-bold" style={{ fontSize: "1rem" }}>
               {t("login.enterYourEmail")}
             </label>
@@ -180,7 +175,7 @@ const SpotifyLogin = () => {
           <div className="mb-3" style={{ width: "100%", height: "50px" }}>
             <input
               type="email"
-              className="form-control text-white"
+              className="login-form-control text-white"
               placeholder={t("login.enterYourEmail")}
               value={dataLogin.email}
               onChange={(e) =>
@@ -188,7 +183,7 @@ const SpotifyLogin = () => {
               }
             />
           </div>
-          <div className="input-group">
+          <div className="login-input-group">
             <label className="form-label fw-bold" style={{ fontSize: "1rem" }}>
               {t("login.password")}
             </label>
@@ -199,7 +194,7 @@ const SpotifyLogin = () => {
           >
             <input
               type={showPassword ? "text" : "password"}
-              className="form-control text-white"
+              className="login-form-control text-white"
               placeholder={t("login.password")}
               value={dataLogin.password}
               onChange={(e) =>
@@ -246,13 +241,13 @@ const SpotifyLogin = () => {
           </button>
         </form>
         <div className="text-center mt-3" style={{ width: "50%" }}>
-          <a href="password-reset" className=" text-light">
+          <a href="password-reset" className="login-text-light">
             {t("login.forgotPassword")}
           </a>
         </div>
         <div className="text-center mt-2" style={{ width: "50%" }}>
           <span>{t("login.noAccount")} </span>
-          <a href="/signup" className="text-light">
+          <a href="/signup" className="login-text-light">
             {t("login.signUp")}
           </a>
         </div>
