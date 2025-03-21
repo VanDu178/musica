@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { BiRepeat } from "react-icons/bi";
 import { BsFilePlay } from "react-icons/bs";
 import { CgMiniPlayer } from "react-icons/cg";
@@ -10,15 +11,18 @@ import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
 import axiosInstance from "../../config/axiosConfig";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 import "./MusicPlayerControl.css";
 
 const MusicPlayerControl = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate(); // Sử dụng useNavigate
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(50);
   const [song, setSong] = useState(null);
+  const { isLoggedIn } = useContext(AuthContext);
 
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {
@@ -93,81 +97,107 @@ const MusicPlayerControl = () => {
     return `${min}:${sec < 10 ? "0" : ""}${sec}`;
   };
 
+  // Hàm điều hướng đến trang đăng nhập
+  const handleSignUpClick = () => {
+    navigate("/login");
+  };
+
   return (
     <footer className="ft-spotify-footer">
-      {song && (
-        <>
-          {/* Phần hiển thị bài hát */}
+      {isLoggedIn ? (
+        song ? (
+          <>
+            {/* Phần hiển thị bài hát */}
+            <div className="ft-left com-button-controls com-vertical-align">
+              <div className="ft-img_container">
+                <img src={song.image_path} alt="Song" /> {/* Đường dẫn hình ảnh */}
+              </div>
+              <div className="ft-song_info com-horizontal-align">
+                <h4 title={song.title}>{song.title}</h4>
+                <p title={song.artist}>{song.artist}</p>
+              </div>
+              <button>
+                <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")} />
+              </button>
+            </div>
+
+            {/* Phần điều khiển nhạc */}
+            <div className="ft-center com-horizontal-align">
+              <div className="com-button-controls ft-vertical-align">
+                <button className="ft-disabled-button" title={t("footer.shuffle")}>
+                  <LuShuffle color="green" size={20} />
+                </button>
+                <button className="ft-disabled-button" title={t("footer.prev")}>
+                  <FaStepBackward size={20} />
+                </button>
+                <button onClick={togglePlay} title={t("footer.play")}>
+                  {isPlaying ? <FaPauseCircle size={32} /> : <FaPlayCircle size={32} />}
+                </button>
+                <button title={t("footer.next")}>
+                  <FaStepForward size={20} />
+                </button>
+                <button title={t("footer.repeat")}>
+                  <BiRepeat size={20} />
+                </button>
+              </div>
+
+              {/* Thanh tiến trình */}
+              <div className="ft-progress-bar">
+                <span>{timeFormat(currentTime)}</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={(currentTime / song.duration) * 100}
+                  onChange={handleSeek}
+                />
+                <span>{timeFormat(song.duration)}</span>
+              </div>
+            </div>
+
+            {/* Các nút bên phải */}
+            <div className="ft-right com-button-controls com-vertical-align">
+              <button><BsFilePlay size={18} /></button>
+              <button><TbMicrophone2 size={18} /></button>
+              <button><HiOutlineQueueList size={18} /></button>
+              <button><MdOutlineDevices size={18} /></button>
+
+              {/* Điều chỉnh âm lượng */}
+              <div className="ft-progress-bar ft-volume-bar com-vertical-align">
+                <button><FaVolumeUp size={18} /></button>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                />
+              </div>
+
+              <button><CgMiniPlayer size={18} /></button>
+              <button><FaExpandAlt size={18} /></button>
+            </div>
+          </>
+        ) : (
           <div className="ft-left com-button-controls com-vertical-align">
             <div className="ft-img_container">
-              <img src={song.image_path} alt="Song" /> {/* Đường dẫn hình ảnh */}
+              <img src="" alt="No Song" /> {/* Đường dẫn hình ảnh */}
             </div>
             <div className="ft-song_info com-horizontal-align">
-              <h4 title={song.title}>{song.title}</h4>
-              <p title={song.artist}>{song.artist}</p>
+              <h4 title="No Song">No Song</h4>
+              <p title="No Artist">No Artist</p>
             </div>
-            <button>
-              <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")} />
+            <button disabled>
+              <IoMdAddCircleOutline size={20} color="gray" title={t("footer.addToLiked")} />
             </button>
           </div>
-
-          {/* Phần điều khiển nhạc */}
-          <div className="ft-center com-horizontal-align">
-            <div className="com-button-controls ft-vertical-align">
-              <button className="ft-disabled-button" title={t("footer.shuffle")}>
-                <LuShuffle color="green" size={20} />
-              </button>
-              <button className="ft-disabled-button" title={t("footer.prev")}>
-                <FaStepBackward size={20} />
-              </button>
-              <button onClick={togglePlay} title={t("footer.play")}>
-                {isPlaying ? <FaPauseCircle size={32} /> : <FaPlayCircle size={32} />}
-              </button>
-              <button title={t("footer.next")}>
-                <FaStepForward size={20} />
-              </button>
-              <button title={t("footer.repeat")}>
-                <BiRepeat size={20} />
-              </button>
-            </div>
-
-            {/* Thanh tiến trình */}
-            <div className="ft-progress-bar">
-              <span>{timeFormat(currentTime)}</span>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={(currentTime / song.duration) * 100}
-                onChange={handleSeek}
-              />
-              <span>{timeFormat(song.duration)}</span>
-            </div>
-          </div>
-
-          {/* Các nút bên phải */}
-          <div className="ft-right com-button-controls com-vertical-align">
-            <button><BsFilePlay size={18} /></button>
-            <button><TbMicrophone2 size={18} /></button>
-            <button><HiOutlineQueueList size={18} /></button>
-            <button><MdOutlineDevices size={18} /></button>
-
-            {/* Điều chỉnh âm lượng */}
-            <div className="ft-progress-bar ft-volume-bar com-vertical-align">
-              <button><FaVolumeUp size={18} /></button>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={volume}
-                onChange={handleVolumeChange}
-              />
-            </div>
-
-            <button><CgMiniPlayer size={18} /></button>
-            <button><FaExpandAlt size={18} /></button>
-          </div>
-        </>
+        )
+      ) : (
+        <div className="mcb-spotify-preview">
+          <p>Xem trước Spotify</p>
+          <p>Đăng ký để nghe không giới hạn các bài hát và podcast với quảng cáo không thường xuyên. Không cần thẻ tín dụng.</p>
+          <button onClick={handleSignUpClick}>Đăng ký miễn phí</button>
+        </div>
       )}
       <audio ref={audioRef} />
     </footer>
