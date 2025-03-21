@@ -13,7 +13,6 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const [activeLang, setActiveLang] = useState(i18n.language);
   const navigate = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false); //Dùng state để theo dõi đăng nhập
   const { logout, isLoggedIn } = useContext(AuthContext);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);

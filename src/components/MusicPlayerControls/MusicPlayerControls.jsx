@@ -41,9 +41,11 @@ const MusicPlayerControl = () => {
 
   // Gọi hàm fetch dữ liệu khi component mount
   useEffect(() => {
-    const songId = 52; // Thay bằng ID bài hát thực tế
-    fetchSongDetails(songId);
-  }, []);
+    if (isLoggedIn) {
+      const songId = 52; // Thay bằng ID bài hát thực tế
+      fetchSongDetails(songId);
+    }
+  }, [isLoggedIn]);
 
   // Xử lý Play/Pause
   const togglePlay = () => {
