@@ -1,5 +1,5 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Toast = {
   success: (message) => toast.success(message),
@@ -12,16 +12,16 @@ export const handleError = (error, customMessage = null) => {
     return;
   }
 
-  if (typeof error === 'string') {
+  if (typeof error === "string") {
     Toast.error(error);
     return;
   }
 
   if (error.response && error.response.status) {
     const statusCode = error.response.status;
-    Toast.error(`Error ${statusCode}: ${error.message || 'Unknown error'}`);
+    Toast.error(`Error ${statusCode}: ${error.message || "Unknown error"}`);
   } else {
-    Toast.error(error.message || 'An unknown error occurred');
+    Toast.error(error.message || "An unknown error occurred");
   }
 };
 

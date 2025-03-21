@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
 import axiosInstance from "../../config/axiosConfig";
-import { isLoggedIn } from "../../helpers/checkLogin";
-import auth from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 import "./Header.css";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const [activeLang, setActiveLang] = useState(i18n.language);
-
+  const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false); //Dùng state để theo dõi đăng nhập
+  const { logout, isLoggedIn } = useContext(AuthContext);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setActiveLang(lng);
@@ -79,10 +81,10 @@ const Header = () => {
         </nav>
       </div>
 
-      {isLoggedIn() ? (
+      {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align">
           <img src="https://via.placeholder.com/40" alt="User" />
-          <button onClick={auth.logout} className="hd-logout-button">
+          <button onClick={logout} className="hd-logout-button">
             {t("header2.logout")}
           </button>
         </div>
