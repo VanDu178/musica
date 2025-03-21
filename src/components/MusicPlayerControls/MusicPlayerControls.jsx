@@ -1,73 +1,177 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BiRepeat } from "react-icons/bi";
 import { BsFilePlay } from "react-icons/bs";
 import { CgMiniPlayer } from "react-icons/cg";
-import { FaExpandAlt, FaPlayCircle, FaStepBackward, FaStepForward, FaVolumeUp } from "react-icons/fa";
+import { FaExpandAlt, FaPlayCircle, FaPauseCircle, FaStepBackward, FaStepForward, FaVolumeUp } from "react-icons/fa";
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
+import axiosInstance from "../../config/axiosConfig";
 import "./MusicPlayerControl.css";
 
-const song_title = "Thin song title";
-const artist = "Artist";
-const song_length = 300;
-
-function timeFormat(seconds) {
-  let sec = (seconds % 60);
-  let min = Math.floor(seconds / 60);
-  return min + ":" + (sec < 10 ? "0" : "") + sec;
-}
-
-const Footer = () => {
+const MusicPlayerControl = () => {
   const { t } = useTranslation();
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [volume, setVolume] = useState(50);
+  const [song, setSong] = useState(null);
+
+  // Hàm fetch dữ liệu bài hát
+  const fetchSongDetails = async (songId) => {
+    try {
+      const response = await axiosInstance.get(`/song/${songId}/`);
+      if (response.status === 200) {
+        setSong(response.data);
+        if (audioRef.current) {
+          audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching song details:", error);
+    }
+  };
+
+  // Gọi hàm fetch dữ liệu khi component mount
+  useEffect(() => {
+    const songId = 52; // Thay bằng ID bài hát thực tế
+    fetchSongDetails(songId);
+  }, []);
+
+  // Xử lý Play/Pause
+  const togglePlay = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  // Xử lý khi bài hát kết thúc
+  const handleSongEnd = () => {
+    console.log("Bài hát đã kết thúc");
+    // Thêm logic để phát bài hát tiếp theo ở đây
+  };
+
+  // Cập nhật tiến trình bài hát
+  useEffect(() => {
+    const updateTime = () => setCurrentTime(audioRef.current.currentTime);
+    if (audioRef.current) {
+      audioRef.current.addEventListener("timeupdate", updateTime);
+      audioRef.current.addEventListener("ended", handleSongEnd);
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("timeupdate", updateTime);
+        audioRef.current.removeEventListener("ended", handleSongEnd);
+      }
+    };
+  }, [audioRef.current]);
+
+  // Xử lý Seek (kéo thanh tiến trình)
+  const handleSeek = (e) => {
+    const newTime = (e.target.value / 100) * song.duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  // Xử lý Volume
+  const handleVolumeChange = (e) => {
+    const newVolume = e.target.value;
+    setVolume(newVolume);
+    audioRef.current.volume = newVolume / 100;
+  };
+
+  // Định dạng thời gian (phút:giây)
+  const timeFormat = (seconds) => {
+    let sec = Math.floor(seconds % 60);
+    let min = Math.floor(seconds / 60);
+    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+  };
 
   return (
     <footer className="ft-spotify-footer">
-      <div className="ft-left com-button-controls com-vertical-align">
-        <div className="ft-img_container">
-          <img src="https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" alt="Song" />
-        </div>
-        <div className="ft-song_info com-horizontal-align">
-          <h4 title={song_title}>{song_title}</h4>
-          <p title={song_title}>{artist}</p>
-        </div>
-        <button>
-          <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")} />
-        </button>
-      </div>
+      {song && (
+        <>
+          {/* Phần hiển thị bài hát */}
+          <div className="ft-left com-button-controls com-vertical-align">
+            <div className="ft-img_container">
+              <img src={song.image_path} alt="Song" /> {/* Đường dẫn hình ảnh */}
+            </div>
+            <div className="ft-song_info com-horizontal-align">
+              <h4 title={song.title}>{song.title}</h4>
+              <p title={song.artist}>{song.artist}</p>
+            </div>
+            <button>
+              <IoMdAddCircleOutline size={20} color="white" title={t("footer.addToLiked")} />
+            </button>
+          </div>
 
-      <div className="ft-center com-horizontal-align">
-        <div className="com-button-controls ft-vertical-align">
-          <button className="ft-disabled-button" title={t("footer.shuffle")}><LuShuffle color="green" size={20} /></button>
-          <button className="ft-disabled-button" title={t("footer.prev")}><FaStepBackward size={20} /></button>
-          <button style={{ opacity: 1 }} title={t("footer.play")}><FaPlayCircle size={32} /></button>
-          <button title={t("footer.next")}><FaStepForward size={20} /></button>
-          <button title={t("footer.repeat")}><BiRepeat size={20} /></button>
-        </div>
-        <div className="ft-progress-bar">
-          <span>0:00</span>
-          <input type="range" min="0" max="100" />
-          <span>{timeFormat(song_length)}</span>
-        </div>
-      </div>
+          {/* Phần điều khiển nhạc */}
+          <div className="ft-center com-horizontal-align">
+            <div className="com-button-controls ft-vertical-align">
+              <button className="ft-disabled-button" title={t("footer.shuffle")}>
+                <LuShuffle color="green" size={20} />
+              </button>
+              <button className="ft-disabled-button" title={t("footer.prev")}>
+                <FaStepBackward size={20} />
+              </button>
+              <button onClick={togglePlay} title={t("footer.play")}>
+                {isPlaying ? <FaPauseCircle size={32} /> : <FaPlayCircle size={32} />}
+              </button>
+              <button title={t("footer.next")}>
+                <FaStepForward size={20} />
+              </button>
+              <button title={t("footer.repeat")}>
+                <BiRepeat size={20} />
+              </button>
+            </div>
 
-      <div className="ft-right com-button-controls com-vertical-align">
-        <button><BsFilePlay size={18} /></button>
-        <button><TbMicrophone2 size={18} /></button>
-        <button><HiOutlineQueueList size={18} /></button>
-        <button><MdOutlineDevices size={18} /></button>
-        <div className="ft-progress-bar ft-volume-bar com-vertical-align">
-          <button><FaVolumeUp size={18} /></button>
-          <input type="range" min="0" max="100" />
-        </div>
-        <button><CgMiniPlayer size={18} /></button>
-        <button><FaExpandAlt size={18} /></button>
-      </div>
+            {/* Thanh tiến trình */}
+            <div className="ft-progress-bar">
+              <span>{timeFormat(currentTime)}</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={(currentTime / song.duration) * 100}
+                onChange={handleSeek}
+              />
+              <span>{timeFormat(song.duration)}</span>
+            </div>
+          </div>
+
+          {/* Các nút bên phải */}
+          <div className="ft-right com-button-controls com-vertical-align">
+            <button><BsFilePlay size={18} /></button>
+            <button><TbMicrophone2 size={18} /></button>
+            <button><HiOutlineQueueList size={18} /></button>
+            <button><MdOutlineDevices size={18} /></button>
+
+            {/* Điều chỉnh âm lượng */}
+            <div className="ft-progress-bar ft-volume-bar com-vertical-align">
+              <button><FaVolumeUp size={18} /></button>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={volume}
+                onChange={handleVolumeChange}
+              />
+            </div>
+
+            <button><CgMiniPlayer size={18} /></button>
+            <button><FaExpandAlt size={18} /></button>
+          </div>
+        </>
+      )}
+      <audio ref={audioRef} />
     </footer>
   );
 };
 
-export default Footer;
+export default MusicPlayerControl;

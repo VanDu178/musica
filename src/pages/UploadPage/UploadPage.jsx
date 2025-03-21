@@ -18,14 +18,20 @@ const UploadPage = () => {
     const [album, setAlbum] = useState("");
     const [duration, setDuration] = useState("");
     const [genre, setGenre] = useState("");
+    const [image, setImage] = useState(null); // State for image
     const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState("");
-    const fileInputRef = useRef(null); // Tạo ref cho input file
+    const fileInputRef = useRef(null);
+    const imageInputRef = useRef(null); // Ref for image input
     const user_id = 1;
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
+
+        // Extract file name without extension and set it as title
+        const fileName = selectedFile.name.replace(/\.mp3$/, "");
+        setTitle(fileName);
 
         // Get duration of the MP3 file
         const reader = new FileReader();
@@ -39,6 +45,11 @@ const UploadPage = () => {
             };
         };
         reader.readAsArrayBuffer(selectedFile);
+    };
+
+    const handleImageChange = (e) => {
+        const selectedImage = e.target.files[0];
+        setImage(selectedImage);
     };
 
     const handleUpload = async () => {
@@ -59,6 +70,9 @@ const UploadPage = () => {
         formData.append("duration", duration);
         formData.append("genre", genre);
         formData.append("artist_id", user_id);
+        if (image) {
+            formData.append("image", image); // Append image if available
+        }
 
         setUploading(true);
         setMessage("");
@@ -72,15 +86,18 @@ const UploadPage = () => {
 
             if (response.status === 201) {
                 handleSuccess(t("upload.success"));
-                // 🔥 Reset input file bằng ref
                 if (fileInputRef.current) {
                     fileInputRef.current.value = "";
+                }
+                if (imageInputRef.current) {
+                    imageInputRef.current.value = "";
                 }
                 setFile(null);
                 setTitle("");
                 setAlbum("");
                 setDuration("");
                 setGenre("");
+                setImage(null);
             } else {
                 handleError(t("upload.failure"));
             }
@@ -100,45 +117,68 @@ const UploadPage = () => {
                     <h1>{t("upload.title")}</h1>
                 </header>
                 <div className="upload-container">
-                    <input
-                        type="file"
-                        accept="audio/mp3"
-                        onChange={handleFileChange}
-                        className="upload-input"
-                        ref={fileInputRef}
-                    />
-                    <label className="upload-label">{t("upload.titlePlaceholder")}</label>
-                    <input
-                        type="text"
-                        placeholder={t("upload.titlePlaceholder")}
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        className="upload-input"
-                    />
-                    <label className="upload-label">{t("upload.albumPlaceholder")}</label>
-                    <input
-                        type="text"
-                        placeholder={t("upload.albumPlaceholder")}
-                        value={album}
-                        onChange={(e) => setAlbum(e.target.value)}
-                        className="upload-input"
-                    />
-                    <label className="upload-label">{t("upload.durationPlaceholder")}</label>
-                    <input
-                        type="text"
-                        placeholder={t("upload.durationPlaceholder")}
-                        value={duration}
-                        disabled
-                        className="upload-input"
-                    />
-                    <label className="upload-label">{t("upload.genrePlaceholder")}</label>
-                    <input
-                        type="text"
-                        placeholder={t("upload.genrePlaceholder")}
-                        value={genre}
-                        onChange={(e) => setGenre(e.target.value)}
-                        className="upload-input"
-                    />
+                    <div className="upload-row">
+                        <label className="upload-label">{t("upload.mp3Placeholder")}</label>
+                        <label className="upload-label">{t("upload.imagePlaceholder")}</label>
+                    </div>
+                    <div className="upload-row">
+                        <input
+                            type="file"
+                            accept="audio/mp3"
+                            onChange={handleFileChange}
+                            className="upload-input"
+                            ref={fileInputRef}
+                        />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="upload-input"
+                            ref={imageInputRef}
+                        />
+                    </div>
+                    <div className="upload-row">
+                        <label className="upload-label">{t("upload.titlePlaceholder")}</label>
+                        <label className="upload-label">{t("upload.durationPlaceholder")}</label>
+                    </div>
+                    <div className="upload-row">
+                        <input
+                            type="text"
+                            placeholder={t("upload.titlePlaceholder")}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="upload-input"
+                        />
+                        <input
+                            type="text"
+                            placeholder={t("upload.durationPlaceholder")}
+                            value={duration}
+                            disabled
+                            className="upload-input"
+                        />
+
+                    </div>
+                    <div className="upload-row">
+                        <label className="upload-label">{t("upload.genrePlaceholder")}</label>
+                        <label className="upload-label">{t("upload.durationPlaceholder")}</label>
+                    </div>
+
+                    <div className="upload-row">
+                        <input
+                            type="text"
+                            placeholder={t("upload.genrePlaceholder")}
+                            value={genre}
+                            onChange={(e) => setGenre(e.target.value)}
+                            className="upload-input"
+                        />
+                        <input
+                            type="text"
+                            placeholder={t("upload.albumPlaceholder")}
+                            value={album}
+                            onChange={(e) => setAlbum(e.target.value)}
+                            className="upload-input"
+                        />
+                    </div>
                     {message && <p className="upload-message">{message}</p>}
                     <button
                         onClick={handleUpload}
