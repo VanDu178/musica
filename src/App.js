@@ -14,13 +14,15 @@ import Profile from "./pages/Account/Profile/Profile";
 import Chat from "./pages/Chat/DeepSeekChat";
 import Premium from "./pages/Premium/premium";
 import Home from "./pages/Home/Home";
+import Upload from "./pages/UploadPage/UploadPage";
+import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
 const App = () => {
   const { logout } = useContext(AuthContext);
   setLogoutFn(logout);
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <Router>
+      {/* <Router>
         <div
           className="App"
           style={{ backgroundColor: "#000000", minHeight: "100vh" }}
@@ -37,6 +39,38 @@ const App = () => {
             <Route path="/home" element={<Home />} />
           </Routes>
           <ToastContainer />
+        </div>
+      </Router> */}
+      <Router>
+        <div
+          className="App"
+          style={{ backgroundColor: "#000000", minHeight: "100vh" }}
+        >
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<SpotifyLogin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/password-reset" element={<ResetPassword />} />
+            <Route path="/account/overview/" element={<Overview />} />
+            <Route path="/account/profile/" element={<Profile />} />
+            <Route path="/chat/" element={<Chat />} />
+            <Route path="/premium/" element={<Premium />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/upload" element={<Upload />} />
+          </Routes>
+
+          {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </div>
       </Router>
     </GoogleOAuthProvider>

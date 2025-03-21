@@ -161,7 +161,7 @@
         "createListDesc": "Tạo danh sách phát hoặc thư mục mới",
         "recents": "Gần đây"
     },
-    "premium":{
+    "premium": {
         "viewPlanTitle": "Nghe không giới hạn. Dùng thử miễn phí Premium Individual trong 1 tháng.",
         "viewPlanSubtitle": "Sau  ch đ59.000/tháng. Hủy bất cứ lúc nào.",
         "viewPlan_start": "Bắt đầu",
@@ -210,9 +210,10 @@
         "tableRow_5": "Nghe cùng bạn bè theo thời gian thực",
         "tableRow_6": "Sắp xếp danh sách chờ nghe"
     },
+
     "messages":{
         "title":"Thông báo",
-        "passwordResetSuccess":  "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
+        "passwordResetSuccess": "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
         "passwordResetFailed": "Tài khoản không tồn tại",
         "serverError": "Lỗi máy chủ",
         "signupSuccess": "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
@@ -228,5 +229,19 @@
         "accessTokenRequired": "Yêu cầu access token truy cập.",
         "invalidGoogleToken": "Google token không hợp lệ.",
         "invalidToken": "Access token không hợp lệ."
+    },
+    "upload": {
+        "title": "Tải lên MP3",
+        "selectFile": "Vui lòng chọn tệp để tải lên.",
+        "uploading": "Đang tải lên...",
+        "upload": "Tải lên",
+        "success": "Tệp đã được tải lên thành công!",
+        "failure": "Không thể tải lên tệp.",
+        "error": "Đã xảy ra lỗi khi tải lên tệp.",
+        "titlePlaceholder": "Tiêu đề",
+        "albumPlaceholder": "Album",
+        "durationPlaceholder": "Thời lượng",
+        "genrePlaceholder": "Thể loại",
+        "fillAllFields": "Vui lòng điền vào tất cả các trường."
     }
 }

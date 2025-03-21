@@ -8,9 +8,10 @@ import facebookicon from "../../assets/images/icon/facebookicon.png";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap"; // Import Spinner
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer } from "react-toastify";
 import { handleSuccess, handleError } from "../../helpers/toast";
+// import { Toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 
@@ -268,7 +269,6 @@ const SpotifyLogin = () => {
           </a>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

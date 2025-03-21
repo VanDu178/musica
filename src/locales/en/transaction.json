@@ -22,7 +22,6 @@
         "forgotPassword": "Forgot your password?",
         "noAccount": "Don't have an account?",
         "signUp": "Sign up for Spotify"
-       
     },
     "signup": {
         "title": "Sign up to start listening",
@@ -35,7 +34,6 @@
         "continueWithApple": "Sign up with Apple",
         "haveAccount": "Already have an account?",
         "login": "Log in now"
-       
     },
     "signupStep2": {
         "title": "Create a Password",
@@ -126,7 +124,6 @@
         "vietnam": "Vietnam",
         "cancel": "Cancel",
         "save": "Save Profile"
-
     },
     "playlist": {
         "title": "Title",
@@ -137,24 +134,24 @@
         "music": "Music",
         "playlists": "Playlists"
     },
-    "header2":{
+    "header2": {
         "searchPlaceholder": "What do you want to play?",
         "upgradeToPremium": "Upgrade to Premium",
         "explorePremium": "Explore Premium",
         "installApp": "Install App",
         "news": "What's New",
         "login": "Login",
-        "logout":"logout"
+        "logout": "logout"
     },
-    "footer":{
-        "addToLiked":"Add to Liked Songs",
+    "footer": {
+        "addToLiked": "Add to Liked Songs",
         "play": "Play",
         "prev": "Previous",
         "next": "Next",
         "shuffle": "Shuffle",
         "repeat": "Repeat"
     },
-    "leftSidebar":{
+    "leftSidebar": {
         "library": "Your Library",
         "expandLib": "Expand Your Library",
         "playlists": "Playlists",
@@ -164,7 +161,7 @@
         "createListDesc": "Create playlist or folder",
         "recents": "Recents"
     },
-    "premium":{
+    "premium": {
         "viewPlanTitle": "Listen without limits. Try 1 month of Premium Individual for free.",
         "viewPlanSubtitle": "Only ₫59,000/month after. Cancel anytime.",
         "viewPlan_start": "Get Premium Individual",
@@ -213,6 +210,7 @@
         "tableRow_5": "Listen with friends in real time",
         "tableRow_6": "Organize listening queue"
     },
+
     "messages":{
         "title":"Announcement",
         "errorOccurred": "An error occurred. Please try again.",
@@ -231,5 +229,20 @@
         "accessTokenRequired": "Access token is required.",
         "invalidGoogleToken": "Invalid Google token.",
         "invalidToken": "Invalid token."
+
+    },
+    "upload": {
+        "title": "Upload MP3",
+        "selectFile": "Please select a file to upload.",
+        "uploading": "Uploading...",
+        "upload": "Upload",
+        "success": "File uploaded successfully!",
+        "failure": "Failed to upload file.",
+        "error": "An error occurred while uploading the file.",
+        "titlePlaceholder": "Title",
+        "albumPlaceholder": "Album",
+        "durationPlaceholder": "Duration",
+        "genrePlaceholder": "Genre",
+        "fillAllFields": "Please fill in all fields."
     }
 }
