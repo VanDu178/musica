@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
 import Cookies from "js-cookie";
-import { useTranslation } from "react-i18next";
 import axiosInstance from "../config/axiosConfig";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { t } = useTranslation();
 
   useEffect(() => {
     const token = Cookies.get("access_token");

@@ -160,7 +160,7 @@ const UploadPage = () => {
                     </div>
                     <div className="upload-row">
                         <label className="upload-label">{t("upload.genrePlaceholder")}</label>
-                        <label className="upload-label">{t("upload.durationPlaceholder")}</label>
+                        <label className="upload-label">{t("upload.albumPlaceholder")}</label>
                     </div>
 
                     <div className="upload-row">
