@@ -242,6 +242,8 @@
         "albumPlaceholder": "Album",
         "durationPlaceholder": "Thời lượng",
         "genrePlaceholder": "Thể loại",
-        "fillAllFields": "Vui lòng điền vào tất cả các trường."
+        "fillAllFields": "Vui lòng điền vào tất cả các trường.",
+        "imagePlaceholder": "Hình ảnh",
+        "mp3Placeholder": "Tệp MP3"
     }
 }

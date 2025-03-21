@@ -243,6 +243,8 @@
         "albumPlaceholder": "Album",
         "durationPlaceholder": "Duration",
         "genrePlaceholder": "Genre",
-        "fillAllFields": "Please fill in all fields."
+        "fillAllFields": "Please fill in all fields.",
+        "imagePlaceholder": "Image",
+        "mp3Placeholder": "MP3 File"
     }
 }

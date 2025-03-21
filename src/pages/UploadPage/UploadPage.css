@@ -32,8 +32,15 @@
 .upload-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Align items to the left */
   gap: 10px;
+}
+
+.upload-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  align-items: center; /* Align items vertically centered */
 }
 
 .upload-input {
@@ -42,7 +49,7 @@
   border-radius: 5px;
   background-color: #282828;
   color: white;
-  width: 100%;
+  width: 50%; /* Set a fixed width for inputs */
 }
 
 .upload-button {
@@ -58,6 +65,7 @@
   transition: background-color 0.3s;
   width: 100%;
   justify-content: center;
+  margin-top: 2%;
 }
 
 .upload-button:disabled {
@@ -73,14 +81,10 @@
   font-size: 14px;
   color: rgb(245, 78, 78);
 }
-.upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-}
 
 .upload-label {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-weight: bold;
+  margin-top: 0; /* Remove top margin */
+  margin-bottom: 0; /* Remove bottom margin */
+  font-weight: bold;
+  width: 50%; /* Set a fixed width for labels */
 }
