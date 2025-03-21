@@ -211,9 +211,10 @@
         "tableRow_6": "Sắp xếp danh sách chờ nghe"
     },
     "messages":{
-      "passwordResetSuccess":  "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
-      "passwordResetFailed": "Tài khoản không tồn tại",
-      "serverError": "Lỗi máy chủ",
+        "title":"Thông báo",
+        "passwordResetSuccess":  "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
+        "passwordResetFailed": "Tài khoản không tồn tại",
+        "serverError": "Lỗi máy chủ",
         "signupSuccess": "Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.",
         "emailAlreadyExists": "Địa chỉ email đã được đăng ký.",
         "usernameAlreadyExists": "Tên người dùng đã được sử dụng.",

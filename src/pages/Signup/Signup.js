@@ -4,15 +4,16 @@ import SignupStep2 from "./SignupStep2";
 import SignupStep3 from "./SignupStep3";
 import Noti from "../../components/Noti/Noti"; // Import Noti component
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../context/AuthContext";
-import { t } from "i18next";
 
 const Signup = () => {
   const [step, setStep] = useState(1);
-  const { signup } = useContext(AuthContext);
   const [showNoti, setShowNoti] = useState(false); // State to control Noti visibility
   const [error, setError] = useState(""); // State to store error message
   const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const { signup } = useContext(AuthContext);
+  const { t } = useTranslation();
   // State lưu thông tin người dùng
   const [userData, setUserData] = useState({
     email: "",
@@ -26,13 +27,21 @@ const Signup = () => {
 
   const handleSignup = async () => {
     setIsLoading(true);
-    const result = await signup(userData);
+    const response = await signup(userData);
     setIsLoading(false);
-    if (result.success) {
+    if (response.success) {
       setShowNoti(true);
     } else {
-      setError(result.message); // Set error message
-      console.error("Signup failed", result.message);
+      // console.log(response);
+      const errorCode = response.error_code;
+      const errorMessages = {
+        EMAIL_ALREADY_EXISTS: t("messages.emailAlreadyExists"),
+        USERNAME_ALREADY_EXISTS: t("messages.usernameAlreadyExists"),
+        INVALID_DATA: t("messages.invalidData"),
+        UNKNOWN_ERROR: t("messages.errorOccurred"),
+      };
+      setError(errorMessages[errorCode]); // Hiển thị toast lỗi
+      console.error("Signup failed", errorMessages[errorCode]);
     }
   };
 
@@ -45,7 +54,7 @@ const Signup = () => {
     return (
       <Noti
         targetPage="/login" // Redirect to login page after signup
-        message="Bạn đã đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản." // Custom message
+        message={t("messages.signupSuccess")} // Custom message
         time={5000} // 5 seconds delay
       />
     );

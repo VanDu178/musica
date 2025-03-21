@@ -10,13 +10,14 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap"; // Import Spinner
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import showToast from "../../helpers/toast";
+import { handleSuccess, handleError } from "../../helpers/toast";
 import { useGoogleLogin } from "@react-oauth/google";
-import auth from "../../utils/auth";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 
 const SpotifyLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
+  const { login, googleLogin, isLoggedIn } = useContext(AuthContext);
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
@@ -25,39 +26,52 @@ const SpotifyLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); // Nếu đã đăng nhập, chuyển hướng về Home
+    }
+  }, []);
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    const response = await auth.login(dataLogin);
+    const response = await login(dataLogin);
     setIsLoading(false);
-    if (response.status === 200) {
+    if (response.success) {
       navigate("/", { replace: true });
-      showToast(response.message, "success"); // Hiển thị toast thành công
+      handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
     } else {
-      setError(response.message);
-      // showToast(response.message, "error"); // Hiển thị toast lỗi
+      const errorCode = response.error_code;
+      const errorMessages = {
+        ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+        INVALID_CREDENTIALS: t("messages.invalidCredentials"),
+        UNKNOWN_ERROR: t("messages.errorOccurred"),
+      };
+      setError(errorMessages[errorCode]); // Hiển thị toast lỗi
     }
   };
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      try {
-        const response = await auth.googleLogin(tokenResponse.access_token);
-        if (response.success) {
-          navigate("/", { replace: true });
-          showToast(response.message); // Hiển thị thông báo thành công
-        } else {
-          console.error("Google Login Error:", response.message);
-          showToast(response.message, "error"); // Hiển thị toast lỗi
-        }
-      } catch (error) {
-        console.error("Google Login Failed:", error);
-        showToast(t("messages.loginFailed"), "error"); // Hiển thị toast lỗi
+      const response = await googleLogin(tokenResponse.access_token);
+      if (response.success) {
+        navigate("/", { replace: true });
+        handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
+      } else {
+        const errorCode = response.error_code;
+        const errorMessages = {
+          ACCESS_TOKEN_REQUIRED: t("messages.accessTokenRequired"),
+          INVALID_GOOGLE_TOKEN: t("messages.invalidGoogleToken"),
+          EMAIL_ALREADY_EXISTS: t("messages.emailAlreadyExists"),
+          ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+          INVALID_TOKEN: t("messages.invalidToken"),
+          UNKNOWN_ERROR: t("messages.errorOccurred"),
+        };
+        handleError(errorMessages[errorCode]);
       }
     },
     onError: () => {
-      showToast(t("messages.loginFailed"), "error"); // Hiển thị toast lỗi
+      handleError(t("messages.loginFailed"));
     },
   });
 
@@ -167,7 +181,7 @@ const SpotifyLogin = () => {
           }}
         />
         <form onSubmit={handleLogin} style={{ width: "50%" }}>
-          <div className="login-input-group">
+          <div>
             <label className="form-label fw-bold" style={{ fontSize: "1rem" }}>
               {t("login.enterYourEmail")}
             </label>
@@ -183,7 +197,7 @@ const SpotifyLogin = () => {
               }
             />
           </div>
-          <div className="login-input-group">
+          <div>
             <label className="form-label fw-bold" style={{ fontSize: "1rem" }}>
               {t("login.password")}
             </label>
@@ -213,32 +227,34 @@ const SpotifyLogin = () => {
             </span>
           </div>
           {error && <div className="text-danger mb-3">{error}</div>}
-          <button
-            className="btn btn-success login-btn"
-            type="submit"
-            autoComplete="off"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            ) : (
-              <span
-                style={{
-                  fontSize: "1.5rem",
-                  color: "#000",
-                  fontWeight: "bold",
-                }}
-              >
-                {t("login.loginButton")}
-              </span>
-            )}
-          </button>
+          <div className="d-flex justify-content-center">
+            <button
+              className="btn btn-success login-btn"
+              type="submit"
+              autoComplete="off"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                <span
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "#000",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {t("login.loginButton")}
+                </span>
+              )}
+            </button>
+          </div>
         </form>
         <div className="text-center mt-3" style={{ width: "50%" }}>
           <a href="password-reset" className="login-text-light">

@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify"; // Import thư viện toast
-import auth from "../utils/auth";
+// import auth from "../utils/auth";
+import auth, { getLogoutFn } from "../helpers/auth";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -9,36 +10,6 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-const refreshToken = async () => {
-  try {
-    const refresh_token = Cookies.get("refresh_token");
-    if (!refresh_token) {
-      console.error("No refresh token found.");
-      auth.logout(); // Gọi hàm logout khi không có refresh token
-      return null;
-    }
-
-    const response = await axiosInstance.post("/auth/refresh/", {
-      refresh: refresh_token,
-    });
-
-    if (response.status === 200) {
-      Cookies.set("access_token", response.data.access, { expires: 0.02 });
-      Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
-      console.log("Token refreshed successfully.", response);
-      // return response.data.access;
-    } else {
-      console.error("Failed to refresh token.");
-      auth.logout();
-      return null;
-    }
-  } catch (error) {
-    console.error("Error refreshing token:", error.message);
-    auth.logout();
-    return null;
-  }
-};
 
 axiosInstance.interceptors.request.use(
   async (config) => {
@@ -61,28 +32,40 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
+    const logout = getLogoutFn();
     const originalRequest = error.config;
 
-    if (error.response.status === 401) {
-      // originalRequest._retry = true;
-      try {
-        const newToken = await refreshToken();
+    try {
+      const refreshToken = Cookies.get("refresh_token");
 
-        // if (newToken) {
-        //   originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        //   return axiosInstance(originalRequest);
-        // }
-      } catch (err) {
-        auth.logout(); // Gọi hàm logout khi không thể refresh token
-        window.location.href = "/login";
-        toast.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."); // Hiển thị thông báo lỗi
-        return Promise.reject(err);
+      if (!refreshToken) {
+        console.error("No refresh token found.");
+        logout();
+        return Promise.reject(error);
       }
+
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true;
+
+        const { data } = await axiosInstance.post("/auth/refresh/", {
+          refresh: refreshToken,
+        });
+        if (data?.access && data?.refresh) {
+          Cookies.set("access_token", data.access, { expires: 0.02 }); // 30 phút
+          Cookies.set("refresh_token", data.refresh, { expires: 7 });
+
+          originalRequest.headers.Authorization = `Bearer ${data.access}`;
+          return axios(originalRequest);
+        }
+        return;
+      }
+    } catch (refreshError) {
+      console.error("Error refreshing token:", refreshError);
+      logout();
     }
+
     return Promise.reject(error);
   }
 );
