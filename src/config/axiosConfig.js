@@ -49,9 +49,15 @@ axiosInstance.interceptors.response.use(
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
-        const { data } = await axiosInstance.post("/auth/refresh/", {
-          refresh: refreshToken,
-        });
+        // const { data } = await axiosInstance.post("/auth/refresh/", {
+        //   refresh: refreshToken,
+        // });
+        const { data } = await axios.post(
+          process.env.REACT_APP_API_URL + "/auth/refresh/",
+          {
+            refresh: refreshToken,
+          }
+        );
         if (data?.access && data?.refresh) {
           Cookies.set("access_token", data.access, { expires: 0.02 }); // 30 phút
           Cookies.set("refresh_token", data.refresh, { expires: 7 });
