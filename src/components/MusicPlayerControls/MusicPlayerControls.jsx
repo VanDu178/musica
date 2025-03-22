@@ -42,7 +42,7 @@ const MusicPlayerControl = () => {
   // Gọi hàm fetch dữ liệu khi component mount
   useEffect(() => {
     if (isLoggedIn) {
-      const songId = 52; // Thay bằng ID bài hát thực tế
+      const songId = 1; // Thay bằng ID bài hát thực tế
       fetchSongDetails(songId);
     }
   }, [isLoggedIn]);
