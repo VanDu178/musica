@@ -69,7 +69,7 @@ const UploadPage = () => {
         formData.append("album", album);
         formData.append("duration", duration);
         formData.append("genre", genre);
-        formData.append("artist_id", user_id);
+        formData.append("user_id", user_id);
         if (image) {
             formData.append("image", image); // Append image if available
         }
