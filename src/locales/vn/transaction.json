@@ -132,7 +132,8 @@
     "home": {
         "all": "Tất cả",
         "music": "Nhạc",
-        "playlists": "Danh sách phát"
+        "playlists": "Danh sách phát",
+        "songs": "Bài hát thịnh hành"
     },
     "header2": {
         "searchPlaceholder": "Bạn muốn nghe gì?",
@@ -210,9 +211,8 @@
         "tableRow_5": "Nghe cùng bạn bè theo thời gian thực",
         "tableRow_6": "Sắp xếp danh sách chờ nghe"
     },
-
-    "messages":{
-        "title":"Thông báo",
+    "messages": {
+        "title": "Thông báo",
         "passwordResetSuccess": "Mật khẩu mới đã được gửi đến email của bạn, vui lòng kiểm tra email của bạn",
         "passwordResetFailed": "Tài khoản không tồn tại",
         "serverError": "Lỗi máy chủ",

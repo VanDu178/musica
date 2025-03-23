@@ -132,7 +132,8 @@
     "home": {
         "all": "All",
         "music": "Music",
-        "playlists": "Playlists"
+        "playlists": "Playlists",
+        "songs": "Trending songs"
     },
     "header2": {
         "searchPlaceholder": "What do you want to play?",
@@ -210,9 +211,8 @@
         "tableRow_5": "Listen with friends in real time",
         "tableRow_6": "Organize listening queue"
     },
-
-    "messages":{
-        "title":"Announcement",
+    "messages": {
+        "title": "Announcement",
         "errorOccurred": "An error occurred. Please try again.",
         "passwordResetSuccess": "Password reset successfully. Check your email for the new password.",
         "passwordResetFailed": "Account does not exist",
@@ -229,7 +229,6 @@
         "accessTokenRequired": "Access token is required.",
         "invalidGoogleToken": "Invalid Google token.",
         "invalidToken": "Invalid token."
-
     },
     "upload": {
         "title": "Upload MP3",

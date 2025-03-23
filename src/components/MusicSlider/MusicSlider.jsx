@@ -43,7 +43,11 @@ const MusicSlider = ({ items, type }) => {
   return (
     <div className="slider-container">
       <h2 className="slider-title">
-        {type === "playlist" ? "Danh sách phát nổi bật" : "Album hot nhất"}
+        {
+          type === "playlist" ? "Danh sách phát nổi bật"
+            : type === 'album' ? "Album hot nhất"
+              : "Bài hát hot nhất"
+        }
       </h2>
       <div className="slider-wrapper">
         <button className="slider-btn left" onClick={slidePrev}>
@@ -63,11 +67,28 @@ const MusicSlider = ({ items, type }) => {
         >
           {items.map((item, index) => (
             <SwiperSlide key={index} className="slide-item">
-              {type === "playlist" ? (
-                <PlaylistCard title={item.title} image={item.image} description={item.description} />
-              ) : (
-                <AlbumCard title={item.title} image={item.image} artist={item.artist} />
-              )}
+              {
+                type === "playlist" ? (
+                  <PlaylistCard
+                    title={item.title}
+                    image={item.image_path}
+                    description={item.name}
+                  />
+                ) : (type === "song") ? (
+                  <PlaylistCard
+                    title={item.title}
+                    image={item.image_path}
+                    description={item.user}
+                  />
+                ) :
+                  (
+                    <AlbumCard
+                      title={item.title}
+                      image={item.image}
+                      artist={item.artist}
+                    />
+                  )
+              }
             </SwiperSlide>
           ))}
         </Swiper>
