@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
+import { SongProvider } from "./context/SongProvider";
 import axiosInstance from "./config/axiosConfig";
 import { setLogoutFn } from "./helpers/auth";
 import Main from "./Layout/Main/Main";
@@ -22,7 +23,9 @@ const App = () => {
   setLogoutFn(logout);
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      {/* <Router>
+      <SongProvider>
+
+        {/* <Router>
         <div
           className="App"
           style={{ backgroundColor: "#000000", minHeight: "100vh" }}
@@ -41,38 +44,39 @@ const App = () => {
           <ToastContainer />
         </div>
       </Router> */}
-      <Router>
-        <div
-          className="App"
-          style={{ backgroundColor: "#000000", minHeight: "100vh" }}
-        >
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/login" element={<SpotifyLogin />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/password-reset" element={<ResetPassword />} />
-            <Route path="/account/overview/" element={<Overview />} />
-            <Route path="/account/profile/" element={<Profile />} />
-            <Route path="/chat/" element={<Chat />} />
-            <Route path="/premium/" element={<Premium />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/upload" element={<Upload />} />
-          </Routes>
+        <Router>
+          <div
+            className="App"
+            style={{ backgroundColor: "#000000", minHeight: "100vh" }}
+          >
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/login" element={<SpotifyLogin />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/password-reset" element={<ResetPassword />} />
+              <Route path="/account/overview/" element={<Overview />} />
+              <Route path="/account/profile/" element={<Profile />} />
+              <Route path="/chat/" element={<Chat />} />
+              <Route path="/premium/" element={<Premium />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/upload" element={<Upload />} />
+            </Routes>
 
-          {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </div>
-      </Router>
+            {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={true}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </div>
+        </Router>
+      </SongProvider>
     </GoogleOAuthProvider>
   );
 };

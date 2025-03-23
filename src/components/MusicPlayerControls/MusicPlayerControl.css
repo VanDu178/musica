@@ -220,3 +220,9 @@
   .mcb-spotify-preview button:hover {
     background-color: #f0f0f0;
   }
+  .mcb-disabled-button:disabled {
+    pointer-events: none !important; /* Chặn hover */
+    opacity: 0.5 !important; /* Làm mờ nút */
+  }
+  
+  

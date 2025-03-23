@@ -79,6 +79,7 @@ const MusicSlider = ({ items, type }) => {
                     title={item.title}
                     image={item.image_path}
                     description={item.user}
+                    idSong={item.id}
                   />
                 ) :
                   (

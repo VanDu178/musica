@@ -2,17 +2,25 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./PlaylistCard.css";
 import { FaPlay } from "react-icons/fa";
+import { useSong } from "../../context/SongProvider";
 
 
 
-const PlaylistCard = ({ image, title, description }) => {
+const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
+    const { setIdSong } = useSong();
+    const handlePlayClick = () => {
+        setIdSong(idSong);
+    };
     return (
         <div className="card playlist-card text-white position-relative">
             <div className="position-relative">
                 <img src={image} className="card-img-top" alt={title} />
                 <div className="card-img-overlay d-flex align-items-end justify-content-between overlay-gradient">
                     <h5 className="card-title text-truncate m-0" title={title}>{title}</h5>
-                    <button className="btn rounded-circle play-button">
+                    <button
+                        className="btn rounded-circle play-button"
+                        onClick={handlePlayClick}
+                    >
                         <FaPlay />
                     </button>
                 </div>
