@@ -25,6 +25,7 @@ const MusicPlayerControl = () => {
   const [song, setSong] = useState(null);
   const { isLoggedIn } = useContext(AuthContext);
   const { idSong, setIdSong } = useSong();
+  const userId = 11;
 
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {
@@ -37,9 +38,32 @@ const MusicPlayerControl = () => {
           await audioRef.current.play(); // Phát nhạc ngay
           setIsPlaying(true); // Cập nhật trạng thái phát nhạc
         }
+        await updatePlayHistory(songId, userId); // Lưu lịch sử bài hát đã phát
       }
     } catch (error) {
       console.error("Error fetching song details:", error);
+    }
+  };
+
+  const handlePrev = async () => {
+    try {
+      const response = await axiosInstance.get(`song/previous/${idSong}/${userId}/`);
+      if (response.status === 200) {
+        setIdSong(response.data.id);
+      }
+    } catch (error) {
+      console.error("Error fetching song details:", error);
+    }
+  };
+
+  const updatePlayHistory = async (songId, userId) => {
+    try {
+      await axiosInstance.post(`/history/update/`, {
+        song_id: songId,
+        user_id: userId,
+      });
+    } catch (error) {
+      console.error("Error updating play history:", error);
     }
   };
 
@@ -133,7 +157,7 @@ const MusicPlayerControl = () => {
                 <button className="" title={t("footer.shuffle")}>
                   <LuShuffle color="green" size={20} />
                 </button>
-                <button className="" title={t("footer.prev")}>
+                <button className="" title={t("footer.prev")} onClick={handlePrev}>
                   <FaStepBackward size={20} />
                 </button>
                 <button onClick={togglePlay} title={t("footer.play")}>
@@ -335,7 +359,8 @@ const MusicPlayerControl = () => {
               <button
                 className="mcb-disabled-button"
                 disabled
-              >                <CgMiniPlayer
+              >
+                <CgMiniPlayer
                   className="mcb-disabled-button"
                   size={18}
                   disabled
