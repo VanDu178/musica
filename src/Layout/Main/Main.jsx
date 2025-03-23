@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import SideBar from "../../components/Sidebar/LeftSideBar";
 import Home from "../../pages/Home/Home";
+import PlayList from "../../pages/PlaylistDetail/PlaylistDetail";
 import "./Main.css";
 
 const Main = () => {
@@ -19,6 +20,7 @@ const Main = () => {
                 </div>
                 <div className="main-content-container">
                     <Home />
+                    {/* <PlayList /> */}
                     <Footer />
                 </div>
             </div>
