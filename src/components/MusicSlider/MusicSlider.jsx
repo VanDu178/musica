@@ -8,8 +8,6 @@ import "./MusicSlider.css";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import AlbumCard from "../AlbumCard/AlbumCard";
 
-
-
 const MusicSlider = ({ items, type }) => {
   const swiperRef = useRef(null);
   const containerRef = useRef(null);

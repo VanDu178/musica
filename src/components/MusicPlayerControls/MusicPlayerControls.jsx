@@ -25,7 +25,7 @@ const MusicPlayerControl = () => {
   const [song, setSong] = useState(null);
   const { isLoggedIn } = useContext(AuthContext);
   const { idSong, setIdSong } = useSong();
-  const userId = 11;
+  const userId = 1;
 
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {

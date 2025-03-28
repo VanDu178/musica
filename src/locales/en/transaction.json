@@ -239,7 +239,7 @@
         "failure": "Failed to upload file.",
         "error": "An error occurred while uploading the file.",
         "titlePlaceholder": "Title",
-        "albumPlaceholder": "Album",
+        "descriptionPlaceholder": "Description",
         "durationPlaceholder": "Duration",
         "genrePlaceholder": "Genre",
         "fillAllFields": "Please fill in all fields.",
