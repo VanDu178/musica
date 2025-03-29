@@ -23,7 +23,7 @@ const UploadPage = () => {
     const [message, setMessage] = useState("");
     const fileInputRef = useRef(null);
     const imageInputRef = useRef(null); // Ref for image input
-    const user_id = 1;
+    const user_id = 3;
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];

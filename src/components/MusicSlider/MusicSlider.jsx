@@ -71,6 +71,7 @@ const MusicSlider = ({ items, type }) => {
                     title={item.title}
                     image={item.image_path}
                     description={item.name}
+                    idPlaylist={item.id}
                   />
                 ) : (type === "song") ? (
                   <PlaylistCard
@@ -82,9 +83,9 @@ const MusicSlider = ({ items, type }) => {
                 ) :
                   (
                     <AlbumCard
-                      title={item.title}
-                      image={item.image}
-                      artist={item.artist}
+                      title={item.name}
+                      image={item.image_path}
+                      artist={item.username}
                     />
                   )
               }
