@@ -3,12 +3,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./PlaylistCard.css";
 import { FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
+import { usePlaylist } from "../../context/PlaylistProvider";
 
 
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
     const { setIdSong } = useSong();
+    const { setIdPlaylist } = usePlaylist();
     const handlePlayClick = () => {
-        setIdSong(idSong);
+        if (idPlaylist) {
+            //khi bài hát phát trong playlist hiển thị playlist
+            console.log("hien thi playlist" + idPlaylist);
+            return;
+        }
+        else {
+            //khi bài hát được phát không trong playlist
+            setIdSong(idSong);
+            setIdPlaylist(null)
+        }
     };
     return (
         <div className="card playlist-card text-white position-relative">
