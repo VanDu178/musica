@@ -162,7 +162,7 @@
   .p-plan-card .p-content{
     padding: 0;
     padding-top: 48px;
-    height: 270px;
+    height: 290px;
   }
   .p-content .p-title{
     color: white;
@@ -175,8 +175,13 @@
     margin: 0;
     text-align: left;
   }
+  .p-content .p-title h3{
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+  }
   .p-content .p-title h4{
     color: rgba(255,255,255,0.6);
+    font-size: 16px;
   }
   .p-content .p-title span{
     gap: 4px;

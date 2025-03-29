@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaCheck, FaCheckCircle, FaMinus, FaSpotify } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./Premium.css";
 
 const Premium = () => {
     const planCardsRef = React.useRef(null);
+    const { isLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate();
     const scrollToPlans = () => {
         planCardsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const loginCheck = () => {
+        if (!isLoggedIn) {
+            alert("Please log in to proceed.");
+            navigate("/login");
+        }
+        else alert("Purchasing function will be implemented soon");
     }
 
     const { t } = useTranslation();
@@ -18,7 +30,7 @@ const Premium = () => {
                 <h1 style={{ width: "50%" }}>{t("premium.viewPlanTitle")}</h1>
                 <span>{t("premium.viewPlanSubtitle")}</span>
                 <nav className="com-vertical-align">
-                    <button className="com-glow-zoom p-premium" style={{ backgroundColor: "white", color: "black" }}>
+                    <button className="com-glow-zoom p-premium" style={{ backgroundColor: "white", color: "black" }} onClick={loginCheck}>
                         <span>{t("premium.viewPlan_start")}</span>
                     </button>
                     <button className="com-glow-zoom" onClick={scrollToPlans}>
@@ -48,7 +60,7 @@ const Premium = () => {
             </div>
 
             <div className="com-vertical-align" style={{ gap: "12px", marginBlock: "32px" }}>
-                <h1>{t("purchase.pros")}</h1>
+                <h1>{t("premium.pros")}</h1>
                 <div className="p-rights com-horizontal-align">
                     <span><FaCheck /> {t("premium.pros_1")}</span>
                     <span><FaCheck /> {t("premium.pros_2")}</span>
@@ -69,7 +81,7 @@ const Premium = () => {
                         <div className="p-title com-hr-left-align">
                             <span className="com-vertical-align"><FaSpotify size={24} />Premium</span>
                             <h1 style={{ color: "#cff56a" }}>Mini</h1>
-                            <h3>{t("premium.mini_price")}</h3>
+                            <h4>{t("premium.mini_price")}</h4>
                         </div>
 
                         <div className="p-separator"></div>
@@ -81,7 +93,7 @@ const Premium = () => {
                             <span><GoDotFill /> <p>{t("premium.mini_pros4")}</p></span>
                         </div>
                     </div>
-                    <button className="com-glow-only" style={{ backgroundColor: "#cff56a", color: "black", width: "100%" }}>
+                    <button className="com-glow-only" style={{ backgroundColor: "#cff56a", color: "black", width: "100%" }} onClick={loginCheck}>
                         <span>{t("premium.miniBtn")}</span>
                     </button>
                     <span className="p-note"><a href="google.com">{t("premium.termsApply")}</a></span>
@@ -100,14 +112,14 @@ const Premium = () => {
 
                         <div className="p-separator"></div>
 
-                        <div className="com-hr-left-align details">
+                        <div className="com-hr-left-align p-details">
                             <span><GoDotFill /> <p>{t("premium.indiv_pros1")}</p></span>
                             <span><GoDotFill /> <p>{t("premium.indiv_pros2")}</p></span>
                             <span><GoDotFill /> <p>{t("premium.indiv_pros3")}</p></span>
                             <span style={{ width: 0, overflow: "hidden" }}><GoDotFill /><p>placeholder</p></span>
                         </div>
                     </div>
-                    <button className="com-glow-only" style={{ backgroundColor: "#ffd2d7", color: "black", width: "100%" }}>
+                    <button className="com-glow-only" style={{ backgroundColor: "#ffd2d7", color: "black", width: "100%" }} onClick={loginCheck}>
                         <span>{t("premium.indivBtn")}</span>
                     </button>
                     <span className="p-note"> {t("premium.indiv_note")}
@@ -135,7 +147,7 @@ const Premium = () => {
                             <span><GoDotFill /> <p>{t("premium.student_pros4")}</p></span>
                         </div>
                     </div>
-                    <button className="com-glow-only" style={{ background: "#c4b1d4" }}>
+                    <button className="com-glow-only" style={{ background: "#c4b1d4" }} onClick={loginCheck}>
                         <span>{t("premium.studentBtn")}</span>
                     </button>
                     <span className="p-note">{t("premium.student_note")}
