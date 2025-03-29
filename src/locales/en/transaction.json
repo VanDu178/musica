@@ -142,7 +142,12 @@
         "installApp": "Install App",
         "news": "What's New",
         "login": "Login",
-        "logout": "logout"
+        "logout": "logout",
+        "account":"Account",
+        "profile":"Profile",
+        "support": "Support",
+        "privateSession": "Private Session",
+        "setting": "Settings"
     },
     "footer": {
         "addToLiked": "Add to Liked Songs",

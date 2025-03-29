@@ -142,7 +142,12 @@
         "installApp": "Cài đặt ứng dụng",
         "news": "Có gì mới",
         "login": "Đăng nhập",
-        "logout": "Đăng xuất"
+        "logout": "Đăng xuất",
+        "account":"Tài khoản",
+        "profile":"Hồ sơ",
+        "support": "Hỗ trợ",
+        "privateSession": "Phiên riêng tư",
+        "setting": "Cài đặt"
     },
     "footer": {
         "addToLiked": "Thêm vào bài hát yêu thích",
