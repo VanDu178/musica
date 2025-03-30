@@ -8,17 +8,22 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
     const { setIdSong } = useSong();
-    const { setIdPlaylist } = usePlaylist();
+    const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const handlePlayClick = () => {
         if (idPlaylist) {
-            //khi bài hát phát trong playlist hiển thị playlist
+            //gọi đến be load danh sách song thuộc playlist
+            //thêm tất cả id của song vào playlist
+            //clearPlaylist();
+            //duyệt mảng gọi addsong id
+            //khi bài hát phát trong playlist hiển thị playlist và thêm danh sách bài hát vào context playlist
             console.log("hien thi playlist" + idPlaylist);
             return;
         }
         else {
             //khi bài hát được phát không trong playlist
             setIdSong(idSong);
-            setIdPlaylist(null)
+            clearPlaylist();
+            addSong({ id: idSong });
         }
     };
     return (

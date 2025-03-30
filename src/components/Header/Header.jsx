@@ -17,10 +17,10 @@ const Header = () => {
   const [activeLang, setActiveLang] = useState(i18n.language);
   const navigate = useNavigate();
   const { logout, isLoggedIn } = useContext(AuthContext);
-  const [ userPanelState, setUserPanelState ] = useState(false);
-  const [ userImage, setUserImage ] = useState("https://via.placeholder.com/40");
-  const [ username, setUsername ] = useState("User");
-  const [ userId, setUserId ] = useState(null);
+  const [userPanelState, setUserPanelState] = useState(false);
+  const [userImage, setUserImage] = useState("https://via.placeholder.com/40");
+  const [username, setUsername] = useState("User");
+  const [userId, setUserId] = useState(null);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setActiveLang(lng);
@@ -35,10 +35,10 @@ const Header = () => {
     alert(JSON.stringify(response.data));
   };
 
+  //****************** login đã có dữ liệu hàm này bỏ ***********************
   const fetchUserData = async () => {
     try {
-      const response = await axiosInstance.get("/user/"+userId+"/");
-      alert(JSON.stringify(response.data));
+      const response = await axiosInstance.get("/user/" + userId + "/");
       if (response && response.data) {
         const { image_path, google_id, username } = response.data;
         setUsername(username);
@@ -47,13 +47,12 @@ const Header = () => {
           : image_path ? image_path : "https://via.placeholder.com/40";
         setUserImage(path);
 
-        if(path==null) console.log("No image found for user:", userId);
+        if (path == null) console.log("No image found for user:", userId);
         else console.log("User image fetched:", path);
 
         console.log("User data fetched:", response.data);
       }
     } catch (error) {
-      // alert("Error fetching user, error message: " + error);
       console.log(error);
     }
   };
@@ -71,13 +70,13 @@ const Header = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if(isLoggedIn && userId)
+    if (isLoggedIn && userId)
       fetchUserData();
     console.log("isLoggedIn changed:", isLoggedIn);
   }, [isLoggedIn, userId]);
 
   const authRedirect = (redirected) => {
-    if(isLoggedIn === false)
+    if (isLoggedIn === false)
       navigate("/login");
     else navigate(redirected);
   }
@@ -153,8 +152,7 @@ const Header = () => {
 
       {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-          {/* <span>{username}</span> */}
-          <img src={userImage} alt="User"/>
+          <img src={userImage} alt="User" />
           {userPanelState && (
             <div className="hd-user-menu">
               <ul>
@@ -168,16 +166,12 @@ const Header = () => {
               </ul>
             </div>
           )}
-          {/* <button onClick={logout} className="hd-logout-button">
-            {t("header2.logout")}
-          </button> */}
         </div>
       ) : (
         <a className="hd-login" href="/login">
           {t("header2.login")}
         </a>
       )}
-      {/* <button onClick={fetchUserData}>xem user</button> */}
     </header>
   );
 };
