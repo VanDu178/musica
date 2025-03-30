@@ -26,6 +26,8 @@ const MusicPlayerControl = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const { idSong, setIdSong } = useSong();
   const { isPlaying, setIsPlaying } = useIsPlaying();
+  const [isRepeat, setIsRepeat] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
   const userId = 3;
 
   // Hàm fetch dữ liệu bài hát
@@ -133,6 +135,18 @@ const MusicPlayerControl = () => {
     navigate("/login");
   };
 
+  // Hàm xử lý toggle repeat
+  const toggleRepeat = () => {
+    setIsRepeat(!isRepeat);
+    // Thêm logic xử lý repeat tại đây (nếu cần)
+  };
+
+  // Hàm xử lý toggle shuffle
+  const toggleShuffle = () => {
+    setIsShuffle(!isShuffle);
+    // Thêm logic xử lý shuffle tại đây (nếu cần)
+  };
+
   return (
     <footer className="ft-spotify-footer">
       {isLoggedIn ? (
@@ -155,8 +169,16 @@ const MusicPlayerControl = () => {
             {/* Phần điều khiển nhạc */}
             <div className="ft-center com-horizontal-align">
               <div className="com-button-controls ft-vertical-align">
-                <button className="" title={t("footer.shuffle")}>
-                  <LuShuffle color="green" size={20} />
+                <button
+                  className=""
+                  title={t("footer.shuffle")}
+                  style={{ color: isShuffle ? 'green' : 'inherit' }}
+                  onClick={toggleShuffle}
+                >
+                  <LuShuffle
+                    color={isShuffle ? 'green' : 'currentColor'}
+                    size={20}
+                  />
                 </button>
                 <button className="" title={t("footer.prev")} onClick={handlePrev}>
                   <FaStepBackward size={20} />
@@ -167,8 +189,12 @@ const MusicPlayerControl = () => {
                 <button title={t("footer.next")}>
                   <FaStepForward size={20} />
                 </button>
-                <button title={t("footer.repeat")}>
-                  <BiRepeat size={20} />
+                <button
+                  title={t("footer.repeat")}
+                  onClick={toggleRepeat}
+                  style={{ color: isRepeat ? 'green' : 'inherit' }}
+                >
+                  <BiRepeat color={isRepeat ? 'green' : 'currentColor'} size={20} />
                 </button>
               </div>
 

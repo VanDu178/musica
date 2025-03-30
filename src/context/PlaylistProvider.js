@@ -4,10 +4,25 @@ import { createContext, useContext, useState } from "react";
 const PlaylistContext = createContext();
 
 export const PlaylistProvider = ({ children }) => {
-    const [idPlaylist, setIdPlaylist] = useState(null);
+    const [playlist, setPlaylist] = useState([]);
+
+    // Hàm thêm bài hát vào playlist
+    const addSong = (song) => {
+        setPlaylist((prev) => [...prev, song]);
+    };
+
+    // Hàm xóa một bài hát khỏi playlist
+    const removeSong = (id) => {
+        setPlaylist((prev) => prev.filter((song) => song.id !== id));
+    };
+
+    // Hàm xóa toàn bộ playlist
+    const clearPlaylist = () => {
+        setPlaylist([]);
+    };
 
     return (
-        <PlaylistContext.Provider value={{ idPlaylist, setIdPlaylist }}>
+        <PlaylistContext.Provider value={{ playlist, addSong, removeSong, clearPlaylist }}>
             {children}
         </PlaylistContext.Provider>
     );
