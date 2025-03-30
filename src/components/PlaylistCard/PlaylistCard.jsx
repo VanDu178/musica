@@ -14,14 +14,6 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
     const handlePlayClick = () => {
         if (idPlaylist) {
             navigate(`/playlist/${idPlaylist}`);
-            //gọi đến be load danh sách song thuộc playlist
-            // const playlist_songs = fetchSongsByPlaylistId(idPlaylist);
-            //thêm tất cả id của song vào playlist
-            // clearPlaylist();
-            //duyệt mảng gọi addsong id
-            //khi bài hát phát trong playlist hiển thị playlist và thêm danh sách bài hát vào context playlist
-            // console.log("hien thi playlist" + idPlaylist);
-            // return;
         }
         else {
             //khi bài hát được phát không trong playlist

@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaMusic, FaPause, FaPlay } from "react-icons/fa";
+import { useSong } from "../../context/SongProvider";
 import "./SongItem.css";
 
-const SongItem = ({ song, isActive, onClick }) => {
+const SongItem = ({ songId, song, isActive, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const { setIdSong } = useSong();
+    const handlePlay = () => {
+        setIdSong(songId);
+    }
     return (
         <ListGroup.Item
             className={`song-item ${isActive ? "active" : ""}`}
@@ -23,7 +28,7 @@ const SongItem = ({ song, isActive, onClick }) => {
                             <FaMusic className="text-white" />
                         )
                     ) : isHovered ? (
-                        <Button variant="link" className="p-0 text-white" onClick={() => onClick(song.id)}>
+                        <Button variant="link" className="p-0 text-white" onClick={handlePlay}>
                             <FaPlay />
                         </Button>
                     ) : (
@@ -31,7 +36,7 @@ const SongItem = ({ song, isActive, onClick }) => {
                     )}
                 </Col>
                 <Col xs={5} className="d-flex align-items-center">
-                    <Image src={song.cover} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px" }} />
+                    <Image src={song.image_path} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px" }} />
                     <div className="song-info">
                         <div className="song-title">{song.title}</div>
                         <div className="song-artist">{song.artist}</div>

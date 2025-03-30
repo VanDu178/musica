@@ -22,21 +22,6 @@ export const PlaylistProvider = ({ children }) => {
     setPlaylist([]);
   };
 
-  // Hàm gọi xuống backend để lấy danh sách bài hát theo playlistId
-  const fetchSongsByPlaylistId = async (playlistId) => {
-    try {
-      const response = await axiosInstance.get(
-        `/playlists/${playlistId}/songs`
-      );
-      const songs = response.data; // Lấy dữ liệu từ response
-      //   setPlaylist(songs); // Cập nhật danh sách bài hát vào state
-      //   console.log("Songs fetched:", songs);
-      return songs;
-    } catch (error) {
-      console.error("Error fetching songs:", error);
-    }
-  };
-
   return (
     <PlaylistContext.Provider
       value={{
@@ -44,7 +29,6 @@ export const PlaylistProvider = ({ children }) => {
         addSong,
         removeSong,
         clearPlaylist,
-        fetchSongsByPlaylistId,
       }}
     >
       {children}

@@ -1,20 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "./Profile.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../../config/axiosConfig";
 import { handleSuccess, handleError } from "../../../helpers/toast";
+import { UserContext } from "../../../context/UserProvider";
 
-const getDaysInMonth = (month, year) => {
-  return new Date(year, month, 0).getDate();
-};
+// const getDaysInMonth = (month, year) => {
+//   return new Date(year, month, 0).getDate();
+// };
 
 const Profile = () => {
   const navigate = useNavigate(); // Khởi tạo hook điều hướng
   const { t, i18n } = useTranslation();
-  const [previewImage, setPreviewImage] = useState(null); // Đổi tên từ imgTest thành previewImage
-  const [userData, setUserData] = useState({});
+  const { userData, setUserData } = useContext(UserContext);
+  const [previewImage, setPreviewImage] = useState(
+    userData?.image_path || null
+  ); // Đảm bảo userData không undefined
+  const [userDataUpdate, setUserDataUpdate] = useState({ ...userData }); // Tạo bản sao để tránh thay đổi trực tiếp
   const [isProcessing, setIsProcessing] = useState(false); // Trạng thái xử lý
 
   // const [daysList, setDaysList] = useState([]);
@@ -29,36 +33,36 @@ const Profile = () => {
   const [isAvatarRemoved, setIsAvatarRemoved] = useState(false); // Cờ theo dõi trạng thái xóa ảnh
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  // useEffect(() => {
+  //   getUserInfo();
+  // }, []);
 
-  const getUserInfo = async () => {
-    try {
-      const response = await axiosInstance.get("/account/");
-      if (response.status === 200) {
-        if (response.data.image_path) {
-          setPreviewImage(response.data.image_path); // Sử dụng previewImage
-        }
-        setUserData(response.data);
-      }
-    } catch (error) {
-      console.log("Có lỗi xảy ra", error);
-    }
-  };
+  // const getUserInfo = async () => {
+  //   try {
+  //     const response = await axiosInstance.get("/account/");
+  //     if (response.status === 200) {
+  //       if (response.data.image_path) {
+  //         setPreviewImage(response.data.image_path); // Sử dụng previewImage
+  //       }
+  //       setUserData(response.data);
+  //     }
+  //   } catch (error) {
+  //     console.log("Có lỗi xảy ra", error);
+  //   }
+  // };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setPreviewImage(URL.createObjectURL(file)); // Sử dụng previewImage
-      setUserData({ ...userData, image_path: file });
+      setUserDataUpdate({ ...userDataUpdate, image_path: file });
       setIsAvatarRemoved(false); // Đặt lại cờ khi người dùng chọn ảnh mới
     }
   };
 
   const handleRemoveAvatar = () => {
     setPreviewImage(null); // Xóa ảnh xem trước
-    setUserData({ ...userData, image_path: null }); // Đặt lại giá trị ảnh
+    setUserDataUpdate({ ...userDataUpdate, image_path: null }); // Đặt lại giá trị ảnh
     setIsAvatarRemoved(true); // Đặt cờ khi người dùng xóa ảnh
     if (fileInputRef.current) {
       fileInputRef.current.value = null;
@@ -68,13 +72,13 @@ const Profile = () => {
   const handleSave = async () => {
     setIsProcessing(true); // Bắt đầu xử lý
     const userInfoUpdate = new FormData();
-    userInfoUpdate.append("username", userData.username);
+    userInfoUpdate.append("username", userDataUpdate.username);
 
     // Kiểm tra trạng thái xóa ảnh
     if (isAvatarRemoved) {
       userInfoUpdate.append("image_path", ""); // Gửi giá trị rỗng nếu ảnh bị xóa
-    } else if (userData.image_path instanceof File) {
-      userInfoUpdate.append("image_path", userData.image_path); // Gửi ảnh mới nếu có
+    } else if (userDataUpdate.image_path instanceof File) {
+      userInfoUpdate.append("image_path", userDataUpdate.image_path); // Gửi ảnh mới nếu có
     }
 
     try {
@@ -85,6 +89,7 @@ const Profile = () => {
       });
 
       if (response.status === 200) {
+        setUserData(response.data.user);
         handleSuccess(t("profile.USER_UPDATE_SUCCESS"));
         navigate("/account/overview");
       }
@@ -157,7 +162,7 @@ const Profile = () => {
           type="text"
           value={userData.username || ""}
           onChange={(e) =>
-            setUserData({ ...userData, username: e.target.value })
+            setUserDataUpdate({ ...userDataUpdate, username: e.target.value })
           }
           disabled={isProcessing} // Vô hiệu hóa khi đang xử lý
         />
