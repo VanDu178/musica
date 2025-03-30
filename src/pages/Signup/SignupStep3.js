@@ -31,10 +31,10 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
 
   const isFormValid = userData.username;
   // userData.name &&
-  // userData.day &&
-  // userData.month &&
-  // userData.year &&
-  // userData.gender;
+  //   userData.day &&
+  //   userData.month &&
+  //   userData.year &&
+  //   userData.gender;
 
   const handleNext = async () => {
     setIsLoading(true);

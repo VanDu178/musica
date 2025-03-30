@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
     }
   }, []);
+
   // Helper function to set tokens
   const setTokens = (access, refresh) => {
     Cookies.set("access_token", access, { expires: 0.02 });
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");
+    Cookies.remove("user_data");
     setIsLoggedIn(false);
     // window.location.href = "/login";
   };
@@ -33,8 +35,10 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post("/auth/login/", dataLogin);
 
       if (response.status === 200) {
-        setTokens(response.data.access, response.data.refresh);
+        setTokens(response.data.tokens.access, response.data.tokens.refresh);
+        Cookies.set("user_data", response.data.user);
         setIsLoggedIn(true);
+        console.log(response);
         return { success: true };
       }
     } catch (error) {

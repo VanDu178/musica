@@ -123,7 +123,15 @@
         "country": "Country or Region",
         "vietnam": "Vietnam",
         "cancel": "Cancel",
-        "save": "Save Profile"
+        "save": "Save Profile",
+        "saving": "Saving...",
+        "removeAvatar": "Remove Avatar",
+        "avt": "Avatar",
+        "chooseFile": "Choose File",
+        "IMAGE_PROCESSING_FAILED": "Failed to process the image.",
+        "IMAGE_UPLOAD_FAILED": "Failed to upload the image.",
+        "USER_UPDATE_FAILED": "Failed to update user information.",
+        "USER_UPDATE_SUCCESS": "User information updated successfully."
     },
     "playlist": {
         "title": "Title",

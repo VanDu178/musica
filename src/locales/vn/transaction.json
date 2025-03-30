@@ -123,7 +123,15 @@
         "country": "Quốc gia hoặc khu vực",
         "vietnam": "Việt Nam",
         "cancel": "Hủy",
-        "save": "Lưu hồ sơ"
+        "save": "Lưu hồ sơ",
+        "saving": "Đang lưu...",
+        "removeAvatar": "Xóa ảnh đại diện",
+        "avt": "Ảnh đại diện",
+        "chooseFile": "Chọn tệp",
+        "IMAGE_PROCESSING_FAILED": "Xử lý hình ảnh thất bại.",
+        "IMAGE_UPLOAD_FAILED": "Tải lên hình ảnh thất bại.",
+        "USER_UPDATE_FAILED": "Cập nhật thông tin người dùng thất bại.",
+        "USER_UPDATE_SUCCESS": "Cập nhật thông tin người dùng thành công."
     },
     "playlist": {
         "title": "Tiêu đề",

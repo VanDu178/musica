@@ -4,9 +4,9 @@ import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
-import axiosInstance from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import axiosInstance from "../../config/axiosConfig";
 import "./Header.css";
 
 const Header = () => {
@@ -23,10 +23,8 @@ const Header = () => {
     return activeLang === lang ? "hd-lang-on" : "hd-lang-off";
   };
 
-  const test = async () => {
-    const response = await axiosInstance.get("/user/1/");
-    alert(JSON.stringify(response.data));
-  };
+
+
 
   return (
     <header className="hd-spotify-header">
@@ -92,7 +90,7 @@ const Header = () => {
           {t("header2.login")}
         </a>
       )}
-      <button onClick={test}>xem user</button>
+      <button onClick={() => { navigate("/account/overview"); }}>profile</button>
     </header>
   );
 };
