@@ -143,8 +143,8 @@
         "news": "What's New",
         "login": "Login",
         "logout": "logout",
-        "account":"Account",
-        "profile":"Profile",
+        "account": "Account",
+        "profile": "Profile",
         "support": "Support",
         "privateSession": "Private Session",
         "setting": "Settings"
@@ -250,5 +250,20 @@
         "fillAllFields": "Please fill in all fields.",
         "imagePlaceholder": "Image",
         "mp3Placeholder": "MP3 File"
+    },
+    "playlistModal": {
+        "createNew": "Create New Playlist",
+        "selectPlaylist": "Select Playlist",
+        "enterPlaylistName": "Enter playlist name",
+        "cancel": "Cancel",
+        "savePlaylist": "Save Playlist",
+        "loading": "Loading...",
+        "noPlaylist": "No playlists available.",
+        "addToPlaylist": "Add to Playlist",
+        "createSuccess": "Playlist created and song added successfully!",
+        "addSuccess": "Song added to playlist successfully!",
+        "errorLoading": "Failed to load playlists.",
+        "errorCreating": "Error creating playlist or adding song!",
+        "processing": "Loading..."
     }
 }

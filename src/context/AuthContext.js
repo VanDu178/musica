@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
   // Helper function to set tokens
   const setTokens = (access, refresh) => {
-    Cookies.set("access_token", access, { expires: 0.02 });
+    Cookies.set("access_token", access, { "max-age": 2000 });
     Cookies.set("refresh_token", refresh, { expires: 7 });
   };
 
