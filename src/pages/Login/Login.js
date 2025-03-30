@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./Login.css";
-import logo from "../../assets/images/logo.png";
-import googleicon from "../../assets/images/icon/googleicon.png";
-import facebookicon from "../../assets/images/icon/facebookicon.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useContext, useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap"; // Import Spinner
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap"; // Import Spinner
+import facebookicon from "../../assets/images/icon/facebookicon.png";
+import googleicon from "../../assets/images/icon/googleicon.png";
+import logo from "../../assets/images/logo.png";
+import "./Login.css";
 // import { ToastContainer } from "react-toastify";
-import { handleSuccess, handleError } from "../../helpers/toast";
+import { handleError, handleSuccess } from "../../helpers/toast";
 // import { Toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useGoogleLogin } from "@react-oauth/google";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 
 const SpotifyLogin = () => {

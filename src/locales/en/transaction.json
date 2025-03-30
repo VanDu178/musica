@@ -150,7 +150,12 @@
         "installApp": "Install App",
         "news": "What's New",
         "login": "Login",
-        "logout": "logout"
+        "logout": "logout",
+        "account":"Account",
+        "profile":"Profile",
+        "support": "Support",
+        "privateSession": "Private Session",
+        "setting": "Settings"
     },
     "footer": {
         "addToLiked": "Add to Liked Songs",
@@ -247,7 +252,7 @@
         "failure": "Failed to upload file.",
         "error": "An error occurred while uploading the file.",
         "titlePlaceholder": "Title",
-        "albumPlaceholder": "Album",
+        "descriptionPlaceholder": "Description",
         "durationPlaceholder": "Duration",
         "genrePlaceholder": "Genre",
         "fillAllFields": "Please fill in all fields.",

@@ -150,7 +150,12 @@
         "installApp": "Cài đặt ứng dụng",
         "news": "Có gì mới",
         "login": "Đăng nhập",
-        "logout": "Đăng xuất"
+        "logout": "Đăng xuất",
+        "account":"Tài khoản",
+        "profile":"Hồ sơ",
+        "support": "Hỗ trợ",
+        "privateSession": "Phiên riêng tư",
+        "setting": "Cài đặt"
     },
     "footer": {
         "addToLiked": "Thêm vào bài hát yêu thích",
@@ -247,7 +252,7 @@
         "failure": "Không thể tải lên tệp.",
         "error": "Đã xảy ra lỗi khi tải lên tệp.",
         "titlePlaceholder": "Tiêu đề",
-        "albumPlaceholder": "Album",
+        "descriptionPlaceholder": "Mô tả",
         "durationPlaceholder": "Thời lượng",
         "genrePlaceholder": "Thể loại",
         "fillAllFields": "Vui lòng điền vào tất cả các trường.",

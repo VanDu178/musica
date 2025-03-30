@@ -15,7 +15,7 @@ const UploadPage = () => {
     const { t } = useTranslation();
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState("");
-    const [album, setAlbum] = useState("");
+    const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
     const [genre, setGenre] = useState("");
     const [image, setImage] = useState(null); // State for image
@@ -23,7 +23,7 @@ const UploadPage = () => {
     const [message, setMessage] = useState("");
     const fileInputRef = useRef(null);
     const imageInputRef = useRef(null); // Ref for image input
-    const user_id = 1;
+    const user_id = 3;
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -58,7 +58,7 @@ const UploadPage = () => {
             return;
         }
 
-        if (!title || !album || !genre) {
+        if (!title || !description || !genre) {
             setMessage(t("upload.fillAllFields"));
             return;
         }
@@ -66,7 +66,7 @@ const UploadPage = () => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("title", title);
-        formData.append("album", album);
+        formData.append("description", description);
         formData.append("duration", duration);
         formData.append("genre", genre);
         formData.append("user_id", user_id);
@@ -94,7 +94,7 @@ const UploadPage = () => {
                 }
                 setFile(null);
                 setTitle("");
-                setAlbum("");
+                setDescription("");
                 setDuration("");
                 setGenre("");
                 setImage(null);
@@ -160,7 +160,7 @@ const UploadPage = () => {
                     </div>
                     <div className="upload-row">
                         <label className="upload-label">{t("upload.genrePlaceholder")}</label>
-                        <label className="upload-label">{t("upload.albumPlaceholder")}</label>
+                        <label className="upload-label">{t("upload.descriptionPlaceholder")}</label>
                     </div>
 
                     <div className="upload-row">
@@ -173,9 +173,9 @@ const UploadPage = () => {
                         />
                         <input
                             type="text"
-                            placeholder={t("upload.albumPlaceholder")}
-                            value={album}
-                            onChange={(e) => setAlbum(e.target.value)}
+                            placeholder={t("upload.descriptionPlaceholder")}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                             className="upload-input"
                         />
                     </div>

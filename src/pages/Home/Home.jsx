@@ -20,16 +20,17 @@ const Home = () => {
             try {
                 // Gọi API để lấy danh sách trending playlists
                 const playlistResponse = await axiosInstance.get("/trending/playlists/");
-                console.log(playlistResponse.data);
+                console.log("playlist data", playlistResponse.data);
                 setPlaylists(playlistResponse.data.trending_playlists);
 
-                const songResponse = await axiosInstance.get("/trending/song/");
-                console.log(songResponse.data);
+                const songResponse = await axiosInstance.get("/trending/songs/");
+                console.log("song data", songResponse.data);
                 setSongs(songResponse.data.trending_songs);
 
                 // Gọi API để lấy danh sách trending albums
-                // const albumResponse = await axiosInstance.get("/trending/albums");
-                // setAlbums(albumResponse.data);
+                const albumResponse = await axiosInstance.get("/trending/albums/");
+                setAlbums(albumResponse.data.trending_albums);
+                console.log("album data", albumResponse.data);
             } catch (error) {
                 console.error("Error fetching trending data:", error.response ? error.response.data : error.message);
             } finally {

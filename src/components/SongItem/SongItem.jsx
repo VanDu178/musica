@@ -27,7 +27,7 @@ const SongItem = ({ song, isActive, onClick }) => {
                             <FaPlay />
                         </Button>
                     ) : (
-                        song.id
+                        song.order
                     )}
                 </Col>
                 <Col xs={5} className="d-flex align-items-center">
