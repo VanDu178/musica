@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { BiRepeat } from "react-icons/bi";
 import { BsFilePlay } from "react-icons/bs";
 import { CgMiniPlayer } from "react-icons/cg";
-import { FaExpandAlt, FaPlayCircle, FaPauseCircle, FaStepBackward, FaStepForward, FaVolumeUp } from "react-icons/fa";
+import { FaExpandAlt, FaPlayCircle, FaPauseCircle, FaStepBackward, FaStepForward, FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { LuShuffle } from "react-icons/lu";
@@ -14,6 +14,7 @@ import axiosInstance from "../../config/axiosConfig";
 import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
+import { usePlaylist } from "../../context/PlaylistProvider";
 import "./MusicPlayerControl.css";
 
 const MusicPlayerControl = () => {
@@ -21,13 +22,16 @@ const MusicPlayerControl = () => {
   const navigate = useNavigate(); // Sử dụng useNavigate
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(40);
+  const [isMuted, setIsMuted] = useState(false);
   const [song, setSong] = useState(null);
   const { isLoggedIn } = useContext(AuthContext);
   const { idSong, setIdSong } = useSong();
   const { isPlaying, setIsPlaying } = useIsPlaying();
+  const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
   const [isRepeat, setIsRepeat] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const userId = 3;
 
   // Hàm fetch dữ liệu bài hát
@@ -59,6 +63,72 @@ const MusicPlayerControl = () => {
     }
   };
 
+  const handleNext = async () => {
+    if (!playlist || playlist.length === 0) return;
+
+    if (isRepeat) {
+      if (playlist.length === 1) {
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0; // Đặt thời gian về 0
+          audioRef.current.play(); // Phát lại bài hát
+        }
+      } else {
+        // Lặp lại toàn bộ playlist
+        if (currentTrackIndex < playlist.length - 1) {
+          setCurrentTrackIndex(prevIndex => prevIndex + 1);
+          setIdSong(playlist[currentTrackIndex + 1].id);
+        } else {
+          setCurrentTrackIndex(0);
+          setIdSong(playlist[0].id);
+        }
+      }
+      return;
+    }
+
+    if (isShuffle) {
+      if (playlist.length === 1) {
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0; // Đặt thời gian về 0
+          audioRef.current.play(); // Phát lại bài hát
+        }
+      } else {
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * playlist.length);
+        } while (randomIndex === currentTrackIndex); // Không trùng bài hiện tại
+
+        setCurrentTrackIndex(randomIndex);
+        setIdSong(playlist[randomIndex].id);
+      }
+      return;
+    }
+
+    // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
+    if (playlist.length === 1) {
+      try {
+        const response = await axiosInstance.get(`/song/next/${idSong}/`);
+        if (response.status === 200) {
+          clearPlaylist();
+          addSong({ id: response.data.id });
+          setIdSong(response.data.id);
+        }
+      } catch (error) {
+        console.error("Error fetching next song:", error);
+      }
+      return;
+    }
+
+    // Chế độ bình thường: Chuyển sang bài tiếp theo
+    if (currentTrackIndex < playlist.length - 1) {
+      setCurrentTrackIndex(prevIndex => prevIndex + 1);
+      setIdSong(playlist[currentTrackIndex + 1].id);
+    } else {
+      // Nếu hết danh sách, quay lại bài đầu tiên
+      setCurrentTrackIndex(0);
+      setIdSong(playlist[0].id);
+    }
+  };
+
   const updatePlayHistory = async (songId, userId) => {
     try {
       await axiosInstance.post(`/history/update/`, {
@@ -87,27 +157,25 @@ const MusicPlayerControl = () => {
     setIsPlaying(!isPlaying);
   };
 
-  // Xử lý khi bài hát kết thúc
-  const handleSongEnd = () => {
-    console.log("Bài hát đã kết thúc");
-    setIsPlaying(!isPlaying);
-    // Thêm logic để phát bài hát tiếp theo ở đây
-  };
-
-  // Cập nhật tiến trình bài hát
   useEffect(() => {
     const updateTime = () => setCurrentTime(audioRef.current.currentTime);
-    if (audioRef.current) {
-      audioRef.current.addEventListener("timeupdate", updateTime);
-      audioRef.current.addEventListener("ended", handleSongEnd);
+    const handleSongEnd = () => {
+      handleNext(); // Gọi hàm next khi bài hát kết thúc
+    };
+
+    const audio = audioRef.current;
+    if (audio) {
+      audio.addEventListener("timeupdate", updateTime);
+      audio.addEventListener("ended", handleSongEnd);
     }
+
     return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("timeupdate", updateTime);
-        audioRef.current.removeEventListener("ended", handleSongEnd);
+      if (audio) {
+        audio.removeEventListener("timeupdate", updateTime);
+        audio.removeEventListener("ended", handleSongEnd);
       }
     };
-  }, [audioRef.current]);
+  }, [audioRef, handleNext]); // Thêm handleNext vào dependencies
 
   // Xử lý Seek (kéo thanh tiến trình)
   const handleSeek = (e) => {
@@ -121,6 +189,13 @@ const MusicPlayerControl = () => {
     const newVolume = e.target.value;
     setVolume(newVolume);
     audioRef.current.volume = newVolume / 100;
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+    }
+    setIsMuted(!isMuted);
   };
 
   // Định dạng thời gian (phút:giây)
@@ -186,7 +261,10 @@ const MusicPlayerControl = () => {
                 <button onClick={togglePlay} title={t("footer.play")}>
                   {isPlaying ? <FaPauseCircle size={32} /> : <FaPlayCircle size={32} />}
                 </button>
-                <button title={t("footer.next")}>
+                <button
+                  title={t("footer.next")}
+                  onClick={handleNext}
+                >
                   <FaStepForward size={20} />
                 </button>
                 <button
@@ -221,15 +299,19 @@ const MusicPlayerControl = () => {
 
               {/* Điều chỉnh âm lượng */}
               <div className="ft-progress-bar ft-volume-bar com-vertical-align">
-                <button><FaVolumeUp size={18} /></button>
+                <button onClick={toggleMute}>
+                  {isMuted ? <FaVolumeMute size={18} /> : <FaVolumeUp size={18} />}
+                </button>
                 <input
                   type="range"
                   min="0"
                   max="100"
-                  value={volume}
+                  value={isMuted ? 0 : volume} // Nếu tắt tiếng thì thanh trượt về 0
                   onChange={handleVolumeChange}
+                  disabled={isMuted} // Khi tắt tiếng, không cho thay đổi volume
                 />
               </div>
+
 
               <button><CgMiniPlayer size={18} /></button>
               <button><FaExpandAlt size={18} /></button>
