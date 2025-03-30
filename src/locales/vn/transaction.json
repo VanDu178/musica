@@ -143,8 +143,8 @@
         "news": "Có gì mới",
         "login": "Đăng nhập",
         "logout": "Đăng xuất",
-        "account":"Tài khoản",
-        "profile":"Hồ sơ",
+        "account": "Tài khoản",
+        "profile": "Hồ sơ",
         "support": "Hỗ trợ",
         "privateSession": "Phiên riêng tư",
         "setting": "Cài đặt"
@@ -250,5 +250,20 @@
         "fillAllFields": "Vui lòng điền vào tất cả các trường.",
         "imagePlaceholder": "Hình ảnh",
         "mp3Placeholder": "Tệp MP3"
+    },
+    "playlistModal": {
+        "createNew": "Tạo Playlist Mới",
+        "selectPlaylist": "Chọn Playlist",
+        "enterPlaylistName": "Nhập tên playlist",
+        "cancel": "Hủy",
+        "savePlaylist": "Lưu Playlist",
+        "loading": "Đang tải...",
+        "noPlaylist": "Không có playlist nào.",
+        "addToPlaylist": "Thêm vào Playlist",
+        "createSuccess": "Playlist đã tạo và bài hát đã được thêm vào!",
+        "addSuccess": "Đã thêm bài hát vào playlist thành công!",
+        "errorLoading": "Không thể tải danh sách playlist.",
+        "errorCreating": "Lỗi khi tạo playlist hoặc thêm bài hát!",
+        "processing": "Đang xử lý..."
     }
 }
