@@ -16,10 +16,12 @@ import Chat from "./pages/Chat/DeepSeekChat";
 import Premium from "./pages/Premium/premium";
 import Home from "./pages/Home/Home";
 import Upload from "./pages/UploadPage/UploadPage";
-import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./routes/PrivateRoute";
 import { AuthContext } from "./context/AuthContext";
 import { UserProvider } from "./context/UserProvider";
+import PaymentMethod from "./pages/PaymentMethod/PaymentMethod";
+import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
+import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
 const App = () => {
   const { logout, isLoggedIn } = useContext(AuthContext);
@@ -45,11 +47,18 @@ const App = () => {
                     <Route path="/login" element={<SpotifyLogin />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/password-reset" element={<ResetPassword />} />
+                    <Route path="/account/overview/" element={<Overview />} />
+                    <Route path="/account/profile/" element={<Profile />} />
                     <Route path="/chat/" element={<Chat />} />
                     <Route path="/premium/" element={<Premium />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/upload" element={<Upload />} />
                     <Route path="/account/profile/" element={<Profile />} />
+                    {/* <Route path="/account/overview/" element={<Overview />} />
+                    <Route
+                      path="/playlist/:idPlaylist"
+                      element={<Main />}
+                    />{" "} */}
                     <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
                       <Route path="/account/overview/" element={<Overview />} />
                       <Route
@@ -57,9 +66,9 @@ const App = () => {
                         element={<Main />}
                       />{" "}
                     </Route>
+                    <Route path="/payment-method" element={<PaymentMethod />} />
+                    <Route path="/payment/vnpay" element={<VNPayPayment />} />
                   </Routes>
-
-                  {/* ToastContainer chỉ nằm trong phần ứng dụng */}
                   <ToastContainer
                     position="top-right"
                     autoClose={3000}

@@ -222,7 +222,9 @@
         "tableRow_3": "Play songs in any order",
         "tableRow_4": "High quality audio",
         "tableRow_5": "Listen with friends in real time",
-        "tableRow_6": "Organize listening queue"
+        "tableRow_6": "Organize listening queue",
+        "days": "Day",
+        "subscribe": "Subscribe"
     },
     "messages": {
         "title": "Announcement",

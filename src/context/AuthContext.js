@@ -20,6 +20,14 @@ export const AuthProvider = ({ children }) => {
   //     setIsLoggedIn(true);
   //   }
   // }, []);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   const token = Cookies.get("access_token");
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, [isLoggedIn]);
 
   // Helper function to set tokens
   const setTokens = (access, refresh) => {
@@ -33,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("refresh_token");
     Cookies.remove("user_data");
     setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn"); // Xóa trạng thái khi logou
+    // localStorage.removeItem("isLoggedIn"); // Xóa trạng thái khi logou
     // window.location.href = "/login";
   };
 
@@ -43,8 +51,9 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post("/auth/login/", dataLogin);
 
       if (response.status === 200) {
+        console.log("data login", response);
         setTokens(response.data.tokens.access, response.data.tokens.refresh);
-        Cookies.set("user_data", response.data.user);
+        // setTokens(response.data.access, response.data.refresh);
         setIsLoggedIn(true);
         return { success: true };
       }
@@ -70,17 +79,15 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status === 200) {
-        // Lưu token vào cookie
-        Cookies.set("access_token", response.data.access, { expires: 0.02 });
-        Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+        setTokens(response.data.access, response.data.refresh);
         setIsLoggedIn(true);
         return { success: true };
       }
     } catch (error) {
-      if (error.response.data.error_code) {
+      if (error.response?.data?.error_code) {
         return {
           success: false,
-          error_code: error.response.data.error_code,
+          error_code: error.response?.data?.error_code,
         };
       }
       // Trường hợp lỗi không xác định

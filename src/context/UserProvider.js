@@ -8,7 +8,9 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const { isLoggedIn } = useContext(AuthContext);
   useEffect(() => {
-    getUserInfo();
+    if (isLoggedIn) {
+      getUserInfo();
+    }
   }, [isLoggedIn]);
 
   const [error, setError] = useState(null); // Thêm state để lưu lỗi
