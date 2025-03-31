@@ -7,30 +7,26 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import SongItem from "../../components/SongItem/SongItem";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import axiosInstance from "../../config/axiosConfig";
-// import { useSong } from "../../context/SongProvider";
+import { useSong } from "../../context/SongProvider";
+import { useIsPlaying } from "../../context/IsPlayingProvider";
 import "./PlaylistDetail.css";
-
-
-// const playlist = {
-//     title: "Tuyển tập nhạc thập niên 2000",
-//     description: "Arctic Monkeys, Coldplay, Linkin Park và nhiều hơn nữa",
-//     cover: "https://via.placeholder.com/300",
-//     songs: [
-//         { id: 1, title: "I Wanna Be Yours", artist: "Arctic Monkeys", album: "AM", duration: "3:03", cover: "https://images.unsplash.com/photo-1560674457-12073ed6fae6?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D" },
-//         { id: 2, title: "Chúng Ta Không Thuộc Về Nhau", artist: "Sơn Tùng M-TP", album: "m-tp M-TP", duration: "3:53", cover: "https://images.unsplash.com/photo-1560674457-12073ed6fae6?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D" },
-//     ],
-// };
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
     const [playlistData, setPlaylistData] = useState(null); // Updated state to handle the entire response
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
-    const [activeSong, setActiveSong] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const { idSong, setIdSong } = useSong();
+    const { isPlaying, setIsPlaying } = useIsPlaying();
 
     const togglePlay = () => {
-        setIsPlaying(!isPlaying);
+        if (playlistData && playlistData.songs.length > 0 && idSong) {
+            setIsPlaying(!isPlaying);
+        }
+        else {
+            setIdSong(playlistData.songs[0].id); // Phát bài hát đầu tiên nếu chưa phát bài nào
+            setIsPlaying(!isPlaying);
+        }
     };
 
 
@@ -38,7 +34,7 @@ const PlaylistDetail = () => {
     const fetchSongsByPlaylistId = async (playlistId) => {
         try {
             const response = await axiosInstance.get(
-                `/playlists/${playlistId}/songs`
+                `/playlists/${playlistId}/songs/`
             );
             const songs = response.data; // Lấy dữ liệu từ response
             //   setPlaylist(songs); // Cập nhật danh sách bài hát vào state
@@ -57,8 +53,9 @@ const PlaylistDetail = () => {
                 const data = await fetchSongsByPlaylistId(idPlaylist); // Fetch data
                 setPlaylistData(data); // Set the fetched data
                 clearPlaylist();
-                data.songs.id.map((id) => {
-                    addSong({ id: id });
+                data.songs.map((song) => {
+                    console.log("Adding song to playlist:", song.id);
+                    addSong({ id: song.id });
                 });
             } catch (error) {
                 console.error("Error fetching playlist data:", error);
@@ -73,10 +70,6 @@ const PlaylistDetail = () => {
     if (!playlistData) {
         return <p>Loading...</p>; // Show loading state while data is being fetched
     }
-
-
-
-    // const { playlistInfo, songs } = playlistData; // Destructure playlist and songs from the fetched data
 
     return (
         <Container className="playlist-container">
@@ -120,8 +113,6 @@ const PlaylistDetail = () => {
                         // key={song.id}
                         songId={song.id}
                         song={song}
-                        isActive={song.id === activeSong}
-                        onClick={() => setActiveSong(song.id)}
                     />
                 ))}
             </ListGroup>

@@ -1,10 +1,16 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import axiosInstance from "../config/axiosConfig";
+import { AuthContext } from "./AuthContext";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
+  const { isLoggedIn } = useContext(AuthContext);
+  useEffect(() => {
+    getUserInfo();
+  }, [isLoggedIn]);
+
   const [error, setError] = useState(null); // Thêm state để lưu lỗi
 
   const getUserInfo = async () => {
@@ -32,10 +38,6 @@ export const UserProvider = ({ children }) => {
       console.error("Có lỗi xảy ra khi lấy thông tin người dùng:", error);
     }
   };
-
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   return (
     <UserContext.Provider value={{ userData, getUserInfo, setUserData, error }}>

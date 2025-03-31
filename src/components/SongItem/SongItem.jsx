@@ -3,25 +3,28 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaMusic, FaPause, FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
+import { useIsPlaying } from "../../context/IsPlayingProvider";
 import "./SongItem.css";
 
-const SongItem = ({ songId, song, isActive, onClick }) => {
+const SongItem = ({ songId, song }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const { setIdSong } = useSong();
+    const { idSong, setIdSong } = useSong();
+    const { isPlaying, setIsPlaying } = useIsPlaying();
     const handlePlay = () => {
         setIdSong(songId);
+        setIsPlaying(!isPlaying);
     }
     return (
         <ListGroup.Item
-            className={`song-item ${isActive ? "active" : ""}`}
+            className={`song-item ${idSong === songId && isPlaying ? "active" : ""}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <Row className="align-items-center">
                 <Col xs={1}>
-                    {isActive ? (
+                    {idSong === songId && isPlaying ? (
                         isHovered ? (
-                            <Button variant="link" className="p-0 text-white" onClick={() => onClick(null)}>
+                            <Button variant="link" className="p-0 text-white" onClick={() => setIsPlaying(false)}>
                                 <FaPause />
                             </Button>
                         ) : (

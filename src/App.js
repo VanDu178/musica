@@ -27,10 +27,11 @@ const App = () => {
 
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <IsPlayingProvider>
-        <SongProvider>
-          <PlaylistProvider>
-            <UserProvider>
+      <UserProvider>
+        <IsPlayingProvider>
+          <SongProvider>
+            <PlaylistProvider>
+              {/* <UserProvider> */}
               <Router>
                 <div
                   className="App"
@@ -38,10 +39,8 @@ const App = () => {
                 >
                   <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route
-                      path="/playlist/:idPlaylist"
-                      element={<Main />}
-                    />{" "}
+                    {/* <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
+                    </Route> */}
                     {/* Route cho playlist */}
                     <Route path="/login" element={<SpotifyLogin />} />
                     <Route path="/signup" element={<Signup />} />
@@ -53,6 +52,10 @@ const App = () => {
                     <Route path="/account/profile/" element={<Profile />} />
                     <Route element={<PrivateRoute isLoggedIn={isLoggedIn} />}>
                       <Route path="/account/overview/" element={<Overview />} />
+                      <Route
+                        path="/playlist/:idPlaylist"
+                        element={<Main />}
+                      />{" "}
                     </Route>
                   </Routes>
 
@@ -70,10 +73,11 @@ const App = () => {
                   />
                 </div>
               </Router>
-            </UserProvider>
-          </PlaylistProvider>
-        </SongProvider>
-      </IsPlayingProvider>
+              {/* </UserProvider> */}
+            </PlaylistProvider>
+          </SongProvider>
+        </IsPlayingProvider>
+      </UserProvider>
     </GoogleOAuthProvider>
   );
 };

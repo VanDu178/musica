@@ -5,18 +5,25 @@ import axiosInstance from "../config/axiosConfig";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true"; // Lấy trạng thái từ localStorage khi khởi tạo
+  });
 
   useEffect(() => {
-    const token = Cookies.get("access_token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+    localStorage.setItem("isLoggedIn", isLoggedIn); // Cập nhật mỗi khi isLoggedIn thay đổi
+  }, [isLoggedIn]);
+
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // useEffect(() => {
+  //   const token = Cookies.get("access_token");
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
 
   // Helper function to set tokens
   const setTokens = (access, refresh) => {
-    Cookies.set("access_token", access, { expires: 0.02 });
+    Cookies.set("access_token", access, { expires: 2000 });
     Cookies.set("refresh_token", refresh, { expires: 7 });
   };
 
@@ -26,6 +33,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("refresh_token");
     Cookies.remove("user_data");
     setIsLoggedIn(false);
+    localStorage.removeItem("isLoggedIn"); // Xóa trạng thái khi logou
     // window.location.href = "/login";
   };
 
@@ -38,7 +46,6 @@ export const AuthProvider = ({ children }) => {
         setTokens(response.data.tokens.access, response.data.tokens.refresh);
         Cookies.set("user_data", response.data.user);
         setIsLoggedIn(true);
-        console.log(response);
         return { success: true };
       }
     } catch (error) {
@@ -66,6 +73,7 @@ export const AuthProvider = ({ children }) => {
         // Lưu token vào cookie
         Cookies.set("access_token", response.data.access, { expires: 0.02 });
         Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+        setIsLoggedIn(true);
         return { success: true };
       }
     } catch (error) {

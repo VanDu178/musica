@@ -7,6 +7,7 @@ import { MdOutlineDownloadForOffline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { UserContext } from "../../context/UserProvider";
+
 import "./Header.css";
 
 
@@ -43,6 +44,8 @@ const Header = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [userPanelState]);
+
+  // console.log("Header component is rendered", isLoggedIn);
 
   return (
     <header className="hd-spotify-header">
