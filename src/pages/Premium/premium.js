@@ -1,26 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaCheck, FaCheckCircle, FaMinus, FaSpotify } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import axiosInstance from "../../config/axiosConfig"; // Import axios
+import { formatCurrencyVND } from "../../helpers/formatCurrency";
 import "./Premium.css";
+
 
 const Premium = () => {
     const planCardsRef = React.useRef(null);
     const { isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [plans, setPlans] = useState([]); // Lưu danh sách gói Premium
+
+    // Fetch danh sách gói Premium từ backend
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const response = await axiosInstance.get("/plans/");
+                setPlans(response.data); // Lưu danh sách gói
+            } catch (error) {
+                console.error("Lỗi khi lấy danh sách gói:", error);
+            }
+        };
+        fetchPlans();
+    }, []);
+
     const scrollToPlans = () => {
         planCardsRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    const loginCheck = () => {
+    const loginCheck = (planId) => {
         if (!isLoggedIn) {
             alert("Please log in to proceed.");
             navigate("/login");
+        } else {
+            navigate("/payment-method", { state: { planId } });
         }
-        else alert("Purchasing function will be implemented soon");
-    }
+    };
 
     const { t } = useTranslation();
 
@@ -71,90 +90,56 @@ const Premium = () => {
                 </div>
 
             </div>
-            {/* //#ffd2d7   -   #c4b1d4 */}
-
             <div className="com-vertical-align p-plan-cards" ref={planCardsRef}>
-                {/* Mini plan */}
-                <div className="p-plan-card">
-                    <span className="p-price-tag" style={{ display: "none" }}>{t("premium.mini_price")}</span>
-                    <div className="p-content">
-                        <div className="p-title com-hr-left-align">
-                            <span className="com-vertical-align"><FaSpotify size={24} />Premium</span>
-                            <h1 style={{ color: "#cff56a" }}>Mini</h1>
-                            <h4>{t("premium.mini_price")}</h4>
-                        </div>
+                {Array.isArray(plans) && plans.length > 0 ? (
+                    plans.map((plan) => {
+                        let planColor = "#cff56a"; // Mặc định màu Mini
+                        if (plan.name === "Individual") planColor = "#ffd2d7";
+                        if (plan.name === "Student") planColor = "#c4b1d4";
 
-                        <div className="p-separator"></div>
+                        return (
+                            <div className="p-plan-card" key={plan.id}>
+                                <span className="p-price-tag" style={{ background: planColor }}>
+                                    {formatCurrencyVND(plan.price)} VND
+                                </span>
+                                <div className="p-content">
+                                    <div className="p-title com-hr-left-align">
+                                        <span className="com-vertical-align"><FaSpotify size={24} />Premium</span>
+                                        <h1 style={{ color: planColor }}>{plan.name}</h1>
+                                        <h3>{plan.price} VND</h3>
+                                        <h4>{plan.duration_days} {t("premium.days")}</h4>
+                                    </div>
 
-                        <div className="com-hr-left-align p-details">
-                            <span><GoDotFill /> <p>{t("premium.mini_pros1")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.mini_pros2")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.mini_pros3")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.mini_pros4")}</p></span>
-                        </div>
-                    </div>
-                    <button className="com-glow-only" style={{ backgroundColor: "#cff56a", color: "black", width: "100%" }} onClick={loginCheck}>
-                        <span>{t("premium.miniBtn")}</span>
-                    </button>
-                    <span className="p-note"><a href="google.com">{t("premium.termsApply")}</a></span>
-                </div>
+                                    <div className="p-separator"></div>
 
-                {/* Individual plan */}
-                <div className="p-plan-card">
-                    <span className="p-price-tag" style={{ background: "#ffd2d7" }}>{t("premium.indiv_price1")}</span>
-                    <div className="p-content">
-                        <div className="p-title com-hr-left-align">
-                            <span className="com-vertical-align"><FaSpotify size={24} />Premium</span>
-                            <h1 style={{ color: "#ffd2d7" }}>Individual</h1>
-                            <h3>{t("premium.indiv_price1")}</h3>
-                            <h4>{t("premium.indiv_price2")}</h4>
-                        </div>
-
-                        <div className="p-separator"></div>
-
-                        <div className="com-hr-left-align p-details">
-                            <span><GoDotFill /> <p>{t("premium.indiv_pros1")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.indiv_pros2")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.indiv_pros3")}</p></span>
-                            <span style={{ width: 0, overflow: "hidden" }}><GoDotFill /><p>placeholder</p></span>
-                        </div>
-                    </div>
-                    <button className="com-glow-only" style={{ backgroundColor: "#ffd2d7", color: "black", width: "100%" }} onClick={loginCheck}>
-                        <span>{t("premium.indivBtn")}</span>
-                    </button>
-                    <span className="p-note"> {t("premium.indiv_note")}
-                        <a href="google.com">{t("termsApply")}</a>
-                    </span>
-                </div>
-
-
-                <div className="p-plan-card">
-                    <span className="p-price-tag" style={{ background: "#c4b1d4" }}>{t("premium.student_price1")}</span>
-                    <div className="p-content">
-                        <div className="p-title com-hr-left-align">
-                            <span className="com-vertical-align"><FaSpotify size={24} />Premium</span>
-                            <h1 style={{ color: "#c4b1d4" }}>Student</h1>
-                            <h3>{t("premium.student_price1")}</h3>
-                            <h4>{t("premium.student_price2")}</h4>
-                        </div>
-
-                        <div className="p-separator"></div>
-
-                        <div className="com-hr-left-align p-details">
-                            <span><GoDotFill /> <p>{t("premium.student_pros1")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.student_pros2")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.student_pros3")}</p></span>
-                            <span><GoDotFill /> <p>{t("premium.student_pros4")}</p></span>
-                        </div>
-                    </div>
-                    <button className="com-glow-only" style={{ background: "#c4b1d4" }} onClick={loginCheck}>
-                        <span>{t("premium.studentBtn")}</span>
-                    </button>
-                    <span className="p-note">{t("premium.student_note")}
-                        <a href="google.com">{t("premium.termsApply")}</a>
-                    </span>
-                </div>
+                                    <div className="com-hr-left-align p-details">
+                                        {plan.benefits?.map((benefit, index) => (
+                                            <span key={index}><GoDotFill /> <p>{benefit}</p></span>
+                                        ))}
+                                    </div>
+                                    <div className="com-hr-left-align p-details">
+                                        <span><GoDotFill /> <p>{t("premium.indiv_pros1")}</p></span>
+                                        <span><GoDotFill /> <p>{t("premium.indiv_pros2")}</p></span>
+                                        <span><GoDotFill /> <p>{t("premium.indiv_pros3")}</p></span>
+                                        <span style={{ width: 0, overflow: "hidden" }}><GoDotFill /><p>placeholder</p></span>
+                                    </div>
+                                </div>
+                                <button
+                                    className="com-glow-only"
+                                    style={{ backgroundColor: planColor, color: "black", width: "100%" }}
+                                    onClick={() => loginCheck(plan.id)}
+                                >
+                                    <span>{t("premium.subscribe")}</span>
+                                </button>
+                                <span className="p-note"><a href="google.com">{t("premium.termsApply")}</a></span>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>Loading plans...</p> // Hiển thị khi chưa có data
+                )}
             </div>
+
 
             <div style={{ margin: "32px" }}>
                 <h1>{t("premium.tableTitle")}</h1>

@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
   // Helper function to set tokens
   const setTokens = (access, refresh) => {
-    Cookies.set("access_token", access, { "max-age": 2000 });
+    Cookies.set("access_token", access, { expires: 2000 });
     Cookies.set("refresh_token", refresh, { expires: 7 });
   };
 
@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axiosInstance.post("/auth/login/", dataLogin);
 
       if (response.status === 200) {
+        console.log(response);
         setTokens(response.data.access, response.data.refresh);
         setIsLoggedIn(true);
         return { success: true };
@@ -59,9 +60,8 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status === 200) {
-        // Lưu token vào cookie
-        Cookies.set("access_token", response.data.access, { expires: 0.02 });
-        Cookies.set("refresh_token", response.data.refresh, { expires: 7 });
+        setTokens(response.data.access, response.data.refresh);
+        setIsLoggedIn(true);
         return { success: true };
       }
     } catch (error) {
