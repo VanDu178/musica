@@ -1,0 +1,131 @@
+.vnpay-payment-container {
+    background-color: #121212; /* Màu nền tối giống Spotify */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  .vnpay-payment-container h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  
+  .loading-text {
+    font-size: 16px;
+    color: #b3b3b3; /* Màu xám nhạt giống Spotify */
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* Hiệu ứng nhấp nháy nhẹ */
+  @keyframes pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }
+
+
+
+  /* CSS cho giao diện đồng bộ với phong cách Spotify */
+.vnpay-payment-success, .vnpay-payment-failed {
+  background-color: #181818; /* Màu nền tối giống Spotify */
+  color: #ffffff; /* Màu chữ trắng */
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 50px auto;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-family: 'Circular', 'Helvetica', sans-serif; /* Font giống Spotify */
+}
+
+/* Tiêu đề */
+.vnpay-payment-success h2, .vnpay-payment-failed h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Đoạn văn bản */
+.vnpay-payment-success p, .vnpay-payment-failed p {
+  font-size: 16px;
+  color: #b3b3b3; /* Màu xám nhạt giống Spotify */
+  margin: 8px 0;
+}
+
+/* Mã giao dịch nổi bật */
+.vnpay-payment-success p strong, .vnpay-payment-failed p strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Nút bấm chung */
+.vnpay-payment-success button, .vnpay-payment-failed button {
+  background-color: #1db954; /* Màu xanh lá đặc trưng của Spotify */
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+}
+
+/* Hiệu ứng hover cho nút */
+.vnpay-payment-success button:hover, .vnpay-payment-failed button:hover {
+  background-color: #1ed760; /* Sáng hơn khi hover */
+  transform: scale(1.05);
+}
+
+/* Hiệu ứng active cho nút */
+.vnpay-payment-success button:active, .vnpay-payment-failed button:active {
+  background-color: #18a847;
+  transform: scale(1);
+}
+
+/* Riêng cho trạng thái thành công */
+.vnpay-payment-success h2 {
+  color: #1db954; /* Xanh lá cho tiêu đề thành công */
+}
+
+/* Riêng cho trạng thái thất bại */
+.vnpay-payment-failed h2 {
+  color: #ff4d4d; /* Đỏ nhạt cho tiêu đề thất bại */
+}
+
+/* CSS đã có ở trên vẫn giữ nguyên, bổ sung phần hóa đơn */
+.vnpay-payment-invoice {
+  margin: 20px 0;
+  text-align: left;
+  border-top: 1px solid #3e3e3e;
+  padding-top: 15px;
+}
+
+.vnpay-payment-invoice .invoice-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.vnpay-payment-invoice .invoice-item span {
+  color: #b3b3b3; /* Màu xám nhạt cho nhãn */
+}
+
+.vnpay-payment-invoice .invoice-item strong {
+  color: #ffffff; /* Màu trắng cho giá trị */
+  font-weight: 600;
+}

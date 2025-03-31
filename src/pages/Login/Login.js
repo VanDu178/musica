@@ -31,7 +31,7 @@ const SpotifyLogin = () => {
     if (isLoggedIn) {
       navigate("/"); // Nếu đã đăng nhập, chuyển hướng về Home
     }
-  }, []);
+  }, [isLoggedIn]);
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
