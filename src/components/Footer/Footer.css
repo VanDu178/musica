@@ -25,7 +25,8 @@
   .footer-payment {
     width: 50%;
   }
-  .footer-container p {
+  .footer-container h6 {
+    margin-top: 5px;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.6); /* Làm mờ màu chữ */
     transition: color 0.3s ease-in-out;
@@ -33,7 +34,7 @@
     font-size: medium;
   }
 
-.footer-container p:hover {
+.footer-container h6:hover {
     color: rgba(255, 255, 255, 0.9); /* Khi hover sẽ sáng hơn */
 }
 .footer-copyright {

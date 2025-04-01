@@ -129,6 +129,7 @@ const CreateAlbum = () => {
                                     draggable
                                     onDragStart={(e) => handleDragStart(e, index)}
                                     onDrop={(e) => handleDrop(e, index, selectedSongs, setSelectedSongs)}
+                                    className="album-artist-li"
                                 >
                                     <span className="song-index">{index + 1}</span>
                                     <span className="drag-handle">≡</span>
@@ -160,7 +161,8 @@ const CreateAlbum = () => {
                     {songs.length > 0 ? (
                         <ul>
                             {songs.map((song) => (
-                                <li key={song.id}>
+                                <li key={song.id}
+                                >
                                     <img
                                         src={song.image_path}
                                         alt={song.title}

@@ -311,5 +311,12 @@
             "error_message": "Không thể tạo album",
             "loading": "Đang tạo..."
         }
+    },
+    "admin": {
+        "sidebar": {
+            "account": "Tài Khoản",
+            "portal_title": "Quản Trị",
+            "accountArtist": "Tài Khoản Nghệ Sĩ"
+        }
     }
 }
