@@ -1,0 +1,104 @@
+/* pages/SongList/ArtistSongList.css */
+.artist-album-container {
+    padding: 20px;
+    background: #181818; /* Màu nền giống Spotify */
+    color: #fff;
+    font-family: 'Circular', sans-serif; /* Font giống Spotify */
+    min-height: 100vh;
+  }
+  
+  .artist-album-header {
+    margin-bottom: 40px;
+  }
+  
+  .artist-album-title {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0;
+  }
+  
+  .artist-album-subtitle {
+    font-size: 16px;
+    color: #b3b3b3;
+    margin: 8px 0 0;
+    text-align: left;
+  }
+  
+  .artist-album-list {
+    background: #282828; /* Màu nền bảng giống Spotify */
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .artist-album-table-header,
+  .artist-album-row {
+    display: grid;
+    grid-template-columns: 50px 60px 2fr 1fr 1fr 1.5fr; /* Thêm cột Release Date */
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+  }
+  
+  .artist-album-table-header {
+    color: #b3b3b3;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 2px solid #404040;
+  }
+  
+  .artist-album-row:hover {
+    background: #333; /* Hiệu ứng hover giống Spotify */
+  }
+  
+  .artist-album-column {
+    padding: 0 8px;
+  }
+  
+  .artist-album-index-col {
+    text-align: center;
+  }
+  
+  .artist-album-image-col {
+    display: flex;
+    align-items: center;
+  }
+  
+  .artist-album-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .artist-album-title-col {
+    font-size: 16px;
+  }
+  
+  .artist-album-duration-col,
+  .artist-album-songs-col,
+  .artist-album-release-col {
+    color: #b3b3b3;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .create-album-button {
+    background-color: #1db954; /* Màu xanh giống Spotify */
+    color: white; /* Màu chữ trắng */
+    border: none; /* Không viền */
+    border-radius: 5px; /* Bo góc nút */
+    padding: 12px 20px; /* Padding để tạo không gian cho chữ */
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Con trỏ chuột khi hover */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền khi hover */
+    margin-bottom: 15px;
+}
+
+.create-album-button:hover {
+    background-color: #1ed760; /* Thay đổi màu khi hover */
+}
+
+.create-album-button:focus {
+    outline: none; /* Xóa viền khi nhấn */
+}

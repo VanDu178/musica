@@ -17,6 +17,8 @@ import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import "./MusicPlayerControl.css";
 import PlaylistModal from "../../components/Modal/PlaylistModal/PlaylistModal"
+import { formatTime } from "../../helpers/timeFormatter";
+
 
 const MusicPlayerControl = () => {
   const { t } = useTranslation();
@@ -198,13 +200,6 @@ const MusicPlayerControl = () => {
     setIsMuted(!isMuted);
   };
 
-  // Định dạng thời gian (phút:giây)
-  const timeFormat = (seconds) => {
-    let sec = Math.floor(seconds % 60);
-    let min = Math.floor(seconds / 60);
-    return `${min}:${sec < 10 ? "0" : ""}${sec}`;
-  };
-
   // Hàm điều hướng đến trang đăng nhập
   const handleSignUpClick = () => {
     navigate("/login");
@@ -281,7 +276,7 @@ const MusicPlayerControl = () => {
 
                 {/* Thanh tiến trình */}
                 <div className="ft-progress-bar">
-                  <span>{timeFormat(currentTime)}</span>
+                  <span>{formatTime(currentTime)}</span>
                   <input
                     type="range"
                     min="0"
@@ -289,7 +284,7 @@ const MusicPlayerControl = () => {
                     value={(currentTime / song.duration) * 100}
                     onChange={handleSeek}
                   />
-                  <span>{timeFormat(song.duration)}</span>
+                  <span>{formatTime(song.duration)}</span>
                 </div>
               </div>
 
@@ -397,14 +392,14 @@ const MusicPlayerControl = () => {
 
                 {/* Thanh tiến trình */}
                 <div className="ft-progress-bar">
-                  <span>{timeFormat(0)}</span>
+                  <span>{formatTime(0)}</span>
                   <input
                     type="range"
                     min="0"
                     max="100"
                     value={0}
                   />
-                  <span>{timeFormat(0)}</span>
+                  <span>{formatTime(0)}</span>
                 </div>
               </div>
 

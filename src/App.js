@@ -19,6 +19,13 @@ import Home from "./pages/Home/Home";
 import Upload from "./pages/UploadPage/UploadPage";
 import PaymentMethod from "./pages/PaymentMethod/PaymentMethod";
 import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
+
+/*Artist*/
+import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
+import ArtistSongList from "./pages/Artist/ArtistSongList/ArtistSongList";
+import ArtistAlbumList from "./pages/Artist/ArtistAlbumList/ArtistAlbumList";
+import CreateAlbum from "./pages/Artist/CreateAlbum/CreateAlbum";
+
 import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
 const App = () => {
@@ -45,9 +52,28 @@ const App = () => {
                     <Route path="/chat/" element={<Chat />} />
                     <Route path="/premium/" element={<Premium />} />
                     <Route path="/home" element={<Home />} />
-                    <Route path="/upload" element={<Upload />} />
+                    {/* <Route path="/upload" element={<Upload />} /> */}
                     <Route path="/payment-method" element={<PaymentMethod />} />
                     <Route path="/payment/vnpay" element={<VNPayPayment />} />
+                  </Routes>
+                  {/* Artist */}
+
+
+                  <Routes>
+                    {/* Các route cần sidebar được bao trong ArtistLayout */}
+                    <Route
+                      path="/artist/*"
+                      element={
+                        <ArtistLayout>
+                          <Routes>
+                            <Route path="/upload" element={<Upload />} />
+                            <Route path="/songs" element={<ArtistSongList />} />
+                            <Route path="/albums" element={<ArtistAlbumList />} />
+                            <Route path="/albums/new" element={<CreateAlbum />} />
+                          </Routes>
+                        </ArtistLayout>
+                      }
+                    />
                   </Routes>
 
                   {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
@@ -68,7 +94,7 @@ const App = () => {
           </SongProvider>
         </IsPlayingProvider>
       </GoogleOAuthProvider>
-    </AuthProvider>
+    </AuthProvider >
   );
 };
 
