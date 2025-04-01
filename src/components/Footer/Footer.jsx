@@ -7,25 +7,25 @@ const Footer = React.memo(() => {
             <div className="footer-wrapper" role="complementary">
                 <aside className="footer-left" role="table">
                     <h4 className="footer-title" role="complementary">Công ty</h4>
-                    <p>Giới thiệu</p>
-                    <p>Việc làm</p>
-                    <p>For the Record</p>
+                    <h6>Giới thiệu</h6>
+                    <h6>Việc làm</h6>
+                    <h6>For the Record</h6>
                 </aside>
 
                 <aside className="footer-center" role="table">
                     <h4 className="footer-title" role="complementary">Cộng đồng</h4>
-                    <p>Dành cho các nghệ sĩ</p>
-                    <p>Nhà phát triển</p>
-                    <p>Quảng cáo</p>
-                    <p>Nhà đầu tư</p>
-                    <p>Nhà cung cấp</p>
+                    <h6>Dành cho các nghệ sĩ</h6>
+                    <h6>Nhà phát triển</h6>
+                    <h6>Quảng cáo</h6>
+                    <h6>Nhà đầu tư</h6>
+                    <h6>Nhà cung cấp</h6>
                 </aside>
 
                 <aside className="footer-center" role="table">
                     <h4 className="footer-title" role="complementary">Các gói của Spotify</h4>
-                    <p>Premium Individual</p>
-                    <p>Premium Student</p>
-                    <p>Spotify Free</p>
+                    <h6>Premium Individual</h6>
+                    <h6>Premium Student</h6>
+                    <h6>Spotify Free</h6>
                 </aside>
 
                 <aside className="footer-right" role="tab">
@@ -40,7 +40,7 @@ const Footer = React.memo(() => {
                 </aside>
             </div>
             <div>
-                <p className="footer-copyright">© 2025 Spotify ZiZoDac</p>
+                <h6 className="footer-copyright">© 2025 Spotify ZiZoDac</h6>
             </div>
         </footer>
     );

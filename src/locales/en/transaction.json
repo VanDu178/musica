@@ -311,5 +311,12 @@
             "error_message": "Failed to create album",
             "loading": "Creating..."
         }
+    },
+    "admin": {
+        "sidebar": {
+            "account": "Account",
+            "portal_title": "Admin",
+            "accountArtist": "Account Artist"
+        }
     }
 }

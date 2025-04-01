@@ -76,6 +76,20 @@ const App = () => {
                     />
                   </Routes>
 
+                  <Routes>
+                    {/* Các route cần sidebar được bao trong ArtistLayout */}
+                    <Route
+                      path="/admin/*"
+                      element={
+                        <ArtistLayout>
+                          <Routes>
+                            <Route path="/account" element={<Upload />} />
+                          </Routes>
+                        </ArtistLayout>
+                      }
+                    />
+                  </Routes>
+
                   {/* 🔥 ToastContainer chỉ nằm trong phần ứng dụng */}
                   <ToastContainer
                     position="top-right"
