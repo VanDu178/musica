@@ -267,5 +267,49 @@
         "errorLoading": "Không thể tải danh sách playlist.",
         "errorCreating": "Lỗi khi tạo playlist hoặc thêm bài hát!",
         "processing": "Đang xử lý..."
+    },
+    "artist": {
+        "artistSong": {
+            "your_songs": "Bài Hát Của Bạn",
+            "manage_tracks": "Quản lý và xem các bài hát đã phát hành",
+            "title": "Tiêu Đề",
+            "duration": "Thời Lượng",
+            "streams": "Lượt Nghe",
+            "release_date": "Ngày Phát Hành"
+        },
+        "sidebar": {
+            "portal_title": "Nghệ Sĩ",
+            "home": "Trang Chủ",
+            "music": "Âm Nhạc",
+            "profile": "Hồ Sơ",
+            "upload": "Tải Lên",
+            "album": "Album"
+        },
+        "artistAlbum": {
+            "yourAlbums": "Album của bạn",
+            "manageAlbums": "Quản lí Album",
+            "albumName": "Tên Album",
+            "releaseDate": "Ngày",
+            "songCount": "Số Bài hát",
+            "createNewAlbum": "Tạo Album mới",
+            "playCount": "Số lượt Nghe"
+        },
+        "createAlbum": {
+            "title": "Tạo Album Mới",
+            "album_name_label": "Tên Album:",
+            "album_cover_label": "Ảnh Bìa:",
+            "description_label": "Mô Tả:",
+            "album_name_placeholder": "Nhập tên album...",
+            "description_placeholder": "Nhập mô tả...",
+            "selected_songs_title": "Bài Hát Đã Chọn",
+            "no_selected_songs": "Chưa có bài hát nào được chọn.",
+            "your_songs_title": "Danh Sách Bài Hát Của Bạn",
+            "no_songs": "Không có bài hát nào.",
+            "add_button": "Thêm vào Album",
+            "remove_button": "Xóa",
+            "submit_button": "Tạo Album",
+            "error_message": "Không thể tạo album",
+            "loading": "Đang tạo..."
+        }
     }
 }

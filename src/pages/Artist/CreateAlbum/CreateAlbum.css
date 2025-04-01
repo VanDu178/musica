@@ -1,0 +1,242 @@
+.create-album-container {
+    width: 90%; /* Chiếm 90% chiều rộng màn hình */
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #121212;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.create-album-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.album-form-container {
+    flex: 0 0 40%; /* Phần tạo album chiếm 40% chiều cao */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.song-list {
+    flex: 0 0 60%; /* Phần load bài hát chiếm 60% chiều cao */
+    overflow-y: auto;
+    height: 60%; /* Phần này sẽ cuộn nếu nhiều bài hát */
+}
+
+.album-name-cover {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.album-name-container, .album-cover-container {
+    flex: 1;
+}
+
+.album-name-container input,
+.album-cover-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #282828;
+    color: white;
+}
+
+.album-name-container input:focus,
+.album-cover-container input:focus {
+    border-color: #1db954; /* Xanh Spotify khi focus */
+}
+
+.album-preview {
+    margin-top: 10px;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+textarea {
+    width: 100%;
+    padding: 4px; /* Điều chỉnh padding để đảm bảo văn bản không bị chèn sát cạnh */
+    background-color: #282828;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 4px;
+    resize: none; /* Vô hiệu hóa việc kéo thay đổi kích thước */
+}
+
+textarea:focus {
+    border-color: #1db954; /* Xanh Spotify khi focus */
+}
+
+
+
+hr {
+    margin: 20px 0;
+    border-color: #333;
+}
+
+.song-list ul {
+    list-style-type: none;
+    padding: 0;
+    color: white;
+}
+
+.song-list li {
+    margin: 10px 0;
+}
+
+.album-song-list, .album-selected-song-list {
+    padding: 20px;
+    background-color: #181818;
+    border-radius: 8px;
+}
+
+/* Tiêu đề */
+.album-song-list h3, .album-selected-song-list h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+/* Danh sách bài hát */
+ul {
+    list-style: none;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+li:hover {
+    background-color: #282828; /* Hiệu ứng hover giống Spotify */
+}
+li:hover .drag-handle {   
+    display: block;/* Hiện nút ba vạch khi hover */
+
+    opacity: 1; /* Hiện nút ba vạch khi hover */
+}
+li:hover .song-index {
+    display: none;/* Hiện nút ba vạch khi hover */
+}
+
+/* Nút ba vạch */
+.drag-handle {
+    width: 20px;
+    font-size: 20px;
+    color: #b3b3b3;
+    cursor: grab;
+    margin-right: 5px; /* Khoảng cách nhỏ với hình ảnh */
+    user-select: none; /* Ngăn chọn văn bản khi kéo */
+    opacity: 0; /* Ẩn mặc định */
+    transition: opacity 0.2s ease; /* Hiệu ứng mượt khi hiện/ẩn */
+    display: none;/* Hiện nút ba vạch khi hover */
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+/* Hình ảnh bài hát */
+.album-artist-song-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 5px; /* Giảm khoảng cách với tiêu đề */
+    margin-left: 30px;
+}
+
+/* Tiêu đề bài hát */
+li span:not(.drag-handle) { /* Chỉ áp dụng cho tiêu đề, không phải drag-handle */
+    font-font-size: 16px;
+    color: #fff;
+    margin-right: 10px; /* Thêm khoảng cách với nút Xóa */
+}
+
+/* Nút thêm/xóa */
+.album-add-song-button, .album-remove-song-button {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto; /* Đẩy nút về bên phải */
+}
+
+.album-add-song-button:hover {
+    background-color: #1db954; /* Màu xanh đặc trưng của Spotify */
+    border-color: #1db954;
+}
+
+.album-remove-song-button {
+    border-color: #ff4d4d;
+}
+
+.album-remove-song-button:hover {
+    background-color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+/* Thông báo khi không có bài hát */
+p {
+    color: #b3b3b3;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Đường phân cách */
+hr {
+    border: none;
+    border-top: 1px solid #282828;
+    margin: 20px 0;
+}
+
+/* Số thứ tự */
+.song-index {
+    width: 25px; /* Độ rộng cố định cho STT */
+    text-align: center;
+    color: #b3b3b3; /* Màu xám nhạt giống Spotify */
+    font-size: 16px;
+    margin-right: 5px; /* Khoảng cách nhỏ với phần tiếp theo */
+}
+
+.submit-button {
+    background-color: #1db954; /* Màu xanh Spotify */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #1ed760; /* Sáng hơn khi hover */
+}
+
+.submit-button:disabled {
+    background-color: #535353; /* Màu xám khi bị vô hiệu hóa */
+    cursor: not-allowed; /* Con trỏ không cho phép */
+    opacity: 0.6; /* Làm mờ để dễ nhận biết */
+}
