@@ -110,7 +110,7 @@ const UploadPage = () => {
 
     return (
         <div className="upload-page">
-            <Header />
+            {/* <Header /> */}
             <div className="upload-content">
                 <header className="upload-header">
                     <FaSpotify size={32} color="white" />
@@ -190,7 +190,7 @@ const UploadPage = () => {
                     </button>
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

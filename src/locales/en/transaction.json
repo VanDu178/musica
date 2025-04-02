@@ -276,5 +276,56 @@
         "errorLoading": "Failed to load playlists.",
         "errorCreating": "Error creating playlist or adding song!",
         "processing": "Loading..."
+    },
+    "artist": {
+        "artistSong": {
+            "your_songs": "Your Songs",
+            "manage_tracks": "Manage and view your released tracks",
+            "title": "Title",
+            "duration": "Duration",
+            "streams": "Streams",
+            "release_date": "Release Date"
+        },
+        "sidebar": {
+            "portal_title": "Artist",
+            "home": "Home",
+            "music": "Music",
+            "profile": "Profile",
+            "upload": "Upload",
+            "album": "Album"
+        },
+        "artistAlbum": {
+            "yourAlbums": "Your Album",
+            "manageAlbums": "Manage Albums",
+            "albumName": "Album Name",
+            "releaseDate": "Release Date",
+            "songCount": "Song Count",
+            "createNewAlbum": "New Album",
+            "playCount": "Play Count"
+        },
+        "createAlbum": {
+            "title": "Create New Album",
+            "album_name_label": "Album Name:",
+            "album_cover_label": "Cover Image:",
+            "description_label": "Description:",
+            "album_name_placeholder": "Enter album name...",
+            "description_placeholder": "Enter description...",
+            "selected_songs_title": "Selected Songs",
+            "no_selected_songs": "No songs selected yet.",
+            "your_songs_title": "Your Song List",
+            "no_songs": "No songs available.",
+            "add_button": "Add to Album",
+            "remove_button": "Remove",
+            "submit_button": "Create Album",
+            "error_message": "Failed to create album",
+            "loading": "Creating..."
+        }
+    },
+    "admin": {
+        "sidebar": {
+            "account": "Account",
+            "portal_title": "Admin",
+            "accountArtist": "Account Artist"
+        }
     }
 }

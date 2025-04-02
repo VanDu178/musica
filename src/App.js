@@ -19,7 +19,15 @@ import { UserProvider } from "./context/UserProvider";
 import { UserDataProvider } from "./context/UserDataProvider";
 import PaymentMethod from "./pages/PaymentMethod/PaymentMethod";
 import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
+
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
+
+/*Artist*/
+import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
+import ArtistSongList from "./pages/Artist/ArtistSongList/ArtistSongList";
+import ArtistAlbumList from "./pages/Artist/ArtistAlbumList/ArtistAlbumList";
+import CreateAlbum from "./pages/Artist/CreateAlbum/CreateAlbum";
+
 import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
 const App = () => {
@@ -44,12 +52,56 @@ const App = () => {
                           path="/password-reset"
                           element={<ResetPassword />}
                         />
-
                         <Route
                           path="/account/overview"
                           element={<Overview />}
                         />
                         <Route path="/account/profile" element={<Profile />} />
+                        <Route
+                          path="/payment-method"
+                          element={<PaymentMethod />}
+                        />
+                        <Route
+                          path="/payment/vnpay"
+                          element={<VNPayPayment />}
+                        />
+
+                        <Routes>
+                          <Route
+                            path="/admin/*"
+                            element={
+                              <ArtistLayout>
+                                <Routes>
+                                  <Route path="/account" element={<Upload />} />
+                                </Routes>
+                              </ArtistLayout>
+                            }
+                          />
+                        </Routes>
+                        <Routes>
+                          <Route
+                            path="/artist/*"
+                            element={
+                              <ArtistLayout>
+                                <Routes>
+                                  <Route path="/upload" element={<Upload />} />
+                                  <Route
+                                    path="/songs"
+                                    element={<ArtistSongList />}
+                                  />
+                                  <Route
+                                    path="/albums"
+                                    element={<ArtistAlbumList />}
+                                  />
+                                  <Route
+                                    path="/albums/new"
+                                    element={<CreateAlbum />}
+                                  />
+                                </Routes>
+                              </ArtistLayout>
+                            }
+                          />
+                        </Routes>
 
                         {/* Các route cần sidebar,header,footer được bao trong MainLayout */}
                         <Route

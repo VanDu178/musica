@@ -1,0 +1,84 @@
+/* pages/SongList/ArtistSongList.css */
+.artist-song-container {
+  padding: 20px;
+  background: #181818; /* Màu nền giống Spotify */
+  color: #fff;
+  font-family: 'Circular', sans-serif; /* Font giống Spotify */
+  min-height: 100vh;
+}
+
+.artist-song-header {
+  margin-bottom: 40px;
+}
+
+.artist-song-title {
+  font-size: 36px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.artist-song-subtitle {
+  font-size: 16px;
+  color: #b3b3b3;
+  margin: 8px 0 0;
+  text-align: left;
+}
+
+.artist-song-list {
+  background: #282828; /* Màu nền bảng giống Spotify */
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.artist-song-table-header,
+.artist-song-row {
+  display: grid;
+  grid-template-columns: 50px 60px 2fr 1fr 1fr 1.5fr; /* Thêm cột Release Date */
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #333;
+}
+
+.artist-song-table-header {
+  color: #b3b3b3;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-bottom: 2px solid #404040;
+}
+
+.artist-song-row:hover {
+  background: #333; /* Hiệu ứng hover giống Spotify */
+}
+
+.artist-song-column {
+  padding: 0 8px;
+}
+
+.artist-song-index-col {
+  text-align: center;
+}
+
+.artist-song-image-col {
+  display: flex;
+  align-items: center;
+}
+
+.artist-song-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.artist-song-title-col {
+  font-size: 16px;
+}
+
+.artist-song-duration-col,
+.artist-song-streams-col,
+.artist-song-release-col {
+  color: #b3b3b3;
+  font-size: 14px;
+  text-align: right;
+}

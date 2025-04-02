@@ -1,0 +1,103 @@
+/* Sidebar.css */
+.artist-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #121212; /* Màu nền giống Spotify */
+    color: #fff;
+    padding: 20px;
+    font-family: 'Circular', sans-serif; /* Font giống Spotify */
+}
+
+.artist-sidebar-logo {
+    margin-bottom: 5px;
+}
+
+.artist-sidebar-logo h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.artist-sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.artist-sidebar-menu-item {
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #b3b3b3;
+    transition: all 0.2s ease;
+}
+
+.artist-sidebar-menu-item:hover {
+    color: #fff;
+    background: #282828;
+}
+
+.artist-sidebar-menu-item.active {
+    color: #fff;
+    background: #282828;
+}
+
+
+.artist-sidebar-lang-nav {
+    margin-left: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: black;
+    border-radius: 50px;
+    padding: 5px;
+    width: 110px;
+    height: 40px;
+    position: relative;
+}
+
+.artist-sidebar-lang-button {
+    position: relative;
+    z-index: 2;
+    width: 50px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mặc định chữ trắng */
+.artist-sidebar-lang-button {
+    color: white;
+}
+
+/* Khi nút được active, chữ thành đen */
+.artist-sidebar-lang-button.active {
+    color: black;
+}
+
+/* Nền trắng di chuyển */
+.lang-toggle-bg {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 50px;
+    height: 30px;
+    background: white;
+    border-radius: 50px;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1;
+}
+  
+/* Khi active là EN, nền trắng chạy sang phải */
+.move-right {
+    transform: translateX(50px);
+}
