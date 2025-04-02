@@ -7,7 +7,7 @@ import axiosInstance from "../../../config/axiosConfig";
 import { handleSuccess, handleError } from "../../../helpers/toast";
 import { useUserData } from "../../../context/UserDataProvider";
 import { useUser } from "../../../context/UserProvider";
-import Forbidden from "../../../components/Error/403/403"; // Đường dẫn có thể thay đổi tùy vào vị trí file
+import Forbidden from "../../../components/Error/403/403";
 import { hash, checkData } from "../../../helpers/encryptionHelper";
 
 const Profile = () => {
@@ -21,16 +21,21 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const [validRole, setValidRole] = useState(false);
 
-  useEffect(async () => {
-    if (isLoggedIn) {
-      getUserInfo();
-      const checkedRoleArtist = await checkData(2);
-      const checkedRoleUser = await checkData(3);
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user hoặc artist không
+        const checkedRoleArtist = await checkData(2);
+        const checkedRoleUser = await checkData(3);
 
-      if (checkedRoleArtist || checkedRoleUser) {
-        setValidRole(true);
+        if (checkedRoleArtist || checkedRoleUser) {
+          setValidRole(true);
+        }
+        getUserInfo();
       }
-    }
+    };
+
+    fetchRole();
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -109,6 +114,7 @@ const Profile = () => {
       setIsProcessing(false);
     }
   };
+
 
   if (!isLoggedIn || !validRole) {
     return <Forbidden />;

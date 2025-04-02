@@ -1,0 +1,32 @@
+/* Tổng quan */
+.component-loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #121212;
+  }
+  
+  /* Hiệu ứng chữ Loading... */
+  .component-loading-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #1db954, #ffffff, #1db954);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: component-loading-text-glow 2s linear infinite;
+  }
+  
+  @keyframes component-loading-text-glow {
+    0% {
+        background-position: 100%; /* Bắt đầu từ trái */
+    }
+    100% {
+        background-position: -100%; /* Kết thúc ở phải */
+    }
+}
+  

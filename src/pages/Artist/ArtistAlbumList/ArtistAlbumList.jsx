@@ -3,6 +3,10 @@ import axiosInstance from "../../../config/axiosConfig";
 import { useTranslation } from 'react-i18next';
 import { formatDate } from "../../../helpers/dateFormatter";
 import { useNavigate } from "react-router-dom";
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
+import Forbidden from "../../../components/Error/403/403";
+
 import './ArtistAlbumList.css';
 
 const ArtistAlbumList = () => {
@@ -11,6 +15,22 @@ const ArtistAlbumList = () => {
     const [albums, setAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải artist không
+                const checkedRoleUser = await checkData(2);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     // Fetch dữ liệu từ API
     useEffect(() => {
@@ -23,7 +43,7 @@ const ArtistAlbumList = () => {
             } finally {
                 setLoading(false);
             }
-        };
+        }
 
         fetchAlbums();
     }, []);
@@ -34,6 +54,10 @@ const ArtistAlbumList = () => {
         // Logic tạo album mới (ví dụ: điều hướng đến trang tạo album)
         console.log('Create new album');
     };
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="artist-album-container">

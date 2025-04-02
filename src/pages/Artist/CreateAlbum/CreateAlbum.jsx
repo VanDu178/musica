@@ -4,6 +4,9 @@ import axiosInstance from "../../../config/axiosConfig";
 import { handleDragStart, handleDrop, handleDragOver } from '../../../helpers/dragDropHelpers';
 import { Spinner } from "react-bootstrap"; // Import Spinner
 import { useTranslation } from "react-i18next";
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
+import Forbidden from "../../../components/Error/403/403";
 import "./CreateAlbum.css";
 
 const CreateAlbum = () => {
@@ -17,15 +20,35 @@ const CreateAlbum = () => {
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation(); // Hook để lấy hàm dịch
 
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
     useEffect(() => {
-        const fetchSongs = async () => {
-            try {
-                const response = await axiosInstance.get("/artist/songs/");
-                setSongs(response.data);
-            } catch (err) {
-                console.error("Failed to load songs:", err);
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải artist không
+                const checkedRoleUser = await checkData(2);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
             }
         };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
+
+    useEffect(() => {
+        const fetchSongs = async () => {
+            if (validRole) {
+                try {
+                    const response = await axiosInstance.get("/artist/songs/");
+                    setSongs(response.data);
+                } catch (err) {
+                    console.error("Failed to load songs:", err);
+                }
+            };
+        }
         fetchSongs();
     }, []);
 
@@ -81,6 +104,10 @@ const CreateAlbum = () => {
             selectedSongs.length > 0 // Có ít nhất 1 bài hát được chọn
         );
     };
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="create-album-container">

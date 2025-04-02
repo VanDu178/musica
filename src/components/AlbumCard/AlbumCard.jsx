@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlay } from "react-icons/fa";
 import "./AlbumCard.css";
-
+import { checkData } from "../../helpers/encryptionHelper";
+import { useUserData } from "../../context/UserDataProvider";
 const AlbumCard = ({ title, image, artist }) => {
+    const [validRole, setValidRole] = useState(false);
+    const { isLoggedIn } = useUserData();
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            } else {
+                setValidRole(true);
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+    if (!validRole) {
+        return;
+    }
     return (
         <div className="card album-card text-white position-relative">
             <div className="position-relative">

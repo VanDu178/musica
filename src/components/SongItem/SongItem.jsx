@@ -1,18 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
+import { Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaMusic, FaPause, FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
+import { checkData } from "../../helpers/encryptionHelper";
+import { useUserData } from "../../context/UserDataProvider";
 import "./SongItem.css";
 
 const SongItem = ({ songId, song }) => {
     const [isHovered, setIsHovered] = useState(false);
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
+    const [validRole, setValidRole] = useState(false);
+    const { isLoggedIn } = useUserData();
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            } else {
+                setValidRole(true);
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
     const handlePlay = () => {
         setIdSong(songId);
         setIsPlaying(!isPlaying);
+    }
+
+    if (!validRole) {
+        return null;
     }
     return (
         <ListGroup.Item

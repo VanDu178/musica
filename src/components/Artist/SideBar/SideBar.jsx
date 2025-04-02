@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
 import './SideBar.css';
 
 const Sidebar = () => {
@@ -8,6 +10,23 @@ const Sidebar = () => {
     const location = useLocation();
     const { t, i18n } = useTranslation();
     const [activeLang, setActiveLang] = useState(i18n.language);
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải artist không
+                const checkedRoleUser = await checkData(2);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
         setActiveLang(lng);
@@ -26,6 +45,10 @@ const Sidebar = () => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+    if (!validRole || !isLoggedIn) {
+        return null;
+    }
 
     return (
         <div className="artist-sidebar">

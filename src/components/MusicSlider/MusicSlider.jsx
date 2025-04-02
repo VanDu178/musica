@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -7,10 +7,32 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import "./MusicSlider.css";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import AlbumCard from "../AlbumCard/AlbumCard";
+import { useUserData } from "../../context/UserDataProvider";
+import { checkData } from "../../helpers/encryptionHelper";
+
 
 const MusicSlider = ({ items, type }) => {
   const swiperRef = useRef(null);
   const containerRef = useRef(null);
+
+  const { isLoggedIn } = useUserData();
+  const [validRole, setValidRole] = useState(true);
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(3);
+        if (checkedRoleUser) {
+          setValidRole(true);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(true);
+      }
+    };
+
+    fetchRole();
+  }, [isLoggedIn]);
 
   const slidePrev = () => {
     if (swiperRef.current) swiperRef.current.slidePrev();
@@ -20,6 +42,9 @@ const MusicSlider = ({ items, type }) => {
     if (swiperRef.current) swiperRef.current.slideNext();
   };
 
+  if (!validRole) {
+    return null;
+  }
 
   return (
     <div className="slider-container">

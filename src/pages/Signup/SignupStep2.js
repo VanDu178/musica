@@ -2,10 +2,13 @@ import { useState, useEffect } from "react";
 import "./SignupStep2.css";
 import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 
 const SignupStep2 = ({ onNext, onBack, userData, setUserData }) => {
     const { t, i18n } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
+    const { isLoggedIn } = useUserData();
     const [rules, setRules] = useState({
         hasLetter: false,
         hasNumberOrSpecial: false,
@@ -28,6 +31,10 @@ const SignupStep2 = ({ onNext, onBack, userData, setUserData }) => {
             hasMinLength: value.length >= 10
         });
     };
+    // nếu đã login thì không cho vào
+    if (isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="signup-step-2">

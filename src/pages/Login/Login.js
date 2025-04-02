@@ -1,6 +1,6 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -11,16 +11,17 @@ import { handleError, handleSuccess } from "../../helpers/toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
-import Cookies from "js-cookie";
 import "./Login.css";
 import "react-toastify/dist/ReactToastify.css";
 import { addCookie, removeCookie } from "../../helpers/cookiesHelper";
 import { hash, checkData } from "../../helpers/encryptionHelper";
 import CryptoJS from "crypto-js";
+import Forbidden from "../../components/Error/403/403";
+
 const SpotifyLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
-  const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
+  const { isLoggedIn, setIsLoggedIn } = useUserData();
 
   const [dataLogin, setDataLogin] = useState({
     email: "",
@@ -29,19 +30,6 @@ const SpotifyLogin = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/user/", { replace: true });
-    }
-  }, []);
-  const encryptRole = (roleId) => {
-    const encryptedRole = CryptoJS.AES.encrypt(
-      roleId,
-      "your_secret_key"
-    ).toString();
-    return encryptedRole;
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -144,6 +132,11 @@ const SpotifyLogin = () => {
       handleError(t("messages.loginFailed"));
     },
   });
+
+  // nếu đã login thì không cho vào
+  if (isLoggedIn) {
+    return <Forbidden />;
+  }
 
   return (
     <div
