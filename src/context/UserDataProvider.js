@@ -1,0 +1,30 @@
+import { createContext, useContext, useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import axiosInstance from "../config/axiosConfig";
+// import { useUser } from "../../../context/UserProvider";
+const UserDataContext = createContext();
+
+export const UserDataProvider = ({ children }) => {
+  const [userData, setUserData] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Cookies.get("access_token") ? true : false;
+  });
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+  return (
+    <UserDataContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, userData, setUserData }}
+    >
+      {children}
+    </UserDataContext.Provider>
+  );
+};
+
+// Custom hook để sử dụng context
+export const useUserData = () => {
+  return useContext(UserDataContext);
+};

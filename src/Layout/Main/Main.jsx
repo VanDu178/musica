@@ -1,17 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
-import { useParams } from "react-router-dom";
 import MusicPlayerControls from "../../components/MusicPlayerControls/MusicPlayerControls";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import SideBar from "../../components/Sidebar/LeftSideBar";
-import Home from "../../pages/Home/Home";
-import PlayList from "../../pages/PlaylistDetail/PlaylistDetail";
 import "./Main.css";
 
-const Main = () => {
-    const { idPlaylist } = useParams(); // Lấy id từ URL
-
+const Main = ({ children }) => {
     return (
         <div className="main-container">
             <header className="main-header">
@@ -22,7 +17,7 @@ const Main = () => {
                     <SideBar />
                 </div>
                 <div className="main-content-container">
-                    {idPlaylist ? <PlayList playlistId={idPlaylist} /> : <Home />} {/* Hiển thị PlayList nếu có id */}
+                    {children}
                     <Footer />
                 </div>
             </div>

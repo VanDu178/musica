@@ -1,24 +1,27 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useContext, useEffect, useState } from "react";
-import { Spinner } from "react-bootstrap"; // Import Spinner
+import { Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import facebookicon from "../../assets/images/icon/facebookicon.png";
 import googleicon from "../../assets/images/icon/googleicon.png";
 import logo from "../../assets/images/logo.png";
-import "./Login.css";
-// import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../../helpers/toast";
-// import { Toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useUserData } from "../../context/UserDataProvider";
+import axiosInstance from "../../config/axiosConfig";
+import Cookies from "js-cookie";
+import "./Login.css";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
-
+import { addCookie, removeCookie } from "../../helpers/cookiesHelper";
+import { hash, checkData } from "../../helpers/encryptionHelper";
+import CryptoJS from "crypto-js";
 const SpotifyLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
-  const { login, googleLogin, isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
+
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
@@ -29,26 +32,85 @@ const SpotifyLogin = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/"); // Nếu đã đăng nhập, chuyển hướng về Home
+      navigate("/", { replace: true });
     }
-  }, [isLoggedIn]);
+  }, []);
+  const encryptRole = (roleId) => {
+    const encryptedRole = CryptoJS.AES.encrypt(
+      roleId,
+      "your_secret_key"
+    ).toString();
+    return encryptedRole;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-    const response = await login(dataLogin);
+    try {
+      const response = await axiosInstance.post("/auth/login/", dataLogin);
+      if (response.status === 200) {
+        const role_ID_Hash = await hash(response.data.role);
+
+        if (response?.data?.access && response?.data?.refresh && role_ID_Hash) {
+          addCookie(
+            response?.data?.access,
+            response?.data?.refresh,
+            role_ID_Hash
+          );
+        }
+
+        setIsLoggedIn(true);
+        navigate("/", { replace: true });
+        handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
+      }
+    } catch (error) {
+      setIsLoading(false);
+      if (error?.response?.data?.error_code) {
+        setIsLoading(false);
+        const errorCode = error.response.data.error_code;
+        const errorMessages = {
+          ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+          INVALID_CREDENTIALS: t("messages.invalidCredentials"),
+          UNKNOWN_ERROR: t("messages.errorOccurred"),
+        };
+        setError(errorMessages[errorCode]); // Hiển thị toast lỗi
+      }
+    }
     setIsLoading(false);
-    if (response.success) {
-      navigate("/", { replace: true });
-      handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
-    } else {
-      const errorCode = response.error_code;
-      const errorMessages = {
-        ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
-        INVALID_CREDENTIALS: t("messages.invalidCredentials"),
-        UNKNOWN_ERROR: t("messages.errorOccurred"),
+  };
+
+  const googleLogin = async (token_id) => {
+    try {
+      const response = await axiosInstance.post("/auth/login/google/", {
+        access_token: token_id,
+      });
+
+      if (response.status === 200) {
+        const role_ID_Hash = await hash(response.data.role);
+        if (response?.data?.access && response?.data?.refresh && role_ID_Hash) {
+          addCookie(
+            response?.data?.access,
+            response?.data?.refresh,
+            role_ID_Hash
+          );
+        }
+
+        setIsLoggedIn(true);
+        return { success: true };
+      }
+    } catch (error) {
+      if (error.response?.data?.error_code) {
+        return {
+          success: false,
+          error_code: error.response?.data?.error_code,
+        };
+      }
+      // Trường hợp lỗi không xác định
+      return {
+        success: false,
+        error_code: "UNKNOWN_ERROR",
       };
-      setError(errorMessages[errorCode]); // Hiển thị toast lỗi
     }
   };
 

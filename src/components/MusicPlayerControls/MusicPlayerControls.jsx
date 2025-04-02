@@ -11,7 +11,7 @@ import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
 import axiosInstance from "../../config/axiosConfig";
-import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { useUserData } from "../../context/UserDataProvider";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
@@ -26,7 +26,7 @@ const MusicPlayerControl = () => {
   const [volume, setVolume] = useState(40);
   const [isMuted, setIsMuted] = useState(false);
   const [song, setSong] = useState(null);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useUserData();
   const { idSong, setIdSong } = useSong();
   const { isPlaying, setIsPlaying } = useIsPlaying();
   const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();

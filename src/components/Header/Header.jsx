@@ -5,19 +5,27 @@ import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import { UserContext } from "../../context/UserProvider";
+import { useUserData } from "../../context/UserDataProvider";
+import { useUser } from "../../context/UserProvider";
+import Cookies from "js-cookie";
 
 import "./Header.css";
 
 
 const Header = () => {
   const { t, i18n } = useTranslation();
-  const { userData } = useContext(UserContext);
-  const { logout, isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, userData } = useUserData();
   const [activeLang, setActiveLang] = useState(i18n.language);
   const navigate = useNavigate();
+  const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
+
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserInfo();
+    }
+  }, [isLoggedIn]);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -31,6 +39,14 @@ const Header = () => {
   const toggleUserPanel = () => {
     setUserPanelState((prevState) => !prevState);
   }
+
+  const logout = async () => {
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    Cookies.remove("secrect_key");
+    setIsLoggedIn(false);
+  };
+
 
   useEffect(() => {
     if (!userPanelState) return;

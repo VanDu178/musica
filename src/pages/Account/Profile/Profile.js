@@ -5,82 +5,84 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../../config/axiosConfig";
 import { handleSuccess, handleError } from "../../../helpers/toast";
-import { UserContext } from "../../../context/UserProvider";
-
-// const getDaysInMonth = (month, year) => {
-//   return new Date(year, month, 0).getDate();
-// };
+import { useUserData } from "../../../context/UserDataProvider";
+import { useUser } from "../../../context/UserProvider";
 
 const Profile = () => {
-  const navigate = useNavigate(); // Khởi tạo hook điều hướng
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { userData, setUserData } = useContext(UserContext);
-  const [previewImage, setPreviewImage] = useState(
-    userData?.image_path || null
-  ); // Đảm bảo userData không undefined
-  const [userDataUpdate, setUserDataUpdate] = useState({ ...userData }); // Tạo bản sao để tránh thay đổi trực tiếp
-  const [isProcessing, setIsProcessing] = useState(false); // Trạng thái xử lý
-
-  // const [daysList, setDaysList] = useState([]);
-
-  // useEffect(() => {
-  //   const days = Array.from(
-  //     { length: getDaysInMonth(userData.month, userData.year) },
-  //     (_, i) => i + 1
-  //   );
-  //   setDaysList(days);
-  // }, [userData.month, userData.year]);
-  const [isAvatarRemoved, setIsAvatarRemoved] = useState(false); // Cờ theo dõi trạng thái xóa ảnh
+  const { userData, setUserData, isLoggedIn } = useUserData();
+  const { getUserInfo, error } = useUser();
+  const [imageCover, setImageCover] = useState(null);
+  const [userDataUpdate, setUserDataUpdate] = useState({ ...userData });
+  const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef(null);
 
-  // useEffect(() => {
-  //   getUserInfo();
-  // }, []);
-
-  // const getUserInfo = async () => {
-  //   try {
-  //     const response = await axiosInstance.get("/account/");
-  //     if (response.status === 200) {
-  //       if (response.data.image_path) {
-  //         setPreviewImage(response.data.image_path); // Sử dụng previewImage
-  //       }
-  //       setUserData(response.data);
-  //     }
-  //   } catch (error) {
-  //     console.log("Có lỗi xảy ra", error);
-  //   }
-  // };
-
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreviewImage(URL.createObjectURL(file)); // Sử dụng previewImage
-      setUserDataUpdate({ ...userDataUpdate, image_path: file });
-      setIsAvatarRemoved(false); // Đặt lại cờ khi người dùng chọn ảnh mới
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserInfo();
     }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (userData.image_path != null) {
+        setImageCover(userData?.image_path);
+      } else {
+        setImageCover(null);
+      }
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    setUserDataUpdate({ ...userData });
+  }, [userData]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) setImageCover(file);
   };
 
   const handleRemoveAvatar = () => {
-    setPreviewImage(null); // Xóa ảnh xem trước
-    setUserDataUpdate({ ...userDataUpdate, image_path: null }); // Đặt lại giá trị ảnh
-    setIsAvatarRemoved(true); // Đặt cờ khi người dùng xóa ảnh
+    if (userData.image_path === imageCover) {
+      setImageCover(null);
+    } else {
+      setImageCover(userData.image_path);
+    }
+    setUserDataUpdate({ ...userDataUpdate, image_path: null });
     if (fileInputRef.current) {
       fileInputRef.current.value = null;
     }
   };
 
   const handleSave = async () => {
-    setIsProcessing(true); // Bắt đầu xử lý
     const userInfoUpdate = new FormData();
-    userInfoUpdate.append("username", userDataUpdate.username);
+    //Khong thay doi gi
+    if (
+      userData.name === userDataUpdate.name &&
+      imageCover === userData.image_path
+    ) {
+      return;
+    } else if (imageCover != userData.image_path && imageCover != null) {
+      //TH co thay doi hinh anh
 
-    // Kiểm tra trạng thái xóa ảnh
-    if (isAvatarRemoved) {
-      userInfoUpdate.append("image_path", ""); // Gửi giá trị rỗng nếu ảnh bị xóa
-    } else if (userDataUpdate.image_path instanceof File) {
-      userInfoUpdate.append("image_path", userDataUpdate.image_path); // Gửi ảnh mới nếu có
+      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("image_path", imageCover);
+      userInfoUpdate.append("action", "change_image");
+    } else if (
+      imageCover === userData.image_path &&
+      userData.name != userDataUpdate.name
+    ) {
+      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("image_path", imageCover);
+      userInfoUpdate.append("action", "change_name");
+    } else if (imageCover === null && imageCover != userData.image_path) {
+      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("image_path", imageCover);
+      userInfoUpdate.append("action", "delete_image");
     }
 
+    setIsProcessing(true);
     try {
       const response = await axiosInstance.put("/account/", userInfoUpdate, {
         headers: {
@@ -88,21 +90,14 @@ const Profile = () => {
         },
       });
 
-      if (response.status === 200) {
-        setUserData(response.data.user);
+      if (response?.status === 200) {
+        setUserData(response.data?.user);
         handleSuccess(t("profile.USER_UPDATE_SUCCESS"));
-        navigate("/account/overview");
       }
     } catch (error) {
-      const errorCode = error.response?.data?.message_code; // Lấy mã lỗi từ response của error
-      const message = {
-        USER_UPDATE_FAILED: t("profile.USER_UPDATE_FAILED"),
-        IMAGE_UPLOAD_FAILED: t("profile.IMAGE_UPLOAD_FAILED"),
-        IMAGE_PROCESSING_FAILED: t("profile.IMAGE_PROCESSING_FAILED"),
-      };
-      handleError(message[errorCode] || t("profile.UNKNOWN_ERROR")); // Thêm fallback nếu không có mã lỗi
+      handleError(t("profile.ERROR_OCCURRED"));
     } finally {
-      setIsProcessing(false); // Kết thúc xử lý
+      setIsProcessing(false);
     }
   };
 
@@ -123,136 +118,91 @@ const Profile = () => {
         <label className="profile-label">{t("profile.avt")}</label>
         <div className="profile-avatar-container">
           <div className="avatar-wrapper">
-            <img
-              src={
-                previewImage != null
-                  ? previewImage // Sử dụng previewImage
-                  : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
-              }
-              alt="Avatar"
-              className="profile-avatar"
-            />
-            {previewImage && (
+            {imageCover === userData.image_path && imageCover != null ? (
+              <img
+                src={imageCover}
+                alt="Album Cover"
+                className="profile-avatar"
+              />
+            ) : imageCover && imageCover != null ? (
+              <img
+                src={URL.createObjectURL(imageCover)}
+                alt="Album Cover"
+                className="profile-avatar"
+              />
+            ) : null}
+            {imageCover === null && (
+              <img
+                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
+                alt="Album Cover"
+                className="profile-avatar"
+              />
+            )}
+
+            {imageCover && (
               <button
                 className="remove-avatar-icon"
                 onClick={handleRemoveAvatar}
-                disabled={isProcessing} // Vô hiệu hóa khi đang xử lý
+                disabled={isProcessing || error} // Vô hiệu hóa khi đang xử lý
               >
                 <i className="fas fa-times"></i> {/* Icon xóa */}
               </button>
             )}
           </div>
-          <label htmlFor="avatar-upload" className="custom-file-upload">
+          <label
+            htmlFor="avatar-upload"
+            className="custom-file-upload"
+            disabled={isProcessing || error}
+          >
             {t("profile.chooseFile")}
           </label>
           <input
             id="avatar-upload"
             type="file"
             accept="image/*"
-            onChange={handleAvatarChange}
+            onChange={handleFileChange}
             ref={fileInputRef}
             style={{ display: "none" }}
-            disabled={isProcessing} // Vô hiệu hóa khi đang xử lý
+            disabled={isProcessing || error} // Vô hiệu hóa khi đang xử lý
           />
+
+          {error && (
+            <>
+              <label className="error_message">
+                Không thể thực hiện chỉnh sửa thông tin
+              </label>
+              <label className="error_message">Thông báo: {error}</label>
+            </>
+          )}
         </div>
 
         <label className="profile-label">{t("profile.username")}</label>
+
         <input
-          className="profile-input"
           type="text"
-          value={userData.username || ""}
+          value={userDataUpdate.name || ""}
+          className="profile-input"
           onChange={(e) =>
-            setUserDataUpdate({ ...userDataUpdate, username: e.target.value })
+            setUserDataUpdate({ ...userDataUpdate, name: e.target.value })
           }
-          disabled={isProcessing} // Vô hiệu hóa khi đang xử lý
+          readOnly={isProcessing || error} // Chỉ ngừng chỉnh sửa khi đang xử lý
         />
 
         <label className="profile-label">{t("profile.email")}</label>
         <input
           className="profile-input"
           type="email"
-          value={userData.email || ""}
+          value={userDataUpdate.email || ""}
           readOnly
           disabled
         />
 
-        {/* <label className="profile-label">{t("profile.gender")}</label>
-        <select
-          className="profile-input"
-          value={userData.gender}
-          onChange={(e) => setUserData({ ...userData, gender: e.target.value })}
-        >
-          <option>{t("profile.male")}</option>
-          <option>{t("profile.female")}</option>
-          <option>{t("profile.other")}</option>
-        </select> */}
-        {/* 
-        <label className="profile-label">{t("profile.birthday")}</label>
-        <div className="profile-birthday-inputs">
-          <select
-            className="profile-input"
-            value={userData.day}
-            onChange={(e) => setUserData({ ...userData, day: e.target.value })}
-          >
-            {daysList.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
-          </select>
-          <select
-            className="profile-input"
-            value={userData.month}
-            onChange={(e) =>
-              setUserData({ ...userData, month: e.target.value })
-            }
-          >
-            {[...Array(12)].map((_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {t(`profile.months.${i + 1}`)}
-              </option>
-            ))}
-          </select>
-          <select
-            className="profile-input"
-            value={userData.year}
-            onChange={(e) => setUserData({ ...userData, year: e.target.value })}
-          >
-            {[...Array(new Date().getFullYear() - 1900 + 1)]
-              .map((_, i) => (
-                <option key={1900 + i} value={1900 + i}>
-                  {1900 + i}
-                </option>
-              ))
-              .reverse()}
-          </select>
-        </div> */}
-
-        {/* <label className="profile-label">{t("profile.country")}</label>
-        <select
-          className="profile-input"
-          value={userData.country}
-          onChange={(e) =>
-            setUserData({ ...userData, country: e.target.value })
-          }
-        >
-          <option>{t("profile.vietnam")}</option>
-        </select> */}
-
         <div className="profile-button-group">
-          <button
-            className="profile-cancel-btn"
-            onClick={() => navigate("/account/overview")}
-            readOnly={isProcessing}
-            disabled={isProcessing} // Vô hiệu hóa khi đang xử lý
-          >
-            {t("profile.cancel")}
-          </button>
           <button
             className="profile-save-btn"
             onClick={handleSave}
-            readOnly={isProcessing}
-            disabled={isProcessing}
+            // readOnly={isProcessing || error}
+            disabled={isProcessing || error}
           >
             {isProcessing ? t("profile.saving") : t("profile.save")}
           </button>

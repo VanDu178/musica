@@ -5,12 +5,11 @@ import { FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import { redirect, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-
+import { useUserData } from "../../context/UserDataProvider";
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
 
     const navigate = useNavigate();
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setIsLoggedIn } = useUserData();
     const { setIdSong } = useSong();
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const handlePlayClick = () => {

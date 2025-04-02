@@ -128,10 +128,11 @@
         "removeAvatar": "Remove Avatar",
         "avt": "Avatar",
         "chooseFile": "Choose File",
-        "IMAGE_PROCESSING_FAILED": "Failed to process the image.",
-        "IMAGE_UPLOAD_FAILED": "Failed to upload the image.",
-        "USER_UPDATE_FAILED": "Failed to update user information.",
-        "USER_UPDATE_SUCCESS": "User information updated successfully."
+        "USER_UPDATE_SUCCESS": "User information updated successfully.",
+        "ERROR_OCCURRED": "Error occurred when update profile,try again",
+        "USER_NOT_AUTHENTICATED": "The user has not been authenticated. Please log in.",
+        "SYSTEM_ERROR":"System error, please try again later.",
+        "SERVER_UNAVAILABLE":"Cannot connect to the server. Please try again later."
     },
     "playlist": {
         "title": "Title",

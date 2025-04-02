@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaPlay, FaPause } from "react-icons/fa";
@@ -9,7 +9,10 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import axiosInstance from "../../config/axiosConfig";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
+import { useUserData } from "../../context/UserDataProvider";
 import "./PlaylistDetail.css";
+import { Space } from "lucide-react";
+import Cookies from "js-cookie";
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
@@ -18,6 +21,15 @@ const PlaylistDetail = () => {
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
+    const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            alert("ban khong the vao trang nay neu chua dang nhap");
+            navigate("/", { replace: true });
+        }
+    }, [])
 
     const togglePlay = () => {
         if (playlistData && playlistData.songs.length > 0 && idSong) {
@@ -36,10 +48,12 @@ const PlaylistDetail = () => {
             const response = await axiosInstance.get(
                 `/playlists/${playlistId}/songs/`
             );
-            const songs = response.data; // Lấy dữ liệu từ response
-            //   setPlaylist(songs); // Cập nhật danh sách bài hát vào state
-            //   console.log("Songs fetched:", songs);
-            return songs;
+            if (response?.data) {
+                return response.data; // Trả về dữ liệu bài hát nếu có
+            } else {
+                console.log("No songs found for this playlist.");
+                return []; // Trả về mảng rỗng nếu không có bài hát
+            }
         } catch (error) {
             console.error("Error fetching songs:", error);
         }

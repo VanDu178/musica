@@ -45,18 +45,8 @@
     margin-top: 20px;
 }
 
-.profile-cancel-btn {
-    background: gray;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    color: white;
-    width: 10%;
-}
-.profile-cancel-btn:hover {
-    transform: scale(1.1); 
-}
+
+
 .profile-save-btn {
     background: #1db954;
     padding: 10px 15px;
@@ -67,6 +57,11 @@
     font-weight: bold;
     margin-left: 2%;
     width: 15%;
+}
+
+.profile-save-btn:disabled{
+  cursor: not-allowed;
+   background: gray;
 }
 .profile-save-btn:hover {
     transform: scale(1.1); 
@@ -137,6 +132,11 @@
   .custom-file-upload:hover {
     background-color: #0056b3;
   }
+
+  .custom-file-upload:disabled{
+    cursor:not-allowed;
+    background-color: gray;
+  }
   
 
 
@@ -185,4 +185,9 @@
   /* Thêm hiệu ứng hover cho icon */
   .remove-avatar-icon:hover {
     background-color: rgba(255, 0, 0, 0.8);
+  }
+
+
+  .error_message{
+    color:rgba(255, 0, 0, 0.8);
   }
