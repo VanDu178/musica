@@ -11,8 +11,9 @@ import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { useUserData } from "../../context/UserDataProvider";
 import "./PlaylistDetail.css";
-import { Space } from "lucide-react";
-import Cookies from "js-cookie";
+import Forbidden from "../../components/Error/403/403";
+import { hash, checkData } from "../../helpers/encryptionHelper";
+
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
@@ -23,11 +24,16 @@ const PlaylistDetail = () => {
     const { isPlaying, setIsPlaying } = useIsPlaying();
     const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
     const navigate = useNavigate();
+    const [validRole, setValidRole] = useState(false);
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            alert("ban khong the vao trang nay neu chua dang nhap");
-            navigate("/", { replace: true });
+    useEffect(async () => {
+        if (isLoggedIn) {
+            const checkedRoleArtist = await checkData(2);
+            const checkedRoleUser = await checkData(3);
+
+            if (checkedRoleArtist || checkedRoleUser) {
+                setValidRole(true);
+            }
         }
     }, [])
 
@@ -46,7 +52,7 @@ const PlaylistDetail = () => {
     const fetchSongsByPlaylistId = async (playlistId) => {
         try {
             const response = await axiosInstance.get(
-                `/playlists/${playlistId}/songs/`
+                `/playlists/songs/${playlistId}/`
             );
             if (response?.data) {
                 return response.data; // Trả về dữ liệu bài hát nếu có
@@ -67,22 +73,30 @@ const PlaylistDetail = () => {
                 const data = await fetchSongsByPlaylistId(idPlaylist); // Fetch data
                 setPlaylistData(data); // Set the fetched data
                 clearPlaylist();
-                data.songs.map((song) => {
+                // if (data.status == 403) {
+                //     setValidRole(false);
+                // }
+                console.log("thongtin", data);
+                data.songs.forEach((song) => {
                     console.log("Adding song to playlist:", song.id);
                     addSong({ id: song.id });
                 });
             } catch (error) {
-                console.error("Error fetching playlist data:", error);
+
+                setValidRole(false);
+
             }
         };
 
         fetchPlaylistData();
-
     }, []);
 
 
     if (!playlistData) {
         return <p>Loading...</p>; // Show loading state while data is being fetched
+    }
+    if (!isLoggedIn || !validRole) {
+        return <Forbidden />;
     }
 
     return (

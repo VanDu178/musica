@@ -32,7 +32,7 @@ const SpotifyLogin = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/", { replace: true });
+      navigate("/user/", { replace: true });
     }
   }, []);
   const encryptRole = (roleId) => {
@@ -61,7 +61,14 @@ const SpotifyLogin = () => {
         }
 
         setIsLoggedIn(true);
-        navigate("/", { replace: true });
+        navigate("/user/", { replace: true });
+        if (response.data.role === 1) {
+          navigate("/admin/", { replace: true });
+        } else if (response.data.role === 2) {
+          navigate("/artist/", { replace: true });
+        } else {
+          navigate("/user/", { replace: true });
+        }
         handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
       }
     } catch (error) {
@@ -118,7 +125,7 @@ const SpotifyLogin = () => {
     onSuccess: async (tokenResponse) => {
       const response = await googleLogin(tokenResponse.access_token);
       if (response.success) {
-        navigate("/", { replace: true });
+        navigate("/user/", { replace: true });
         handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
       } else {
         const errorCode = response.error_code;

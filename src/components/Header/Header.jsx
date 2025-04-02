@@ -82,7 +82,7 @@ const Header = () => {
 
       <div className="hd-premium-download">
         <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={() => navigate("/premium")}>
+          <button onClick={() => navigate("/user/premium")}>
             <span>{t("header2.explorePremium")}</span>
           </button>
         </nav>

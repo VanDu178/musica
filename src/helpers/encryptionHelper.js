@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-
+import Cookies from "js-cookie";
 export const hash = async (data) => {
   try {
     data = data + ""; // Chuyển số thành chuỗi nếu data là số
@@ -14,8 +14,9 @@ export const hash = async (data) => {
 };
 
 // Hàm kiểm tra mật khẩu đã mã hóa với mật khẩu đầu vào
-export const checkData = async (inputData, hashedData) => {
+export const checkData = async (inputData) => {
   try {
+    const hashedData = Cookies.get("secrect_key");
     inputData = inputData + "";
     const isMatch = await bcrypt.compare(inputData, hashedData);
     return isMatch;

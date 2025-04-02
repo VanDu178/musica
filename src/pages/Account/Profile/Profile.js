@@ -7,6 +7,8 @@ import axiosInstance from "../../../config/axiosConfig";
 import { handleSuccess, handleError } from "../../../helpers/toast";
 import { useUserData } from "../../../context/UserDataProvider";
 import { useUser } from "../../../context/UserProvider";
+import Forbidden from "../../../components/Error/403/403"; // Đường dẫn có thể thay đổi tùy vào vị trí file
+import { hash, checkData } from "../../../helpers/encryptionHelper";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -17,10 +19,17 @@ const Profile = () => {
   const [userDataUpdate, setUserDataUpdate] = useState({ ...userData });
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef(null);
+  const [validRole, setValidRole] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isLoggedIn) {
       getUserInfo();
+      const checkedRoleArtist = await checkData(2);
+      const checkedRoleUser = await checkData(3);
+
+      if (checkedRoleArtist || checkedRoleUser) {
+        setValidRole(true);
+      }
     }
   }, [isLoggedIn]);
 
@@ -101,6 +110,9 @@ const Profile = () => {
     }
   };
 
+  if (!isLoggedIn || !validRole) {
+    return <Forbidden />;
+  }
   return (
     <div className="profile-container">
       <div className="profile-header">

@@ -14,7 +14,7 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const handlePlayClick = () => {
         if (idPlaylist) {
-            navigate(`/playlist/${idPlaylist}`);
+            navigate(`/user/playlist/${idPlaylist}`);
         }
         else {
             //khi bài hát được phát không trong playlist

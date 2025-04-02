@@ -65,47 +65,47 @@ const App = () => {
                           path="/payment/vnpay"
                           element={<VNPayPayment />}
                         />
-
-                        <Routes>
-                          <Route
-                            path="/admin/*"
-                            element={
-                              <ArtistLayout>
-                                <Routes>
-                                  <Route path="/account" element={<Upload />} />
-                                </Routes>
-                              </ArtistLayout>
-                            }
-                          />
-                        </Routes>
-                        <Routes>
-                          <Route
-                            path="/artist/*"
-                            element={
-                              <ArtistLayout>
-                                <Routes>
-                                  <Route path="/upload" element={<Upload />} />
-                                  <Route
-                                    path="/songs"
-                                    element={<ArtistSongList />}
-                                  />
-                                  <Route
-                                    path="/albums"
-                                    element={<ArtistAlbumList />}
-                                  />
-                                  <Route
-                                    path="/albums/new"
-                                    element={<CreateAlbum />}
-                                  />
-                                </Routes>
-                              </ArtistLayout>
-                            }
-                          />
-                        </Routes>
-
+                      </Routes>
+                      <Routes>
+                        <Route
+                          path="/admin/*"
+                          element={
+                            <ArtistLayout>
+                              <Routes>
+                                <Route path="/account" element={<Upload />} />
+                              </Routes>
+                            </ArtistLayout>
+                          }
+                        />
+                      </Routes>
+                      <Routes>
+                        <Route
+                          path="/artist/*"
+                          element={
+                            <ArtistLayout>
+                              <Routes>
+                                <Route path="/upload" element={<Upload />} />
+                                <Route
+                                  path="/songs"
+                                  element={<ArtistSongList />}
+                                />
+                                <Route
+                                  path="/albums"
+                                  element={<ArtistAlbumList />}
+                                />
+                                <Route
+                                  path="/albums/new"
+                                  element={<CreateAlbum />}
+                                />
+                              </Routes>
+                            </ArtistLayout>
+                          }
+                        />
+                      </Routes>
+                      <Routes>
                         {/* Các route cần sidebar,header,footer được bao trong MainLayout */}
                         <Route
-                          path="/*"
+                          path="/user/*"
                           element={
                             <Main>
                               <Routes>
@@ -116,16 +116,6 @@ const App = () => {
                                 />
                                 <Route path="/chat" element={<Chat />} />
                                 <Route path="/premium" element={<Premium />} />
-                                <Route path="/home" element={<Home />} />
-                                <Route path="/upload" element={<Upload />} />
-                                <Route
-                                  path="/payment-method"
-                                  element={<PaymentMethod />}
-                                />
-                                <Route
-                                  path="/payment/vnpay"
-                                  element={<VNPayPayment />}
-                                />
                               </Routes>
                             </Main>
                           }

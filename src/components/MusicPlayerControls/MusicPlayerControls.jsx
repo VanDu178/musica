@@ -152,7 +152,9 @@ const MusicPlayerControl = () => {
   // Gọi hàm fetch dữ liệu khi component mount
   useEffect(() => {
     if (isLoggedIn) {
-      fetchSongDetails(idSong);
+      if (idSong) {
+        fetchSongDetails(idSong);
+      }
     }
   }, [isLoggedIn, idSong]);
 
