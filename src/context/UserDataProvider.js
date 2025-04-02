@@ -1,7 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import axiosInstance from "../config/axiosConfig";
-// import { useUser } from "../../../context/UserProvider";
 const UserDataContext = createContext();
 
 export const UserDataProvider = ({ children }) => {

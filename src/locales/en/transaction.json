@@ -10,6 +10,9 @@
     "homepage": {
         "content": "content home"
     },
+    "utils": {
+        "loading": "Loading..."
+    },
     "login": {
         "title": "Log in to Spotify",
         "continueWithGoogle": "Continue with Google",
@@ -131,8 +134,8 @@
         "USER_UPDATE_SUCCESS": "User information updated successfully.",
         "ERROR_OCCURRED": "Error occurred when update profile,try again",
         "USER_NOT_AUTHENTICATED": "The user has not been authenticated. Please log in.",
-        "SYSTEM_ERROR":"System error, please try again later.",
-        "SERVER_UNAVAILABLE":"Cannot connect to the server. Please try again later."
+        "SYSTEM_ERROR": "System error, please try again later.",
+        "SERVER_UNAVAILABLE": "Cannot connect to the server. Please try again later."
     },
     "playlist": {
         "title": "Title",
@@ -276,6 +279,10 @@
         "errorLoading": "Failed to load playlists.",
         "errorCreating": "Error creating playlist or adding song!",
         "processing": "Loading..."
+    },
+    "payment": {
+        "rediectVnpay": "Redirecting to vnpay...",
+        "preparingRedirect": "Preparing to redirect to VNPay..."
     },
     "artist": {
         "artistSong": {

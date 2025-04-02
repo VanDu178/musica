@@ -18,7 +18,7 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import "./MusicPlayerControl.css";
 import PlaylistModal from "../../components/Modal/PlaylistModal/PlaylistModal"
 import { formatTime } from "../../helpers/timeFormatter";
-
+import { checkData } from "../../helpers/encryptionHelper";
 
 const MusicPlayerControl = () => {
   const { t } = useTranslation();
@@ -36,40 +36,64 @@ const MusicPlayerControl = () => {
   const [isShuffle, setIsShuffle] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [validRole, setValidRole] = useState(false);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(3);
+        if (checkedRoleUser) {
+          setValidRole(true);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(true);
+      }
+    };
+
+    fetchRole();
+  }, [isLoggedIn]);
 
 
   useEffect(() => {
-    isPlaying ? audioRef.current.play() : audioRef.current.pause();
-  }, [isPlaying])
-
+    if (audioRef.current) {
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }
+  }, [isPlaying]);
 
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {
-    console.log("thong tin hahaha", playlist);
-    try {
-      const response = await axiosInstance.get(`/song/${songId}/`);
-      if (response.status === 200) {
-        setSong(response.data);
-        if (audioRef.current) {
-          audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
-          await audioRef.current.play(); // Phát nhạc ngay
-          setIsPlaying(true); // Cập nhật trạng thái phát nhạc
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        const response = await axiosInstance.get(`/song/${songId}/`);
+        if (response.status === 200) {
+          setSong(response.data);
+          if (audioRef.current) {
+            audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
+            await audioRef.current.play(); // Phát nhạc ngay
+            setIsPlaying(true); // Cập nhật trạng thái phát nhạc
+          }
+          await updatePlayHistory(songId); // Lưu lịch sử bài hát đã phát
         }
-        await updatePlayHistory(songId); // Lưu lịch sử bài hát đã phát
+      } catch (error) {
+        console.error("Error fetching song details:", error);
       }
-    } catch (error) {
-      console.error("Error fetching song details:", error);
     }
   };
 
   const handlePrev = async () => {
-    try {
-      const response = await axiosInstance.get(`song/previous/${idSong}/`);
-      if (response.status === 200) {
-        setIdSong(response.data.id);
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        const response = await axiosInstance.get(`song/previous/${idSong}/`);
+        if (response.status === 200) {
+          setIdSong(response.data.id);
+        }
+      } catch (error) {
+        console.error("Error fetching song details:", error);
       }
-    } catch (error) {
-      console.error("Error fetching song details:", error);
     }
   };
 
@@ -115,17 +139,20 @@ const MusicPlayerControl = () => {
 
     // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
     if (playlist.length === 1) {
-      try {
-        const response = await axiosInstance.get(`/song/next/${idSong}/`);
-        if (response.status === 200) {
-          clearPlaylist();
-          addSong({ id: response.data.id });
-          setIdSong(response.data.id);
+      const checkedRoleUser = await checkData(3);
+      if (checkedRoleUser) {
+        try {
+          const response = await axiosInstance.get(`/song/next/${idSong}/`);
+          if (response.status === 200) {
+            clearPlaylist();
+            addSong({ id: response.data.id });
+            setIdSong(response.data.id);
+          }
+        } catch (error) {
+          console.error("Error fetching next song:", error);
         }
-      } catch (error) {
-        console.error("Error fetching next song:", error);
+        return;
       }
-      return;
     }
 
     // Chế độ bình thường: Chuyển sang bài tiếp theo
@@ -140,12 +167,15 @@ const MusicPlayerControl = () => {
   };
 
   const updatePlayHistory = async (songId) => {
-    try {
-      await axiosInstance.post(`/history/update/`, {
-        song_id: songId,
-      });
-    } catch (error) {
-      console.error("Error updating play history:", error);
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        await axiosInstance.post(`/history/update/`, {
+          song_id: songId,
+        });
+      } catch (error) {
+        console.error("Error updating play history:", error);
+      }
     }
   };
 
@@ -167,8 +197,6 @@ const MusicPlayerControl = () => {
     }
     setIsPlaying(!isPlaying);
   };
-
-
 
   useEffect(() => {
     const updateTime = () => setCurrentTime(audioRef.current.currentTime);
@@ -227,6 +255,11 @@ const MusicPlayerControl = () => {
     setIsShuffle(!isShuffle);
     // Thêm logic xử lý shuffle tại đây (nếu cần)
   };
+
+  //nếu không phải role user không hiển thị
+  if (!validRole) {
+    return null;
+  }
 
   return (
     <>

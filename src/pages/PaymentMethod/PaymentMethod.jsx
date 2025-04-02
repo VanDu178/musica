@@ -1,19 +1,45 @@
 import React, { useState, useEffect } from "react";
 import "./PaymentMethod.css";
-import { FaUserCircle } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosConfig"; // Import axios
 import { formatCurrencyVND } from "../../helpers/formatCurrency";
 import { handleError, handleSuccess } from "../../helpers/toast";
-
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
+import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
+import { useTranslation } from "react-i18next";
 
 const PaymentMethod = () => {
+    const { t } = useTranslation();
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [planDetails, setPlanDetails] = useState(null); // State để lưu thông tin gói Premium
     const [loading, setLoading] = useState(true); // State để theo dõi trạng thái loading
     const navigate = useNavigate();
     const location = useLocation();
     const planId = location.state?.planId || null; // Kiểm tra nếu không có gói nào được chọn
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            setLoading(true);
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user  không
+                const checkedRoleUser = await checkData(3);
+
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                    setLoading(false);
+
+                }
+            }
+            setLoading(false);
+
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
 
     useEffect(() => {
@@ -74,9 +100,10 @@ const PaymentMethod = () => {
 
         if (selectedPaymentMethod === "vnpay") {
             if (localStorage.getItem("planDetails")) {
-                localStorage.removeItem("planDetails"); // Xóa dữ liệu cũ trước khi lưu mới
+                localStorage.removeItem("planDetails");
             }
-            localStorage.setItem("planDetails", JSON.stringify(planDetails)); navigate("/payment/vnpay", {
+            localStorage.setItem("planDetails", JSON.stringify(planDetails));
+            navigate("/payment/vnpay", {
                 state: {
                     planId: planId,
                 }
@@ -95,31 +122,28 @@ const PaymentMethod = () => {
             <div className="PaymentMethod-container">
                 <h2>Bạn chưa chọn gói Premium!</h2>
                 <p>Vui lòng quay lại trang Premium để chọn gói trước khi thanh toán.</p>
-                <button onClick={() => navigate("/premium")} className="go-back-button">
+                <button onClick={() => navigate("/user/premium")} className="go-back-button">
                     Quay lại chọn gói
                 </button>
             </div>
         );
     }
-    // Hiển thị loading khi đang fetch dữ liệu
-    // if (loading) {
-    //     return (
-    //         <div className="PaymentMethod-container">
-    //             <p>Đang tải thông tin gói Premium...</p>
-    //         </div>
-    //     );
-    // }
-    // Trường hợp có planId và đã fetch được dữ liệu
+
+    if (!isLoggedIn || !validRole) {
+        return <Forbidden />;
+    }
+
     return (
         <div className="PaymentMethod-container">
             {/* Payment Summary */}
-            {loading ? (
-                < div className="spinner-container">
-                    <div className="spinner"></div>
-                </div>
-            ) : (
-                <div className="PaymentMethod-summary">
-                    <h1 className="PaymentMethod-title">Thanh toán</h1>
+            <div className="PaymentMethod-summary">
+                <h1 className="PaymentMethod-title">Thanh toán</h1>
+                {loading ? (
+                    <Loading
+                        message={t("utils.loading")}
+                        height="30"
+                    />
+                ) : (
                     <div className="PaymentMethod-plan-details">
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"
@@ -142,10 +166,13 @@ const PaymentMethod = () => {
                                 Cho {planDetails?.duration_days || 30} ngày
                             </p>
                         </div>
+
                     </div>
-                </div>
-            )
-            }
+                )
+                }
+
+
+            </div>
 
             {/* Payment Methods */}
             <div className="PaymentMethod-methods">
@@ -221,7 +248,7 @@ const PaymentMethod = () => {
                 <div className="PaymentMethod-total">
                     <div className="PaymentMethod-total-info">
                         <span>Tổng tiền</span>
-                        <span className="PaymentMethod-total-amount">590,000 ₫</span>
+                        <span className="PaymentMethod-total-amount">{formatCurrencyVND(planDetails?.price)}</span>
                     </div>
                     <button
                         className="PaymentMethod-pay-button"

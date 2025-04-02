@@ -12,7 +12,7 @@ import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { useUserData } from "../../context/UserDataProvider";
 import "./PlaylistDetail.css";
 import Forbidden from "../../components/Error/403/403";
-import { hash, checkData } from "../../helpers/encryptionHelper";
+import { checkData } from "../../helpers/encryptionHelper";
 
 
 const PlaylistDetail = () => {
@@ -26,16 +26,21 @@ const PlaylistDetail = () => {
     const navigate = useNavigate();
     const [validRole, setValidRole] = useState(false);
 
-    useEffect(async () => {
-        if (isLoggedIn) {
-            const checkedRoleArtist = await checkData(2);
-            const checkedRoleUser = await checkData(3);
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user hoặc artist không
+                const checkedRoleArtist = await checkData(2);
+                const checkedRoleUser = await checkData(3);
 
-            if (checkedRoleArtist || checkedRoleUser) {
-                setValidRole(true);
+                if (checkedRoleArtist || checkedRoleUser) {
+                    setValidRole(true);
+                }
             }
-        }
-    }, [])
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     const togglePlay = () => {
         if (playlistData && playlistData.songs.length > 0 && idSong) {

@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaSpotify } from "react-icons/fa";
 import { MdFileUpload } from "react-icons/md";
 import axiosInstance from "../../config/axiosConfig";
-import Header from "../../components/Header/Header"; // Import Header component
-import Footer from "../../components/Footer/Footer"; // Import Footer component
 import { useTranslation } from "react-i18next";
 import MP3Tag from "mp3tag.js";
 import 'react-toastify/dist/ReactToastify.css';
 import { handleSuccess, handleError } from '../../helpers/toast';
-import { Toast } from 'react-toastify';
+import { checkData } from "../../helpers/encryptionHelper";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 import "./UploadPage.css";
 
 const UploadPage = () => {
@@ -23,7 +23,22 @@ const UploadPage = () => {
     const [message, setMessage] = useState("");
     const fileInputRef = useRef(null);
     const imageInputRef = useRef(null); // Ref for image input
-    const user_id = 3;
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải artist không
+                const checkedRoleUser = await checkData(2);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -69,7 +84,6 @@ const UploadPage = () => {
         formData.append("description", description);
         formData.append("duration", duration);
         formData.append("genre", genre);
-        formData.append("user_id", user_id);
         if (image) {
             formData.append("image", image); // Append image if available
         }
@@ -107,6 +121,10 @@ const UploadPage = () => {
             setUploading(false);
         }
     };
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="upload-page">

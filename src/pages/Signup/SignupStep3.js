@@ -3,11 +3,15 @@ import "./SignupStep3.css";
 import logo from "../../assets/images/logo.png";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "react-bootstrap"; // Import Spinner
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 
 const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
   const [daysList, setDaysList] = useState([...Array(31)].map((_, i) => i + 1)); // Mặc định 31 ngày
   const { t, i18n } = useTranslation();
   const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const { isLoggedIn } = useUserData();
+
 
   // Khi component mount, lấy dữ liệu đã lưu vào state cục bộ
   useEffect(() => {
@@ -41,6 +45,11 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
     await onNext();
     setIsLoading(false);
   };
+  // nếu đã login thì không cho vào
+  if (isLoggedIn) {
+    return <Forbidden />;
+  }
+
   return (
     <div className="signup-step-3">
       <img src={logo} alt="Spotify" className="logo" />

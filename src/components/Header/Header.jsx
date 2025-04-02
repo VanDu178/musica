@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useUser } from "../../context/UserProvider";
 import Cookies from "js-cookie";
-
+import { checkData } from "../../helpers/encryptionHelper";
 import "./Header.css";
-
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -19,12 +18,24 @@ const Header = () => {
   const navigate = useNavigate();
   const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
-
+  const [validRole, setValidRole] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      getUserInfo();
-    }
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        getUserInfo();
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(3);
+        if (checkedRoleUser) {
+          setValidRole(true);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(true);
+      }
+    };
+
+    fetchRole();
   }, [isLoggedIn]);
 
   const changeLanguage = (lng) => {
@@ -61,8 +72,9 @@ const Header = () => {
     };
   }, [userPanelState]);
 
-  // console.log("Header component is rendered", isLoggedIn);
-
+  if (!validRole) {
+    return null;
+  }
   return (
     <header className="hd-spotify-header">
       <div className="hd-logo">

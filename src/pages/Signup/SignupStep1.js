@@ -6,15 +6,23 @@ import googleicon from "../../assets/images/icon/googleicon.png";
 import facebookicon from "../../assets/images/icon/facebookicon.png";
 import { useTranslation } from "react-i18next";
 import { isValidEmail } from "../../helpers/validation";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 
 const SignupStep1 = ({ onNext, userData, setUserData }) => {
     const { t } = useTranslation();
     const [isValid, setIsValid] = useState(false);
+    const { isLoggedIn } = useUserData();
 
     // Kiểm tra email khi người dùng nhập
     useEffect(() => {
         setIsValid(isValidEmail(userData.email));
     }, [userData.email]);
+
+    // nếu đã login thì không cho vào
+    if (isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="signup-container">

@@ -17,12 +17,14 @@ export const hash = async (data) => {
 export const checkData = async (inputData) => {
   try {
     const hashedData = Cookies.get("secrect_key");
-    inputData = inputData + "";
-    const isMatch = await bcrypt.compare(inputData, hashedData);
-    return isMatch;
+    if (hashedData) {
+      inputData = inputData + "";
+      const isMatch = await bcrypt.compare(inputData, hashedData);
+      return isMatch;
+    }
   } catch (error) {
     console.error("Error comparing password: ", error);
-    throw error;
+    return false;
   }
 };
 

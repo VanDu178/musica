@@ -1,17 +1,34 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./PlaylistCard.css";
 import { FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
+import { checkData } from "../../helpers/encryptionHelper";
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
 
     const navigate = useNavigate();
-    const { isLoggedIn, setIsLoggedIn } = useUserData();
+    const { isLoggedIn } = useUserData();
     const { setIdSong } = useSong();
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
+    const [validRole, setValidRole] = useState(false);
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            } else {
+                setValidRole(true);
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
     const handlePlayClick = () => {
         if (idPlaylist) {
             navigate(`/user/playlist/${idPlaylist}`);
@@ -23,6 +40,11 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
             addSong({ id: idSong });
         }
     };
+
+    if (!validRole) {
+        return null;
+    }
+
     return (
         <div className="card playlist-card text-white position-relative">
             <div className="position-relative">

@@ -1,0 +1,12 @@
+/* MainLayout.css */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #181818; /* Màu nền content giống Spotify */
+}
+  
+.admin-content {
+    margin-left: 240px; /* Độ rộng của sidebar */
+    flex: 1;
+    padding: 20px;
+}
