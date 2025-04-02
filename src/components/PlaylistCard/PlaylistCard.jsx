@@ -1,23 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./PlaylistCard.css";
 import { FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
-
-
+import { redirect, useNavigate } from "react-router-dom";
+import { useUserData } from "../../context/UserDataProvider";
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
+
+    const navigate = useNavigate();
+    const { isLoggedIn, setIsLoggedIn } = useUserData();
     const { setIdSong } = useSong();
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const handlePlayClick = () => {
         if (idPlaylist) {
-            //gọi đến be load danh sách song thuộc playlist
-            //thêm tất cả id của song vào playlist
-            //clearPlaylist();
-            //duyệt mảng gọi addsong id
-            //khi bài hát phát trong playlist hiển thị playlist và thêm danh sách bài hát vào context playlist
-            console.log("hien thi playlist" + idPlaylist);
-            return;
+            navigate(`/user/playlist/${idPlaylist}`);
         }
         else {
             //khi bài hát được phát không trong playlist

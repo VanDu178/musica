@@ -21,23 +21,6 @@ const MusicSlider = ({ items, type }) => {
   };
 
 
-
-  // useEffect(() => {
-  //   const container = containerRef.current;
-  //   if (!container) return;
-
-  //   const handleWheelScroll = (event) => {
-  //     event.preventDefault();
-  //     if (swiperRef.current) {
-  //       swiperRef.current.translate -= event.deltaY;
-  //       swiperRef.current.update();
-  //     }
-  //   };
-
-  //   container.addEventListener("wheel", handleWheelScroll, { passive: false });
-  //   return () => container.removeEventListener("wheel", handleWheelScroll);
-  // }, []);
-
   return (
     <div className="slider-container">
       <h2 className="slider-title">

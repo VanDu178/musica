@@ -4,11 +4,9 @@ import MusicPlayerControls from "../../components/MusicPlayerControls/MusicPlaye
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import SideBar from "../../components/Sidebar/LeftSideBar";
-import Home from "../../pages/Home/Home";
-import PlayList from "../../pages/PlaylistDetail/PlaylistDetail";
 import "./Main.css";
 
-const Main = () => {
+const Main = ({ children }) => {
     return (
         <div className="main-container">
             <header className="main-header">
@@ -19,14 +17,12 @@ const Main = () => {
                     <SideBar />
                 </div>
                 <div className="main-content-container">
-                    <Home />
-                    {/* <PlayList /> */}
+                    {children}
                     <Footer />
                 </div>
             </div>
             <MusicPlayerControls />
         </div>
-
     );
 };
 

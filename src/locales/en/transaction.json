@@ -123,7 +123,16 @@
         "country": "Country or Region",
         "vietnam": "Vietnam",
         "cancel": "Cancel",
-        "save": "Save Profile"
+        "save": "Save Profile",
+        "saving": "Saving...",
+        "removeAvatar": "Remove Avatar",
+        "avt": "Avatar",
+        "chooseFile": "Choose File",
+        "USER_UPDATE_SUCCESS": "User information updated successfully.",
+        "ERROR_OCCURRED": "Error occurred when update profile,try again",
+        "USER_NOT_AUTHENTICATED": "The user has not been authenticated. Please log in.",
+        "SYSTEM_ERROR":"System error, please try again later.",
+        "SERVER_UNAVAILABLE":"Cannot connect to the server. Please try again later."
     },
     "playlist": {
         "title": "Title",

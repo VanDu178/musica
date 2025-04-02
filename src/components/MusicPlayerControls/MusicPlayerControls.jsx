@@ -11,7 +11,7 @@ import { LuShuffle } from "react-icons/lu";
 import { MdOutlineDevices } from "react-icons/md";
 import { TbMicrophone2 } from "react-icons/tb";
 import axiosInstance from "../../config/axiosConfig";
-import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { useUserData } from "../../context/UserDataProvider";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
@@ -28,7 +28,7 @@ const MusicPlayerControl = () => {
   const [volume, setVolume] = useState(40);
   const [isMuted, setIsMuted] = useState(false);
   const [song, setSong] = useState(null);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useUserData();
   const { idSong, setIdSong } = useSong();
   const { isPlaying, setIsPlaying } = useIsPlaying();
   const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
@@ -37,8 +37,15 @@ const MusicPlayerControl = () => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
 
+
+  useEffect(() => {
+    isPlaying ? audioRef.current.play() : audioRef.current.pause();
+  }, [isPlaying])
+
+
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {
+    console.log("thong tin hahaha", playlist);
     try {
       const response = await axiosInstance.get(`/song/${songId}/`);
       if (response.status === 200) {
@@ -145,7 +152,9 @@ const MusicPlayerControl = () => {
   // Gọi hàm fetch dữ liệu khi component mount
   useEffect(() => {
     if (isLoggedIn) {
-      fetchSongDetails(idSong);
+      if (idSong) {
+        fetchSongDetails(idSong);
+      }
     }
   }, [isLoggedIn, idSong]);
 
@@ -158,6 +167,8 @@ const MusicPlayerControl = () => {
     }
     setIsPlaying(!isPlaying);
   };
+
+
 
   useEffect(() => {
     const updateTime = () => setCurrentTime(audioRef.current.currentTime);

@@ -1,8 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify"; // Import thư viện toast
-// import auth from "../utils/auth";
-import auth, { getLogoutFn } from "../helpers/auth";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -34,7 +31,6 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const logout = getLogoutFn();
     const originalRequest = error.config;
 
     try {
@@ -42,16 +38,14 @@ axiosInstance.interceptors.response.use(
 
       if (!refreshToken) {
         console.error("No refresh token found.");
-        logout();
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        Cookies.remove("secrect_key");
         return Promise.reject(error);
       }
 
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      if (error?.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-
-        // const { data } = await axiosInstance.post("/auth/refresh/", {
-        //   refresh: refreshToken,
-        // });
         const { data } = await axios.post(
           process.env.REACT_APP_API_URL + "/auth/refresh/",
           {
@@ -69,7 +63,9 @@ axiosInstance.interceptors.response.use(
       }
     } catch (refreshError) {
       console.error("Error refreshing token:", refreshError);
-      logout();
+      Cookies.remove("access_token");
+      Cookies.remove("refresh_token");
+      Cookies.remove("secrect_key");
     }
 
     return Promise.reject(error);

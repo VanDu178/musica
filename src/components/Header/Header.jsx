@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaSpotify } from "react-icons/fa";
@@ -7,20 +5,28 @@ import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../config/axiosConfig";
-import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import { useUserData } from "../../context/UserDataProvider";
+import { useUser } from "../../context/UserProvider";
+import Cookies from "js-cookie";
+
 import "./Header.css";
 
 
 const Header = () => {
   const { t, i18n } = useTranslation();
+  const { isLoggedIn, setIsLoggedIn, userData } = useUserData();
   const [activeLang, setActiveLang] = useState(i18n.language);
   const navigate = useNavigate();
-  const { logout, isLoggedIn } = useContext(AuthContext);
+  const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
-  const [userImage, setUserImage] = useState("https://via.placeholder.com/40");
-  const [username, setUsername] = useState("User");
-  const [userId, setUserId] = useState(null);
+
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserInfo();
+    }
+  }, [isLoggedIn]);
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setActiveLang(lng);
@@ -30,60 +36,17 @@ const Header = () => {
     return activeLang === lang ? "hd-lang-on" : "hd-lang-off";
   };
 
-  const test = async () => {
-    const response = await axiosInstance.get("/user/1/");
-    alert(JSON.stringify(response.data));
-  };
-
-  //****************** login đã có dữ liệu hàm này bỏ ***********************
-  const fetchUserData = async () => {
-    try {
-      const response = await axiosInstance.get("/user/" + userId + "/");
-      if (response && response.data) {
-        const { image_path, google_id, username } = response.data;
-        setUsername(username);
-        const path = google_id
-          ? `https://lh3.googleusercontent.com/a/${google_id}`
-          : image_path ? image_path : "https://via.placeholder.com/40";
-        setUserImage(path);
-
-        if (path == null) console.log("No image found for user:", userId);
-        else console.log("User image fetched:", path);
-
-        console.log("User data fetched:", response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    const token = Cookies.get("access_token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setUserId(decoded.user_id);
-      } catch (error) {
-        console.error("Invalid token:", error);
-      }
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn && userId)
-      fetchUserData();
-    console.log("isLoggedIn changed:", isLoggedIn);
-  }, [isLoggedIn, userId]);
-
-  const authRedirect = (redirected) => {
-    if (isLoggedIn === false)
-      navigate("/login");
-    else navigate(redirected);
-  }
-
   const toggleUserPanel = () => {
     setUserPanelState((prevState) => !prevState);
   }
+
+  const logout = async () => {
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    Cookies.remove("secrect_key");
+    setIsLoggedIn(false);
+  };
+
 
   useEffect(() => {
     if (!userPanelState) return;
@@ -97,6 +60,8 @@ const Header = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [userPanelState]);
+
+  // console.log("Header component is rendered", isLoggedIn);
 
   return (
     <header className="hd-spotify-header">
@@ -117,7 +82,7 @@ const Header = () => {
 
       <div className="hd-premium-download">
         <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={() => navigate("/premium")}>
+          <button onClick={() => navigate("/user/premium")}>
             <span>{t("header2.explorePremium")}</span>
           </button>
         </nav>
@@ -152,11 +117,11 @@ const Header = () => {
 
       {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-          <img src={userImage} alt="User" />
+          <img src={userData.image_path ? userData.image_path : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"} alt="User" />
           {userPanelState && (
             <div className="hd-user-menu">
               <ul>
-                <button onClick={fetchUserData}>{t("header2.account")}</button>
+                <button onClick={() => { navigate("/account/overview"); }}>{t("header2.account")}</button>
                 <button>{t("header2.profile")}</button>
                 <button onClick={() => navigate("/premium")}>{t("header2.upgradeToPremium")}</button>
                 <button>{t("header2.support")}</button>
@@ -172,7 +137,7 @@ const Header = () => {
           {t("header2.login")}
         </a>
       )}
-    </header>
+    </header >
   );
 };
 

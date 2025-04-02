@@ -1,0 +1,48 @@
+
+/* 403.css */
+.forbidden-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .forbidden-content {
+    background: #181818;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .icon {
+    color: #1db954;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ffffff;
+    background-color: #1db954;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .home-button:hover {
+    background-color: #1aa34a;
+  }
+  
