@@ -40,15 +40,13 @@ const CreateAlbum = () => {
 
     useEffect(() => {
         const fetchSongs = async () => {
-            if (validRole) {
-                try {
-                    const response = await axiosInstance.get("/artist/songs/");
-                    setSongs(response.data);
-                } catch (err) {
-                    console.error("Failed to load songs:", err);
-                }
-            };
-        }
+            try {
+                const response = await axiosInstance.get("/artist/songs/");
+                setSongs(response.data);
+            } catch (err) {
+                console.error("Failed to load songs:", err);
+            }
+        };
         fetchSongs();
     }, []);
 

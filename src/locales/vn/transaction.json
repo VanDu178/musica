@@ -11,7 +11,8 @@
         "content": "noi dung homepage tieng viet"
     },
     "utils": {
-        "loading": "Đang tải dữ liệu..."
+        "loading": "Đang tải dữ liệu...",
+        "logout": "Đăng Xuất"
     },
     "login": {
         "title": "Đăng nhập vào Spotify",
@@ -263,7 +264,13 @@
         "genrePlaceholder": "Thể loại",
         "fillAllFields": "Vui lòng điền vào tất cả các trường.",
         "imagePlaceholder": "Hình ảnh",
-        "mp3Placeholder": "Tệp MP3"
+        "mp3Placeholder": "Tệp MP3",
+        "selectedArtistTitle": "Danh sách ca sĩ collab",
+        "noSelectedArtists": "Không có ca sĩ nào được chọn",
+        "listArtistTitle": "Tìm kiếm ca sĩ ",
+        "noArtists": "Không có ca sĩ nào",
+        "addButton": "Thêm ca sĩ",
+        "EnterName": "Nhập tên ca sĩ..."
     },
     "playlistModal": {
         "createNew": "Tạo Playlist Mới",

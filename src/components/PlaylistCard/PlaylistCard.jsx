@@ -7,7 +7,7 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { checkData } from "../../helpers/encryptionHelper";
-const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
+const PlaylistCard = ({ image, title, description, idSong, idPlaylist, collab }) => {
 
     const navigate = useNavigate();
     const { isLoggedIn } = useUserData();
@@ -64,11 +64,16 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist }) => {
                 </div>
             </div>
             <div className="card-body text-center">
-                <p className="card-text text-truncate" title={description}>{description}</p>
+                <p
+                    className="card-text text-truncate"
+                    title={`${description}${Array.isArray(collab) && collab.length > 0 ? `, ${collab.join(', ')}` : ''}`}
+                >
+                    {description}
+                    {Array.isArray(collab) && collab.length > 0 && `, ${collab.join(', ')}`}
+                </p>
             </div>
         </div>
     );
 };
-
 
 export default PlaylistCard;

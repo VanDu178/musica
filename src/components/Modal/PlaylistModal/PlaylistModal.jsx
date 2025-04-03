@@ -87,7 +87,7 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
         }
     };
 
-    const handleCreatePlaylistAndAddSong = async () => {
+    const handleCreatePlaylist = async () => {
 
         if (!newPlaylistName.trim()) return;
 
@@ -143,7 +143,7 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
                             <button className="playlist-modal-cancel-btn" onClick={() => setIsCreatingNew(false)}>
                                 {t("playlistModal.cancel")}
                             </button>
-                            <button className="playlist-modal-add-btn" onClick={handleCreatePlaylistAndAddSong}>
+                            <button className="playlist-modal-add-btn" onClick={handleCreatePlaylist}>
                                 {t("playlistModal.savePlaylist")}
                             </button>
                         </div>

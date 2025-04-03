@@ -153,15 +153,18 @@
     align-items: baseline !important;
     justify-content: left !important;
   }
-  .ft-song_info h4{
+  .ft-song_info h4 {
     margin: 0px;
     height: 22px;
     overflow: hidden;
-    cursor:pointer;
+    cursor: pointer;
     font-family: "Circular", "Circular Std", system-ui, sans-serif;
     font-size: 16px;
     font-weight: 400;
-  }
+    white-space: nowrap;   /* Không xuống dòng */
+    text-overflow: ellipsis; /* Hiển thị ... nếu quá dài */
+    max-width: 100%; /* Đảm bảo không bị tràn ra ngoài */
+}
   .ft-song_info p{
     margin: 0px;
     opacity: 0.5;
@@ -171,6 +174,9 @@
     cursor:pointer;
     font-family: "Circular", "Circular Std", system-ui, sans-serif;
     font-size: 10px;
+    white-space: nowrap;   /* Không xuống dòng */
+    text-overflow: ellipsis; /* Hiển thị ... nếu quá dài */
+    max-width: 100%; /* Đảm bảo không bị tràn ra ngoài */
   }
 
   .ft-song_info h4:hover, .ft-song_info p:hover{

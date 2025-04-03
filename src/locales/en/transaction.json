@@ -11,7 +11,8 @@
         "content": "content home"
     },
     "utils": {
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "logout": "Log out"
     },
     "login": {
         "title": "Log in to Spotify",
@@ -263,7 +264,13 @@
         "genrePlaceholder": "Genre",
         "fillAllFields": "Please fill in all fields.",
         "imagePlaceholder": "Image",
-        "mp3Placeholder": "MP3 File"
+        "mp3Placeholder": "MP3 File",
+        "selectedArtistTitle": "Selected Artist Collab ",
+        "noSelectedArtists": "No Selected Artist",
+        "listArtistTitle": "Find Artist ",
+        "noArtists": "No Artist",
+        "addButton": "Add Artist",
+        "EnterName": "Enter artist name..."
     },
     "playlistModal": {
         "createNew": "Create New Playlist",

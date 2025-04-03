@@ -23,8 +23,13 @@ const UploadPage = () => {
     const [message, setMessage] = useState("");
     const fileInputRef = useRef(null);
     const imageInputRef = useRef(null); // Ref for image input
+    const [artistCollab, setArtistCollab] = useState([]);
+    const [selectedArtist, setSelectedArtist] = useState([]);
+    const [query, setQuery] = useState("");
+    const [typingTimeout, setTypingTimeout] = useState(null);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -33,12 +38,25 @@ const UploadPage = () => {
                 const checkedRoleUser = await checkData(2);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    fetchArtists();
                 }
             }
         };
 
         fetchRole();
     }, [isLoggedIn]);
+
+    const fetchArtists = async () => {
+        try {
+            const response = await axiosInstance.get(`/artist/fetch-artist-collab/`, {
+                params: { name: query }
+            });
+            setArtistCollab([]);
+            setArtistCollab(response.data);
+        } catch (err) {
+            console.error("Failed to load songs:", err);
+        }
+    };
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -67,6 +85,22 @@ const UploadPage = () => {
         setImage(selectedImage);
     };
 
+    const handleAddArtist = (artistId) => {
+        const artistToAdd = artistCollab.find(artist => artist.id === artistId);
+        if (artistToAdd && !selectedArtist.some(artist => artist.id === artistId)) {
+            setSelectedArtist(prev => [...prev, artistToAdd]);
+            setArtistCollab(prev => prev.filter(artist => artist.id !== artistId));
+        }
+    };
+
+    const handleRemoveArtist = (artistId) => {
+        const artistToRemove = selectedArtist.find(artist => artist.id === artistId);
+        if (artistToRemove) {
+            setSelectedArtist(prev => prev.filter(artist => artist.id !== artistId));
+            setArtistCollab(prev => [...prev, artistToRemove]);
+        }
+    };
+
     const handleUpload = async () => {
         if (!file) {
             setMessage(t("upload.selectFile"));
@@ -84,6 +118,8 @@ const UploadPage = () => {
         formData.append("description", description);
         formData.append("duration", duration);
         formData.append("genre", genre);
+        const artistIds = selectedArtist.map(artist => artist.id);
+        formData.append("artist_collab", JSON.stringify(artistIds));
         if (image) {
             formData.append("image", image); // Append image if available
         }
@@ -92,7 +128,7 @@ const UploadPage = () => {
         setMessage("");
 
         try {
-            const response = await axiosInstance.post("/song/", formData, {
+            const response = await axiosInstance.post("/artist/song/", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -112,6 +148,9 @@ const UploadPage = () => {
                 setDuration("");
                 setGenre("");
                 setImage(null);
+                setSelectedArtist([]);
+                setArtistCollab([]);
+                setQuery("");
             } else {
                 handleError(t("upload.failure"));
             }
@@ -125,6 +164,31 @@ const UploadPage = () => {
     if (!validRole || !isLoggedIn) {
         return <Forbidden />;
     }
+
+    // Xử lý khi nhập dữ liệu vào input
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+
+        // Xóa timeout trước đó nếu có
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
+        }
+
+        // Thiết lập timeout mới (500ms sau khi dừng nhập)
+        setTypingTimeout(setTimeout(() => {
+            if (value.trim()) {
+                fetchArtists(); // Gọi API fetch data
+            }
+        }, 500));
+    };
+
+    // Xử lý khi nhấn Enter
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            fetchArtists(); // Gọi API ngay khi nhấn Enter
+        }
+    };
 
     return (
         <div className="upload-page">
@@ -197,6 +261,38 @@ const UploadPage = () => {
                             className="upload-input"
                         />
                     </div>
+
+                    <div className="upload-selected-artist-list">
+                        <h3>{t('upload.selectedArtistTitle')}</h3>
+                        {selectedArtist.length > 0 ? (
+                            <ul>
+                                {selectedArtist.map((artistCollab, index) => (
+                                    <li
+                                        key={artistCollab.id}
+                                    >
+                                        <span>{index + 1}</span>
+                                        <img
+                                            src={artistCollab.image_path}
+                                            alt={artistCollab.title}
+                                            className="album-artist-song-image"
+                                            onError={(e) => (e.target.src = '/images/placeholder.jpg')}
+                                        />
+                                        <span>{artistCollab.name}</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemoveArtist(artistCollab.id)}
+                                            className="album-remove-song-button"
+                                        >
+                                            {t('artist.createAlbum.remove_button')}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>{t('upload.noSelectedArtists')}</p>
+                        )}
+                    </div>
+
                     {message && <p className="upload-message">{message}</p>}
                     <button
                         onClick={handleUpload}
@@ -206,6 +302,43 @@ const UploadPage = () => {
                         <MdFileUpload size={24} />
                         {uploading ? t("upload.uploading") : t("upload.upload")}
                     </button>
+
+                    <div className="upload-artst-list">
+                        <h3>{t('upload.listArtistTitle')}</h3>
+                        <input
+                            type="text"
+                            className="upload-input"
+                            placeholder={t('upload.EnterName')}
+                            value={query}
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                        />
+                        {artistCollab.length > 0 ? (
+                            <ul>
+                                {artistCollab.map((artistCollab) => (
+                                    <li key={artistCollab.id}
+                                    >
+                                        <img
+                                            src={artistCollab.image_path}
+                                            alt={artistCollab.name}
+                                            className="album-artist-song-image"
+                                            onError={(e) => (e.target.src = '/images/placeholder.jpg')}
+                                        />
+                                        <span>{artistCollab.name}</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAddArtist(artistCollab.id)}
+                                            className="album-add-song-button"
+                                        >
+                                            {t('upload.addButton')}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>{t('upload.noArtists')}</p>
+                        )}
+                    </div>
                 </div>
             </div>
             {/* <Footer /> */}

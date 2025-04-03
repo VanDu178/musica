@@ -274,7 +274,9 @@ const MusicPlayerControl = () => {
                 </div>
                 <div className="ft-song_info com-horizontal-align">
                   <h4 title={song.title}>{song.title}</h4>
-                  <p title={song.artist}>{song.artist}</p>
+                  <p title={`${song.artist}, ${song.collab_artists.join(', ')}`}>
+                    {song.artist}, {song.collab_artists.join(', ')}
+                  </p>
                 </div>
                 <button
                   onClick={() => setModalOpen(true)}

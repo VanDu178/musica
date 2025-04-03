@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
+import Cookies from "js-cookie";
 import './SideBar.css';
 
 const Sidebar = () => {
@@ -10,7 +11,7 @@ const Sidebar = () => {
     const location = useLocation();
     const { t, i18n } = useTranslation();
     const [activeLang, setActiveLang] = useState(i18n.language);
-    const { isLoggedIn } = useUserData();
+    const { isLoggedIn, setIsLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
 
     useEffect(() => {
@@ -41,6 +42,14 @@ const Sidebar = () => {
     // Hàm xử lý khi nhấp vào menu item
     const handleNavigation = (path) => {
         navigate(path);
+    };
+
+    const handleLogout = async () => {
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        Cookies.remove("secrect_key");
+        setIsLoggedIn(false);
+        navigate("/");
     };
 
     if (!validRole || !isLoggedIn) {
@@ -85,6 +94,12 @@ const Sidebar = () => {
                     EN
                 </button>
             </nav>
+            {/* Nút Logout */}
+            <div className="admin-sidebar-logout">
+                <button className="admin-sidebar-logout-button" onClick={handleLogout}>
+                    {t('utils.logout')}
+                </button>
+            </div>
 
         </div>
     );
