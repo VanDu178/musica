@@ -101,3 +101,32 @@
 .move-right {
     transform: translateX(50px);
 }
+
+.admin-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Chiều cao toàn màn hình */
+}
+
+.admin-sidebar-logout {
+    margin-top: auto; /* Đẩy nút xuống cuối */
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-sidebar-logout-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.admin-sidebar-logout-button:hover {
+    background-color: #d9363e;
+}
+

@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: space-between;
   min-height: 100vh;
-  background-color: #121212;
   color: white;
 }
 
@@ -14,7 +13,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding-top: 7%; /* Add padding to the top to prevent header from covering content */
+  padding-top: 1%;
   padding-bottom: 5%;
 }
 
@@ -65,7 +64,6 @@
   transition: background-color 0.3s;
   width: 100%;
   justify-content: center;
-  margin-top: 2%;
 }
 
 .upload-button:disabled {
@@ -87,4 +85,49 @@
   margin-bottom: 0; /* Remove bottom margin */
   font-weight: bold;
   width: 50%; /* Set a fixed width for labels */
+}
+
+.upload-selected-artist-list ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cột bằng nhau */
+  gap: 10px;
+  width: 150px;
+}
+
+.upload-selected-artist-list ul li {
+  box-sizing: border-box;
+}
+
+.upload-artst-list ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cột */
+  gap: 15px; /* Tăng khoảng cách giữa các item */
+  padding: 0;
+  list-style: none;
+}
+
+.upload-artst-list ul li {
+  box-sizing: border-box;
+  padding: 10px; /* Tăng padding cho item */
+}
+
+.upload-artst-list, .upload-selected-artist-list {
+  padding: 20px;
+  background-color: #181818;
+  border-radius: 8px;
+}
+
+/* Tiêu đề */
+.upload-artst-list h3, .upload-selected-artist-list h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+}
+.upload-input{
+  width: 100%;
+  margin-bottom: 25px;
+}
+.upload-artst-list,.upload-selected-artist-list{
+  width: 100%;
 }

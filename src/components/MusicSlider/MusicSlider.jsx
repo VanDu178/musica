@@ -87,6 +87,7 @@ const MusicSlider = ({ items, type }) => {
                     image={item.image_path}
                     description={item.user}
                     idSong={item.id}
+                    collab={item.collab_artists}
                   />
                 ) :
                   (

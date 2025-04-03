@@ -4,7 +4,7 @@ import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
 import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useUser } from "../../context/UserProvider";
 import Cookies from "js-cookie";
@@ -16,9 +16,13 @@ const Header = () => {
   const { isLoggedIn, setIsLoggedIn, userData } = useUserData();
   const [activeLang, setActiveLang] = useState(i18n.language);
   const navigate = useNavigate();
+  const location = useLocation();
   const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
   const [validRole, setValidRole] = useState(false);
+
+  const isHomePage = location.pathname === "/user";
+
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -58,7 +62,6 @@ const Header = () => {
     setIsLoggedIn(false);
   };
 
-
   useEffect(() => {
     if (!userPanelState) return;
     const handleClickOutside = (event) => {
@@ -78,10 +81,25 @@ const Header = () => {
   return (
     <header className="hd-spotify-header">
       <div className="hd-logo">
-        <FaSpotify size={32} color="white" title="Spotify" />
+        <FaSpotify
+          onClick={() => navigate("/user")}
+          size={32}
+          color="white"
+          title="Spotify"
+        />
+
         <div className="hd-home-search">
-          <button className="hd-home-button">
-            <GoHomeFill color="white" size={36} title="Home" />
+          <button
+            className="hd-home-button"
+            onClick={() => navigate("/user")}
+            style={{
+              backgroundColor: isHomePage ? "white" : "transparent",
+              color: isHomePage ? "black" : "white",
+              transform: "scale(0.8)", // Thu nhỏ 90%
+              transition: "transform 0.2s ease-in-out", // Thêm hiệu ứng mượt
+            }}
+          >
+            <GoHomeFill color={isHomePage ? "black" : "white"} size={36} title="Home" />
           </button>
           <div className="hd-search-bar">
             <div className="hd-search-icon">
