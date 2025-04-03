@@ -37,6 +37,9 @@ const MusicPlayerControl = () => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
   const [validRole, setValidRole] = useState(false);
+  const time = useRef(0);  // Biến lưu giá trị
+  const hashUpdateHistory = useRef(0);  // Biến xem đã cập nhật lượt nghe chưa
+
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -68,14 +71,16 @@ const MusicPlayerControl = () => {
     if (checkedRoleUser) {
       try {
         const response = await axiosInstance.get(`/song/${songId}/`);
+        console.log(response);
         if (response.status === 200) {
           setSong(response.data);
           if (audioRef.current) {
+            hashUpdateHistory.current = 0;//reset trạng thái update
+            time.current = 0; //reset thời gian
             audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
             await audioRef.current.play(); // Phát nhạc ngay
             setIsPlaying(true); // Cập nhật trạng thái phát nhạc
           }
-          await updatePlayHistory(songId); // Lưu lịch sử bài hát đã phát
         }
       } catch (error) {
         console.error("Error fetching song details:", error);
@@ -199,9 +204,36 @@ const MusicPlayerControl = () => {
   };
 
   useEffect(() => {
-    const updateTime = () => setCurrentTime(audioRef.current.currentTime);
+    time.current += 1;  // Tăng giá trị mỗi lần useEffect chạy
+    console.log('time:', time.current);  // In ra giá trị của biến time
+    // Hàm cập nhật thời gian hiện tại và tính tổng thời gian nghe
+    const updateTime = () => {
+      if (audioRef.current) {
+        const currentTime = audioRef.current.currentTime;
+        setCurrentTime(currentTime); // Cập nhật thời gian hiện tại để hiển thị
+      }
+    };
+
+    //nếu qua 80s mà tổng thời gian nghe >= 60s thì cập nhật lượt nghe và chuyển trạng thái đã cập nhật
+    if (currentTime >= 80) {
+      if (time.current > 250) {
+        if (hashUpdateHistory.current === 0) {
+          updatePlayHistory(idSong);
+          hashUpdateHistory.current = 1;
+        }
+      }
+    }
+
     const handleSongEnd = () => {
-      handleNext(); // Gọi hàm next khi bài hát kết thúc
+      //nếu bài hát kết thúc mà tổng thời gian nghe >= 60s và trạng thái chưa cập nhật thì cập nhật lượt nghe và chuyển trạng thái đã cập nhật
+      if (time.current > 250) {
+        if (hashUpdateHistory.current === 0) {
+          handleSongEnd(idSong);
+          hashUpdateHistory.current = 1;
+        }
+      }
+      updatePlayHistory(idSong); // Gọi updatePlayHistory
+      handleNext(); // Chuyển sang bài tiếp theo
     };
 
     const audio = audioRef.current;
