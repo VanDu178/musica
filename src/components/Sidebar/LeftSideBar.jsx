@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { BsFillVolumeUpFill } from "react-icons/bs";
 import { FaChevronLeft, FaChevronRight, FaList, FaPlay, FaSearch } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { RiBookShelfFill, RiBookShelfLine } from "react-icons/ri";
 import "./LeftSidebar.css";
+import { checkData } from "../../helpers/encryptionHelper";
+import { useUserData } from "../../context/UserDataProvider";
 
 const libraryItems = [
     { id: 1, type: "playlist", name: "Liked Songs", details: "Playlist • 228 songs", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D", pinned: true },
@@ -21,6 +22,26 @@ const Left_Sidebar = () => {
     const [right_scroll, setRight_scroll] = useState(1);
     const [display, setDisplay] = useState("flex");
     const [flexDirection, setFlexDirection] = useState("row");
+    const [validRole, setValidRole] = useState(false);
+    const { isLoggedIn } = useUserData();
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            } else {
+                //nếu không login thì hiển thị
+                setValidRole(true);
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
 
     const { t } = useTranslation();
 
@@ -44,6 +65,10 @@ const Left_Sidebar = () => {
         setRight_scroll(state2);
     };
 
+    //nếu không phải role user hoặc chưa đăng nhập không hiển thị
+    if (!validRole) {
+        return null;
+    }
     return (
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
             <div style={{ position: "sticky", top: 0, zIndex: 1 }}>

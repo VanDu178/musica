@@ -3,8 +3,14 @@ import axiosInstance from "../../config/axiosConfig";
 import "./VNPayPayment.css";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { formatCurrencyVND } from "../../helpers/formatCurrency";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
+import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
+import { useTranslation } from "react-i18next";
 
 const VNPayPayment = () => {
+    const { t } = useTranslation();
     const [paymentUrl, setPaymentUrl] = useState("");
     const [paymentStatus, setPaymentStatus] = useState("pending");
     const location = useLocation();
@@ -13,6 +19,23 @@ const VNPayPayment = () => {
     const planId = location.state?.planId || null;
     const storedPlanDetails = JSON.parse(localStorage.getItem("planDetails")) || {};
     const navigate = useNavigate();
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user  không
+                const checkedRoleUser = await checkData(3);
+
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     // Gửi yêu cầu tạo thanh toán nếu có planId
     useEffect(() => {
@@ -74,11 +97,17 @@ const VNPayPayment = () => {
             <div className="vnpay-payment-container">
                 <h2>Bạn chưa chọn gói Premium!</h2>
                 <p>Vui lòng quay lại trang Premium để chọn gói trước khi thanh toán.</p>
-                <button onClick={() => window.location.href = "/premium"} className="go-back-button">
+                <button
+                    onClick={() => navigate('/user/premium')}
+                    className="go-back-button">
                     Quay lại chọn gói
                 </button>
             </div>
         );
+    }
+
+    if (!isLoggedIn || !validRole) {
+        return <Forbidden />;
     }
 
     // Giao diện dựa trên trạng thái thanh toán
@@ -86,8 +115,8 @@ const VNPayPayment = () => {
         <div className="vnpay-payment-container">
             {paymentStatus === "pending" && (
                 <>
-                    <h2>Đang chuẩn bị chuyển hướng đến VNPay...</h2>
-                    {!paymentUrl && <p className="loading-text">Vui lòng chờ trong giây lát.</p>}
+                    {!paymentUrl && <Loading message={t("payment.preparingRedirect")} />}
+                    {paymentUrl && <Loading message={t("payment.rediectVnpay")} />}
                 </>
             )}
 
@@ -132,7 +161,7 @@ const VNPayPayment = () => {
                     <button
                         onClick={() => {
                             localStorage.removeItem("planDetails"); // Xóa dữ liệu trước khi chuyển hướng
-                            window.location.href = "/";
+                            navigate('/user')
                         }}
                     >
                         Về trang chính
@@ -181,7 +210,7 @@ const VNPayPayment = () => {
                     <button
                         onClick={() => {
                             localStorage.removeItem("planDetails"); // Xóa dữ liệu trước khi chuyển hướng
-                            window.location.href = "/premium";
+                            navigate('/user/premium')
                         }}
                     >
                         Thử lại

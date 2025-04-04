@@ -14,13 +14,33 @@ import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig"; // Import axios
 import { formatCurrencyVND } from "../../helpers/formatCurrency";
+import Forbidden from "../../components/Error/403/403";
+import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
 import "./Premium.css";
 
 const Premium = () => {
+  const { t } = useTranslation();
   const planCardsRef = React.useRef(null);
-  const { isLoggedIn } = useUserData();
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]); // Lưu danh sách gói Premium
+  const { isLoggedIn } = useUserData();
+  const [validRole, setValidRole] = useState(false);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user  không
+        const checkedRoleUser = await checkData(3);
+
+        if (checkedRoleUser) {
+          setValidRole(true);
+        }
+      }
+    };
+
+    fetchRole();
+  }, [isLoggedIn]);
 
   // Fetch danh sách gói Premium từ backend
   useEffect(() => {
@@ -36,19 +56,38 @@ const Premium = () => {
   }, []);
 
   const scrollToPlans = () => {
-    planCardsRef.current.scrollIntoView({ behavior: "smooth" });
+    try {
+      if (planCardsRef.current) {
+        const offset = -90;
+        const elementPosition = planCardsRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset + offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+
+        // Focus vào phần tử để hỗ trợ accessibility
+        planCardsRef.current.focus({ preventScroll: true });
+      }
+    } catch (error) {
+      console.error('Scroll error:', error);
+      // Fallback cho trình duyệt không hỗ trợ smooth scroll
+      planCardsRef.current?.scrollIntoView();
+    }
   };
 
   const loginCheck = (planId) => {
     if (!isLoggedIn) {
-      alert("Please log in to proceed.");
       navigate("/login");
     } else {
       navigate("/payment-method", { state: { planId } });
     }
   };
 
-  const { t } = useTranslation();
+  if (!isLoggedIn || !validRole) {
+    return <Forbidden />;
+  }
 
   return (
     <div className="p-premium-container com-horizontal-align">
@@ -56,20 +95,12 @@ const Premium = () => {
         <h1 style={{ width: "50%" }}>{t("premium.viewPlanTitle")}</h1>
         <span>{t("premium.viewPlanSubtitle")}</span>
         <nav className="com-vertical-align">
-          <button
-            className="com-glow-zoom p-premium"
-            style={{ backgroundColor: "white", color: "black" }}
-            onClick={loginCheck}
-          >
-            <span>{t("premium.viewPlan_start")}</span>
-          </button>
           <button className="com-glow-zoom" onClick={scrollToPlans}>
             <span>{t("premium.viewPlan_view")}</span>
           </button>
         </nav>
         <span className="com-vertical-align">
           <p>{t("premium.viewPlanNote")}</p>
-          <a href="google.com">{t("premium.termsApply")}</a>
         </span>
       </div>
 
@@ -98,27 +129,7 @@ const Premium = () => {
         className="com-vertical-align"
         style={{ gap: "12px", marginBlock: "32px" }}
       >
-        <h1>{t("premium.pros")}</h1>
-        <div className="p-rights com-horizontal-align">
-          <span>
-            <FaCheck /> {t("premium.pros_1")}
-          </span>
-          <span>
-            <FaCheck /> {t("premium.pros_2")}
-          </span>
-          <span>
-            <FaCheck /> {t("premium.pros_3")}
-          </span>
-          <span>
-            <FaCheck /> {t("premium.pros_4")}
-          </span>
-          <span>
-            <FaCheck /> {t("premium.pros_5")}
-          </span>
-          <span>
-            <FaCheck /> {t("premium.pros_6")}
-          </span>
-        </div>
+
       </div>
       <div className="com-vertical-align p-plan-cards" ref={planCardsRef}>
         {Array.isArray(plans) && plans.length > 0 ? (
@@ -188,13 +199,16 @@ const Premium = () => {
             );
           })
         ) : (
-          <p>Loading plans...</p> // Hiển thị khi chưa có data
+          <Loading
+            message={t("utils.loading")}
+            height="40"
+          />
         )}
       </div>
 
       <div style={{ margin: "32px" }}>
-        <h1>{t("premium.tableTitle")}</h1>
-        <h3>{t("premium.tableDesc")}</h3>
+        <h2>{t("premium.tableTitle")}</h2>
+        <h4>{t("premium.tableDesc")}</h4>
       </div>
 
       <div className="com-horizontal-align p-feature-table">

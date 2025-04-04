@@ -71,7 +71,7 @@
 }
 
 /* Nút bấm chung */
-.vnpay-payment-success button, .vnpay-payment-failed button {
+.vnpay-payment-success button, .vnpay-payment-failed button,.go-back-button {
   background-color: #1db954; /* Màu xanh lá đặc trưng của Spotify */
   color: #ffffff;
   border: none;

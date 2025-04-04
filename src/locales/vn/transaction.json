@@ -10,6 +10,10 @@
     "homepage": {
         "content": "noi dung homepage tieng viet"
     },
+    "utils": {
+        "loading": "Đang tải dữ liệu...",
+        "logout": "Đăng Xuất"
+    },
     "login": {
         "title": "Đăng nhập vào Spotify",
         "continueWithGoogle": "Tiếp tục bằng Google",
@@ -129,10 +133,10 @@
         "avt": "Ảnh đại diện",
         "chooseFile": "Chọn tệp",
         "USER_UPDATE_SUCCESS": "Cập nhật thông tin người dùng thành công.",
-        "ERROR_OCCURRED":"Có lỗi xảy ra khi cập nhật thông tin, hãy thử lại",
-        "USER_NOT_AUTHENTICATED":"Người dùng chưa được xác thực. Vui lòng đăng nhập.",
-        "SYSTEM_ERROR":"Lỗi hệ thống, hãy thử lại sau",
-        "SERVER_UNAVAILABLE":"Không thể kết nối đến máy chủ. Vui lòng thử lại sau"
+        "ERROR_OCCURRED": "Có lỗi xảy ra khi cập nhật thông tin, hãy thử lại",
+        "USER_NOT_AUTHENTICATED": "Người dùng chưa được xác thực. Vui lòng đăng nhập.",
+        "SYSTEM_ERROR": "Lỗi hệ thống, hãy thử lại sau",
+        "SERVER_UNAVAILABLE": "Không thể kết nối đến máy chủ. Vui lòng thử lại sau"
     },
     "playlist": {
         "title": "Tiêu đề",
@@ -260,7 +264,13 @@
         "genrePlaceholder": "Thể loại",
         "fillAllFields": "Vui lòng điền vào tất cả các trường.",
         "imagePlaceholder": "Hình ảnh",
-        "mp3Placeholder": "Tệp MP3"
+        "mp3Placeholder": "Tệp MP3",
+        "selectedArtistTitle": "Danh sách ca sĩ collab",
+        "noSelectedArtists": "Không có ca sĩ nào được chọn",
+        "listArtistTitle": "Tìm kiếm ca sĩ ",
+        "noArtists": "Không có ca sĩ nào",
+        "addButton": "Thêm ca sĩ",
+        "EnterName": "Nhập tên ca sĩ..."
     },
     "playlistModal": {
         "createNew": "Tạo Playlist Mới",
@@ -276,6 +286,10 @@
         "errorLoading": "Không thể tải danh sách playlist.",
         "errorCreating": "Lỗi khi tạo playlist hoặc thêm bài hát!",
         "processing": "Đang xử lý..."
+    },
+    "payment": {
+        "rediectVnpay": "Đang chuyển hướng đến VNPAY...",
+        "preparingRedirect": "Đang chuẩn bị chuyển hướng đến VNPay..."
     },
     "artist": {
         "artistSong": {
@@ -410,7 +424,15 @@
     "errorServer": "Đã có lỗi xảy ra với server. Vui lòng thử lại sau.",
     "emailAlreadyExists": "Email này đã tồn tại. Vui lòng sử dụng email khác.",
     "phoneAlreadyExists": "Số điện thoại này đã được sử dụng. Vui lòng nhập số khác."
-}
+},
+"activate_account": {
+    "loading": "Đang kích hoạt tài khoản...",
+    "success": "Kích hoạt tài khoản thành công!",
+    "error": "Kích hoạt thất bại. Liên kết có thể không hợp lệ hoặc đã hết hạn.",
+    "redirect_message": "Bạn sẽ được chuyển hướng về trang đăng nhập trong {{countdown}} giây.",
+    "redirect_button": "Quay lại ngay",
+    "error_contact_support": "Vui lòng liên hệ hỗ trợ nếu cần trợ giúp."
+  }
 
 
 

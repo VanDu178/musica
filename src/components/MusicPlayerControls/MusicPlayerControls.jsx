@@ -18,7 +18,7 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import "./MusicPlayerControl.css";
 import PlaylistModal from "../../components/Modal/PlaylistModal/PlaylistModal"
 import { formatTime } from "../../helpers/timeFormatter";
-
+import { checkData } from "../../helpers/encryptionHelper";
 
 const MusicPlayerControl = () => {
   const { t } = useTranslation();
@@ -36,40 +36,70 @@ const MusicPlayerControl = () => {
   const [isShuffle, setIsShuffle] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [validRole, setValidRole] = useState(false);
+  const time = useRef(0);  // Biến lưu giá trị
+  const hashUpdateHistory = useRef(0);  // Biến xem đã cập nhật lượt nghe chưa
 
 
   useEffect(() => {
-    isPlaying ? audioRef.current.play() : audioRef.current.pause();
-  }, [isPlaying])
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(3);
+        if (checkedRoleUser) {
+          setValidRole(true);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(true);
+      }
+    };
 
+    fetchRole();
+  }, [isLoggedIn]);
+
+
+  useEffect(() => {
+    if (audioRef.current) {
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }
+  }, [isPlaying]);
 
   // Hàm fetch dữ liệu bài hát
   const fetchSongDetails = async (songId) => {
-    console.log("thong tin hahaha", playlist);
-    try {
-      const response = await axiosInstance.get(`/song/${songId}/`);
-      if (response.status === 200) {
-        setSong(response.data);
-        if (audioRef.current) {
-          audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
-          await audioRef.current.play(); // Phát nhạc ngay
-          setIsPlaying(true); // Cập nhật trạng thái phát nhạc
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        const response = await axiosInstance.get(`/song/${songId}/`);
+        console.log(response);
+        if (response.status === 200) {
+          setSong(response.data);
+          console.log(response.data);
+          if (audioRef.current) {
+            hashUpdateHistory.current = 0;//reset trạng thái update
+            time.current = 0; //reset thời gian
+            audioRef.current.src = response.data.mp3_path; // Đường dẫn src của file âm thanh
+            await audioRef.current.play(); // Phát nhạc ngay
+            setIsPlaying(true); // Cập nhật trạng thái phát nhạc
+          }
         }
-        await updatePlayHistory(songId); // Lưu lịch sử bài hát đã phát
+      } catch (error) {
+        console.error("Error fetching song details:", error);
       }
-    } catch (error) {
-      console.error("Error fetching song details:", error);
     }
   };
 
   const handlePrev = async () => {
-    try {
-      const response = await axiosInstance.get(`song/previous/${idSong}/`);
-      if (response.status === 200) {
-        setIdSong(response.data.id);
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        const response = await axiosInstance.get(`song/previous/${idSong}/`);
+        if (response.status === 200) {
+          setIdSong(response.data.id);
+        }
+      } catch (error) {
+        console.error("Error fetching song details:", error);
       }
-    } catch (error) {
-      console.error("Error fetching song details:", error);
     }
   };
 
@@ -115,17 +145,20 @@ const MusicPlayerControl = () => {
 
     // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
     if (playlist.length === 1) {
-      try {
-        const response = await axiosInstance.get(`/song/next/${idSong}/`);
-        if (response.status === 200) {
-          clearPlaylist();
-          addSong({ id: response.data.id });
-          setIdSong(response.data.id);
+      const checkedRoleUser = await checkData(3);
+      if (checkedRoleUser) {
+        try {
+          const response = await axiosInstance.get(`/song/next/${idSong}/`);
+          if (response.status === 200) {
+            clearPlaylist();
+            addSong({ id: response.data.id });
+            setIdSong(response.data.id);
+          }
+        } catch (error) {
+          console.error("Error fetching next song:", error);
         }
-      } catch (error) {
-        console.error("Error fetching next song:", error);
+        return;
       }
-      return;
     }
 
     // Chế độ bình thường: Chuyển sang bài tiếp theo
@@ -140,12 +173,15 @@ const MusicPlayerControl = () => {
   };
 
   const updatePlayHistory = async (songId) => {
-    try {
-      await axiosInstance.post(`/history/update/`, {
-        song_id: songId,
-      });
-    } catch (error) {
-      console.error("Error updating play history:", error);
+    const checkedRoleUser = await checkData(3);
+    if (checkedRoleUser) {
+      try {
+        await axiosInstance.post(`/history/update/`, {
+          song_id: songId,
+        });
+      } catch (error) {
+        console.error("Error updating play history:", error);
+      }
     }
   };
 
@@ -168,12 +204,36 @@ const MusicPlayerControl = () => {
     setIsPlaying(!isPlaying);
   };
 
-
-
   useEffect(() => {
-    const updateTime = () => setCurrentTime(audioRef.current.currentTime);
+    time.current += 1;  // Tăng giá trị mỗi lần useEffect chạy
+    // Hàm cập nhật thời gian hiện tại và tính tổng thời gian nghe
+    const updateTime = () => {
+      if (audioRef.current) {
+        const currentTime = audioRef.current.currentTime;
+        setCurrentTime(currentTime); // Cập nhật thời gian hiện tại để hiển thị
+      }
+    };
+
+    //nếu qua 80s mà tổng thời gian nghe >= 60s thì cập nhật lượt nghe và chuyển trạng thái đã cập nhật
+    if (currentTime >= 80) {
+      if (time.current > 250) {
+        if (hashUpdateHistory.current === 0) {
+          updatePlayHistory(idSong);
+          hashUpdateHistory.current = 1;
+        }
+      }
+    }
+
     const handleSongEnd = () => {
-      handleNext(); // Gọi hàm next khi bài hát kết thúc
+      //nếu bài hát kết thúc mà tổng thời gian nghe >= 60s và trạng thái chưa cập nhật thì cập nhật lượt nghe và chuyển trạng thái đã cập nhật
+      if (time.current > 250) {
+        if (hashUpdateHistory.current === 0) {
+          handleSongEnd(idSong);
+          hashUpdateHistory.current = 1;
+        }
+      }
+      updatePlayHistory(idSong); // Gọi updatePlayHistory
+      handleNext(); // Chuyển sang bài tiếp theo
     };
 
     const audio = audioRef.current;
@@ -228,6 +288,11 @@ const MusicPlayerControl = () => {
     // Thêm logic xử lý shuffle tại đây (nếu cần)
   };
 
+  //nếu không phải role user không hiển thị
+  if (!validRole) {
+    return null;
+  }
+
   return (
     <>
       <footer className="ft-spotify-footer">
@@ -241,7 +306,9 @@ const MusicPlayerControl = () => {
                 </div>
                 <div className="ft-song_info com-horizontal-align">
                   <h4 title={song.title}>{song.title}</h4>
-                  <p title={song.artist}>{song.artist}</p>
+                  <p title={`${song.artist}, ${song.collab_artists.join(', ')}`}>
+                    {song.artist}, {song.collab_artists.join(', ')}
+                  </p>
                 </div>
                 <button
                   onClick={() => setModalOpen(true)}

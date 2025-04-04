@@ -1,0 +1,110 @@
+/* Giao diện giống Spotify: nền tối, chữ trắng/xám, nút xanh lá */
+.activate-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #121212; /* Màu nền đen của Spotify */
+}
+
+.activate-box {
+  background-color: #181818; /* Màu hộp tối hơn nền */
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.status-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Spinner cho trạng thái loading */
+.spinner {
+  height: 48px;
+  width: 48px;
+  color: #1db954; /* Xanh lá Spotify */
+  margin-bottom: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-circle {
+  opacity: 0.25;
+}
+
+.spinner-path {
+  opacity: 0.75;
+}
+
+/* Icon thành công */
+.success-icon {
+  height: 48px;
+  width: 48px;
+  color: #1db954; /* Xanh lá Spotify */
+  margin-bottom: 1rem;
+}
+
+/* Icon lỗi */
+.error-icon {
+  height: 48px;
+  width: 48px;
+  color: #e22134; /* Đỏ lỗi giống Spotify */
+  margin-bottom: 1rem;
+}
+
+/* Tiêu đề trạng thái */
+.status-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff; /* Chữ trắng mặc định */
+  margin-bottom: 0.5rem;
+  font-family: "Circular", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Font giống Spotify */
+}
+
+.status-title.success {
+  color: #1db954; /* Xanh lá khi thành công */
+}
+
+.status-title.error {
+  color: #e22134; /* Đỏ khi lỗi */
+}
+
+/* Phụ đề trạng thái */
+.status-subtitle {
+  font-size: 1rem;
+  color: #b3b3b3; /* Xám nhạt giống Spotify */
+  margin-bottom: 1rem;
+}
+
+/* Nút điều hướng */
+.redirect-button {
+  background-color: #1db954; /* Xanh lá Spotify */
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px; /* Bo tròn hoàn toàn như nút Spotify */
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.redirect-button:hover {
+  background-color: #1ed760; /* Sáng hơn khi hover */
+}
+
+/* Animation cho spinner */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

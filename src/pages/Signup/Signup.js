@@ -6,6 +6,8 @@ import Noti from "../../components/Noti/Noti"; // Import Noti component
 import "bootstrap/dist/css/bootstrap.min.css";
 import axiosInstance from "../../config/axiosConfig";
 import { useTranslation } from "react-i18next";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 
 const Signup = () => {
   const [step, setStep] = useState(1);
@@ -13,6 +15,8 @@ const Signup = () => {
   const [error, setError] = useState(""); // State to store error message
   const [isLoading, setIsLoading] = useState(false); // Add isLoading state
   const { t } = useTranslation();
+  const { isLoggedIn } = useUserData();
+
   // State lưu thông tin người dùng
   const [userData, setUserData] = useState({
     email: "",
@@ -59,6 +63,11 @@ const Signup = () => {
         time={5000} // 5 seconds delay
       />
     );
+  }
+
+  // // nếu đã login thì không cho vào
+  if (isLoggedIn) {
+    return <Forbidden />;
   }
 
   return (

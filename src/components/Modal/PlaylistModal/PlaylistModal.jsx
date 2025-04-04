@@ -5,6 +5,10 @@ import { FaTimes } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useSong } from "../../../context/SongProvider";
 import { useTranslation } from "react-i18next";
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
+import Forbidden from "../../../components/Error/403/403";
+
 
 const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
     const { t } = useTranslation();
@@ -16,6 +20,22 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
     const [isCreatingNew, setIsCreatingNew] = useState(false);
     const [newPlaylistName, setNewPlaylistName] = useState("");
     const { idSong } = useSong();
+    const [validRole, setValidRole] = useState(false);
+    const { isLoggedIn } = useUserData();
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     useEffect(() => {
         if (isOpen) {
@@ -33,6 +53,7 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
         } finally {
             setLoading(false);
         }
+
     };
 
     const handleCheckboxChange = (playlistId) => {
@@ -66,7 +87,8 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
         }
     };
 
-    const handleCreatePlaylistAndAddSong = async () => {
+    const handleCreatePlaylist = async () => {
+
         if (!newPlaylistName.trim()) return;
 
         try {
@@ -85,11 +107,15 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
             setNewPlaylistName("");
 
         } catch (error) {
-            alert("Lỗi khi tạo playlist hoặc thêm bài hát!");
+            console.log("Lỗi khi tạo playlist hoặc thêm bài hát!");
         }
     };
 
     if (!isOpen) return null;
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="playlist-modal-overlay" onClick={onClose}>
@@ -117,7 +143,7 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
                             <button className="playlist-modal-cancel-btn" onClick={() => setIsCreatingNew(false)}>
                                 {t("playlistModal.cancel")}
                             </button>
-                            <button className="playlist-modal-add-btn" onClick={handleCreatePlaylistAndAddSong}>
+                            <button className="playlist-modal-add-btn" onClick={handleCreatePlaylist}>
                                 {t("playlistModal.savePlaylist")}
                             </button>
                         </div>

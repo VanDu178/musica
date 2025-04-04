@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MusicSlider from "../../components/MusicSlider/MusicSlider";
+import Loading from "../../components/Loading/Loading";
 import "./Home.css";
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../config/axiosConfig";
+import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
+import { checkData } from "../../helpers/encryptionHelper";
 
 const Home = () => {
     const { t } = useTranslation();
@@ -13,6 +17,25 @@ const Home = () => {
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true); // Trạng thái loading
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user không
+                const checkedRoleUser = await checkData(3);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            } else {
+                //nếu không login thì hiển thị
+                setValidRole(true);
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
 
     // Hàm gọi API để lấy danh sách trending playlists và albums
     useEffect(() => {
@@ -43,9 +66,13 @@ const Home = () => {
 
     // Hiển thị loading nếu dữ liệu chưa được tải
     if (loading) {
-        return <div>Loading trending data...</div>;
+        return <Loading message={t("utils.loading")} height="60" />;
+
     }
 
+    if (!validRole) {
+        return <Forbidden />;
+    }
     return (
         <div className="col home-content">
             <div className="p-3 border rounded-3 home-content">

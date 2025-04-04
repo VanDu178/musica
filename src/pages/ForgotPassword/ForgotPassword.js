@@ -6,6 +6,7 @@ import Noti from "../../components/Noti/Noti"; // Import Noti component
 import { Spinner } from "react-bootstrap"; // Import Spinner
 import { isValidEmail } from "../../helpers/validation"; // Import isValidEmail
 import { useUserData } from "../../context/UserDataProvider";
+import Forbidden from "../../components/Error/403/403";
 import axiosInstance from "../../config/axiosConfig";
 
 const ResetPassword = () => {
@@ -14,6 +15,7 @@ const ResetPassword = () => {
   const [message, setMessage] = useState(""); // State to store error message
   const [loading, setLoading] = useState(false); // State to track loading status
   const { t } = useTranslation();
+  const { isLoggedIn } = useUserData();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +63,11 @@ const ResetPassword = () => {
       />
     );
   }
+  // nếu đã login thì không cho vào
+  if (isLoggedIn) {
+    return <Forbidden />;
+  }
+
   return (
     <div className="reset-password-page">
       <div className="reset-password-container">

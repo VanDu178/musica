@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from "../../../config/axiosConfig";
 import { formatDate } from "../../../helpers/dateFormatter";
 import { formatTime } from "../../../helpers/timeFormatter";
-
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
+import Forbidden from "../../../components/Error/403/403";
 
 import './ArtistSongList.css';
 
@@ -13,6 +14,24 @@ const ArtistSongList = () => {
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải artist không
+                const checkedRoleUser = await checkData(2);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
 
     // Fetch dữ liệu từ API
     useEffect(() => {
@@ -25,10 +44,14 @@ const ArtistSongList = () => {
             } finally {
                 setLoading(false);
             }
-        };
+        }
 
         fetchSongs();
     }, []);
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="artist-song-container">

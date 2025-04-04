@@ -1,5 +1,10 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ToastContainer } from "react-toastify";
 import { SongProvider } from "./context/SongProvider";
@@ -24,12 +29,16 @@ import ArtistRegistrationRequests from "./pages/Admin/ArtistRegistrationRequests
 import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
 
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
+import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
 import ArtistSongList from "./pages/Artist/ArtistSongList/ArtistSongList";
 import ArtistAlbumList from "./pages/Artist/ArtistAlbumList/ArtistAlbumList";
 import CreateAlbum from "./pages/Artist/CreateAlbum/CreateAlbum";
+
+/*Admin*/
+import AdminLayout from "./Layout/AdminLayout/AdminLayout";
 
 import "react-toastify/dist/ReactToastify.css"; // Đừng quên import CSS của toastify
 
@@ -49,6 +58,10 @@ const App = () => {
                     >
                       <Routes>
                         {/* Các route không cần sidebar,header,footer */}
+                        <Route
+                          path="/activate/:uidb64/:token"
+                          element={<ActivateAccount />}
+                        />
                         <Route path="/login" element={<SpotifyLogin />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route
@@ -72,12 +85,16 @@ const App = () => {
                           path="/register-artist"
                           element={<ArtistRegistration />}
                         />
+                        <Route
+                          path="/"
+                          element={<Navigate to="/user" replace />}
+                        />
                       </Routes>
                       <Routes>
                         <Route
                           path="/admin/*"
                           element={
-                            <ArtistLayout>
+                            <AdminLayout>
                               <Routes>
                                 <Route path="/account" element={<Upload />} />
                                 <Route
@@ -89,10 +106,12 @@ const App = () => {
                                   element={<AccountManagement />}
                                 />
                               </Routes>
-                            </ArtistLayout>
+                            </AdminLayout>
                           }
                         />
                       </Routes>
+
+                      {/* ARTIST */}
                       <Routes>
                         <Route
                           path="/artist/*"
@@ -117,6 +136,8 @@ const App = () => {
                           }
                         />
                       </Routes>
+
+                      {/* USER */}
                       <Routes>
                         {/* Các route cần sidebar,header,footer được bao trong MainLayout */}
                         <Route

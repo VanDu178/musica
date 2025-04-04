@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { checkData } from "../../../helpers/encryptionHelper";
+import { useUserData } from "../../../context/UserDataProvider";
+import Cookies from "js-cookie";
 import './SideBar.css';
 
 const Sidebar = () => {
@@ -8,6 +11,23 @@ const Sidebar = () => {
     const location = useLocation();
     const { t, i18n } = useTranslation();
     const [activeLang, setActiveLang] = useState(i18n.language);
+    const { isLoggedIn, setIsLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải admin không
+                const checkedRoleUser = await checkData(1);
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                }
+            }
+        };
+
+        fetchRole();
+    }, [isLoggedIn]);
+
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
         setActiveLang(lng);
@@ -25,6 +45,18 @@ const Sidebar = () => {
     const handleNavigation = (path) => {
         navigate(path);
     };
+
+    const handleLogout = async () => {
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        Cookies.remove("secrect_key");
+        setIsLoggedIn(false);
+        navigate("/");
+    };
+
+    if (!validRole || !isLoggedIn) {
+        return null;
+    }
 
     return (
         <div className="admin-sidebar">
@@ -64,6 +96,12 @@ const Sidebar = () => {
                     EN
                 </button>
             </nav>
+            {/* Nút Logout */}
+            <div className="admin-sidebar-logout">
+                <button className="admin-sidebar-logout-button" onClick={handleLogout}>
+                    {t('utils.logout')}
+                </button>
+            </div>
 
         </div>
     );

@@ -10,6 +10,10 @@
     "homepage": {
         "content": "content home"
     },
+    "utils": {
+        "loading": "Loading...",
+        "logout": "Log out"
+    },
     "login": {
         "title": "Log in to Spotify",
         "continueWithGoogle": "Continue with Google",
@@ -131,8 +135,8 @@
         "USER_UPDATE_SUCCESS": "User information updated successfully.",
         "ERROR_OCCURRED": "Error occurred when update profile,try again",
         "USER_NOT_AUTHENTICATED": "The user has not been authenticated. Please log in.",
-        "SYSTEM_ERROR":"System error, please try again later.",
-        "SERVER_UNAVAILABLE":"Cannot connect to the server. Please try again later."
+        "SYSTEM_ERROR": "System error, please try again later.",
+        "SERVER_UNAVAILABLE": "Cannot connect to the server. Please try again later."
     },
     "playlist": {
         "title": "Title",
@@ -260,7 +264,13 @@
         "genrePlaceholder": "Genre",
         "fillAllFields": "Please fill in all fields.",
         "imagePlaceholder": "Image",
-        "mp3Placeholder": "MP3 File"
+        "mp3Placeholder": "MP3 File",
+        "selectedArtistTitle": "Selected Artist Collab ",
+        "noSelectedArtists": "No Selected Artist",
+        "listArtistTitle": "Find Artist ",
+        "noArtists": "No Artist",
+        "addButton": "Add Artist",
+        "EnterName": "Enter artist name..."
     },
     "playlistModal": {
         "createNew": "Create New Playlist",
@@ -276,6 +286,10 @@
         "errorLoading": "Failed to load playlists.",
         "errorCreating": "Error creating playlist or adding song!",
         "processing": "Loading..."
+    },
+    "payment": {
+        "rediectVnpay": "Redirecting to vnpay...",
+        "preparingRedirect": "Preparing to redirect to VNPay..."
     },
     "artist": {
         "artistSong": {
@@ -410,7 +424,15 @@
     "errorServer": "An error occurred with the server. Please try again later.",
     "emailAlreadyExists": "This email already exists. Please use a different email.",
     "phoneAlreadyExists": "This phone number is already in use. Please enter a different number."
-}
+},
+"activate_account": {
+    "loading": "Activating account...",
+    "success": "Account activated successfully!",
+    "error": "Account activation failed. The link may be invalid or expired.",
+    "redirect_message": "You will be redirected to the login page in {{countdown}} seconds.",
+    "redirect_button": "Go to login now",
+    "error_contact_support": "Please contact support for assistance."
+  }
 
 
       
