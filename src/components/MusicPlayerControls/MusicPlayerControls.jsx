@@ -74,6 +74,7 @@ const MusicPlayerControl = () => {
         console.log(response);
         if (response.status === 200) {
           setSong(response.data);
+          console.log(response.data);
           if (audioRef.current) {
             hashUpdateHistory.current = 0;//reset trạng thái update
             time.current = 0; //reset thời gian
@@ -205,7 +206,6 @@ const MusicPlayerControl = () => {
 
   useEffect(() => {
     time.current += 1;  // Tăng giá trị mỗi lần useEffect chạy
-    console.log('time:', time.current);  // In ra giá trị của biến time
     // Hàm cập nhật thời gian hiện tại và tính tổng thời gian nghe
     const updateTime = () => {
       if (audioRef.current) {
