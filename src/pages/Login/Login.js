@@ -49,7 +49,6 @@ const SpotifyLogin = () => {
         }
 
         setIsLoggedIn(true);
-        navigate("/user/", { replace: true });
         if (response.data.role === 1) {
           navigate("/admin/", { replace: true });
         } else if (response.data.role === 2) {
@@ -90,9 +89,8 @@ const SpotifyLogin = () => {
             role_ID_Hash
           );
         }
-
         setIsLoggedIn(true);
-        return { success: true };
+        return { success: true, role: response.data.role };
       }
     } catch (error) {
       if (error.response?.data?.error_code) {
@@ -113,7 +111,14 @@ const SpotifyLogin = () => {
     onSuccess: async (tokenResponse) => {
       const response = await googleLogin(tokenResponse.access_token);
       if (response.success) {
-        navigate("/user/", { replace: true });
+        console.log("daya", response);
+        if (response.role === 1) {
+          navigate("/admin/", { replace: true });
+        } else if (response.role === 2) {
+          navigate("/artist/", { replace: true });
+        } else {
+          navigate("/user/", { replace: true });
+        }
         handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
       } else {
         const errorCode = response.error_code;

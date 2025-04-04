@@ -1,0 +1,236 @@
+
+.artist_registration_requests-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  color: white;
+  background-color: #222;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.artist_registration_requests-container h2 {
+  color: white;
+  text-align: center;
+}
+
+.artist_registration_requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.artist_registration_requests-table th,
+.artist_registration_requests-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.artist_registration_requests-table th {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.artist_registration_requests-container button {
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.artist_registration_requests-view-btn {
+  background-color: #007bff;
+}
+
+.artist_registration_requests-approve-btn {
+  background-color: #4CAF50;
+}
+
+.artist_registration_requests-reject-btn {
+  background-color: #f44336;
+}
+
+/* Các nút với tiền tố artist_registration_requests- bị vô hiệu hóa */
+.artist_registration_requests-view-btn:disabled,
+.artist_registration_requests-approve-btn:disabled,
+.artist_registration_requests-reject-btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+
+.artist_registration_requests-view-btn:hover,
+.artist_registration_requests-approve-btn:hover,
+.artist_registration_requests-reject-btn:hover {
+  opacity: 0.8;
+}
+
+
+
+.artist_registration_requests-small-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.artist_registration_requests-large-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+
+.artist_registration_requests-modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.artist_registration_requests-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+.artist_registration_requests-fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.artist_registration_requests-fullscreen-img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.artist_registration_requests-fullscreen-modal::before {
+  content: "✖";
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+
+.artist_registration_requests-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+
+.artist_registration_requests-modal-content-detail-artist {
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 600px;
+  color: white;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.artist_registration_requests-modal-content-detail-artist p {
+  margin-bottom: 10px;
+}
+
+
+.artist_registration_requests-image-gallery {
+  display: flex;
+  gap: 10px;
+}
+
+.artist_registration_requests-thumbnail {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.artist_registration_requests-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.artist_registration_requests-confirm-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist_registration_requests-confirm-modal .artist_registration_requests-modal-content-confirm-action {
+  width: 300px;
+  text-align: center;
+  background: #222;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  position: relative;
+  max-height: 80vh;
+}
+
+.artist_registration_requests-confirm-btn,
+.artist_registration_requests-cancel-btn {
+  padding: 12px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+}
+
+.artist_registration_requests-confirm-btn {
+  background-color: #4caf50;
+}
+
+.artist_registration_requests-cancel-btn {
+  background-color: #f44336;
+}
+
+.artist_registration_requests-confirm-btn:disabled,
+.artist_registration_requests-cancel-btn:disabled {
+  background-color: gray;
+}
+.artist_registration_requests-confirm-btn:hover,
+.artist_registration_requests-cancel-btn:hover {
+  opacity: 0.8;
+}

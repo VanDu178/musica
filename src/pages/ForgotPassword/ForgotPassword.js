@@ -38,9 +38,10 @@ const ResetPassword = () => {
         setLoading(false);
       }
     } catch (error) {
+      console.log(error);
       if (error.response?.data?.error_code) {
         setShowNoti(true);
-        setMessage(t("messages.passwordResetSuccess"));
+        setMessage(t("messages.passwordResetFailed"));
       } else {
         setLoading(false);
         const errorCode = error.response?.data?.error_code;

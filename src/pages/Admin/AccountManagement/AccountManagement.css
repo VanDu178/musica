@@ -1,0 +1,89 @@
+/* General Container */
+.account_management-user-management-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  color: white;
+  background-color: #222;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.account_management-user-management-container h2 {
+  text-align: center;
+  color: white;
+}
+
+/* Search Bar */
+.account_management-user-search-bar {
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  color: white;
+}
+
+/* Table Styles */
+.account_management-user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.account_management-user-table th,
+.account_management-user-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.account_management-user-table th {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Action Button */
+.account_management-ban-btn {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.account_management-ban-btn:hover {
+  background-color: #e53935;
+}
+
+.account_management-ban-btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Nút mở khóa tài khoản */
+.account_management-unban-btn {
+  background-color: #52c41a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.account_management-unban-btn:hover {
+  background-color: #389e0d;
+}
+
+.account_management-unban-btn:disabled {
+  background-color: #a0d911;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner Container */
+.account_management-loading-container {
+  text-align: center;
+  color: white;
+}

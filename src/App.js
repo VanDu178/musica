@@ -1,5 +1,10 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ToastContainer } from "react-toastify";
 import { SongProvider } from "./context/SongProvider";
@@ -19,7 +24,12 @@ import { UserProvider } from "./context/UserProvider";
 import { UserDataProvider } from "./context/UserDataProvider";
 import PaymentMethod from "./pages/PaymentMethod/PaymentMethod";
 import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
+import ArtistRegistration from "./pages/ArtistRegistration/ArtistRegistration";
+import ArtistRegistrationRequests from "./pages/Admin/ArtistRegistrationRequests/ArtistRegistrationRequests";
+import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
+
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
+import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
@@ -48,6 +58,10 @@ const App = () => {
                     >
                       <Routes>
                         {/* Các route không cần sidebar,header,footer */}
+                        <Route
+                          path="/activate/:uidb64/:token"
+                          element={<ActivateAccount />}
+                        />
                         <Route path="/login" element={<SpotifyLogin />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route
@@ -67,7 +81,14 @@ const App = () => {
                           path="/payment/vnpay"
                           element={<VNPayPayment />}
                         />
-                        <Route path="/" element={<Navigate to="/user" replace />} />
+                        <Route
+                          path="/register-artist"
+                          element={<ArtistRegistration />}
+                        />
+                        <Route
+                          path="/"
+                          element={<Navigate to="/user" replace />}
+                        />
                       </Routes>
                       <Routes>
                         <Route
@@ -76,6 +97,14 @@ const App = () => {
                             <AdminLayout>
                               <Routes>
                                 <Route path="/account" element={<Upload />} />
+                                <Route
+                                  path="/artist-registration-requests"
+                                  element={<ArtistRegistrationRequests />}
+                                />
+                                <Route
+                                  path="/account-management"
+                                  element={<AccountManagement />}
+                                />
                               </Routes>
                             </AdminLayout>
                           }
