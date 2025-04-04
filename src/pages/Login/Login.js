@@ -11,7 +11,6 @@ import { handleError, handleSuccess } from "../../helpers/toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
-import Cookies from "js-cookie";
 import "./Login.css";
 import "react-toastify/dist/ReactToastify.css";
 import { addCookie, removeCookie } from "../../helpers/cookiesHelper";

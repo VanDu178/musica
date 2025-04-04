@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = React.memo(() => {
@@ -14,7 +15,9 @@ const Footer = React.memo(() => {
 
                 <aside className="footer-center" role="table">
                     <h4 className="footer-title" role="complementary">Cộng đồng</h4>
-                    <h6>Dành cho các nghệ sĩ</h6>
+                    <h6>
+                        <Link to="/register-artist" className="register-link">Dành cho các nghệ sĩ</Link>
+                    </h6>
                     <h6>Nhà phát triển</h6>
                     <h6>Quảng cáo</h6>
                     <h6>Nhà đầu tư</h6>

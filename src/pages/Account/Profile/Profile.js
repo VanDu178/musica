@@ -35,7 +35,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      if (userData.image_path != null) {
+      if (userData?.image_path != null) {
         setImageCover(userData?.image_path);
       } else {
         setImageCover(null);
@@ -53,10 +53,10 @@ const Profile = () => {
   };
 
   const handleRemoveAvatar = () => {
-    if (userData.image_path === imageCover) {
+    if (userData?.image_path === imageCover) {
       setImageCover(null);
     } else {
-      setImageCover(userData.image_path);
+      setImageCover(userData?.image_path);
     }
     setUserDataUpdate({ ...userDataUpdate, image_path: null });
     if (fileInputRef.current) {
@@ -68,24 +68,24 @@ const Profile = () => {
     const userInfoUpdate = new FormData();
     //Khong thay doi gi
     if (
-      userData.name === userDataUpdate.name &&
-      imageCover === userData.image_path
+      userData?.name === userDataUpdate.name &&
+      imageCover === userData?.image_path
     ) {
       return;
-    } else if (imageCover != userData.image_path && imageCover != null) {
+    } else if (imageCover != userData?.image_path && imageCover != null) {
       //TH co thay doi hinh anh
 
       userInfoUpdate.append("name", userDataUpdate.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "change_image");
     } else if (
-      imageCover === userData.image_path &&
-      userData.name != userDataUpdate.name
+      imageCover === userData?.image_path &&
+      userData?.name != userDataUpdate.name
     ) {
       userInfoUpdate.append("name", userDataUpdate.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "change_name");
-    } else if (imageCover === null && imageCover != userData.image_path) {
+    } else if (imageCover === null && imageCover != userData?.image_path) {
       userInfoUpdate.append("name", userDataUpdate.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "delete_image");
@@ -130,7 +130,7 @@ const Profile = () => {
         <label className="profile-label">{t("profile.avt")}</label>
         <div className="profile-avatar-container">
           <div className="avatar-wrapper">
-            {imageCover === userData.image_path && imageCover != null ? (
+            {imageCover === userData?.image_path && imageCover != null ? (
               <img
                 src={imageCover}
                 alt="Album Cover"

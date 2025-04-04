@@ -19,6 +19,9 @@ import { UserProvider } from "./context/UserProvider";
 import { UserDataProvider } from "./context/UserDataProvider";
 import PaymentMethod from "./pages/PaymentMethod/PaymentMethod";
 import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
+import ArtistRegistration from "./pages/ArtistRegistration/ArtistRegistration";
+import ArtistRegistrationRequests from "./pages/Admin/ArtistRegistrationRequests/ArtistRegistrationRequests";
+import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
 
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 
@@ -65,6 +68,10 @@ const App = () => {
                           path="/payment/vnpay"
                           element={<VNPayPayment />}
                         />
+                        <Route
+                          path="/register-artist"
+                          element={<ArtistRegistration />}
+                        />
                       </Routes>
                       <Routes>
                         <Route
@@ -73,6 +80,14 @@ const App = () => {
                             <ArtistLayout>
                               <Routes>
                                 <Route path="/account" element={<Upload />} />
+                                <Route
+                                  path="/artist-registration-requests"
+                                  element={<ArtistRegistrationRequests />}
+                                />
+                                <Route
+                                  path="/account-management"
+                                  element={<AccountManagement />}
+                                />
                               </Routes>
                             </ArtistLayout>
                           }
