@@ -48,6 +48,10 @@
   font-size: 54px;
   font-weight: 900;
   margin: 10px 0;
+  max-width: 8%; /* Giới hạn chiều rộng */
+  white-space: nowrap; /* Ngăn xuống dòng */
+  overflow: hidden; /* Ẩn nội dung vượt quá */
+  text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
 }
 
 .public-profile-verified-artist {
