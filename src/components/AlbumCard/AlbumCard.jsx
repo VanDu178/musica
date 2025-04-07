@@ -4,9 +4,12 @@ import { FaPlay } from "react-icons/fa";
 import "./AlbumCard.css";
 import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
-const AlbumCard = ({ title, image, artist }) => {
+import { useNavigate } from "react-router-dom";
+const AlbumCard = ({ title, image, artist, idAlbum }) => {
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -22,9 +25,22 @@ const AlbumCard = ({ title, image, artist }) => {
 
         fetchRole();
     }, [isLoggedIn]);
+
+
+    const handlePlayClick = () => {
+        if (idAlbum) {
+            navigate(`/user/playlist/${idAlbum}`);
+        }
+        return;
+    }
+
+
     if (!validRole) {
         return;
     }
+
+
+
     return (
         <div className="card album-card text-white position-relative">
             <div className="position-relative">
@@ -35,7 +51,9 @@ const AlbumCard = ({ title, image, artist }) => {
                 />
                 <div className="card-img-overlay d-flex align-items-end justify-content-between overlay-gradient">
                     <p></p>
-                    <button className="btn rounded-circle play-button">
+                    <button className="btn rounded-circle play-button"
+                        onClick={handlePlayClick}
+                    >
                         <FaPlay />
                     </button>
                 </div>

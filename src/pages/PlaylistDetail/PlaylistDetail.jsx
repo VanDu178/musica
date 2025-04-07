@@ -141,7 +141,7 @@ const PlaylistDetail = () => {
                         <Col xs={2}>{t("playlist.time")}</Col>
                     </Row>
                 </ListGroup.Item>
-                {playlistData.songs.map((song, index) => (
+                {playlistData?.songs?.map((song, index) => (
                     <SongItem
                         // key={song.id}
                         songId={song.id}

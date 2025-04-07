@@ -7,7 +7,7 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { checkData } from "../../helpers/encryptionHelper";
-const PlaylistCard = ({ image, title, description, idSong, idPlaylist, collab }) => {
+const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, collab }) => {
 
     const navigate = useNavigate();
     const { isLoggedIn } = useUserData();
