@@ -432,6 +432,17 @@
     "redirect_message": "Bạn sẽ được chuyển hướng về trang đăng nhập trong {{countdown}} giây.",
     "redirect_button": "Quay lại ngay",
     "error_contact_support": "Vui lòng liên hệ hỗ trợ nếu cần trợ giúp."
+  },
+  "publicProfile": {
+    "artist": "Nghệ sĩ",
+    "user": "Người dùng",
+    "verified_artist": "Nghệ sĩ đã xác nhận",
+    "popular": "Phổ biến",
+    "albums": "Album",
+    "about": "Giới thiệu",
+    "playlists": "Danh sách phát",
+    "no_bio": "Chưa có giới thiệu.",
+    "no_playlists": "Chưa có danh sách phát."
   }
 
 

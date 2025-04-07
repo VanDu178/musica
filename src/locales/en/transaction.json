@@ -432,6 +432,17 @@
     "redirect_message": "You will be redirected to the login page in {{countdown}} seconds.",
     "redirect_button": "Go to login now",
     "error_contact_support": "Please contact support for assistance."
+  },
+  "publicProfile": {
+    "artist": "Artist",
+    "user": "User",
+    "verified_artist": "Verified Artist",
+    "popular": "Popular",
+    "albums": "Albums",
+    "about": "About",
+    "playlists": "Playlists",
+    "no_bio": "No bio available.",
+    "no_playlists": "No playlists available."
   }
 
 

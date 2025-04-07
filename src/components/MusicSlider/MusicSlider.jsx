@@ -11,7 +11,7 @@ import { useUserData } from "../../context/UserDataProvider";
 import { checkData } from "../../helpers/encryptionHelper";
 
 
-const MusicSlider = ({ items, type }) => {
+const MusicSlider = ({ items, title, type }) => {
   const swiperRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -49,11 +49,7 @@ const MusicSlider = ({ items, type }) => {
   return (
     <div className="slider-container">
       <h2 className="slider-title">
-        {
-          type === "playlist" ? "Danh sách phát nổi bật"
-            : type === 'album' ? "Album hot nhất"
-              : "Bài hát hot nhất"
-        }
+        {title}
       </h2>
       <div className="slider-wrapper">
         <button className="slider-btn left" onClick={slidePrev}>
@@ -74,14 +70,14 @@ const MusicSlider = ({ items, type }) => {
           {items.map((item, index) => (
             <SwiperSlide key={index} className="slide-item">
               {
-                type === "playlist" ? (
+                type === "playlists" ? (
                   <PlaylistCard
                     title={item.title}
                     image={item.image_path}
                     description={item.name}
                     idPlaylist={item.id}
                   />
-                ) : (type === "song") ? (
+                ) : (type === "songs") ? (
                   <PlaylistCard
                     title={item.title}
                     image={item.image_path}
@@ -95,6 +91,7 @@ const MusicSlider = ({ items, type }) => {
                       title={item.name}
                       image={item.image_path}
                       artist={item.username}
+                      idAlbum={item.id}
                     />
                   )
               }

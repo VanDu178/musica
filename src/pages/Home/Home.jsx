@@ -86,13 +86,13 @@ const Home = () => {
 
                 <div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={playlists} type="playlist" />
+                        <MusicSlider items={playlists} type="playlists" title="Danh sách phát nổi bật" />
                     </div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={albums} type="album" />
+                        <MusicSlider items={albums} type="albums" title="Album hot nhất" />
                     </div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={songs} type="song" />
+                        <MusicSlider items={songs} type="songs" title="Bài hát hot nhất" />
                     </div>
                 </div>
             </div>

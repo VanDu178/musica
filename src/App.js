@@ -30,6 +30,7 @@ import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement
 
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
+import PublicProfile from "./pages/PublicProfile/PublicProfile";
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
@@ -152,6 +153,10 @@ const App = () => {
                                 />
                                 <Route path="/chat" element={<Chat />} />
                                 <Route path="/premium" element={<Premium />} />
+                                <Route
+                                  path="/public-profile/:id"
+                                  element={<PublicProfile />}
+                                />
                               </Routes>
                             </Main>
                           }
