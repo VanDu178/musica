@@ -11,7 +11,6 @@ import { useSearch } from "../../context/SearchContext";
 import Cookies from "js-cookie";
 import { checkData } from "../../helpers/encryptionHelper";
 import "./Header.css";
-import { set } from "lodash";
 
 const Header = () => {
   const { t, i18n } = useTranslation();
