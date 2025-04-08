@@ -136,7 +136,6 @@ const PublicProfile = () => {
       const response = await axiosInstance.get(
         `/public-profile/playlists/${profileId}/`
       );
-      console.log(response?.data);
       if (response?.status === 200) {
         setProfile((prevState) => ({
           ...prevState,
