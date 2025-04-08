@@ -145,6 +145,10 @@ const MusicPlayerControl = () => {
 
     // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
     if (playlist.length === 1) {
+      fetchNextSong();
+    }
+
+    const fetchNextSong = async () => {
       const checkedRoleUser = await checkData(3);
       if (checkedRoleUser) {
         try {
@@ -166,9 +170,8 @@ const MusicPlayerControl = () => {
       setCurrentTrackIndex(prevIndex => prevIndex + 1);
       setIdSong(playlist[currentTrackIndex + 1].id);
     } else {
-      // Nếu hết danh sách, quay lại bài đầu tiên
-      setCurrentTrackIndex(0);
-      setIdSong(playlist[0].id);
+      // Nếu hết danh sách (không có shuffle hay repeat), gọi API lấy bài tiếp theo
+      fetchNextSong();
     }
   };
 
