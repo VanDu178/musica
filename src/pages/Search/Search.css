@@ -59,6 +59,10 @@
   .search-song-top-title {
     font-size: 20px;
     font-weight: bold;
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .search-song-top-artist {
