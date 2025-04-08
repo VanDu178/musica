@@ -13,6 +13,7 @@ import { useUserData } from "../../context/UserDataProvider";
 import "./PlaylistDetail.css";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
 
 
 const PlaylistDetail = () => {
@@ -25,9 +26,11 @@ const PlaylistDetail = () => {
     const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
     const navigate = useNavigate();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user hoặc artist không
                 const checkedRoleArtist = await checkData(2);
@@ -35,8 +38,10 @@ const PlaylistDetail = () => {
 
                 if (checkedRoleArtist || checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -96,6 +101,9 @@ const PlaylistDetail = () => {
         fetchPlaylistData();
     }, []);
 
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
 
     if (!playlistData) {
         return <p>Loading...</p>; // Show loading state while data is being fetched

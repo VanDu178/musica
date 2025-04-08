@@ -290,7 +290,7 @@ const MusicPlayerControl = () => {
 
   //nếu không phải role user không hiển thị
   if (!validRole) {
-    return null;
+    return <div style={{ display: 'none' }} />;
   }
 
   return (

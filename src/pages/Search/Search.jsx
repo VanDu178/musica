@@ -29,15 +29,20 @@ const HomeTabs = () => {
     const [loading, setLoading] = useState(false);
     const [isloadingMore, setIsLoadingMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 const checkedRoleUser = await checkData(3);
                 setValidRole(checkedRoleUser);
+                setIsCheckingRole(false);
             } else {
                 setValidRole(true);
+                setIsCheckingRole(false);
             }
+            setIsCheckingRole(false);
         };
         fetchRole();
     }, [isLoggedIn]);
@@ -241,6 +246,10 @@ const HomeTabs = () => {
         if (selectedType == 'user') {
             fetchUsers(newOffset);
         }
+    }
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
     }
 
     if (!validRole) return <Forbidden />;

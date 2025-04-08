@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
 import Forbidden from "../../../components/Error/403/403";
+import Loading from "../../../components/Loading/Loading";
 
 
 const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
@@ -22,16 +23,20 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
     const { idSong } = useSong();
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user không
                 const checkedRoleUser = await checkData(3);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -110,6 +115,10 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
             console.log("Lỗi khi tạo playlist hoặc thêm bài hát!");
         }
     };
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="60" />;
+    }
 
     if (!isOpen) return null;
 

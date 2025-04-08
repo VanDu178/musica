@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
 import Forbidden from "../../../components/Error/403/403";
+import Loading from "../../../components/Loading/Loading";
 
 import './ArtistAlbumList.css';
 
@@ -17,16 +18,20 @@ const ArtistAlbumList = () => {
     const [error, setError] = useState(null);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải artist không
                 const checkedRoleUser = await checkData(2);
                 if (checkedRoleUser) {
                     setValidRole(true);
                 }
+                setIsCheckingRole(false);
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -54,6 +59,10 @@ const ArtistAlbumList = () => {
         // Logic tạo album mới (ví dụ: điều hướng đến trang tạo album)
         console.log('Create new album');
     };
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
 
     if (!validRole || !isLoggedIn) {
         return <Forbidden />;

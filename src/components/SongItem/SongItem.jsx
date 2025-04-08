@@ -44,8 +44,9 @@ const SongItem = ({ songId, song }) => {
     }
 
     if (!validRole) {
-        return null;
+        return <div style={{ display: 'none' }} />;
     }
+
     return (
         <ListGroup.Item
             className={`song-item ${idSong === songId && isPlaying ? "active" : ""}`}

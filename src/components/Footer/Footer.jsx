@@ -28,7 +28,7 @@ const Footer = React.memo(() => {
     }, [isLoggedIn]);
 
     if (!validRole) {
-        return null;
+        return <div style={{ display: 'none' }} />;
     }
 
     return (

@@ -9,6 +9,8 @@ import { handleSuccess, handleError } from '../../helpers/toast';
 import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
 import Forbidden from "../../components/Error/403/403";
+import Loading from "../../components/Loading/Loading";
+
 import "./UploadPage.css";
 
 const UploadPage = () => {
@@ -29,18 +31,21 @@ const UploadPage = () => {
     const [typingTimeout, setTypingTimeout] = useState(null);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
-
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải artist không
                 const checkedRoleUser = await checkData(2);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                     fetchArtists();
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -107,6 +112,11 @@ const UploadPage = () => {
             return;
         }
 
+        if (!image) {
+            setMessage(t("upload.selectImage"));
+            return;
+        }
+
         if (!title || !description || !genre) {
             setMessage(t("upload.fillAllFields"));
             return;
@@ -161,10 +171,6 @@ const UploadPage = () => {
         }
     };
 
-    if (!validRole || !isLoggedIn) {
-        return <Forbidden />;
-    }
-
     // Xử lý khi nhập dữ liệu vào input
     const handleChange = (e) => {
         const value = e.target.value;
@@ -189,6 +195,14 @@ const UploadPage = () => {
             fetchArtists(); // Gọi API ngay khi nhấn Enter
         }
     };
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
+
+    if (!validRole || !isLoggedIn) {
+        return <Forbidden />;
+    }
 
     return (
         <div className="upload-page">

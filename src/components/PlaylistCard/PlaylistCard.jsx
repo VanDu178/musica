@@ -42,7 +42,7 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
     };
 
     if (!validRole) {
-        return null;
+        return <div style={{ display: 'none' }} />;
     }
 
     return (

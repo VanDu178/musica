@@ -45,7 +45,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
   };
 
   if (!validRole) {
-    return null;
+    return <div style={{ display: 'none' }} />;
   }
 
   return (

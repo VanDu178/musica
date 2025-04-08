@@ -271,6 +271,7 @@
     "upload": {
         "title": "Upload MP3",
         "selectFile": "Please select a file to upload.",
+        "selectImage": "Please select a image to upload.",
         "uploading": "Uploading...",
         "upload": "Upload",
         "success": "File uploaded successfully!",
