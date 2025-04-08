@@ -1,0 +1,182 @@
+/* File: PublicProfile.css */
+.public-profile-container {
+  background: linear-gradient(#282828, #181818);
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Circular', 'Helvetica', 'Arial', sans-serif;
+  width: 100%;
+}
+
+.public-profile-header {
+  padding: 80px 20px 20px;
+  background: linear-gradient(to bottom, #535353, #1db954);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.public-profile-header-content {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.public-profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.public-profile-info {
+  margin-bottom: 20px;
+}
+
+.public-profile-type {
+  font-size: 14px;
+  color: #b3b3b3;
+  text-transform: uppercase;
+}
+
+.public-profile-name-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.public-profile-name {
+  font-size: 54px;
+  font-weight: 900;
+  margin: 10px 0;
+  max-width: 8%; /* Giới hạn chiều rộng */
+  white-space: nowrap; /* Ngăn xuống dòng */
+  overflow: hidden; /* Ẩn nội dung vượt quá */
+  text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
+}
+
+.public-profile-verified-artist {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.public-profile-verified-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #1db954;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.public-profile-verified-text {
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.public-profile-content {
+  padding: 20px;
+}
+
+.public-profile-play-controls {
+  margin-bottom: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.public-profile-play-pause-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1db954;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.public-profile-play-pause-btn:hover {
+  transform: scale(1.05);
+  background: #1ed760;
+}
+
+.public-profile-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.public-profile-tab-list {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #282828;
+}
+
+.public-profile-tab {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  padding: 15px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.public-profile-tab:hover,
+.public-profile-tab.active {
+  color: #fff;
+}
+
+.public-profile-section {
+  margin-bottom: 40px;
+}
+
+.public-profile-section-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.public-profile-bio {
+  font-size: 16px;
+  color: #b3b3b3;
+  line-height: 1.5;
+}
+
+/* Thêm vào cho ListGroup header */
+.public-profile-song-header {
+  background: #1e1e1e;
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+  color: #fff;
+}
+
+/* Giữ lại class cho MusicSlider nếu cần */
+.public-profile-card-group {
+  /* Nếu MusicSlider cần style riêng, thêm ở đây */
+}
+
+/* Nếu MusicSlider yêu cầu scroll */
+.public-profile-card-group-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+}
+.loading-message {
+  color: #666;
+  text-align: center;
+  margin-top: 2rem;
+}

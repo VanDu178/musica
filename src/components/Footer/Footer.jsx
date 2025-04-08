@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import "./Footer.css";
 import { checkData } from "../../helpers/encryptionHelper";
@@ -39,7 +40,9 @@ const Footer = React.memo(() => {
 
                 <aside className="footer-center" role="table">
                     <h4 className="footer-title" role="complementary">Cộng đồng</h4>
-                    <h6>Dành cho các nghệ sĩ</h6>
+                    <h6>
+                        <Link to="/register-artist" className="register-link">Dành cho các nghệ sĩ</Link>
+                    </h6>
                     <h6>Nhà phát triển</h6>
                     <h6>Quảng cáo</h6>
                     <h6>Nhà đầu tư</h6>

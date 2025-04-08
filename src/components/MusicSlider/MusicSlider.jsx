@@ -12,8 +12,8 @@ import { checkData } from "../../helpers/encryptionHelper";
 import UserCard from "../UserCard/UserCard";
 
 
+const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
 
-const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow }) => {
   const swiperRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -50,7 +50,11 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow }) => {
 
   return (
     <div className="slider-container">
+      <h2 className="slider-title">
+        {title}
+      </h2>
       <h2 className="slider-title">{titleSlider}</h2>
+
       <div className="slider-wrapper">
         {
           !isHiddenFaArrow && (
@@ -74,14 +78,14 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow }) => {
           {items.map((item, index) => (
             <SwiperSlide key={index} className="slide-item">
               {
-                type === "playlist" ? (
+                type === "playlists" ? (
                   <PlaylistCard
                     title={item.title}
                     image={item.image_path}
                     description={item.name}
                     idPlaylist={item.id}
                   />
-                ) : (type === "song") ? (
+                ) : (type === "songs") ? (
                   <PlaylistCard
                     title={item.title}
                     image={item.image_path}
@@ -109,6 +113,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow }) => {
                       title={item.name}
                       image={item.image_path}
                       artist={item.username}
+                      idAlbum={item.id}
                     />
                   )
               }

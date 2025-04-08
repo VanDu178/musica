@@ -115,8 +115,8 @@ const PlaylistDetail = () => {
                     />
                 </Col>
                 <Col md={9}>
-                    <h2 className="fw-bold">{playlistData.playlist.name}</h2>
-                    <p>{playlistData.playlist.username}</p> {/* Display username or other details */}
+                    <h2 className="fw-bold playlist-name">{playlistData.playlist.name}</h2>
+                    <p className="playlist-detail">{playlistData.playlist.username}</p> {/* Display username or other details */}
                     <Button variant="success" className="me-2" onClick={togglePlay}>
                         {isPlaying ? (
                             <span>
@@ -141,7 +141,7 @@ const PlaylistDetail = () => {
                         <Col xs={2}>{t("playlist.time")}</Col>
                     </Row>
                 </ListGroup.Item>
-                {playlistData.songs.map((song, index) => (
+                {playlistData?.songs?.map((song, index) => (
                     <SongItem
                         // key={song.id}
                         songId={song.id}

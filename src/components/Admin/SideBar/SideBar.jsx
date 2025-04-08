@@ -37,6 +37,8 @@ const Sidebar = () => {
     const menuItems = [
         { name: t('admin.sidebar.account'), path: '/admin/account' },
         { name: t('admin.sidebar.accountArtist'), path: '/admin/account-artist' },
+        { name: t('admin.sidebar.artistRegistrationRequests'), path: '/admin/artist-registration-requests' },
+        { name: t('admin.sidebar.accountManagement'), path: '/admin/account-management' },
     ];
 
     // Hàm xử lý khi nhấp vào menu item

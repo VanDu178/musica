@@ -29,3 +29,25 @@
     color: #1db954;
   }
   
+
+
+  .playlist-name{
+    max-width: 50%; /* Giới hạn chiều rộng */
+    white-space: nowrap; /* Ngăn xuống dòng */
+    overflow: hidden; /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
+  }
+
+  .playlist-detail {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    max-width: 50%; 
+    text-align:left;
+}
+  
+  
