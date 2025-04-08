@@ -33,6 +33,9 @@ import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
 
+import Search from "./pages/Search/Search";
+
+
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
 import ArtistSongList from "./pages/Artist/ArtistSongList/ArtistSongList";
@@ -166,8 +169,12 @@ const App = () => {
                                   <Route path="/chat" element={<Chat />} />
                                   <Route path="/premium" element={<Premium />} />
                                   <Route
-                                    path="/public-profile/:id"
+                                    path="/public-profile/:profileId"
                                     element={<PublicProfile />}
+                                  />
+                                  <Route
+                                    path="/search"
+                                    element={<Search />}
                                   />
                                 </Routes>
                               </Main>

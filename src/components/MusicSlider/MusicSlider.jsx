@@ -99,6 +99,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
                     image={item.image_path}
                     role_id={item.role_id}
                     type="user"
+                    idUser={item.id}
                   />
                 ) : (type === "artist") ? (
                   <UserCard
@@ -106,6 +107,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
                     image={item.image_path}
                     role_id={item.role_id}
                     type="artist"
+                    idUser={item.id}
                   />
                 ) :
                   (

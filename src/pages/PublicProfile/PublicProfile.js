@@ -10,11 +10,11 @@ import SongItem from "../../components/SongItem/SongItem";
 import { useUserData } from "../../context/UserDataProvider";
 import { hash, checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
+import { useParams } from "react-router-dom";
 import "./PublicProfile.css";
 
 const PublicProfile = () => {
   const { t } = useTranslation();
-  const [profileId, setProfileId] = useState(14);
   const [profile, setProfile] = useState({
     inFor: {},
     playlists: [],
@@ -32,6 +32,7 @@ const PublicProfile = () => {
   const popularRef = useRef(null);
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
+  const { profileId } = useParams();
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -156,26 +157,8 @@ const PublicProfile = () => {
     }
   };
 
-  const handleRetry = () => {
-    setError(null);
-    setIsLoading(true);
-    // Trigger useEffect again
-    setProfileId((prev) => prev);
-  };
-
   if (!isLoggedIn || !validRole) {
     return <Forbidden />;
-  }
-
-  if (error) {
-    return (
-      <div className="public-profile-error">
-        <p>{error}</p>
-        <button onClick={handleRetry}>
-          {t("publicProfile.retry") || "Thử lại"}
-        </button>
-      </div>
-    );
   }
 
   if (isLoading) {
