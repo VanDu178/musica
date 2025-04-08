@@ -354,7 +354,7 @@ const HomeTabs = () => {
                                             <SongItem
                                                 key={song.songId}
                                                 song={song}
-                                                songId={song.songId}
+                                                songId={song.id}
                                                 className="search-song-item"
                                             />
                                         ))}
@@ -426,7 +426,7 @@ const HomeTabs = () => {
                                         <SongItem
                                             key={song.songId}
                                             song={song}
-                                            songId={song.songId}
+                                            songId={song.id}
                                         />
                                     ))}
                                 </ListGroup>

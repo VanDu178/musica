@@ -40,7 +40,10 @@ const SongItem = ({ songId, song }) => {
 
     const handlePlay = () => {
         setIdSong(songId);
-        setIsPlaying(!isPlaying);
+
+        // chỗ này nếu đang phát mà set như này là sẽ dừng bài hát phải set bằng true
+        // setIsPlaying(!isPlaying);
+        setIsPlaying(true);
     }
 
     if (!validRole) {
