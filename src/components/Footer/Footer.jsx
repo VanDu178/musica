@@ -65,7 +65,11 @@ const Footer = React.memo(() => {
                 </aside>
             </div>
             <div>
-                <h6 className="footer-copyright">© 2025 Spotify ZiZoDac</h6>
+                <h6 className="footer-copyright">© 2025 ZiZoDac Team</h6>
+            </div>
+            <hr />
+            <div>
+                <div className="footer-redtitle">ĐÂY LÀ TRANG WEB PHỤC VỤ CHO MỤC ĐÍCH HỌC TẬP !!!</div>
             </div>
         </footer>
     );

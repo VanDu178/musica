@@ -1,0 +1,70 @@
+/* Container chính của user card */
+  .user-card-container {
+    width: 100%; /* Kích thước cố định cho card */
+    border-radius: 10px; /* Bo góc cho toàn bộ card */
+    overflow: hidden; /* Ẩn các phần tử con vượt ra ngoài */
+    transition: transform 0.2s ease-in-out; /* Hiệu ứng phóng to khi hover */
+    justify-content: center;
+  }
+  .user-card-container:hover {
+    transform: scale(1.05); /* Phóng to 5% khi hover */
+    cursor: pointer; /* Thay đổi con trỏ khi hover */
+  }
+
+  .user-card-position-relative {
+    display: flex; /* Sử dụng Flexbox */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    position: relative; /* Giữ position relative để overlay và play button hoạt động */
+    padding-top: 5px;  
+  }
+  /* Hình ảnh người dùng */
+  .user-card-img-top {
+    border-radius: 50%; /* Hình tròn */
+    width: 120px; /* Chiếm toàn bộ chiều rộng của container */
+    height:120px ; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    display: block; /* Loại bỏ khoảng trống bên dưới hình ảnh */
+    text-align: center; /* Căn giữa nội dung */
+  }
+  
+  /* Phần thân của card */
+  .user-card-body {
+    margin-left: 10%;
+    padding: 15px; /* Khoảng cách bên trong */
+    text-align: left; /* Căn giữa nội dung */
+  }
+  
+  /* Tiêu đề của card (tên người dùng) */
+  .user-card-title {
+    display: block; /* Chiếm toàn bộ chiều rộng */
+    max-width: 100%; /* Giới hạn chiều rộng */
+    white-space: nowrap; /* Ngăn xuống dòng */
+    overflow: hidden; /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
+    font-size: 18px; /* Kích thước chữ */
+    margin-bottom: 2px; /* Khoảng cách với phần text bên dưới */
+    color: #e8e7e7; /* Màu chữ trắng */
+  }
+  
+  /* Văn bản phụ (vai trò: artist hoặc profile) */
+  .user-card-text {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px; /* Kích thước chữ nhỏ hơn */
+    color: #b3b3b3; /* Màu xám nhạt cho văn bản phụ */
+    margin: 0; /* Loại bỏ margin mặc định */
+  }
+  
+  /* Album card (nếu cần tái sử dụng) */
+  .album-card {
+    border: none; /* Không viền */
+  }
+  
+  /* Hình ảnh trong album card */
+  .album-card img {
+    height: 160px;
+    object-fit: cover;
+  }

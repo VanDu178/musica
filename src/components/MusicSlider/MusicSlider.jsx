@@ -9,9 +9,11 @@ import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import AlbumCard from "../AlbumCard/AlbumCard";
 import { useUserData } from "../../context/UserDataProvider";
 import { checkData } from "../../helpers/encryptionHelper";
+import UserCard from "../UserCard/UserCard";
 
 
-const MusicSlider = ({ items, type }) => {
+
+const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow }) => {
   const swiperRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -48,17 +50,15 @@ const MusicSlider = ({ items, type }) => {
 
   return (
     <div className="slider-container">
-      <h2 className="slider-title">
-        {
-          type === "playlist" ? "Danh sách phát nổi bật"
-            : type === 'album' ? "Album hot nhất"
-              : "Bài hát hot nhất"
-        }
-      </h2>
+      <h2 className="slider-title">{titleSlider}</h2>
       <div className="slider-wrapper">
-        <button className="slider-btn left" onClick={slidePrev}>
-          <FaArrowLeft />
-        </button>
+        {
+          !isHiddenFaArrow && (
+            <button className="slider-btn left" onClick={slidePrev}>
+              <FaArrowLeft />
+            </button>
+          )
+        }
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={2}
@@ -89,6 +89,20 @@ const MusicSlider = ({ items, type }) => {
                     idSong={item.id}
                     collab={item.collab_artists}
                   />
+                ) : (type === "user") ? (
+                  <UserCard
+                    name={item.name}
+                    image={item.image_path}
+                    role_id={item.role_id}
+                    type="user"
+                  />
+                ) : (type === "artist") ? (
+                  <UserCard
+                    name={item.name}
+                    image={item.image_path}
+                    role_id={item.role_id}
+                    type="artist"
+                  />
                 ) :
                   (
                     <AlbumCard
@@ -101,9 +115,13 @@ const MusicSlider = ({ items, type }) => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <button className="slider-btn right" onClick={slideNext}>
-          <FaArrowRight />
-        </button>
+        {
+          !isHiddenFaArrow && (
+            <button className="slider-btn right" onClick={slideNext}>
+              <FaArrowRight />
+            </button>
+          )
+        }
       </div>
     </div>
   );
