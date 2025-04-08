@@ -49,114 +49,149 @@ const App = () => {
     <UserDataProvider>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <UserProvider>
-          <IsPlayingProvider>
-            <SongProvider>
-              <PlaylistProvider>
-                <UserProvider>
-                  <Router>
-                    <div
-                      className="App"
-                      style={{ backgroundColor: "#000000", minHeight: "100vh" }}
-                    >
-                      <Routes>
-                        {/* Các route không cần sidebar,header,footer */}
-                        <Route path="/login" element={<SpotifyLogin />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route
-                          path="/password-reset"
-                          element={<ResetPassword />}
-                        />
-                        <Route
-                          path="/account/overview"
-                          element={<Overview />}
-                        />
-                        <Route path="/account/profile" element={<Profile />} />
-                        <Route
-                          path="/payment-method"
-                          element={<PaymentMethod />}
-                        />
-                        <Route
-                          path="/payment/vnpay"
-                          element={<VNPayPayment />}
-                        />
-                        <Route path="/" element={<Navigate to="/user" replace />} />
-                      </Routes>
-                      <Routes>
-                        <Route
-                          path="/admin/*"
-                          element={
-                            <AdminLayout>
-                              <Routes>
-                                <Route path="/account" element={<Upload />} />
-                              </Routes>
-                            </AdminLayout>
-                          }
-                        />
-                      </Routes>
+          <SearchProvider>
+            <IsPlayingProvider>
+              <SongProvider>
+                <PlaylistProvider>
+                  <UserProvider>
+                    <Router>
+                      <div
+                        className="App"
+                        style={{ backgroundColor: "#000000", minHeight: "100vh" }}
+                      >
+                        <Routes>
+                          {/* Các route không cần sidebar,header,footer */}
+                          <Route
+                            path="/activate/:uidb64/:token"
+                            element={<ActivateAccount />}
+                          />
+                          <Route path="/login" element={<SpotifyLogin />} />
+                          <Route path="/signup" element={<Signup />} />
+                          <Route
+                            path="/password-reset"
+                            element={<ResetPassword />}
+                          />
+                          <Route
+                            path="/account/overview"
+                            element={<Overview />}
+                          />
+                          <Route path="/account/profile" element={<Profile />} />
+                          <Route
+                            path="/payment-method"
+                            element={<PaymentMethod />}
+                          />
+                          <Route
+                            path="/payment/vnpay"
+                            element={<VNPayPayment />}
+                          />
+                          <Route
+                            path="/register-artist"
+                            element={<ArtistRegistration />}
+                          />
+                          <Route path="/" element={<Navigate to="/user" replace />} />
+                        </Routes>
+                        <Routes>
+                          <Route
+                            path="/admin/*"
+                            element={
+                              <AdminLayout>
+                                <Routes>
+                                  <Route path="/account" element={<Upload />} />
+                                </Routes>
+                              </AdminLayout>
+                            }
+                          />
+                        </Routes>
 
-                      {/* ARTIST */}
-                      <Routes>
-                        <Route
-                          path="/artist/*"
-                          element={
-                            <ArtistLayout>
-                              <Routes>
-                                <Route path="/upload" element={<Upload />} />
-                                <Route
-                                  path="/songs"
-                                  element={<ArtistSongList />}
-                                />
-                                <Route
-                                  path="/albums"
-                                  element={<ArtistAlbumList />}
-                                />
-                                <Route
-                                  path="/albums/new"
-                                  element={<CreateAlbum />}
-                                />
-                              </Routes>
-                            </ArtistLayout>
-                          }
-                        />
-                      </Routes>
+                        <Routes>
+                          <Route
+                            path="/admin/*"
+                            element={
+                              <AdminLayout>
+                                <Routes>
+                                  <Route path="/account" element={<Upload />} />
+                                  <Route
+                                    path="/artist-registration-requests"
+                                    element={<ArtistRegistrationRequests />}
+                                  />
+                                  <Route
+                                    path="/account-management"
+                                    element={<AccountManagement />}
+                                  />
+                                </Routes>
+                              </AdminLayout>
+                            }
+                          />
+                        </Routes>
 
-                      {/* USER */}
-                      <Routes>
-                        {/* Các route cần sidebar,header,footer được bao trong MainLayout */}
-                        <Route
-                          path="/user/*"
-                          element={
-                            <Main>
-                              <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route
-                                  path="/playlist/:idPlaylist"
-                                  element={<PlaylistDetail />}
-                                />
-                                <Route path="/chat" element={<Chat />} />
-                                <Route path="/premium" element={<Premium />} />
-                              </Routes>
-                            </Main>
-                          }
+                        {/* ARTIST */}
+                        <Routes>
+                          <Route
+                            path="/artist/*"
+                            element={
+                              <ArtistLayout>
+                                <Routes>
+                                  <Route path="/upload" element={<Upload />} />
+                                  <Route
+                                    path="/songs"
+                                    element={<ArtistSongList />}
+                                  />
+                                  <Route
+                                    path="/albums"
+                                    element={<ArtistAlbumList />}
+                                  />
+                                  <Route
+                                    path="/albums/new"
+                                    element={<CreateAlbum />}
+                                  />
+                                </Routes>
+                              </ArtistLayout>
+                            }
+                          />
+                        </Routes>
+
+                        {/* USER */}
+                        <Routes>
+                          {/* Các route cần sidebar,header,footer được bao trong MainLayout */}
+                          <Route
+                            path="/user/*"
+                            element={
+                              <Main>
+                                <Routes>
+                                  <Route path="/" element={<Home />} />
+                                  <Route
+                                    path="/playlist/:idPlaylist"
+                                    element={<PlaylistDetail />}
+                                  />
+                                  <Route path="/chat" element={<Chat />} />
+                                  <Route path="/premium" element={<Premium />} />
+                                  <Route
+                                    path="/public-profile/:id"
+                                    element={<PublicProfile />}
+                                  />
+                                </Routes>
+                              </Main>
+                            }
+                          />
+                        </Routes>
+                        <ToastContainer
+                          position="top-right"
+                          autoClose={3000}
+                          hideProgressBar={false}
+                          newestOnTop={true}
+                          closeOnClick
+                          rtl={false}
+                          pauseOnFocusLoss
+                          draggable
+                          pauseOnHover
                         />
-                      </Routes>
-                      <ToastContainer
-                        position="top-right"
-                        autoClose={3000}
-                        hideProgressBar={false}
-                        newestOnTop={true}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                      />
-                    </div>
-                  </Router>
-                </UserProvider>
-              </PlaylistProvider>
-            </SongProvider>
-          </IsPlayingProvider>
+                      </div>
+                    </Router>
+                  </UserProvider>
+                </PlaylistProvider>
+              </SongProvider>
+            </IsPlayingProvider>
+          </SearchProvider>
         </UserProvider>
       </GoogleOAuthProvider>
     </UserDataProvider>
