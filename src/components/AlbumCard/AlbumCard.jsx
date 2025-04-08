@@ -59,8 +59,8 @@ const AlbumCard = ({ title, image, artist, idAlbum }) => {
                 </div>
             </div>
             <div className="card-body text-center">
-                <b className="card-title text-truncate m-0" title={title}>{title}</b>
-                <p className="card-text text-truncate" title={artist}>{artist}</p>
+                <h6 className="card-title-album text-truncate m-0" title={title}>{title}</h6>
+                <div className="card-text-album text-truncate" title={artist}>{artist}</div>
             </div>
         </div>
     );

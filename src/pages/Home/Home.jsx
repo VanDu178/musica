@@ -44,22 +44,72 @@ const Home = () => {
 
     // Hàm gọi API để lấy danh sách trending playlists và albums
     useEffect(() => {
+
         const fetchTrendingData = async () => {
+            const CACHE_KEY = "trendingData"; // Key để lưu trong localStorage
+            const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 tiếng tính bằng milliseconds
+
+            // Hàm kiểm tra và lấy dữ liệu từ localStorage
+            const getCachedData = () => {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    const { data, timestamp } = JSON.parse(cached);
+                    const now = Date.now();
+                    if (now - timestamp < CACHE_DURATION) {
+                        return data; // Trả về dữ liệu nếu chưa quá 2 tiếng
+                    }
+                }
+                return null; // Không có dữ liệu hoặc đã hết hạn
+            };
+
+            // Lấy dữ liệu từ localStorage
+            const cachedData = getCachedData();
+
+            if (cachedData) {
+                // Nếu có dữ liệu hợp lệ trong cache, sử dụng nó
+                setPlaylists(cachedData.playlists);
+                setSongs(cachedData.songs);
+                setAlbums(cachedData.albums);
+                setLoading(false);
+                return; // Kết thúc hàm, không gọi API
+            }
+
+            // Nếu không có dữ liệu hoặc dữ liệu hết hạn, gọi API
             try {
-                // Gọi API để lấy danh sách trending playlists
                 const playlistResponse = await axiosInstance.get("/trending/playlists/");
-                setPlaylists(playlistResponse.data.trending_playlists);
-
                 const songResponse = await axiosInstance.get("/trending/songs/");
-                setSongs(songResponse.data.trending_songs);
-
-                // Gọi API để lấy danh sách trending albums
                 const albumResponse = await axiosInstance.get("/trending/albums/");
+
+                // Cập nhật state với dữ liệu mới
+                setPlaylists(playlistResponse.data.trending_playlists);
+                setSongs(songResponse.data.trending_songs);
                 setAlbums(albumResponse.data.trending_albums);
+
+                // Dữ liệu mới để lưu vào localStorage
+                const newData = {
+                    playlists: playlistResponse.data.trending_playlists,
+                    songs: songResponse.data.trending_songs,
+                    albums: albumResponse.data.trending_albums,
+                };
+
+                // Lưu vào localStorage kèm thời gian cập nhật
+                const dataToCache = {
+                    data: newData,
+                    timestamp: Date.now(), // Thời gian hiện tại
+                };
+
+                // Kiểm tra xem có dữ liệu cũ trong localStorage không
+                if (localStorage.getItem(CACHE_KEY)) {
+                    localStorage.removeItem(CACHE_KEY); // Xóa dữ liệu cũ
+                }
+                localStorage.setItem(CACHE_KEY, JSON.stringify(dataToCache)); // Lưu dữ liệu mới
             } catch (error) {
-                console.error("Error fetching trending data:", error.response ? error.response.data : error.message);
+                console.error(
+                    "Error fetching trending data:",
+                    error.response ? error.response.data : error.message
+                );
             } finally {
-                setLoading(false); // Tắt trạng thái loading sau khi gọi API xong
+                setLoading(false); // Tắt trạng thái loading
             }
         };
 

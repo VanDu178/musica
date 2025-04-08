@@ -54,7 +54,6 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
                     alt={title}
                 />
                 <div className="card-img-overlay d-flex align-items-end justify-content-between overlay-gradient">
-                    <h5 className="card-title text-truncate m-0" title={title}>{title}</h5>
                     <button
                         className="btn rounded-circle play-button"
                         onClick={handlePlayClick}
@@ -64,13 +63,14 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
                 </div>
             </div>
             <div className="card-body text-center">
-                <p
-                    className="card-text text-truncate"
+                <h6 className="card-title text-truncate m-0" title={title}>{title}</h6>
+                <div
+                    className="card-text-playlist text-truncate"
                     title={`${description}${Array.isArray(collab) && collab.length > 0 ? `, ${collab.join(', ')}` : ''}`}
                 >
                     {description}
                     {Array.isArray(collab) && collab.length > 0 && `, ${collab.join(', ')}`}
-                </p>
+                </div>
             </div>
         </div>
     );
