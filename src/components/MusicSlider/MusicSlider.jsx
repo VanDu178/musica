@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./MusicSlider.css";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import AlbumCard from "../AlbumCard/AlbumCard";
@@ -59,7 +59,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
         {
           !isHiddenFaArrow && (
             <button className="slider-btn left" onClick={slidePrev}>
-              <FaArrowLeft />
+              <FaChevronLeft />
             </button>
           )
         }
@@ -76,55 +76,56 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
           className="mySwiper"
         >
           {items.map((item, index) => (
-            <SwiperSlide key={index} className="slide-item">
-              {
-                type === "playlists" ? (
-                  <PlaylistCard
-                    image={item.image_path}
+            <SwiperSlide key={index} className={`${type === "user" || type === "artist" ? "no-hover" : "slide-item"}`}>              {
+              type === "playlists" ? (
+                <PlaylistCard
+                  image={item.image_path}
+                  title={item.name}
+                  idPlaylist={item.id}
+                />
+              ) : (type === "song") ? (
+                <PlaylistCard
+                  title={item.title}
+                  image={item.image_path}
+                  description={item.user}
+                  idSong={item.id}
+                  collab={item.collab_artists}
+                />
+              ) : (type === "user") ? (
+                <UserCard
+                  name={item.name}
+                  image={item.image_path}
+                  role_id={item.role_id}
+                  type="user"
+                  idUser={item.id}
+                  isSlider={true}
+                />
+              ) : (type === "artist") ? (
+                <UserCard
+                  name={item.name}
+                  image={item.image_path}
+                  role_id={item.role_id}
+                  type="artist"
+                  idUser={item.id}
+                  isSlider={true}
+                />
+              ) :
+                (
+                  <AlbumCard
                     title={item.name}
-                    idPlaylist={item.id}
-                  />
-                ) : (type === "song") ? (
-                  <PlaylistCard
-                    title={item.title}
                     image={item.image_path}
-                    description={item.user}
-                    idSong={item.id}
-                    collab={item.collab_artists}
+                    artist={item.username}
+                    idAlbum={item.id}
                   />
-                ) : (type === "user") ? (
-                  <UserCard
-                    name={item.name}
-                    image={item.image_path}
-                    role_id={item.role_id}
-                    type="user"
-                    idUser={item.id}
-                  />
-                ) : (type === "artist") ? (
-                  <UserCard
-                    name={item.name}
-                    image={item.image_path}
-                    role_id={item.role_id}
-                    type="artist"
-                    idUser={item.id}
-                  />
-                ) :
-                  (
-                    <AlbumCard
-                      title={item.name}
-                      image={item.image_path}
-                      artist={item.username}
-                      idAlbum={item.id}
-                    />
-                  )
-              }
+                )
+            }
             </SwiperSlide>
           ))}
         </Swiper>
         {
           !isHiddenFaArrow && (
             <button className="slider-btn right" onClick={slideNext}>
-              <FaArrowRight />
+              <FaChevronRight />
             </button>
           )
         }

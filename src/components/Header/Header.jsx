@@ -101,7 +101,6 @@ const Header = () => {
         <FaSpotify
           onClick={() => {
             if (inputRef.current) {
-              console.log(inputRef.current.value); // In giá trị input ra console
               inputRef.current.value = ""; // Reset giá trị input qua ref
               handleSearch();
             }
