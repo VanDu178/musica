@@ -80,9 +80,8 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
               {
                 type === "playlists" ? (
                   <PlaylistCard
-                    title={item.title}
                     image={item.image_path}
-                    description={item.name}
+                    title={item.name}
                     idPlaylist={item.id}
                   />
                 ) : (type === "song") ? (
