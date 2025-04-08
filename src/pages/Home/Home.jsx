@@ -123,7 +123,7 @@ const Home = () => {
     }, []); // Chỉ chạy một lần khi component mount
 
     if (IsCheckingRole) {
-        return <Loading message={t("utils.loading")} height="100" />;
+        return <Loading message={t("utils.loading")} height="80" />;
     }
 
     // Hiển thị loading nếu dữ liệu chưa được tải
