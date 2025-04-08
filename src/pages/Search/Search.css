@@ -1,3 +1,7 @@
+.search-container{
+  background-color: #121212;
+  min-height: 70vh;
+}
 .search-song-app {
     background-color: #121212;
     color: #fff;

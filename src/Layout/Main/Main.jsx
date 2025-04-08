@@ -8,10 +8,13 @@ import "./Main.css";
 import { useUserData } from "../../context/UserDataProvider";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
+import { useLocation } from 'react-router-dom';
+
 
 const Main = ({ children }) => {
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(true);
+
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -27,10 +30,10 @@ const Main = ({ children }) => {
         fetchRole();
     }, [isLoggedIn]);
 
+
     if (!validRole) {
         return <Forbidden />;
     }
-
     return (
         <div className="main-container">
             <header className="main-header">
@@ -42,7 +45,7 @@ const Main = ({ children }) => {
                 </div>
                 <div className="main-content-container">
                     {children}
-                    <Footer />
+                    < Footer />
                 </div>
             </div>
             <MusicPlayerControls />

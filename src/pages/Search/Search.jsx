@@ -13,7 +13,7 @@ import UserCard from "../../components/UserCard/UserCard";
 import axiosInstance from "../../config/axiosConfig";
 import MusicSlider from "../../components/MusicSlider/MusicSlider";
 import { useSearch } from "../../context/SearchContext";
-import "./HomeTabs.css";
+import "./Search.css";
 
 const HomeTabs = () => {
     const { t } = useTranslation();
@@ -24,7 +24,7 @@ const HomeTabs = () => {
     const [albums, setAlbums] = useState([]);
     const [artists, setArtists] = useState([]);
     const [users, setUsers] = useState([]);
-    const { searchKeyword, selectedType } = useSearch();
+    const { searchKeyword, selectedType, setSelectedType } = useSearch();
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const [isloadingMore, setIsLoadingMore] = useState(true);
@@ -248,12 +248,53 @@ const HomeTabs = () => {
 
     if (!validRole) return <Forbidden />;
 
-    if (loading) {
-        return <Loading message={t("utils.loading")} height="60" />;
-    }
-
     return (
-        <div className="home-tabs-container">
+        <div className="search-container">
+
+            <nav className="navbar navbar-expand-lg navbar-light">
+                <div className="d-flex justify-content-center">
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "all" ? "active" : ""}`}
+                        onClick={() => setSelectedType("all")}
+                    >
+                        {t("home.all")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "song" ? "active" : ""}`}
+                        onClick={() => setSelectedType("song")}
+                    >
+                        {t("home.music")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "playlist" ? "active" : ""}`}
+                        onClick={() => setSelectedType("playlist")}
+                    >
+                        {t("home.playlists")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "album" ? "active" : ""}`}
+                        onClick={() => setSelectedType("album")}
+                    >
+                        {t("home.albums")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "user" ? "active" : ""}`}
+                        onClick={() => setSelectedType("user")}
+                    >
+                        {t("home.users")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "artist" ? "active" : ""}`}
+                        onClick={() => setSelectedType("artist")}
+                    >
+                        {t("home.artists")}
+                    </button>
+                </div>
+            </nav>
+            {loading && (
+                <Loading message={t("utils.loading")} height="60" />
+            )}
+
             {selectedType === "all" && (
                 <>
                     {/* load danh sách bài hát */}
@@ -309,7 +350,12 @@ const HomeTabs = () => {
                     {/* load danh sách nghệ sĩ */}
                     <div className="container mt-4">
                         {artists.length > 0 && (
-                            <MusicSlider isHiddenFaArrow="true" items={artists} type="artist" titleSlider="Nghệ sĩ" />
+                            <MusicSlider
+                                isHiddenFaArrow="true"
+                                items={artists}
+                                type="artist"
+                                titleSlider="Nghệ sĩ"
+                            />
                         )}
                     </div>
 
@@ -382,6 +428,7 @@ const HomeTabs = () => {
                                         role_id={artist.role_id}
                                         type="artist"
                                         className="search-artist-card"
+                                        idUser={artist.id}
                                     />
                                 ))
                             ) : (
@@ -483,6 +530,7 @@ const HomeTabs = () => {
                                         role_id={user.role_id}
                                         type="user"
                                         className="search-artist-card"
+                                        idUser={user.id}
                                     />
                                 ))
                             ) : (
