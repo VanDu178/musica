@@ -15,7 +15,7 @@ export const removeCookie = () => {
 export const addCookie = (access_token, refresh_token, secrect_key) => {
   removeCookie();
   Cookies.set("access_token", access_token, {
-    expires: 2000,
+    expires: 7,
   });
   Cookies.set("refresh_token", refresh_token, {
     expires: 7,
