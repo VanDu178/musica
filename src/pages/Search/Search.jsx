@@ -152,11 +152,8 @@ const HomeTabs = () => {
                 params: { selectedType: "playlists", searchKeyword, limit, offset: customOffset },
             });
 
-            // Điều chỉnh theo đúng cấu trúc response thực tế
-            const playlistsData = response.data?.playlists || response.data || [];
-
-            if (playlistsData.length > 0) {
-                setPlaylists((prev) => [...prev, ...playlistsData]);
+            if (response.data) {
+                setPlaylists((prev) => [...prev, ...response.data]);
                 if (response.data.length < limit) {
                     setIsLoadingMore(false)
                 }
@@ -301,7 +298,7 @@ const HomeTabs = () => {
                     <div className="search-song-app">
                         {songs[0] && (
 
-                            <h2 className="search-song-heading">Kết quả hàng đầu</h2>
+                            <h2 className="search-song-heading">{t("search.TopResult")}</h2>
                         )}
                         <div className="search-song-container">
                             {songs[0] && (
@@ -315,7 +312,7 @@ const HomeTabs = () => {
                                         <div className="search-song-top-info">
                                             <span className="search-song-top-title">{songs[0].title}</span>
                                             <span className="search-song-top-artist">
-                                                Bài hát • {songs[0].user}
+                                                {t("search.song")} • {songs[0].user}
                                                 {songs[0].collab_artists && songs[0].collab_artists.length > 0 && (
                                                     <>
                                                         {songs[0].collab_artists.map((artist, index) => (
@@ -354,7 +351,7 @@ const HomeTabs = () => {
                                 isHiddenFaArrow="true"
                                 items={artists}
                                 type="artist"
-                                titleSlider="Nghệ sĩ"
+                                titleSlider={t("search.artist")}
                             />
                         )}
                     </div>
@@ -362,20 +359,35 @@ const HomeTabs = () => {
                     {/* load danh sách phát */}
                     <div className="playlist-content">
                         {playlists.length > 0 && (
-                            <MusicSlider isHiddenFaArrow="true" items={playlists} type="playlist" titleSlider="Danh sách phát" />
+                            <MusicSlider
+                                isHiddenFaArrow="true"
+                                items={playlists}
+                                type="playlists"
+                                titleSlider={t("search.playlist")}
+                            />
                         )}
                     </div>
 
                     {/* load album */}
                     <div className="container mt-4">
                         {albums.length > 0 && (
-                            <MusicSlider isHiddenFaArrow="true" items={albums} type="album" titleSlider="Album" />
+                            <MusicSlider
+                                isHiddenFaArrow="true"
+                                items={albums}
+                                type="album"
+                                titleSlider={t("search.albums")}
+                            />
                         )}
                     </div>
 
                     <div className="container mt-4">
                         {users.length > 0 && (
-                            <MusicSlider isHiddenFaArrow="true" items={users} type="user" titleSlider="Những người dùng khác" />
+                            <MusicSlider
+                                isHiddenFaArrow="true"
+                                items={users}
+                                type="user"
+                                titleSlider={t("search.users")}
+                            />
                         )}
                     </div>
 
@@ -388,22 +400,29 @@ const HomeTabs = () => {
                 selectedType === "song" && (
                     <>
                         <ul>
-                            <ListGroup variant="flush">
-                                {songs.map((song) => (
-                                    <SongItem
-                                        key={song.songId}
-                                        song={song}
-                                        songId={song.songId}
-                                    />
-                                ))}
-                            </ListGroup>
+                            {songs.length > 0 ? (
+                                <ListGroup variant="flush">
+                                    {songs.map((song) => (
+                                        <SongItem
+                                            key={song.songId}
+                                            song={song}
+                                            songId={song.songId}
+                                        />
+                                    ))}
+                                </ListGroup>
+                            ) : (
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>
+                            )}
                         </ul>
                         {!loadingMore ? (
                             isloadingMore && (
                                 <div
                                     className="search-song-btn-loadmore"
                                     onClick={HandleLoadMore}
-                                >Xem Thêm
+                                >
+                                    {t("search.loadingMore")}
                                 </div>
                             )
                         ) : (
@@ -432,7 +451,9 @@ const HomeTabs = () => {
                                     />
                                 ))
                             ) : (
-                                <p className="text-white">No artist found</p>
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>
                             )}
                         </div>
                         {!loadingMore ? (
@@ -440,7 +461,8 @@ const HomeTabs = () => {
                                 <div
                                     className="search-song-btn-loadmore"
                                     onClick={HandleLoadMore}
-                                >Xem Thêm
+                                >
+                                    {t("search.loadingMore")}
                                 </div>
                             )
                         ) : (
@@ -465,15 +487,17 @@ const HomeTabs = () => {
                                     />
                                 ))
                             ) : (
-                                <p className="text-white">No playlist found</p>
-                            )}
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>)}
                         </div>
                         {!loadingMore ? (
                             isloadingMore && (
                                 <div
                                     className="search-song-btn-loadmore"
                                     onClick={HandleLoadMore}
-                                >Xem Thêm
+                                >
+                                    {t("search.loadingMore")}
                                 </div>
                             )
                         ) : (
@@ -490,15 +514,17 @@ const HomeTabs = () => {
                         <div className="search-list-playlist">
                             {albums.length > 0 ? (
                                 albums.map((album, index) => (
-                                    <PlaylistCard
-                                        title={album.title}
+                                    <AlbumCard
+                                        title={album.name}
                                         image={album.image_path}
-                                        description={album.name}
-                                        idPlaylist={album.id}
+                                        artist={album.username}//name artist
+                                        idAlbum={album.id}
                                     />
                                 ))
                             ) : (
-                                <p className="text-white">No album found</p>
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>
                             )}
                         </div>
                         {!loadingMore ? (
@@ -506,7 +532,8 @@ const HomeTabs = () => {
                                 <div
                                     className="search-song-btn-loadmore"
                                     onClick={HandleLoadMore}
-                                >Xem Thêm
+                                >
+                                    {t("search.loadingMore")}
                                 </div>
                             )
                         ) : (
@@ -534,7 +561,9 @@ const HomeTabs = () => {
                                     />
                                 ))
                             ) : (
-                                <p className="text-white">No user found</p>
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>
                             )}
                         </div>
                         {!loadingMore ? (
@@ -542,7 +571,8 @@ const HomeTabs = () => {
                                 <div
                                     className="search-song-btn-loadmore"
                                     onClick={HandleLoadMore}
-                                >Xem Thêm
+                                >
+                                    {t("search.loadingMore")}
                                 </div>
                             )
                         ) : (

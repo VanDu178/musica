@@ -99,7 +99,15 @@ const Header = () => {
     <header className="hd-spotify-header">
       <div className="hd-logo">
         <FaSpotify
-          onClick={() => navigate("/user")}
+          onClick={() => {
+            if (inputRef.current) {
+              console.log(inputRef.current.value); // In giá trị input ra console
+              inputRef.current.value = ""; // Reset giá trị input qua ref
+              handleSearch();
+            }
+            // Điều hướng đến trang /user
+            navigate("/user");
+          }}
           size={32}
           color="white"
           title="Spotify"

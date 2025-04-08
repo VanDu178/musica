@@ -85,7 +85,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
                     description={item.name}
                     idPlaylist={item.id}
                   />
-                ) : (type === "songs") ? (
+                ) : (type === "song") ? (
                   <PlaylistCard
                     title={item.title}
                     image={item.image_path}
