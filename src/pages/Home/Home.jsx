@@ -76,13 +76,13 @@ const Home = () => {
             <div className="p-3 border rounded-3 home-content">
                 <div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={playlists} type="playlist" titleSlider="Danh sách phát nổi bật" />
+                        <MusicSlider items={songs} type="song" titleSlider={t("utils.songTrending")} />
                     </div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={albums} type="album" titleSlider="Album hot nhất" />
+                        <MusicSlider items={albums} type="album" titleSlider={t("utils.albumTrending")} />
                     </div>
                     <div className="card-group card-group-scroll">
-                        <MusicSlider items={songs} type="song" titleSlider="Bài hát hot nhất" />
+                        <MusicSlider items={playlists} type="playlists" titleSlider={t("utils.playlistTrending")} />
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ const SongItem = ({ songId, song }) => {
     const { isPlaying, setIsPlaying } = useIsPlaying();
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
+    const [songIdIsPlaying, setSongIdIsPlaying] = useState(false);
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -29,6 +30,13 @@ const SongItem = ({ songId, song }) => {
 
         fetchRole();
     }, [isLoggedIn]);
+
+    useEffect(() => {
+        if (idSong === songId) {
+            setSongIdIsPlaying(true);
+        }
+
+    }, [])
 
     const handlePlay = () => {
         setIdSong(songId);

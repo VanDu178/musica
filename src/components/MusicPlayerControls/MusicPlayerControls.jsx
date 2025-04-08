@@ -404,8 +404,8 @@ const MusicPlayerControl = () => {
                   /> {/* Đường dẫn hình ảnh */}
                 </div>
                 <div className="ft-song_info com-horizontal-align">
-                  <h4>Spotify</h4>
-                  <p>Spotify</p>
+                  <h4>Zmusic</h4>
+                  <p>Zmusic</p>
                 </div>
               </div>
 

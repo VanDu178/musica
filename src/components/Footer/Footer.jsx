@@ -54,7 +54,7 @@ const Footer = React.memo(() => {
                 </aside>
 
                 <aside className="footer-center" role="table">
-                    <h4 className="footer-title" role="complementary">Các gói của Spotify</h4>
+                    <h4 className="footer-title" role="complementary">Các gói của Zmusic</h4>
                     <h6>Premium Individual</h6>
                     <h6>Premium Student</h6>
                     <h6>Spotify Free</h6>
