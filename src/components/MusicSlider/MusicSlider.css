@@ -11,6 +11,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 16px;
+  margin-left: 3%;
 }
 
 .slider-wrapper {
@@ -31,6 +32,18 @@
   justify-content: center;
   cursor: pointer;
   z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.slider-btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  transform: scale(1.1);
+}
+.slider-container:hover .slider-btn {
+  opacity: 1;
+  visibility: visible;
 }
 
 .slider-btn.left {
@@ -55,6 +68,7 @@
 .slide-item:hover{
  background-color: #333;
 }
+
 
 .slide-image {
   width: 100%;

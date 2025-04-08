@@ -27,6 +27,14 @@
     display: block; /* Loại bỏ khoảng trống bên dưới hình ảnh */
     text-align: center; /* Căn giữa nội dung */
   }
+  .user-card-img-top-slider {
+    border-radius: 50%; /* Hình tròn */
+    width: 150px; /* Chiếm toàn bộ chiều rộng của container */
+    height:150px ; /* Chiều cao cố định */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    display: block; /* Loại bỏ khoảng trống bên dưới hình ảnh */
+    text-align: center; /* Căn giữa nội dung */
+  }
   
   /* Phần thân của card */
   .user-card-body {

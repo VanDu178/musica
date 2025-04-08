@@ -16,6 +16,7 @@ const Home = () => {
     const [playlists, setPlaylists] = useState([]);
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
+    const [artists, setArtists] = useState([]);
     const [loading, setLoading] = useState(true); // Trạng thái loading
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
@@ -70,6 +71,7 @@ const Home = () => {
                 setPlaylists(cachedData.playlists);
                 setSongs(cachedData.songs);
                 setAlbums(cachedData.albums);
+                setArtists(cachedData.artists);
                 setLoading(false);
                 return; // Kết thúc hàm, không gọi API
             }
@@ -79,17 +81,21 @@ const Home = () => {
                 const playlistResponse = await axiosInstance.get("/trending/playlists/");
                 const songResponse = await axiosInstance.get("/trending/songs/");
                 const albumResponse = await axiosInstance.get("/trending/albums/");
+                const artistResponse = await axiosInstance.get("/trending/artists/");
+
 
                 // Cập nhật state với dữ liệu mới
                 setPlaylists(playlistResponse.data.trending_playlists);
                 setSongs(songResponse.data.trending_songs);
                 setAlbums(albumResponse.data.trending_albums);
+                setArtists(artistResponse.data.trending_artists);
 
                 // Dữ liệu mới để lưu vào localStorage
                 const newData = {
                     playlists: playlistResponse.data.trending_playlists,
                     songs: songResponse.data.trending_songs,
                     albums: albumResponse.data.trending_albums,
+                    artists: artistResponse.data.trending_artists,
                 };
 
                 // Lưu vào localStorage kèm thời gian cập nhật
@@ -138,6 +144,9 @@ const Home = () => {
                     </div>
                     <div className="card-group card-group-scroll">
                         <MusicSlider items={albums} type="album" titleSlider={t("utils.albumTrending")} />
+                    </div>
+                    <div className="card-group card-group-scroll">
+                        <MusicSlider items={artists} type="artist" titleSlider={t("search.artist")} />
                     </div>
                     <div className="card-group card-group-scroll">
                         <MusicSlider items={playlists} type="playlists" titleSlider={t("utils.playlistTrending")} />

@@ -7,7 +7,7 @@ import "./UserCard.css";
 import { useNavigate } from "react-router-dom";
 
 
-const UserCard = ({ name, image, type, idUser }) => {
+const UserCard = ({ name, image, type, idUser, isSlider }) => {
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
     const { t } = useTranslation();
@@ -42,7 +42,7 @@ const UserCard = ({ name, image, type, idUser }) => {
                 <img
                     src={image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPVMbdDmHvm0DfSI29UxWTtE1IqPCm8xn7Bw&s"}
                     alt={name}
-                    className="user-card-img-top"
+                    className={`${isSlider ? "user-card-img-top-slider" : "user-card-img-top"}`}
                 />
             </div>
             <div className="user-card-body">
