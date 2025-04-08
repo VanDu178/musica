@@ -181,7 +181,7 @@ const PublicProfile = () => {
         <div className="public-profile-header-content">
           <img
             src={
-              profile?.inFor?.avatar ||
+              profile?.inFor?.image_path ||
               "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
             }
             alt={profile?.inFor?.name}
