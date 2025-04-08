@@ -42,7 +42,6 @@ const Main = ({ children }) => {
                 </div>
                 <div className="main-content-container">
                     {children}
-                    <hr />
                     <Footer />
                 </div>
             </div>

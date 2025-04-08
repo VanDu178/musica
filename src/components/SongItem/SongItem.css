@@ -9,19 +9,30 @@
   .song-item:hover {
     background: #1e1e1e !important;
     cursor: pointer;
+    border-radius: 8px;
   }
   
   .song-info {
     text-align: left;
+    width: 100%;
   }
   
   .song-title {
     font-size: 1em;
     font-weight: bold;
+    display: inline-block;    /* Hoặc 'block' nếu muốn chiếm full width */
+    width: 80%;               /* Hoặc giá trị % cụ thể như 60% */
+    white-space: nowrap;      /* Ngăn không cho xuống dòng */
+    overflow: hidden;         /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis;  /* Hiển thị ... khi bị cắt */
   }
   
   .song-artist {
     font-size: 0.9em;
     color: #bbb;
+    width: 80%;               /* Hoặc giá trị % cụ thể như 60% */
+    white-space: nowrap;      /* Ngăn không cho xuống dòng */
+    overflow: hidden;         /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis;  /* Hiển thị ... khi bị cắt */
   }
   

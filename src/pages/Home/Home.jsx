@@ -8,6 +8,8 @@ import axiosInstance from "../../config/axiosConfig";
 import { useUserData } from "../../context/UserDataProvider";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
+import { useSearch } from "../../context/SearchContext";
+import HomeTabs from "../HomeTabs/HomeTabs";
 
 const Home = () => {
     const { t } = useTranslation();
@@ -19,6 +21,9 @@ const Home = () => {
     const [loading, setLoading] = useState(true); // Trạng thái loading
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+
+    const { searchKeyword, selectedType, setSelectedType } = useSearch();
+
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -43,17 +48,14 @@ const Home = () => {
             try {
                 // Gọi API để lấy danh sách trending playlists
                 const playlistResponse = await axiosInstance.get("/trending/playlists/");
-                console.log("playlist data", playlistResponse.data);
                 setPlaylists(playlistResponse.data.trending_playlists);
 
                 const songResponse = await axiosInstance.get("/trending/songs/");
-                console.log("song data", songResponse.data);
                 setSongs(songResponse.data.trending_songs);
 
                 // Gọi API để lấy danh sách trending albums
                 const albumResponse = await axiosInstance.get("/trending/albums/");
                 setAlbums(albumResponse.data.trending_albums);
-                console.log("album data", albumResponse.data);
             } catch (error) {
                 console.error("Error fetching trending data:", error.response ? error.response.data : error.message);
             } finally {
@@ -73,27 +75,76 @@ const Home = () => {
     if (!validRole) {
         return <Forbidden />;
     }
+
+    const isSearching = searchKeyword && searchKeyword.trim().length > 0;
+
     return (
         <div className="col home-content">
             <div className="p-3 border rounded-3 home-content">
-                <nav className="navbar navbar-expand-lg navbar-light">
-                    <div className="d-flex justify-content-center">
-                        <button className="custom-btn active mx-2">{t("home.all")}</button>
-                        <button className="custom-btn mx-2">{t("home.music")}</button>
-                        <button className="custom-btn mx-2">{t("home.playlists")}</button>
-                    </div>
-                </nav>
+                {
+                    isSearching ? (
+                        <nav className="navbar navbar-expand-lg navbar-light">
+                            <div className="d-flex justify-content-center">
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "all" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("all")}
+                                >
+                                    {t("home.all")}
+                                </button>
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "song" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("song")}
+                                >
+                                    {t("home.music")}
+                                </button>
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "playlist" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("playlist")}
+                                >
+                                    {t("home.playlists")}
+                                </button>
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "album" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("album")}
+                                >
+                                    {t("home.albums")}
+                                </button>
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "user" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("user")}
+                                >
+                                    {t("home.users")}
+                                </button>
+                                <button
+                                    className={`custom-btn mx-2 ${selectedType === "artist" ? "active" : ""}`}
+                                    onClick={() => setSelectedType("artist")}
+                                >
+                                    {t("home.artists")}
+                                </button>
+                            </div>
+                        </nav>
+                    ) : (
+                        null
+                    )
+                }
 
                 <div>
-                    <div className="card-group card-group-scroll">
-                        <MusicSlider items={playlists} type="playlists" title="Danh sách phát nổi bật" />
-                    </div>
-                    <div className="card-group card-group-scroll">
-                        <MusicSlider items={albums} type="albums" title="Album hot nhất" />
-                    </div>
-                    <div className="card-group card-group-scroll">
-                        <MusicSlider items={songs} type="songs" title="Bài hát hot nhất" />
-                    </div>
+                    {isSearching ? (
+                        <HomeTabs />
+                    ) : (
+                        <>
+                            {/* Nếu không search thì hiển thị nội dung gốc */}
+                            <div className="card-group card-group-scroll">
+                                <MusicSlider items={playlists} type="playlist" titleSlider="Danh sách phát nổi bật" />
+                            </div>
+                            <div className="card-group card-group-scroll">
+                                <MusicSlider items={albums} type="album" titleSlider="Album hot nhất" />
+                            </div>
+                            <div className="card-group card-group-scroll">
+                                <MusicSlider items={songs} type="song" titleSlider="Bài hát hot nhất" />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

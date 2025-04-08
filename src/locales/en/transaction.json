@@ -12,7 +12,9 @@
     },
     "utils": {
         "loading": "Loading...",
-        "logout": "Log out"
+        "logout": "Log out",
+        "artist": "Artist",
+        "user": "User"
     },
     "login": {
         "title": "Log in to Spotify",
@@ -146,7 +148,10 @@
         "all": "All",
         "music": "Music",
         "playlists": "Playlists",
-        "songs": "Trending songs"
+        "songs": "Trending songs",
+        "albums": "Albums",
+        "artists": "Artists",
+        "users": "Users"
     },
     "header2": {
         "searchPlaceholder": "What do you want to play?",

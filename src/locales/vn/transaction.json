@@ -12,7 +12,9 @@
     },
     "utils": {
         "loading": "Đang tải dữ liệu...",
-        "logout": "Đăng Xuất"
+        "logout": "Đăng Xuất",
+        "artist": "Nghệ sĩ",
+        "user": "Người dùng"
     },
     "login": {
         "title": "Đăng nhập vào Spotify",
@@ -146,7 +148,10 @@
         "all": "Tất cả",
         "music": "Nhạc",
         "playlists": "Danh sách phát",
-        "songs": "Bài hát thịnh hành"
+        "songs": "Bài hát thịnh hành",
+        "albums": "Album",
+        "artists": "Nghệ sĩ",
+        "users": "Người dùng"
     },
     "header2": {
         "searchPlaceholder": "Bạn muốn nghe gì?",

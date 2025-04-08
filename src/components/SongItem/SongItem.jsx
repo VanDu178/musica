@@ -66,7 +66,16 @@ const SongItem = ({ songId, song }) => {
                     <Image src={song.image_path} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px" }} />
                     <div className="song-info">
                         <div className="song-title">{song.title}</div>
-                        <div className="song-artist">{song.artist}</div>
+                        <div className="song-artist">
+                            {song.user}
+                            {song.collab_artists && song.collab_artists.length > 0 && (
+                                <>
+                                    {song.collab_artists.map((artist, index) => (
+                                        <span key={index}>, {artist}</span>
+                                    ))}
+                                </>
+                            )}
+                        </div>
                     </div>
                 </Col>
                 <Col xs={3}>{song.album}</Col>
