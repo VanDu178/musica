@@ -11,6 +11,7 @@ import { useUserData } from "../../context/UserDataProvider";
 import { hash, checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
 import { useParams } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
 import "./PublicProfile.css";
 
 const PublicProfile = () => {
@@ -25,10 +26,11 @@ const PublicProfile = () => {
   const [error, setError] = useState(null);
   const [isArtist, setIsArtist] = useState(false);
   const { idSong, setIdSong } = useSong();
-  const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
+  const { addSong, clearPlaylist } = usePlaylist();
   const { isPlaying, setIsPlaying } = useIsPlaying();
-  const { userData, setUserData, isLoggedIn } = useUserData();
+  const { isLoggedIn } = useUserData();
   const [validRole, setValidRole] = useState(false);
+  const [IsCheckingRole, setIsCheckingRole] = useState(true);
   const popularRef = useRef(null);
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
@@ -36,13 +38,16 @@ const PublicProfile = () => {
 
   useEffect(() => {
     const fetchRole = async () => {
+      setIsCheckingRole(true);
       if (isLoggedIn) {
         try {
           const checkedRoleUser = await checkData(3);
           if (checkedRoleUser) {
             setValidRole(true);
           }
+          setIsCheckingRole(false);
         } catch (err) {
+          setIsCheckingRole(false);
           console.error("Error checking role:", err);
           setError("Không thể xác minh quyền truy cập.");
         }
@@ -157,12 +162,17 @@ const PublicProfile = () => {
     }
   };
 
+  if (IsCheckingRole) {
+    return <Loading message={t("utils.loading")} height="100" />;
+  }
+
+
   if (!isLoggedIn || !validRole) {
     return <Forbidden />;
   }
 
   if (isLoading) {
-    return <div className="public-profile-loading">Loading...</div>;
+    return <Loading message={t("utils.loading")} height="60" />;
   }
 
   return (
@@ -182,7 +192,7 @@ const PublicProfile = () => {
               {isArtist ? t("publicProfile.artist") : t("publicProfile.user")}
             </span>
             <div className="public-profile-name-container">
-              <h1 className="public-profile-name">{profile?.inFor?.name}</h1>
+              <h2 className="public-profile-name">{profile?.inFor?.name}</h2>
               {isArtist && (
                 <div className="public-profile-verified-artist">
                   <span className="public-profile-verified-check">✔</span>

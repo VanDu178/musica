@@ -20,10 +20,12 @@ const PaymentMethod = () => {
     const planId = location.state?.planId || null; // Kiểm tra nếu không có gói nào được chọn
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
             setLoading(true);
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user  không
                 const checkedRoleUser = await checkData(3);
@@ -31,11 +33,11 @@ const PaymentMethod = () => {
                 if (checkedRoleUser) {
                     setValidRole(true);
                     setLoading(false);
-
+                    setIsCheckingRole(false);
                 }
             }
             setLoading(false);
-
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -127,6 +129,10 @@ const PaymentMethod = () => {
                 </button>
             </div>
         );
+    }
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
     }
 
     if (!isLoggedIn || !validRole) {

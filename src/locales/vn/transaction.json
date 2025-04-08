@@ -271,6 +271,7 @@
     "upload": {
         "title": "Tải lên MP3",
         "selectFile": "Vui lòng chọn tệp để tải lên.",
+        "selectImage": "Vui lòng chọn ảnh để tải lên.",
         "uploading": "Đang tải lên...",
         "upload": "Tải lên",
         "success": "Tệp đã được tải lên thành công!",

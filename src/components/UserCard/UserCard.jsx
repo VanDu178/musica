@@ -32,7 +32,9 @@ const UserCard = ({ name, image, type, idUser }) => {
     }
 
 
-    if (!validRole) return null;
+    if (!validRole) {
+        return <div style={{ display: 'none' }} />;
+    }
 
     return (
         <div className="user-card-container" onClick={HandleClick}>

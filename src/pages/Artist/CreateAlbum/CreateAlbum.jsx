@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
 import Forbidden from "../../../components/Error/403/403";
+import Loading from "../../../components/Loading/Loading";
+
 import "./CreateAlbum.css";
 
 const CreateAlbum = () => {
@@ -18,19 +20,22 @@ const CreateAlbum = () => {
     const [songs, setSongs] = useState([]); // Available songs
     const [selectedSongs, setSelectedSongs] = useState([]); // Selected songs
     const [loading, setLoading] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
     const { t } = useTranslation(); // Hook để lấy hàm dịch
-
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải artist không
                 const checkedRoleUser = await checkData(2);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
+                setIsCheckingRole(false);
             }
         };
 
@@ -102,6 +107,10 @@ const CreateAlbum = () => {
             selectedSongs.length > 0 // Có ít nhất 1 bài hát được chọn
         );
     };
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
 
     if (!validRole || !isLoggedIn) {
         return <Forbidden />;

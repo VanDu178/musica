@@ -21,15 +21,11 @@ const Header = () => {
   const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
   const [validRole, setValidRole] = useState(false);
-  const { setSearchKeyword, selectedType, searchKeyword } = useSearch();
+  const { setSearchKeyword } = useSearch();
 
   const inputRef = useRef(null); // Tạo ref để theo dõi input
 
   const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
-
-  useEffect(() => {
-    handleSearch();
-  }, [selectedType]);
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -86,13 +82,11 @@ const Header = () => {
   const handleSearch = () => {
     const searchValue = inputRef?.current?.value?.trim(); // Lấy giá trị từ input và loại bỏ khoảng trắng thừa
     setSearchKeyword(searchValue);
-
     navigate("/user/search");
   };
 
-
   if (!validRole) {
-    return null;
+    return <div style={{ display: 'none' }} />;
   }
 
   return (

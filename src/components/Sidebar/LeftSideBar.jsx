@@ -67,8 +67,9 @@ const Left_Sidebar = () => {
 
     //nếu không phải role user hoặc chưa đăng nhập không hiển thị
     if (!validRole) {
-        return null;
+        return <div style={{ display: 'none' }} />;
     }
+
     return (
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
             <div style={{ position: "sticky", top: 0, zIndex: 1 }}>

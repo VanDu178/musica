@@ -19,19 +19,24 @@ const Home = () => {
     const [loading, setLoading] = useState(true); // Trạng thái loading
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user không
                 const checkedRoleUser = await checkData(3);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             } else {
                 //nếu không login thì hiển thị
                 setValidRole(true);
+                setIsCheckingRole(false);
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -61,10 +66,13 @@ const Home = () => {
         fetchTrendingData();
     }, []); // Chỉ chạy một lần khi component mount
 
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
+
     // Hiển thị loading nếu dữ liệu chưa được tải
     if (loading) {
         return <Loading message={t("utils.loading")} height="60" />;
-
     }
 
     if (!validRole) {

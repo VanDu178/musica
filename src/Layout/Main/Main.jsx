@@ -8,28 +8,36 @@ import "./Main.css";
 import { useUserData } from "../../context/UserDataProvider";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
-import { useLocation } from 'react-router-dom';
-
+import Loading from "../../components/Loading/Loading";
+import { useTranslation } from "react-i18next";
 
 const Main = ({ children }) => {
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(true);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải artist hoặc admin không nếu đúng thì không cho hiển thị
                 const checkedRoleArtist = await checkData(2);
                 const checkedRoleAdmin = await checkData(1);
                 if (checkedRoleArtist || checkedRoleAdmin) {
                     setValidRole(false);
+                    setIsCheckingRole(false);
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
     }, [isLoggedIn]);
 
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="110" />;
+    }
 
     if (!validRole) {
         return <Forbidden />;
