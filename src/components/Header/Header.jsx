@@ -82,7 +82,13 @@ const Header = () => {
   const handleSearch = () => {
     const searchValue = inputRef?.current?.value?.trim(); // Lấy giá trị từ input và loại bỏ khoảng trắng thừa
     setSearchKeyword(searchValue);
-    navigate("/user/search");
+
+    if (searchValue) { // Kiểm tra nếu searchValue có giá trị (khác undefined, null, hoặc chuỗi rỗng)
+      navigate(`/user/search?keyword=${encodeURIComponent(searchValue)}`);
+    }
+    else {
+      navigate(`/user`);
+    }
   };
 
   if (!validRole) {

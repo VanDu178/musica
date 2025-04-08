@@ -24,7 +24,7 @@ const HomeTabs = () => {
     const [albums, setAlbums] = useState([]);
     const [artists, setArtists] = useState([]);
     const [users, setUsers] = useState([]);
-    const { searchKeyword, selectedType, setSelectedType } = useSearch();
+    const { searchKeyword, selectedType, setSelectedType, setSearchKeyword } = useSearch();
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const [isloadingMore, setIsLoadingMore] = useState(true);
@@ -46,6 +46,17 @@ const HomeTabs = () => {
         };
         fetchRole();
     }, [isLoggedIn]);
+
+    useEffect(() => {
+        // Lấy query parameters từ URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const keywordFromUrl = queryParams.get("keyword"); // Lấy giá trị của 'keyword'
+
+        if (keywordFromUrl) {
+            // Nếu có keyword trên URL, set vào state hoặc thực hiện hành động nào đó
+            setSearchKeyword(keywordFromUrl);
+        }
+    }, []); // Dependency array rỗng để chỉ chạy khi mount
 
     useEffect(() => {
         if (searchKeyword == "") {
