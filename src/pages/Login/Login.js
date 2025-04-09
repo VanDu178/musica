@@ -159,7 +159,7 @@ const SpotifyLogin = () => {
         }}
       >
         <div className="text-center mb-4">
-          <img src={logo} alt="Spotify Logo" className="login-spotify-logo" />
+          <img src={logo} alt="ZMusic Logo" className="login-spotify-logo" />
         </div>
         <div className="text-center mb-3" style={{ width: "50%" }}>
           <h3 className="fw-bold">{t("login.title")}</h3>

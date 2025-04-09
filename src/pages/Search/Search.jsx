@@ -500,9 +500,8 @@ const HomeTabs = () => {
                             {playlists.length > 0 ? (
                                 playlists.map((playlist, index) => (
                                     <PlaylistCard
-                                        title={playlist.title}
                                         image={playlist.image_path}
-                                        description={playlist.name}
+                                        title={playlist.name}
                                         idPlaylist={playlist.id}
                                     />
                                 ))
