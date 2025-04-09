@@ -6,6 +6,8 @@ import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
+
 import "./SongItem.css";
 
 const SongItem = ({ songId, song }) => {
@@ -15,6 +17,8 @@ const SongItem = ({ songId, song }) => {
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
     const [songIdIsPlaying, setSongIdIsPlaying] = useState(false);
+    const { setIsVisiableRootModal } = useIsVisiableRootModal();
+
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -32,18 +36,23 @@ const SongItem = ({ songId, song }) => {
     }, [isLoggedIn]);
 
     useEffect(() => {
-        if (idSong === songId) {
-            setSongIdIsPlaying(true);
+        if (isLoggedIn) {
+            if (idSong === songId) {
+                setSongIdIsPlaying(true);
+            }
         }
 
     }, [])
 
     const handlePlay = () => {
-        setIdSong(songId);
-
-        // chỗ này nếu đang phát mà set như này là sẽ dừng bài hát phải set bằng true
-        // setIsPlaying(!isPlaying);
-        setIsPlaying(true);
+        if (isLoggedIn) {
+            setIdSong(songId);
+            setIsPlaying(true);
+        }
+        else {
+            //gọi state hiện modal
+            setIsVisiableRootModal(true);
+        }
     }
 
     if (!validRole) {

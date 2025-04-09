@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useUser } from "../../context/UserProvider";
 import { useSearch } from "../../context/SearchContext";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import Cookies from "js-cookie";
 import { checkData } from "../../helpers/encryptionHelper";
 import "./Header.css";
@@ -22,6 +23,7 @@ const Header = () => {
   const [userPanelState, setUserPanelState] = useState(false);
   const [validRole, setValidRole] = useState(false);
   const { setSearchKeyword } = useSearch();
+  const { setIsVisiableRootModal } = useIsVisiableRootModal();
 
   const inputRef = useRef(null); // Tạo ref để theo dõi input
 
@@ -91,6 +93,15 @@ const Header = () => {
     }
   };
 
+  const handleNavigatePremium = () => {
+    if (isLoggedIn) {
+      navigate("/user/premium")
+    }
+    else {
+      setIsVisiableRootModal(true);
+    }
+  }
+
   if (!validRole) {
     return <div style={{ display: 'none' }} />;
   }
@@ -158,7 +169,7 @@ const Header = () => {
 
       <div className="hd-premium-download">
         <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={() => navigate("/user/premium")}>
+          <button onClick={handleNavigatePremium}>
             <span>{t("header2.explorePremium")}</span>
           </button>
         </nav>

@@ -12,6 +12,7 @@ import { hash, checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
 
 const PublicProfile = () => {
@@ -28,6 +29,7 @@ const PublicProfile = () => {
   const { idSong, setIdSong } = useSong();
   const { addSong, clearPlaylist } = usePlaylist();
   const { isPlaying, setIsPlaying } = useIsPlaying();
+  const { setIsVisiableRootModal } = useIsVisiableRootModal();
   const { isLoggedIn } = useUserData();
   const [validRole, setValidRole] = useState(false);
   const [IsCheckingRole, setIsCheckingRole] = useState(true);
@@ -52,32 +54,34 @@ const PublicProfile = () => {
           setError("Không thể xác minh quyền truy cập.");
         }
       }
+      setValidRole(true);
+      setIsCheckingRole(false);
     };
 
     fetchRole();
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const loadData = async () => {
-        setIsLoading(true);
-        setError(null); // Clear previous error
-        try {
-          await fetchProfile();
-          if (isArtist) {
-            await Promise.all([fetchAlbums(), fetchPopularSongs()]);
-          } else {
-            await fetchPlaylists();
-          }
-        } catch (err) {
-          console.error("Error loading data:", err);
-          setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
-        } finally {
-          setIsLoading(false);
+    const loadData = async () => {
+      setIsLoading(true);
+      setError(null); // Clear previous error
+      try {
+        await fetchProfile();
+        if (isArtist) {
+          await Promise.all([fetchAlbums(), fetchPopularSongs()]);
+        } else {
+          await fetchPlaylists();
         }
-      };
-      loadData();
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error loading data:", err);
+        setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
     }
+    loadData();
   }, [profileId, isArtist]);
 
   const fetchProfile = async () => {
@@ -148,11 +152,16 @@ const PublicProfile = () => {
   };
 
   const togglePlay = () => {
-    if (profile.popularSongs && profile.popularSongs.length > 0 && idSong) {
-      setIsPlaying(!isPlaying);
-    } else if (profile.popularSongs.length > 0) {
-      setIdSong(profile.popularSongs[0].id);
-      setIsPlaying(true);
+    if (isLoggedIn) {
+      if (profile.popularSongs && profile.popularSongs.length > 0 && idSong) {
+        setIsPlaying(!isPlaying);
+      } else if (profile.popularSongs.length > 0) {
+        setIdSong(profile.popularSongs[0].id);
+        setIsPlaying(true);
+      }
+    }
+    else {
+      setIsVisiableRootModal(true);
     }
   };
 
@@ -167,12 +176,12 @@ const PublicProfile = () => {
   }
 
 
-  if (!isLoggedIn || !validRole) {
+  if (!validRole) {
     return <Forbidden />;
   }
 
   if (isLoading) {
-    return <Loading message={t("utils.loading")} height="60" />;
+    return <Loading message={t("utils.loading")} height="80" />;
   }
 
   return (
