@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import "./Footer.css";
 import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
+import { useNavigate } from "react-router-dom";
 
 const Footer = React.memo(() => {
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -25,7 +28,7 @@ const Footer = React.memo(() => {
     }, [isLoggedIn]);
 
     if (!validRole) {
-        return null;
+        return <div style={{ display: 'none' }} />;
     }
 
     return (
@@ -40,9 +43,10 @@ const Footer = React.memo(() => {
 
                 <aside className="footer-center" role="table">
                     <h4 className="footer-title" role="complementary">Cộng đồng</h4>
-                    <h6>
-                        <Link to="/register-artist" className="register-link">Dành cho các nghệ sĩ</Link>
-                    </h6>
+                    <h6
+                        onClick={() => navigate("/register-artist")}
+
+                    >Đăng ký tài khoản nghệ sĩ</h6>
                     <h6>Nhà phát triển</h6>
                     <h6>Quảng cáo</h6>
                     <h6>Nhà đầu tư</h6>
@@ -50,7 +54,7 @@ const Footer = React.memo(() => {
                 </aside>
 
                 <aside className="footer-center" role="table">
-                    <h4 className="footer-title" role="complementary">Các gói của Spotify</h4>
+                    <h4 className="footer-title" role="complementary">Các gói của Zmusic</h4>
                     <h6>Premium Individual</h6>
                     <h6>Premium Student</h6>
                     <h6>Spotify Free</h6>
@@ -68,7 +72,11 @@ const Footer = React.memo(() => {
                 </aside>
             </div>
             <div>
-                <h6 className="footer-copyright">© 2025 Spotify ZiZoDac</h6>
+                <h6 className="footer-copyright">© 2025 ZiZoDac Team</h6>
+            </div>
+            <hr />
+            <div>
+                <div className="footer-redtitle">ĐÂY LÀ TRANG WEB PHỤC VỤ CHO MỤC ĐÍCH HỌC TẬP !!!</div>
             </div>
         </footer>
     );

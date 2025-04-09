@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaSpotify } from "react-icons/fa";
 import { GoBell, GoHomeFill } from "react-icons/go";
@@ -7,6 +7,8 @@ import { MdOutlineDownloadForOffline } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useUser } from "../../context/UserProvider";
+import { useSearch } from "../../context/SearchContext";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import Cookies from "js-cookie";
 import { checkData } from "../../helpers/encryptionHelper";
 import "./Header.css";
@@ -20,9 +22,12 @@ const Header = () => {
   const { getUserInfo } = useUser();
   const [userPanelState, setUserPanelState] = useState(false);
   const [validRole, setValidRole] = useState(false);
+  const { setSearchKeyword } = useSearch();
+  const { setIsVisiableRootModal } = useIsVisiableRootModal();
 
-  const isHomePage = location.pathname === "/user";
+  const inputRef = useRef(null); // Tạo ref để theo dõi input
 
+  const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -75,14 +80,44 @@ const Header = () => {
     };
   }, [userPanelState]);
 
-  if (!validRole) {
-    return null;
+  // Hàm xử lý khi cần lấy giá trị từ input
+  const handleSearch = () => {
+    const searchValue = inputRef?.current?.value?.trim(); // Lấy giá trị từ input và loại bỏ khoảng trắng thừa
+    setSearchKeyword(searchValue);
+
+    if (searchValue) { // Kiểm tra nếu searchValue có giá trị (khác undefined, null, hoặc chuỗi rỗng)
+      navigate(`/user/search?keyword=${encodeURIComponent(searchValue)}`);
+    }
+    else {
+      navigate(`/user`);
+    }
+  };
+
+  const handleNavigatePremium = () => {
+    if (isLoggedIn) {
+      navigate("/user/premium")
+    }
+    else {
+      setIsVisiableRootModal(true);
+    }
   }
+
+  if (!validRole) {
+    return <div style={{ display: 'none' }} />;
+  }
+
   return (
     <header className="hd-spotify-header">
       <div className="hd-logo">
         <FaSpotify
-          onClick={() => navigate("/user")}
+          onClick={() => {
+            if (inputRef.current) {
+              inputRef.current.value = ""; // Reset giá trị input qua ref
+              handleSearch();
+            }
+            // Điều hướng đến trang /user
+            navigate("/user");
+          }}
           size={32}
           color="white"
           title="Spotify"
@@ -91,7 +126,15 @@ const Header = () => {
         <div className="hd-home-search">
           <button
             className="hd-home-button"
-            onClick={() => navigate("/user")}
+            onClick={() => {
+              if (inputRef.current) {
+                console.log(inputRef.current.value); // In giá trị input ra console
+                inputRef.current.value = ""; // Reset giá trị input qua ref
+                handleSearch();
+              }
+              // Điều hướng đến trang /user
+              navigate("/user");
+            }}
             style={{
               backgroundColor: isHomePage ? "white" : "transparent",
               color: isHomePage ? "black" : "white",
@@ -99,20 +142,34 @@ const Header = () => {
               transition: "transform 0.2s ease-in-out", // Thêm hiệu ứng mượt
             }}
           >
-            <GoHomeFill color={isHomePage ? "black" : "white"} size={36} title="Home" />
+            <GoHomeFill
+              color={isHomePage ? "black" : "white"}
+              size={36}
+              title="Home"
+            />
           </button>
           <div className="hd-search-bar">
             <div className="hd-search-icon">
               <IoSearchOutline size={24} color="white" title="Search" />
             </div>
-            <input type="text" placeholder={t("header2.searchPlaceholder")} />
+            <input
+              type="text"
+              placeholder={t("header2.searchPlaceholder")}
+              // onChange={(e) => changeSearch(e.target.value)}
+              ref={inputRef} // Gán ref vào input
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(); // Gọi tìm kiếm khi nhấn Enter
+                }
+              }}
+            />
           </div>
         </div>
       </div>
 
       <div className="hd-premium-download">
         <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={() => navigate("/user/premium")}>
+          <button onClick={handleNavigatePremium}>
             <span>{t("header2.explorePremium")}</span>
           </button>
         </nav>

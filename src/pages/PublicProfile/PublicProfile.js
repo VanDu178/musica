@@ -10,11 +10,13 @@ import SongItem from "../../components/SongItem/SongItem";
 import { useUserData } from "../../context/UserDataProvider";
 import { hash, checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
+import { useParams } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
 
 const PublicProfile = () => {
   const { t } = useTranslation();
-  const [profileId, setProfileId] = useState(14);
   const [profile, setProfile] = useState({
     inFor: {},
     playlists: [],
@@ -25,53 +27,61 @@ const PublicProfile = () => {
   const [error, setError] = useState(null);
   const [isArtist, setIsArtist] = useState(false);
   const { idSong, setIdSong } = useSong();
-  const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
+  const { addSong, clearPlaylist } = usePlaylist();
   const { isPlaying, setIsPlaying } = useIsPlaying();
-  const { userData, setUserData, isLoggedIn } = useUserData();
+  const { setIsVisiableRootModal } = useIsVisiableRootModal();
+  const { isLoggedIn } = useUserData();
   const [validRole, setValidRole] = useState(false);
+  const [IsCheckingRole, setIsCheckingRole] = useState(true);
   const popularRef = useRef(null);
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
+  const { profileId } = useParams();
 
   useEffect(() => {
     const fetchRole = async () => {
+      setIsCheckingRole(true);
       if (isLoggedIn) {
         try {
           const checkedRoleUser = await checkData(3);
           if (checkedRoleUser) {
             setValidRole(true);
           }
+          setIsCheckingRole(false);
         } catch (err) {
+          setIsCheckingRole(false);
           console.error("Error checking role:", err);
           setError("Không thể xác minh quyền truy cập.");
         }
       }
+      setValidRole(true);
+      setIsCheckingRole(false);
     };
 
     fetchRole();
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const loadData = async () => {
-        setIsLoading(true);
-        setError(null); // Clear previous error
-        try {
-          await fetchProfile();
-          if (isArtist) {
-            await Promise.all([fetchAlbums(), fetchPopularSongs()]);
-          } else {
-            await fetchPlaylists();
-          }
-        } catch (err) {
-          console.error("Error loading data:", err);
-          setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
-        } finally {
-          setIsLoading(false);
+    const loadData = async () => {
+      setIsLoading(true);
+      setError(null); // Clear previous error
+      try {
+        await fetchProfile();
+        if (isArtist) {
+          await Promise.all([fetchAlbums(), fetchPopularSongs()]);
+        } else {
+          await fetchPlaylists();
         }
-      };
-      loadData();
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error loading data:", err);
+        setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
     }
+    loadData();
   }, [profileId, isArtist]);
 
   const fetchProfile = async () => {
@@ -142,11 +152,16 @@ const PublicProfile = () => {
   };
 
   const togglePlay = () => {
-    if (profile.popularSongs && profile.popularSongs.length > 0 && idSong) {
-      setIsPlaying(!isPlaying);
-    } else if (profile.popularSongs.length > 0) {
-      setIdSong(profile.popularSongs[0].id);
-      setIsPlaying(true);
+    if (isLoggedIn) {
+      if (profile.popularSongs && profile.popularSongs.length > 0 && idSong) {
+        setIsPlaying(!isPlaying);
+      } else if (profile.popularSongs.length > 0) {
+        setIdSong(profile.popularSongs[0].id);
+        setIsPlaying(true);
+      }
+    }
+    else {
+      setIsVisiableRootModal(true);
     }
   };
 
@@ -156,30 +171,17 @@ const PublicProfile = () => {
     }
   };
 
-  const handleRetry = () => {
-    setError(null);
-    setIsLoading(true);
-    // Trigger useEffect again
-    setProfileId((prev) => prev);
-  };
+  if (IsCheckingRole) {
+    return <Loading message={t("utils.loading")} height="100" />;
+  }
 
-  if (!isLoggedIn || !validRole) {
+
+  if (!validRole) {
     return <Forbidden />;
   }
 
-  if (error) {
-    return (
-      <div className="public-profile-error">
-        <p>{error}</p>
-        <button onClick={handleRetry}>
-          {t("publicProfile.retry") || "Thử lại"}
-        </button>
-      </div>
-    );
-  }
-
   if (isLoading) {
-    return <div className="public-profile-loading">Loading...</div>;
+    return <Loading message={t("utils.loading")} height="80" />;
   }
 
   return (
@@ -188,7 +190,7 @@ const PublicProfile = () => {
         <div className="public-profile-header-content">
           <img
             src={
-              profile?.inFor?.avatar ||
+              profile?.inFor?.image_path ||
               "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
             }
             alt={profile?.inFor?.name}
@@ -199,7 +201,7 @@ const PublicProfile = () => {
               {isArtist ? t("publicProfile.artist") : t("publicProfile.user")}
             </span>
             <div className="public-profile-name-container">
-              <h1 className="public-profile-name">{profile?.inFor?.name}</h1>
+              <h2 className="public-profile-name">{profile?.inFor?.name}</h2>
               {isArtist && (
                 <div className="public-profile-verified-artist">
                   <span className="public-profile-verified-check">✔</span>

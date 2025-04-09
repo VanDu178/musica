@@ -145,6 +145,10 @@ const MusicPlayerControl = () => {
 
     // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
     if (playlist.length === 1) {
+      fetchNextSong();
+    }
+
+    const fetchNextSong = async () => {
       const checkedRoleUser = await checkData(3);
       if (checkedRoleUser) {
         try {
@@ -166,9 +170,8 @@ const MusicPlayerControl = () => {
       setCurrentTrackIndex(prevIndex => prevIndex + 1);
       setIdSong(playlist[currentTrackIndex + 1].id);
     } else {
-      // Nếu hết danh sách, quay lại bài đầu tiên
-      setCurrentTrackIndex(0);
-      setIdSong(playlist[0].id);
+      // Nếu hết danh sách (không có shuffle hay repeat), gọi API lấy bài tiếp theo
+      fetchNextSong();
     }
   };
 
@@ -290,7 +293,7 @@ const MusicPlayerControl = () => {
 
   //nếu không phải role user không hiển thị
   if (!validRole) {
-    return null;
+    return <div style={{ display: 'none' }} />;
   }
 
   return (
@@ -404,8 +407,8 @@ const MusicPlayerControl = () => {
                   /> {/* Đường dẫn hình ảnh */}
                 </div>
                 <div className="ft-song_info com-horizontal-align">
-                  <h4>Spotify</h4>
-                  <p>Spotify</p>
+                  <h4>Zmusic</h4>
+                  <p>Zmusic</p>
                 </div>
               </div>
 

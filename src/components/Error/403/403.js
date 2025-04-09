@@ -12,12 +12,12 @@ const Forbidden = () => {
         <AlertTriangle size={64} className="icon" />
         <h1>403 - Forbidden</h1>
         <p>Bạn không có quyền truy cập trang này.</p>
-        {/* <button
+        <button
           className="home-button"
           onClick={() => navigate("/", { replace: true })}
         >
           Quay lại trang chủ
-        </button> */}
+        </button>
       </div>
     </div>
   );

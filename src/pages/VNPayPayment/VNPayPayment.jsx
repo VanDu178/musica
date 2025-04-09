@@ -21,17 +21,21 @@ const VNPayPayment = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user  không
                 const checkedRoleUser = await checkData(3);
 
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -104,6 +108,10 @@ const VNPayPayment = () => {
                 </button>
             </div>
         );
+    }
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
     }
 
     if (!isLoggedIn || !validRole) {

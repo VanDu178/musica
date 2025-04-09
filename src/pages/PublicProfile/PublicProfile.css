@@ -42,13 +42,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 .public-profile-name {
-  font-size: 54px;
   font-weight: 900;
   margin: 10px 0;
-  max-width: 8%; /* Giới hạn chiều rộng */
+  max-width: 50%; /* Giới hạn chiều rộng */
   white-space: nowrap; /* Ngăn xuống dòng */
   overflow: hidden; /* Ẩn nội dung vượt quá */
   text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */

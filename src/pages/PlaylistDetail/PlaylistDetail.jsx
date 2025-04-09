@@ -10,9 +10,11 @@ import axiosInstance from "../../config/axiosConfig";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { useUserData } from "../../context/UserDataProvider";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PlaylistDetail.css";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
 
 
 const PlaylistDetail = () => {
@@ -23,11 +25,14 @@ const PlaylistDetail = () => {
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
     const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
+    const { setIsVisiableRootModal } = useIsVisiableRootModal();
     const navigate = useNavigate();
     const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải user hoặc artist không
                 const checkedRoleArtist = await checkData(2);
@@ -35,20 +40,29 @@ const PlaylistDetail = () => {
 
                 if (checkedRoleArtist || checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             }
+            //nếu không login vẫn cho phép xem
+            setValidRole(true);
+            setIsCheckingRole(false);
         };
 
         fetchRole();
     }, [isLoggedIn]);
 
     const togglePlay = () => {
-        if (playlistData && playlistData.songs.length > 0 && idSong) {
-            setIsPlaying(!isPlaying);
+        if (isLoggedIn) {
+            if (playlistData && playlistData.songs.length > 0 && idSong) {
+                setIsPlaying(!isPlaying);
+            }
+            else {
+                setIdSong(playlistData.songs[0].id); // Phát bài hát đầu tiên nếu chưa phát bài nào
+                setIsPlaying(!isPlaying);
+            }
         }
         else {
-            setIdSong(playlistData.songs[0].id); // Phát bài hát đầu tiên nếu chưa phát bài nào
-            setIsPlaying(!isPlaying);
+            setIsVisiableRootModal(true);
         }
     };
 
@@ -96,11 +110,14 @@ const PlaylistDetail = () => {
         fetchPlaylistData();
     }, []);
 
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
 
     if (!playlistData) {
         return <p>Loading...</p>; // Show loading state while data is being fetched
     }
-    if (!isLoggedIn || !validRole) {
+    if (!validRole) {
         return <Forbidden />;
     }
 
@@ -117,6 +134,8 @@ const PlaylistDetail = () => {
                 <Col md={9}>
                     <h2 className="fw-bold playlist-name">{playlistData.playlist.name}</h2>
                     <p className="playlist-detail">{playlistData.playlist.username}</p> {/* Display username or other details */}
+
+                    {/* phải check xem có phải phát nhạc trong playlist hay không? */}
                     <Button variant="success" className="me-2" onClick={togglePlay}>
                         {isPlaying ? (
                             <span>

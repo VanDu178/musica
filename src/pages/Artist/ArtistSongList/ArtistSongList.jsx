@@ -6,6 +6,8 @@ import { formatTime } from "../../../helpers/timeFormatter";
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
 import Forbidden from "../../../components/Error/403/403";
+import Loading from "../../../components/Loading/Loading";
+
 
 import './ArtistSongList.css';
 
@@ -14,19 +16,22 @@ const ArtistSongList = () => {
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
 
     useEffect(() => {
         const fetchRole = async () => {
+            setIsCheckingRole(true);
             if (isLoggedIn) {
                 //nếu đang login thì check role phải artist không
                 const checkedRoleUser = await checkData(2);
                 if (checkedRoleUser) {
                     setValidRole(true);
+                    setIsCheckingRole(false);
                 }
             }
+            setIsCheckingRole(false);
         };
 
         fetchRole();
@@ -48,6 +53,10 @@ const ArtistSongList = () => {
 
         fetchSongs();
     }, []);
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
 
     if (!validRole || !isLoggedIn) {
         return <Forbidden />;
