@@ -37,14 +37,20 @@ const SpotifyLogin = () => {
     setIsLoading(true);
     try {
       const response = await axiosInstance.post("/auth/login/", dataLogin);
-      if (response.status === 200) {
-        const role_ID_Hash = await hash(response.data.role);
-
-        if (response?.data?.access && response?.data?.refresh && role_ID_Hash) {
+      if (response?.status === 200) {
+        const role_ID_Hash = await hash(response?.data?.role);
+        if (
+          response?.data?.access &&
+          response?.data?.refresh &&
+          role_ID_Hash &&
+          response?.data?.is_premium !== null
+        ) {
+          console.log("datalogin", response);
           addCookie(
-            response?.data?.access,
-            response?.data?.refresh,
-            role_ID_Hash
+            response.data.access,
+            response.data.refresh,
+            role_ID_Hash,
+            response.data.is_premium
           );
         }
 
@@ -66,6 +72,7 @@ const SpotifyLogin = () => {
         const errorMessages = {
           ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
           INVALID_CREDENTIALS: t("messages.invalidCredentials"),
+          ACCOUNT_WAS_BAN: t("messages.accountWasBan"),
           UNKNOWN_ERROR: t("messages.errorOccurred"),
         };
         setError(errorMessages[errorCode]); // Hiển thị toast lỗi
@@ -82,11 +89,18 @@ const SpotifyLogin = () => {
 
       if (response.status === 200) {
         const role_ID_Hash = await hash(response.data.role);
-        if (response?.data?.access && response?.data?.refresh && role_ID_Hash) {
+        if (
+          response?.data?.access &&
+          response?.data?.refresh &&
+          role_ID_Hash &&
+          response?.data?.is_premium !== null
+        ) {
+          console.log("datalogin", response);
           addCookie(
-            response?.data?.access,
-            response?.data?.refresh,
-            role_ID_Hash
+            response.data.access,
+            response.data.refresh,
+            role_ID_Hash,
+            response.data.is_premium
           );
         }
         setIsLoggedIn(true);
