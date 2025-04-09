@@ -6,16 +6,30 @@ import Footer from "../../components/Footer/Footer";
 import SideBar from "../../components/Sidebar/LeftSideBar";
 import "./Main.css";
 import { useUserData } from "../../context/UserDataProvider";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
+
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
 import { useTranslation } from "react-i18next";
+import RootModal from '../../components/Modal/RootModal/RootModal';
 
 const Main = ({ children }) => {
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(true);
     const [IsCheckingRole, setIsCheckingRole] = useState(true);
     const { t } = useTranslation();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { isVisiableRootModal, setIsVisiableRootModal } = useIsVisiableRootModal();
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsVisiableRootModal(false);
+        setIsModalOpen(false);
+    };
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -35,6 +49,15 @@ const Main = ({ children }) => {
         fetchRole();
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        if (isVisiableRootModal) {
+            openModal();
+        }
+        else {
+            closeModal();
+        }
+    }, [isVisiableRootModal]);
+
     if (IsCheckingRole) {
         return <Loading message={t("utils.loading")} height="110" />;
     }
@@ -52,6 +75,10 @@ const Main = ({ children }) => {
                     <SideBar />
                 </div>
                 <div className="main-content-container">
+                    <RootModal
+                        isOpen={isModalOpen}
+                        onClose={closeModal}
+                    />
                     {children}
                     < Footer />
                 </div>

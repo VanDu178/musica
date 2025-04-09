@@ -6,7 +6,9 @@ import { useSong } from "../../context/SongProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
+import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import { checkData } from "../../helpers/encryptionHelper";
+
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, collab }) => {
 
     const navigate = useNavigate();
@@ -14,6 +16,8 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
     const { setIdSong } = useSong();
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
     const [validRole, setValidRole] = useState(false);
+    const { setIsVisiableRootModal } = useIsVisiableRootModal();
+
     useEffect(() => {
         const fetchRole = async () => {
             if (isLoggedIn) {
@@ -34,10 +38,15 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
             navigate(`/user/playlist/${idPlaylist}`);
         }
         else {
-            //khi bài hát được phát không trong playlist
-            setIdSong(idSong);
-            clearPlaylist();
-            addSong({ id: idSong });
+            if (isLoggedIn) {
+                //khi bài hát được phát không trong playlist
+                setIdSong(idSong);
+                clearPlaylist();
+                addSong({ id: idSong });
+            }
+            else {
+                setIsVisiableRootModal(true);
+            }
         }
     };
 
