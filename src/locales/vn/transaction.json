@@ -266,7 +266,8 @@
         "invalidCredentials": "Email hoặc mật khẩu không hợp lệ.",
         "accessTokenRequired": "Yêu cầu access token truy cập.",
         "invalidGoogleToken": "Google token không hợp lệ.",
-        "invalidToken": "Access token không hợp lệ."
+        "invalidToken": "Access token không hợp lệ.",
+        "accountWasBan":"Tài khoản của bạn bị khóa"
     },
     "upload": {
         "title": "Tải lên MP3",
