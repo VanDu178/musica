@@ -248,7 +248,8 @@
         "invalidCredentials": "Invalid email or password.",
         "accessTokenRequired": "Access token is required.",
         "invalidGoogleToken": "Invalid Google token.",
-        "invalidToken": "Invalid token."
+        "invalidToken": "Invalid token.",
+        "accountWasBan":"Your account was ban"
     },
     "upload": {
         "title": "Upload MP3",
