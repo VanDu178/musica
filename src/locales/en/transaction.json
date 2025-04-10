@@ -17,7 +17,11 @@
         "user": "User",
         "songTrending": "Trending song",
         "albumTrending": "Trending album",
-        "playlistTrending": "Trending playlist"
+        "playlistTrending": "Trending playlist",
+        "403": "You do not have permission to perform this action.",
+        "handleUpdate": "Updating...",
+        "Update": "Update",
+        "Arrange": "Arrange the list"
     },
     "login": {
         "title": "Log in to Spotify",
@@ -267,7 +271,7 @@
         "accessTokenRequired": "Access token is required.",
         "invalidGoogleToken": "Invalid Google token.",
         "invalidToken": "Invalid token.",
-        "accountWasBan":"Your account was ban"
+        "accountWasBan": "Your account was ban"
     },
     "upload": {
         "title": "Upload MP3",

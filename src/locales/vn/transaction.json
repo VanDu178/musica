@@ -17,7 +17,11 @@
         "user": "Người dùng",
         "songTrending": "Bài hát thịnh hành",
         "albumTrending": "Album thịnh hành",
-        "playlistTrending": "Danh sách phát thịnh hành"
+        "playlistTrending": "Danh sách phát thịnh hành",
+        "403": "Bạn không có quyền thực hiện hành động này",
+        "handleUpdate": "Đang cập nhật...",
+        "Update": "Cập nhật",
+        "Arrange": "Sắp xếp"
     },
     "login": {
         "title": "Đăng nhập vào Spotify",
@@ -267,7 +271,7 @@
         "accessTokenRequired": "Yêu cầu access token truy cập.",
         "invalidGoogleToken": "Google token không hợp lệ.",
         "invalidToken": "Access token không hợp lệ.",
-        "accountWasBan":"Tài khoản của bạn bị khóa"
+        "accountWasBan": "Tài khoản của bạn bị khóa"
     },
     "upload": {
         "title": "Tải lên MP3",

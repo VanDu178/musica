@@ -8,6 +8,7 @@ import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 const VNPayPayment = () => {
     const { t } = useTranslation();
@@ -56,6 +57,15 @@ const VNPayPayment = () => {
                 if (error.response?.status === 401) {
                     navigate("/"); // Redirect nếu lỗi 401
                 }
+                if (error.response?.status === 403) {
+                    navigate("/"); // Redirect nếu lỗi 403 tức là premium
+                    if (Cookies.get("is_premium")) {
+                        Cookies.remove("is_premium");
+                    }
+                    Cookies.set("is_premium", 'true', {
+                        expires: 7,
+                    });
+                }
             }
         };
 
@@ -78,9 +88,15 @@ const VNPayPayment = () => {
                     const response = await axiosInstance.get(
                         `http://localhost:8000/api/payment-return/?${queryParams}`
                     );
-                    console.log("Response từ BE:", response);
 
                     if (response.status === 200) {
+                        //thanh toán thành công set premium thành true
+                        if (Cookies.get("is_premium")) {
+                            Cookies.remove("is_premium");
+                        }
+                        Cookies.set("is_premium", 'true', {
+                            expires: 7,
+                        });
                         setPaymentStatus("success");
                     } else {
                         setPaymentStatus("failed");
