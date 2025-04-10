@@ -8,7 +8,7 @@ export const UserDataProvider = ({ children }) => {
     return Cookies.get("access_token") ? true : false;
   });
   useEffect(() => {
-    const token = Cookies.get("access_token");
+    const token = Cookies.get("refresh_token");
     if (token) {
       setIsLoggedIn(true);
     }
