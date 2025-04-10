@@ -17,6 +17,7 @@ import { formatCurrencyVND } from "../../helpers/formatCurrency";
 import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
+import Cookies from "js-cookie";
 import "./Premium.css";
 
 const Premium = () => {
@@ -27,6 +28,7 @@ const Premium = () => {
   const { isLoggedIn } = useUserData();
   const [validRole, setValidRole] = useState(false);
   const [IsCheckingRole, setIsCheckingRole] = useState(true);
+  const isPremium = Cookies.get('is_premium') === 'true' ? true : false;
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -88,6 +90,10 @@ const Premium = () => {
       navigate("/payment-method", { state: { planId } });
     }
   };
+
+  if (isPremium) {
+    navigate("/user");
+  }
 
   if (IsCheckingRole) {
     return <Loading message={t("utils.loading")} height="100" />;

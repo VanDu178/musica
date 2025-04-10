@@ -28,6 +28,7 @@ const Header = () => {
   const inputRef = useRef(null); // Tạo ref để theo dõi input
 
   const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
+  const isPremium = Cookies.get('is_premium') === 'true' ? true : false;
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -168,17 +169,21 @@ const Header = () => {
       </div>
 
       <div className="hd-premium-download">
-        <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={handleNavigatePremium}>
-            <span>{t("header2.explorePremium")}</span>
-          </button>
-        </nav>
-        <nav className="hd-nav-links hd-download">
-          <button>
-            <MdOutlineDownloadForOffline size={20} color="white" />
-            {t("header2.installApp")}
-          </button>
-        </nav>
+        {isPremium ? (
+          // Nếu is_premium là true, hiển thị "Premium User"
+          <nav className="hd-nav-links hd-download">
+            Premium User
+          </nav>
+
+        ) : (
+          // Nếu không, hiển thị nút "Upgrade to Premium"
+          <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
+            <button onClick={handleNavigatePremium}>
+              <span>{t("header2.explorePremium")}</span>
+            </button>
+          </nav>
+        )}
+
         <nav className="hd-nav-links hd-news com-glow-zoom">
           <button>
             <GoBell size={20} color="white" title={t("header2.news")} />
@@ -202,28 +207,40 @@ const Header = () => {
         </nav>
       </div>
 
-      {isLoggedIn ? (
-        <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-          <img src={userData.image_path ? userData.image_path : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"} alt="User" />
-          {userPanelState && (
-            <div className="hd-user-menu">
-              <ul>
-                <button onClick={() => { navigate("/account/overview"); }}>{t("header2.account")}</button>
-                <button>{t("header2.profile")}</button>
-                <button onClick={() => navigate("/premium")}>{t("header2.upgradeToPremium")}</button>
-                <button>{t("header2.support")}</button>
-                <button>{t("header2.privateSession")}</button>
-                <button>{t("header2.setting")}</button>
-                <button onClick={logout}>{t("header2.logout")}</button>
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <a className="hd-login" href="/login">
-          {t("header2.login")}
-        </a>
-      )}
+      {
+        isLoggedIn ? (
+          <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
+            <img src={userData.image_path ? userData.image_path : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"} alt="User" />
+            {userPanelState && (
+              <div className="hd-user-menu">
+                <ul>
+                  <button onClick={() => { navigate("/account/overview"); }}>{t("header2.account")}</button>
+                  <button>{t("header2.profile")}</button>
+                  {isPremium ? (
+                    // Nếu is_premium là true, hiển thị "Premium User"
+                    <span></span>
+                  ) : (
+                    // Nếu không, hiển thị nút "Upgrade to Premium"
+                    <button
+                      onClick={() => navigate("/premium")}
+                    >
+                      {t("header2.upgradeToPremium")}
+                    </button>
+                  )}
+                  <button>{t("header2.support")}</button>
+                  <button>{t("header2.privateSession")}</button>
+                  <button>{t("header2.setting")}</button>
+                  <button onClick={logout}>{t("header2.logout")}</button>
+                </ul>
+              </div>
+            )}
+          </div>
+        ) : (
+          <a className="hd-login" href="/login">
+            {t("header2.login")}
+          </a>
+        )
+      }
     </header >
   );
 };
