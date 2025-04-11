@@ -17,7 +17,7 @@ import ResetPassword from "./pages/ForgotPassword/ForgotPassword";
 import Overview from "./pages/Account/OverviewDashboard";
 import Profile from "./pages/Account/Profile/Profile";
 import ChangePassword from "./pages/Account/ChangePassword/ChangePassword";
-import Chat from "./pages/Chat/DeepSeekChat";
+import Chat from "./pages/Chat/Chat";
 import Premium from "./pages/Premium/premium";
 import Home from "./pages/Home/Home";
 import Upload from "./pages/UploadPage/UploadPage";
@@ -64,7 +64,7 @@ const App = () => {
                           className="App"
                           style={{
                             backgroundColor: "#000000",
-                            minHeight: "100vh",
+                            minHeight: "80vh",
                           }}
                         >
                           <Routes>
@@ -198,7 +198,7 @@ const App = () => {
                                       path="/playlist/:idPlaylist"
                                       element={<PlaylistDetail />}
                                     />
-                                    <Route path="/chat" element={<Chat />} />
+                                    <Route path="/chat/:otherUserId" element={<Chat />} />
                                     <Route
                                       path="/premium"
                                       element={<Premium />}
