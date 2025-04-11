@@ -9,9 +9,8 @@ import Forbidden from "../../components/Error/403/403";
 const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
   const [daysList, setDaysList] = useState([...Array(31)].map((_, i) => i + 1)); // Mặc định 31 ngày
   const { t, i18n } = useTranslation();
-  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+  const [isProcessing, setIsProcessing] = useState(false); // Add isLoading state
   const { isLoggedIn } = useUserData();
-
 
   // Khi component mount, lấy dữ liệu đã lưu vào state cục bộ
   useEffect(() => {
@@ -41,9 +40,9 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
   //   userData.gender;
 
   const handleNext = async () => {
-    setIsLoading(true);
+    setIsProcessing(true);
     await onNext();
-    setIsLoading(false);
+    setIsProcessing(false);
   };
   // nếu đã login thì không cho vào
   if (isLoggedIn) {
@@ -61,7 +60,7 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
           background: "linear-gradient(to right,#1DB954 100%, #333 0%)",
         }}
       ></div>
-      <button className="back-btn" onClick={onBack} disabled={isLoading}>
+      <button className="back-btn" onClick={onBack} disabled={isProcessing}>
         ← {t(`signupStep3.step`)} 2/2
       </button>
       <h2 className="title">{t(`signupStep3.title`)}</h2>
@@ -76,7 +75,7 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
         onChange={(e) =>
           setUserData((prev) => ({ ...prev, username: e.target.value }))
         }
-        readOnly={isLoading}
+        readOnly={isProcessing}
       />
       {/* 
       Nhập ngày sinh
@@ -160,9 +159,9 @@ const SignupStep3 = ({ onNext, onBack, userData, setUserData, error }) => {
       <button
         className="next-btn"
         onClick={handleNext}
-        disabled={!isFormValid || isLoading}
+        disabled={!isFormValid || isProcessing}
       >
-        {isLoading ? (
+        {isProcessing ? (
           <Spinner
             as="span"
             animation="border"

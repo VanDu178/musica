@@ -48,7 +48,28 @@
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    position: relative;
   }
+
+  .overview-back-btn{
+    position: absolute;
+    left: 16px;
+    /* Đưa nút về bên trái */
+    background-color: #ccc;
+    border: none;
+    color: black;
+    font-size: 24px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  
+.overview-back-btn:hover {
+  background-color: #fff;
+  color: rgb(58, 183, 0);
+}
   
   .overview-text-secondary {
     color: #aaa;

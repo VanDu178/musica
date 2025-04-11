@@ -79,11 +79,19 @@
     position: absolute;
     left: 0;
     /* Đưa nút về bên trái */
-    background: none;
+    background-color: #ccc;
     border: none;
-    color: white;
+    color: black;
     font-size: 24px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
     cursor: pointer;
+}
+
+.profile-back-btn:hover {
+  background-color: #fff;
+  color: rgb(58, 183, 0);
 }
 
 .profile-title {

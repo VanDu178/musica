@@ -16,6 +16,7 @@ import Signup from "./pages/Signup/Signup";
 import ResetPassword from "./pages/ForgotPassword/ForgotPassword";
 import Overview from "./pages/Account/OverviewDashboard";
 import Profile from "./pages/Account/Profile/Profile";
+import ChangePassword from "./pages/Account/ChangePassword/ChangePassword";
 import Chat from "./pages/Chat/DeepSeekChat";
 import Premium from "./pages/Premium/premium";
 import Home from "./pages/Home/Home";
@@ -35,7 +36,6 @@ import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
 
 import Search from "./pages/Search/Search";
-
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
@@ -62,7 +62,10 @@ const App = () => {
                       <Router>
                         <div
                           className="App"
-                          style={{ backgroundColor: "#000000", minHeight: "100vh" }}
+                          style={{
+                            backgroundColor: "#000000",
+                            minHeight: "100vh",
+                          }}
                         >
                           <Routes>
                             {/* Các route không cần sidebar,header,footer */}
@@ -80,7 +83,14 @@ const App = () => {
                               path="/account/overview"
                               element={<Overview />}
                             />
-                            <Route path="/account/profile" element={<Profile />} />
+                            <Route
+                              path="/account/profile"
+                              element={<Profile />}
+                            />
+                            <Route
+                              path="/account/change-password"
+                              element={<ChangePassword />}
+                            />
                             <Route
                               path="/payment-method"
                               element={<PaymentMethod />}
@@ -93,20 +103,26 @@ const App = () => {
                               path="/register-artist"
                               element={<ArtistRegistration />}
                             />
-                            <Route path="/" element={<Navigate to="/user" replace />} />
+                            <Route
+                              path="/"
+                              element={<Navigate to="/user" replace />}
+                            />
                           </Routes>
-                          <Routes>
+                          {/* <Routes>
                             <Route
                               path="/admin/*"
                               element={
                                 <AdminLayout>
                                   <Routes>
-                                    <Route path="/account" element={<Upload />} />
+                                    <Route
+                                      path="/account"
+                                      element={<Upload />}
+                                    />
                                   </Routes>
                                 </AdminLayout>
                               }
                             />
-                          </Routes>
+                          </Routes> */}
 
                           <Routes>
                             <Route
@@ -114,7 +130,10 @@ const App = () => {
                               element={
                                 <AdminLayout>
                                   <Routes>
-                                    <Route path="/account" element={<Upload />} />
+                                    <Route
+                                      path="/account"
+                                      element={<Upload />}
+                                    />
                                     <Route
                                       path="/artist-registration-requests"
                                       element={<ArtistRegistrationRequests />}
@@ -122,6 +141,10 @@ const App = () => {
                                     <Route
                                       path="/account-management"
                                       element={<AccountManagement />}
+                                    />
+                                    <Route
+                                      path="/my-profile"
+                                      element={<Profile />}
                                     />
                                   </Routes>
                                 </AdminLayout>
@@ -136,7 +159,14 @@ const App = () => {
                               element={
                                 <ArtistLayout>
                                   <Routes>
-                                    <Route path="/upload" element={<Upload />} />
+                                    <Route
+                                      path="/my-profile"
+                                      element={<Profile />}
+                                    />
+                                    <Route
+                                      path="/upload"
+                                      element={<Upload />}
+                                    />
                                     <Route
                                       path="/songs"
                                       element={<ArtistSongList />}
@@ -169,7 +199,10 @@ const App = () => {
                                       element={<PlaylistDetail />}
                                     />
                                     <Route path="/chat" element={<Chat />} />
-                                    <Route path="/premium" element={<Premium />} />
+                                    <Route
+                                      path="/premium"
+                                      element={<Premium />}
+                                    />
                                     <Route
                                       path="/public-profile/:profileId"
                                       element={<PublicProfile />}

@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
+import { Flashlight } from "lucide-react";
 
 const PublicProfile = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const PublicProfile = () => {
     albums: [],
     popularSongs: [],
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isArtist, setIsArtist] = useState(false);
   const { idSong, setIdSong } = useSong();
@@ -32,7 +33,7 @@ const PublicProfile = () => {
   const { setIsVisiableRootModal } = useIsVisiableRootModal();
   const { isLoggedIn } = useUserData();
   const [validRole, setValidRole] = useState(false);
-  const [IsCheckingRole, setIsCheckingRole] = useState(true);
+  // const [IsCheckingRole, setIsCheckingRole] = useState(false);
   const popularRef = useRef(null);
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
@@ -40,22 +41,20 @@ const PublicProfile = () => {
 
   useEffect(() => {
     const fetchRole = async () => {
-      setIsCheckingRole(true);
+      setIsLoading(true);
       if (isLoggedIn) {
-        try {
-          const checkedRoleUser = await checkData(3);
-          if (checkedRoleUser) {
-            setValidRole(true);
-          }
-          setIsCheckingRole(false);
-        } catch (err) {
-          setIsCheckingRole(false);
-          console.error("Error checking role:", err);
-          setError("Không thể xác minh quyền truy cập.");
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(3);
+        if (checkedRoleUser) {
+          setValidRole(true);
+          setIsLoading(false);
         }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(false);
+        setIsLoading(false);
       }
-      setValidRole(true);
-      setIsCheckingRole(false);
+      setIsLoading(false);
     };
 
     fetchRole();
@@ -72,15 +71,15 @@ const PublicProfile = () => {
         } else {
           await fetchPlaylists();
         }
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (err) {
         console.error("Error loading data:", err);
         setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
-        setIsLoading(false);
+        // setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
-    }
+    };
     loadData();
   }, [profileId, isArtist]);
 
@@ -159,8 +158,7 @@ const PublicProfile = () => {
         setIdSong(profile.popularSongs[0].id);
         setIsPlaying(true);
       }
-    }
-    else {
+    } else {
       setIsVisiableRootModal(true);
     }
   };
@@ -170,11 +168,6 @@ const PublicProfile = () => {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-
-  if (IsCheckingRole) {
-    return <Loading message={t("utils.loading")} height="100" />;
-  }
-
 
   if (!validRole) {
     return <Forbidden />;
@@ -190,11 +183,14 @@ const PublicProfile = () => {
         <div className="public-profile-header-content">
           <img
             src={
-              profile?.inFor?.image_path ||
-              "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
+              profile?.inFor?.image_path || "../../images/default-avt-img.jpeg"
             }
             alt={profile?.inFor?.name}
             className="public-profile-avatar"
+            onError={(e) => {
+              e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
+              e.target.src = "../../images/default-avt-img.jpeg";
+            }}
           />
           <div className="public-profile-info">
             <span className="public-profile-type">
@@ -284,9 +280,13 @@ const PublicProfile = () => {
                 <h2 className="public-profile-section-title">
                   {t("publicProfile.albums")}
                 </h2>
-                <div className="public-profile-card-group public-profile-card-group-scroll">
-                  <MusicSlider items={profile?.albums} type="albums" />
-                </div>
+                {profile?.albums && profile.albums.length > 0 ? (
+                  <div className="public-profile-card-group public-profile-card-group-scroll">
+                    <MusicSlider items={profile.albums} type="albums" />
+                  </div>
+                ) : (
+                  <p>{t("publicProfile.no_albums")}</p>
+                )}
               </section>
 
               <section className="public-profile-section" ref={aboutRef}>

@@ -7,11 +7,13 @@ import {
 } from "../../helpers/validation";
 import axiosInstance from "../../config/axiosConfig";
 import { handleError, handleSuccess } from "../../helpers/toast";
-import { ClipLoader } from "react-spinners"; // Thêm Spinner
+import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 import "./ArtistRegistration.css";
 
 const ArtistRegistration = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     artistName: "",
     phone: "",
@@ -27,7 +29,7 @@ const ArtistRegistration = () => {
     email: "",
   });
 
-  const [loading, setLoading] = useState(false); // Loading state
+  const [isProcessing, setIsProcessing] = useState(false); // Loading state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,7 +87,7 @@ const ArtistRegistration = () => {
       return;
     }
 
-    setLoading(true); // Set loading to true while the form is being submitted
+    setIsProcessing(true);
 
     const dataRegister = new FormData();
     dataRegister.append("artistName", formData.artistName);
@@ -129,12 +131,21 @@ const ArtistRegistration = () => {
         handleError(t("artist_registration.errorServer"));
       }
     } finally {
-      setLoading(false); // Set loading back to false after submission
+      setIsProcessing(false);
     }
   };
 
   return (
     <div className="artist_registration-artist-registration-container">
+      <button
+        type="button"
+        className="artist_registration-back-button"
+        onClick={() => navigate("/user")}
+        disabled={isProcessing}
+      >
+        ← {t("artist_registration.goBack")}
+      </button>
+
       <div className="artist_registration-form-wrapper">
         <h2 className="artist_registration-form-title">
           {t("artist_registration.registerAsArtist")}
@@ -152,7 +163,7 @@ const ArtistRegistration = () => {
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterArtistName")}
                 required
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing} // Disable input if loading
               />
             </div>
             <div className="artist_registration-input-group">
@@ -166,7 +177,7 @@ const ArtistRegistration = () => {
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterEmail")}
                 required
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing}
               />
               {errors.email && <p className="error-message">{errors.email}</p>}
             </div>
@@ -182,7 +193,7 @@ const ArtistRegistration = () => {
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterPhoneNumber")}
                 required
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing}
               />
               {errors.phone && <p className="error-message">{errors.phone}</p>}
             </div>
@@ -197,7 +208,7 @@ const ArtistRegistration = () => {
                 className="artist_registration-textarea-field"
                 rows="4"
                 placeholder={t("artist_registration.tellUsAboutYourself")}
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing} // Disable input if loading
               ></textarea>
             </div>
 
@@ -211,7 +222,7 @@ const ArtistRegistration = () => {
                 onChange={handleChange}
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterSocialMediaLink")}
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing} // Disable input if loading
               />
             </div>
 
@@ -228,7 +239,7 @@ const ArtistRegistration = () => {
                 accept="image/*"
                 multiple
                 required
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing} // Disable input if loading
               />
               {formData.proofImages.length > 0 && (
                 <div className="artist_registration-preview-container">
@@ -246,7 +257,7 @@ const ArtistRegistration = () => {
                         type="button"
                         className="artist_registration-remove-button"
                         onClick={() => handleRemoveImage("proofImages", index)}
-                        disabled={loading} // Disable button if loading
+                        disabled={isProcessing}
                       >
                         <i className="fas fa-times"></i>
                       </button>
@@ -269,7 +280,7 @@ const ArtistRegistration = () => {
                 accept="image/*"
                 multiple
                 required
-                disabled={loading} // Disable input if loading
+                disabled={isProcessing}
               />
               {formData.artistImages.length > 0 && (
                 <div className="artist_registration-preview-container">
@@ -287,7 +298,7 @@ const ArtistRegistration = () => {
                         type="button"
                         className="artist_registration-remove-button"
                         onClick={() => handleRemoveImage("artistImages", index)}
-                        disabled={loading} // Disable button if loading
+                        disabled={isProcessing}
                       >
                         <i className="fas fa-times"></i>
                       </button>
@@ -300,11 +311,15 @@ const ArtistRegistration = () => {
             <button
               type="submit"
               className="artist_registration-submit-button"
-              disabled={loading}
+              disabled={isProcessing}
             >
-              {loading ? (
+              {isProcessing ? (
                 <>
-                  <ClipLoader size={20} color={"#ffffff"} loading={loading} />{" "}
+                  <ClipLoader
+                    size={20}
+                    color={"#ffffff"}
+                    loading={isProcessing}
+                  />
                   {t("artist_registration.submitting")}
                 </>
               ) : (

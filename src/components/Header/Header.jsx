@@ -64,6 +64,7 @@ const Header = () => {
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");
     Cookies.remove("secrect_key");
+    Cookies.remove("is_premium");
     setIsLoggedIn(false);
   };
 
@@ -204,7 +205,12 @@ const Header = () => {
 
       {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-          <img src={userData.image_path ? userData.image_path : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"} alt="User" />
+          <img src={userData.image_path ? userData.image_path : "../../images/default-avt-img.jpeg"} alt="User"
+            onError={(e) => {
+              e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
+              e.target.src = "../../images/default-avt-img.jpeg";
+            }}
+          />
           {userPanelState && (
             <div className="hd-user-menu">
               <ul>

@@ -36,7 +36,7 @@ const Sidebar = () => {
     // Danh sách menu items với đường dẫn tương ứng
     const menuItems = [
         { name: t('artist.sidebar.music'), path: '/artist/songs' },
-        { name: t('artist.sidebar.profile'), path: '/artist/profile' },
+        { name: t('artist.sidebar.profile'), path: '/artist/my-profile' },
         { name: t('artist.sidebar.upload'), path: '/artist/upload' },
         { name: t('artist.sidebar.album'), path: '/artist/albums' },
 

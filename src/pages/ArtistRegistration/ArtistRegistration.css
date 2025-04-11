@@ -8,6 +8,25 @@
     padding: 16px;
 }
 
+.artist_registration-back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s ease;
+  }
+  
+  .artist_registration-back-button:hover {
+    color: #007bff;
+  }
+  
+
 .artist_registration-form-wrapper {
     width: 100%;
     max-width: 448px;

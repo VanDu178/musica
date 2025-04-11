@@ -40,9 +40,13 @@ const UserCard = ({ name, image, type, idUser, isSlider }) => {
         <div className="user-card-container" onClick={HandleClick}>
             <div className="user-card-position-relative">
                 <img
-                    src={image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPVMbdDmHvm0DfSI29UxWTtE1IqPCm8xn7Bw&s"}
+                    src={image || "../../images/default-avt-img.jpeg"}
                     alt={name}
                     className={`${isSlider ? "user-card-img-top-slider" : "user-card-img-top"}`}
+                    onError={(e) => {
+                        e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
+                        e.target.src = "../../images/default-avt-img.jpeg";
+                    }}
                 />
             </div>
             <div className="user-card-body">

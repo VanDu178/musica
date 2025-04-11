@@ -87,3 +87,27 @@
   text-align: center;
   color: white;
 }
+
+
+
+.account_management-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.account_management-pagination button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #123abc;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.account_management-pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

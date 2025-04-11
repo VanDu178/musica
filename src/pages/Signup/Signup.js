@@ -13,7 +13,6 @@ const Signup = () => {
   const [step, setStep] = useState(1);
   const [showNoti, setShowNoti] = useState(false); // State to control Noti visibility
   const [error, setError] = useState(""); // State to store error message
-  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
   const { t } = useTranslation();
   const { isLoggedIn } = useUserData();
 
@@ -25,7 +24,6 @@ const Signup = () => {
   });
 
   const handleSignup = async () => {
-    setIsLoading(true);
     try {
       const response = await axiosInstance.post("/auth/register/", userData);
       console.log("data", response);
@@ -35,7 +33,6 @@ const Signup = () => {
     } catch (error) {
       console.log("alsdlas", error.error_code);
       if (error.response?.data?.error_code) {
-        setIsLoading(false);
         const errorCode = error.response.data.error_code;
         const errorMessages = {
           EMAIL_ALREADY_EXISTS: t("messages.emailAlreadyExists"),
@@ -47,7 +44,6 @@ const Signup = () => {
         console.error("Signup failed", errorMessages[errorCode]);
       }
     }
-    setIsLoading(false);
   };
 
   const handleBack = () => {
@@ -93,8 +89,7 @@ const Signup = () => {
           onBack={handleBack}
           userData={userData}
           setUserData={setUserData}
-          error={error} // Pass error message to SignupStep3
-          isLoading={isLoading} // Pass isLoading state to SignupStep3
+          error={error}
         />
       )}
     </div>
