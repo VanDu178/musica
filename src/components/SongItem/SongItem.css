@@ -35,4 +35,7 @@
     overflow: hidden;         /* Ẩn nội dung vượt quá */
     text-overflow: ellipsis;  /* Hiển thị ... khi bị cắt */
   }
+  .songitem-drag-handle{
+    font-size: xx-large;
+  }
   

@@ -28,6 +28,7 @@ const Header = () => {
   const inputRef = useRef(null); // Tạo ref để theo dõi input
 
   const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
+  const isPremium = Cookies.get('is_premium') === 'true' ? true : false;
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -169,17 +170,21 @@ const Header = () => {
       </div>
 
       <div className="hd-premium-download">
-        <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
-          <button onClick={handleNavigatePremium}>
-            <span>{t("header2.explorePremium")}</span>
-          </button>
-        </nav>
-        <nav className="hd-nav-links hd-download">
-          <button>
-            <MdOutlineDownloadForOffline size={20} color="white" />
-            {t("header2.installApp")}
-          </button>
-        </nav>
+        {isPremium ? (
+          // Nếu is_premium là true, hiển thị "Premium User"
+          <nav className="hd-nav-links hd-download">
+            Premium User
+          </nav>
+
+        ) : (
+          // Nếu không, hiển thị nút "Upgrade to Premium"
+          <nav className="hd-nav-links hd-premium" title={t("header2.upgradeToPremium")}>
+            <button onClick={handleNavigatePremium}>
+              <span>{t("header2.explorePremium")}</span>
+            </button>
+          </nav>
+        )}
+
         <nav className="hd-nav-links hd-news com-glow-zoom">
           <button>
             <GoBell size={20} color="white" title={t("header2.news")} />
@@ -230,6 +235,7 @@ const Header = () => {
           {t("header2.login")}
         </a>
       )}
+
     </header >
   );
 };

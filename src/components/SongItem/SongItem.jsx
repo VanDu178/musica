@@ -10,7 +10,7 @@ import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 
 import "./SongItem.css";
 
-const SongItem = ({ songId, song }) => {
+const SongItem = ({ songId, song, isArrange, songOder }) => {
     const [isHovered, setIsHovered] = useState(false);
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
@@ -66,23 +66,31 @@ const SongItem = ({ songId, song }) => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <Row className="align-items-center">
-                <Col xs={1}>
-                    {idSong === songId && isPlaying ? (
-                        isHovered ? (
-                            <Button variant="link" className="p-0 text-white" onClick={() => setIsPlaying(false)}>
-                                <FaPause />
+                {isArrange ? (
+                    <Col xs={1}>
+                        <span className="songitem-drag-handle">≡</span>
+                    </Col>
+
+                ) : (
+                    <Col xs={1}>
+                        {idSong === songId && isPlaying ? (
+                            isHovered ? (
+                                <Button variant="link" className="p-0 text-white" onClick={() => setIsPlaying(false)}>
+                                    <FaPause />
+                                </Button>
+                            ) : (
+                                <FaMusic className="text-white" />
+                            )
+                        ) : isHovered ? (
+                            <Button variant="link" className="p-0 text-white" onClick={handlePlay}>
+                                <FaPlay />
                             </Button>
                         ) : (
-                            <FaMusic className="text-white" />
-                        )
-                    ) : isHovered ? (
-                        <Button variant="link" className="p-0 text-white" onClick={handlePlay}>
-                            <FaPlay />
-                        </Button>
-                    ) : (
-                        song.order
-                    )}
-                </Col>
+                            songOder + 1
+                        )}
+                    </Col>
+                )
+                }
                 <Col xs={5} className="d-flex align-items-center">
                     <Image src={song?.image_path || "../../images/default-music-img.png"} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px", borderRadius: "5px" }}
                         onError={(e) => {
@@ -106,7 +114,7 @@ const SongItem = ({ songId, song }) => {
                 <Col xs={3}>{song.album}</Col>
                 <Col xs={2}>{song.duration}</Col>
             </Row>
-        </ListGroup.Item>
+        </ListGroup.Item >
     );
 };
 

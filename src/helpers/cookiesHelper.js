@@ -10,8 +10,8 @@ export const removeCookie = () => {
   if (Cookies.get("secrect_key")) {
     Cookies.remove("secrect_key");
   }
-  if (Cookies.get("is_peremium")) {
-    Cookies.remove("is_peremium");
+  if (Cookies.get("is_premium")) {
+    Cookies.remove("is_premium");
   }
 };
 
@@ -31,7 +31,7 @@ export const addCookie = (
   Cookies.set("secrect_key", secrect_key, {
     expires: 7,
   });
-  Cookies.set("is_peremium", is_peremium, {
+  Cookies.set("is_premium", is_peremium, {
     expires: 7,
   });
 };

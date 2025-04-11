@@ -142,12 +142,6 @@ const MusicPlayerControl = () => {
       }
       return;
     }
-
-    // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
-    if (playlist.length === 1) {
-      fetchNextSong();
-    }
-
     const fetchNextSong = async () => {
       const checkedRoleUser = await checkData(3);
       if (checkedRoleUser) {
@@ -163,6 +157,11 @@ const MusicPlayerControl = () => {
         }
         return;
       }
+    }
+
+    // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
+    if (playlist.length === 1) {
+      fetchNextSong();
     }
 
     // Chế độ bình thường: Chuyển sang bài tiếp theo

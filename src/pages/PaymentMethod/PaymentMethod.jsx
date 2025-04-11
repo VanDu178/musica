@@ -9,6 +9,7 @@ import Forbidden from "../../components/Error/403/403";
 import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 const PaymentMethod = () => {
     const { t } = useTranslation();
@@ -78,6 +79,12 @@ const PaymentMethod = () => {
 
             if (response.status === 200) {
                 handleSuccess("Thanh toán tiền mặt thành công!"); // Hiển thị toast thành công
+                if (Cookies.get("is_premium")) {
+                    Cookies.remove("is_premium");
+                }
+                Cookies.set("is_premium", 'true', {
+                    expires: 7,
+                });
                 navigate("/");
             } else {
                 console.log("Thanh toán thất bại. Vui lòng thử lại!");
@@ -87,6 +94,15 @@ const PaymentMethod = () => {
                 handleSuccess("Bạn đã tham gia Premium!"); // Hiển thị toast thành công
             } else {
                 console.error("Lỗi khi xử lý thanh toán tiền mặt:", error);
+            }
+            if (error.response?.status === 403) {
+                navigate("/"); // Redirect nếu lỗi 403 tức là premium
+                if (Cookies.get("is_premium")) {
+                    Cookies.remove("is_premium");
+                }
+                Cookies.set("is_premium", 'true', {
+                    expires: 7,
+                });
             }
         }
     };
