@@ -3,11 +3,12 @@ import "./OverviewDashboard.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 const OverviewDashboard = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-
+  const premium_plan = Cookies.get("premium_plan");
   return (
     <div className="overview-container">
       <div className="overview-main">
@@ -34,7 +35,10 @@ const OverviewDashboard = () => {
               <p className="overview-text-secondary">
                 {t("overview.yourPlan")}
               </p>
-              <h2 className="overview-title">{t("overview.spotifyFree")}</h2>
+              <h2 className="overview-title">
+                {premium_plan ? premium_plan : t("overview.spotifyFree")}
+              </h2>
+
               <button className="overview-button">
                 {t("overview.learnMore")}
               </button>

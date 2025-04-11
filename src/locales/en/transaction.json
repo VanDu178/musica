@@ -213,16 +213,20 @@
         "shuffle": "Shuffle",
         "repeat": "Repeat"
     },
+
     "leftSidebar": {
-        "library": "Your Library",
-        "expandLib": "Expand Your Library",
-        "playlists": "Playlists",
         "artist": "Artist",
         "artists": "Artists",
+        "expandLib": "Expand library",
+        "library": "Library",
         "createList": "Create",
         "createListDesc": "Create playlist or folder",
-        "recents": "Recents"
-    },
+        "playlists": "Playlists",
+        "recents": "Recents",
+        "defaultPlaylistDesc": "playlist music",
+        "showMore": "Show more",
+        "showLess": "Show less"
+      },
     "premium": {
         "viewPlanTitle": "Listen without limits. Try 1 month of Premium Individual for free.",
         "viewPlanSubtitle": "Only ₫59,000/month after. Cancel anytime.",
@@ -387,7 +391,8 @@
             "accountArtist": "Account Artist",
             "profile":"My Profile",
             "artistRegistrationRequests": "Artist Registration Requests",
-            "accountManagement": "Account Management"
+            "accountManagement": "Account Management",
+            "planManagement": "Plan Management"
         },
         "account_management": {
             "title": "Account Management",
@@ -452,7 +457,29 @@
             "pending": "Pending",
             "btnBack":"Back",
             "btnNext":"Next"
-        }
+        },
+        "plan_management": {
+            "title": "Plan Management",
+            "name": "Plan Name",
+            "price": "Price",
+            "duration_day": "Duration (days)",
+            "actions": "Actions",
+            "edit_btn": "Edit",
+            "delete_btn": "Delete",
+            "create_btn": "Create",
+            "update_btn": "Update",
+            "fetch_error": "An error occurred while fetching the list of plans. Please try again later.",
+            "submit_error": "An error occurred while submitting the form. Please try again later.",
+            "create_success": "Plan created successfully!",
+            "update_success": "Plan updated successfully!",
+            "delete_success": "Plan deleted successfully!",
+            "delete_error": "An error occurred while delete the form. Please try again later.",
+            "exited_premiumsubscription_set": "There are accounts currently using this plan, so it cannot be deleted.",
+            "btnBack":"Back",
+            "btnNext":"Next",
+            "processing_btn":"Processing"
+          }
+       
     },
     "artist_registration": {
         "registerAsArtist": "Register as an Artist",

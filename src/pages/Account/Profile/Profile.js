@@ -9,6 +9,7 @@ import { useUserData } from "../../../context/UserDataProvider";
 import { useUser } from "../../../context/UserProvider";
 import Forbidden from "../../../components/Error/403/403";
 import Loading from "../../../components/Loading/Loading";
+import { storeCachedData } from "../../../helpers/cacheDataHelper";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -113,7 +114,13 @@ const Profile = () => {
       );
 
       if (response?.status === 200) {
+        const CACHE_KEY = "userInfo";
         setUserData(response.data?.user);
+        //Cache du lieu vao local
+        const userDataToCache = {
+          userData: response?.data?.user,
+        };
+        storeCachedData(CACHE_KEY, userDataToCache);
         handleSuccess(t("profile.USER_UPDATE_SUCCESS"));
       }
     } catch (error) {

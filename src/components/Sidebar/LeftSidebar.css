@@ -287,6 +287,10 @@
 .ls-library-item-details {
   font-size: 12px;
   color: gray;
+  max-width: 50%; /* Giới hạn chiều rộng */
+  white-space: nowrap; /* Ngăn xuống dòng */
+  overflow: hidden; /* Ẩn nội dung vượt quá */
+  text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
 }
 
 .ls-img-play-btn{

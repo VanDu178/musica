@@ -30,6 +30,7 @@ import VNPayPayment from "./pages/VNPayPayment/VNPayPayment";
 import ArtistRegistration from "./pages/ArtistRegistration/ArtistRegistration";
 import ArtistRegistrationRequests from "./pages/Admin/ArtistRegistrationRequests/ArtistRegistrationRequests";
 import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
+import PlanManagement from "./pages/Admin/PlanManagement/PlanManagement";
 
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
@@ -145,6 +146,10 @@ const App = () => {
                                     <Route
                                       path="/my-profile"
                                       element={<Profile />}
+                                    />
+                                    <Route
+                                      path="/plan-management"
+                                      element={<PlanManagement />}
                                     />
                                   </Routes>
                                 </AdminLayout>

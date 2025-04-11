@@ -88,37 +88,6 @@ const ArtistRegistrationRequests = () => {
     }
   };
 
-  // const getArtistRegistrationRequests = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const response = await axiosInstance.get(
-  //       "/admin/artist-registration-requests/"
-  //     );
-
-  //     if (response?.status === 200) {
-  //       // Split the comma-separated strings into arrays for each registration
-  //       const updatedRegistrations = response?.data.map((registration) => ({
-  //         ...registration,
-  //         identity_proofs: registration.identity_proof
-  //           ? registration.identity_proof
-  //               .split(",")
-  //               .filter((url) => url.trim() !== "")
-  //           : [],
-  //         artist_images: registration.artist_image
-  //           ? registration.artist_image
-  //               .split(",")
-  //               .filter((url) => url.trim() !== "")
-  //           : [],
-  //       }));
-  //       setRegistrations(updatedRegistrations);
-  //     }
-  //   } catch (error) {
-  //     handleError(t("admin.artist_registration_requests.error_fetching"));
-  //   } finally {
-  //     setIsLoading(false); // Reset loading state after fetching
-  //   }
-  // };
-
   const handleApprove = async (id) => {
     try {
       setIsConfirmingApprove(null);

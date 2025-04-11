@@ -13,13 +13,17 @@ export const removeCookie = () => {
   if (Cookies.get("is_premium")) {
     Cookies.remove("is_premium");
   }
+  if (Cookies.get("premium_plan")) {
+    Cookies.remove("premium_plan");
+  }
 };
 
 export const addCookie = (
   access_token,
   refresh_token,
   secrect_key,
-  is_peremium
+  is_peremium,
+  premium_plan
 ) => {
   removeCookie();
   Cookies.set("access_token", access_token, {
@@ -32,6 +36,9 @@ export const addCookie = (
     expires: 7,
   });
   Cookies.set("is_premium", is_peremium, {
+    expires: 7,
+  });
+  Cookies.set("premium_plan", premium_plan, {
     expires: 7,
   });
 };

@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import axiosInstance from "../config/axiosConfig";
 import { useUserData } from "./UserDataProvider";
 import { useTranslation } from "react-i18next";
-import { checkData } from "../helpers/encryptionHelper";
+import { getCachedData, storeCachedData } from "../helpers/cacheDataHelper";
 
 // Tạo UserContext
 const UserContext = createContext();
@@ -13,13 +13,21 @@ export const UserProvider = ({ children }) => {
   const { t } = useTranslation();
 
   const getUserInfo = async () => {
-    //check role user before call api
-    // const checkedRoleUser = await checkData(3);
-    // if (checkedRoleUser) {
+    const CACHE_KEY = "userInfo";
+    const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 tiếng
+    const cachedData = getCachedData(CACHE_KEY, CACHE_DURATION);
+    if (cachedData) {
+      setUserData(cachedData.userData);
+      return;
+    }
     try {
       const response = await axiosInstance.get("/account/profile/");
       if (response?.status === 200) {
         setUserData(response?.data);
+        const userDataToCache = {
+          userData: response?.data,
+        };
+        storeCachedData(CACHE_KEY, userDataToCache);
         setError(null);
       }
     } catch (error) {
