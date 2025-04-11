@@ -3,8 +3,9 @@
   }
     
   .album-card img {
-      height: 160px;
-      object-fit: cover;
+    min-height: 160px;
+    height:160px;
+    object-fit: cover;
   }
     
   .overlay-gradient {

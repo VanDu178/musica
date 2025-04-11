@@ -17,7 +17,7 @@ const Home = () => {
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
     const [artists, setArtists] = useState([]);
-    const [loading, setLoading] = useState(true); // Trạng thái loading
+    const [loading, setLoading] = useState(true);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
     const [IsCheckingRole, setIsCheckingRole] = useState(true);
@@ -115,7 +115,7 @@ const Home = () => {
                     error.response ? error.response.data : error.message
                 );
             } finally {
-                setLoading(false); // Tắt trạng thái loading
+                setLoading(false);
             }
         };
 

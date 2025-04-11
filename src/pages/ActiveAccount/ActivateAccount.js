@@ -15,7 +15,7 @@ const ActivateAccount = () => {
   useEffect(() => {
     const activateAccount = async () => {
       try {
-        const response = await axiosInstance.get(
+        const response = await axiosInstance.patch(
           `/auth/activate/${uidb64}/${token}/`
         );
         if (response.status === 200) {

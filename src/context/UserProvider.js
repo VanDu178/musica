@@ -14,30 +14,30 @@ export const UserProvider = ({ children }) => {
 
   const getUserInfo = async () => {
     //check role user before call api
-    const checkedRoleUser = await checkData(3);
-    if (checkedRoleUser) {
-      try {
-        const response = await axiosInstance.get("/account/");
-        if (response?.status === 200) {
-          setUserData(response?.data);
-          setError(null);
-        }
-      } catch (error) {
-        if (error?.response) {
-          const { message_code, details } = error.response?.data;
-          setUserData({});
-          if (message_code === "USER_NOT_AUTHENTICATED") {
-            setError(t("profile.USER_NOT_AUTHENTICATED"));
-            setIsLoggedIn(false);
-          } else {
-            setError(t("profile.SYSTEM_ERROR"));
-          }
-        } else {
-          setError(t("profile.SERVER_UNAVAILABLE"));
-        }
-        console.error("Lỗi khi lấy thông tin người dùng:", error);
+    // const checkedRoleUser = await checkData(3);
+    // if (checkedRoleUser) {
+    try {
+      const response = await axiosInstance.get("/account/profile/");
+      if (response?.status === 200) {
+        setUserData(response?.data);
+        setError(null);
       }
+    } catch (error) {
+      if (error?.response) {
+        const { message_code, details } = error.response?.data;
+        setUserData({});
+        if (message_code === "USER_NOT_AUTHENTICATED") {
+          setError(t("profile.USER_NOT_AUTHENTICATED"));
+          setIsLoggedIn(false);
+        } else {
+          setError(t("profile.SYSTEM_ERROR"));
+        }
+      } else {
+        setError(t("profile.SERVER_UNAVAILABLE"));
+      }
+      console.error("Lỗi khi lấy thông tin người dùng:", error);
     }
+    // }
   };
 
   return (

@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [showNoti, setShowNoti] = useState(false); // State to control Noti visibility
   const [message, setMessage] = useState(""); // State to store error message
-  const [loading, setLoading] = useState(false); // State to track loading status
+  const [isProcessing, setIsProcessing] = useState(false);
   const { t } = useTranslation();
   const { isLoggedIn } = useUserData();
 
@@ -26,7 +26,7 @@ const ResetPassword = () => {
       return;
     }
 
-    setLoading(true);
+    setIsProcessing(true);
 
     try {
       const response = await axiosInstance.post("/auth/password-reset/", {
@@ -35,7 +35,7 @@ const ResetPassword = () => {
 
       if (response.status === 200) {
         setShowNoti(true);
-        setLoading(false);
+        setIsProcessing(false);
       }
     } catch (error) {
       console.log(error);
@@ -43,15 +43,14 @@ const ResetPassword = () => {
         setShowNoti(true);
         setMessage(t("messages.passwordResetFailed"));
       } else {
-        setLoading(false);
         const errorCode = error.response?.data?.error_code;
         const errorMessages = {
           USER_NOT_FOUND: t("messages.passwordResetFailed"),
           UNKNOWN_ERROR: t("messages.errorOccurred"),
         };
       }
-
-      setLoading(false);
+    } finally {
+      setIsProcessing(false); // Hide spinner after finishing
     }
   };
   if (showNoti) {
@@ -85,15 +84,19 @@ const ResetPassword = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="name@domain.com"
             required
-            readOnly={loading} // Make input readonly while loading
+            readOnly={isProcessing}
           />
           <a href="#" className="help-link">
             {t("resetPassword.helpLink")}
           </a>
           {message && <span className="error-message">{message}</span>}{" "}
           {/* Display error message */}
-          <button type="submit" className="reset-button" disabled={loading}>
-            {loading ? (
+          <button
+            type="submit"
+            className="reset-button"
+            disabled={isProcessing}
+          >
+            {isProcessing ? (
               <Spinner
                 as="span"
                 animation="border"

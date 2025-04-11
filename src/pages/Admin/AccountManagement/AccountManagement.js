@@ -2,31 +2,75 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import axiosInstance from "../../../config/axiosConfig";
 import { handleError, handleSuccess } from "../../../helpers/toast";
-import { ClipLoader } from "react-spinners"; // Import Spinner
+import { useUserData } from "../../../context/UserDataProvider";
+import { checkData } from "../../../helpers/encryptionHelper";
+import Loading from "../../../components/Loading/Loading";
+import Forbidden from "../../../components/Error/403/403";
 import "./AccountManagement.css";
 
 const AccountManagement = () => {
   const { t } = useTranslation();
   const [accounts, setAccounts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Loading spinner state
   const [processingUserId, setProcessingUserId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [validRole, setValidRole] = useState(false);
+  const { isLoggedIn } = useUserData();
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    getAccounts();
-  }, []);
+    const fetchRole = async () => {
+      setIsLoading(true);
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(1);
+        if (checkedRoleUser) {
+          setValidRole(true);
+          setIsLoading(false);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(false);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    };
 
-  const getAccounts = async () => {
+    fetchRole();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    getAccounts(page);
+  }, [page]);
+
+  //Cách phân trang hiện tại của mình đang dùng là PageNumberPagination.
+  //Cách này có vấn đề là nếu người dùng di chuyển đến trang cuối và xóa hết dữ liệu trang đó thì
+  //giao diện sẽ hiển thị dữ liệu rỗng, vì request xuống backend, page hiện tại vẫn là page đã bị xóa hết dữ liệu
+  //chính vì thế cần check nếu dữ liệu là rỗng và page vẫn đang lớn hơn 1 thì ta quay về page trước đó để request.
+  //Vì trong trang này không có chức nnawg xóa nên không cần check
+  // useEffect(() => {
+  //   if (accounts.length === 0 && page > 1) {
+  //     setPage((prev) => prev - 1);
+  //   }
+  // }, [accounts, page]);
+
+  const getAccounts = async (page = 1) => {
     try {
-      setIsLoading(true); // Show spinner when starting API call
-      const response = await axiosInstance.get("/admin/accounts/");
+      setIsLoading(true);
+      const response = await axiosInstance.get(`/admin/accounts/${page}/`);
       if (response?.status === 200) {
-        setAccounts(response?.data);
+        console.log(response);
+        setAccounts(response?.data?.results);
+        setPage(page);
+        setTotalPages(Math.ceil(response.data.count / 3));
       }
     } catch (error) {
       handleError(t("admin.account_management.error_fetching_users"));
     } finally {
-      setIsLoading(false); // Hide spinner after finishing API call
+      setIsLoading(false);
     }
   };
 
@@ -37,7 +81,7 @@ const AccountManagement = () => {
   const handleBanUser = async (userId) => {
     try {
       setProcessingUserId(userId);
-      setIsLoading(true); // Show spinner when starting ban
+      setIsProcessing(true); // Show spinner when starting ban
       const response = await axiosInstance.post(
         `/admin/accounts/ban-account/${userId}/`
       );
@@ -53,14 +97,14 @@ const AccountManagement = () => {
       handleError(t("admin.account_management.ban_error"));
     } finally {
       setProcessingUserId(null);
-      setIsLoading(false); // Hide spinner after finishing
+      setIsProcessing(false); // Hide spinner after finishing
     }
   };
 
   const handleUnbanUser = async (userId) => {
     try {
       setProcessingUserId(userId);
-      setIsLoading(true); // Show spinner when starting unban
+      setIsProcessing(true); // Show spinner when starting unban
       const response = await axiosInstance.post(
         `/admin/accounts/unban-account/${userId}/`
       );
@@ -76,7 +120,7 @@ const AccountManagement = () => {
       handleError(t("admin.account_management.unban_error"));
     } finally {
       setProcessingUserId(null);
-      setIsLoading(false); // Hide spinner after finishing
+      setIsProcessing(false); // Hide spinner after finishing
     }
   };
 
@@ -87,10 +131,17 @@ const AccountManagement = () => {
       user.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (isLoading) {
+    return <Loading message={t("utils.loading")} height="60" />;
+  }
+
+  if (!validRole) {
+    return <Forbidden />;
+  }
+
   return (
     <div className="account_management-user-management-container">
       <h2>{t("admin.account_management.title")}</h2>
-
       {/* Search Bar */}
       <input
         type="text"
@@ -99,14 +150,13 @@ const AccountManagement = () => {
         onChange={handleSearch}
         className="account_management-user-search-bar"
       />
-
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="account_management-loading-container">
           <ClipLoader size={50} color={"#123abc"} loading={isLoading} />{" "}
-          {/* Display spinner */}
           <p>{t("admin.account_management.loading")}</p>
         </div>
-      ) : filteredUsers.length === 0 ? (
+      ) :  */}
+      {filteredUsers.length === 0 ? (
         <p>{t("admin.account_management.no_results")}</p>
       ) : (
         <table className="account_management-user-table">
@@ -138,7 +188,7 @@ const AccountManagement = () => {
                     <button
                       onClick={() => handleUnbanUser(user.id)}
                       className="account_management-unban-btn"
-                      disabled={isLoading || processingUserId === user.id} // Disable button during processing
+                      disabled={isProcessing || processingUserId === user.id} // Disable button during processing
                     >
                       {processingUserId === user.id
                         ? t("admin.account_management.unbanning")
@@ -148,7 +198,7 @@ const AccountManagement = () => {
                     <button
                       onClick={() => handleBanUser(user.id)}
                       className="account_management-ban-btn"
-                      disabled={isLoading || processingUserId === user.id} // Disable button during processing
+                      disabled={isProcessing || processingUserId === user.id} // Disable button during processing
                     >
                       {processingUserId === user.id
                         ? t("admin.account_management.banning")
@@ -159,6 +209,25 @@ const AccountManagement = () => {
               </tr>
             ))}
           </tbody>
+          {accounts.length > 0 && (
+            <div className="account_management-pagination">
+              <button
+                onClick={() => getAccounts(page - 1)}
+                disabled={page === 1 || isLoading}
+              >
+                {t("admin.account_management.btnBack")}
+              </button>
+              <span>
+                {page} / {totalPages}
+              </span>
+              <button
+                onClick={() => getAccounts(page + 1)}
+                disabled={page === totalPages || isLoading}
+              >
+                {t("admin.account_management.btnNext")}
+              </button>
+            </div>
+          )}
         </table>
       )}
     </div>

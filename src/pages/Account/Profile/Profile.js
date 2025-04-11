@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext, use } from "react";
 import "./Profile.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -8,7 +8,7 @@ import { handleSuccess, handleError } from "../../../helpers/toast";
 import { useUserData } from "../../../context/UserDataProvider";
 import { useUser } from "../../../context/UserProvider";
 import Forbidden from "../../../components/Error/403/403";
-import { hash, checkData } from "../../../helpers/encryptionHelper";
+import Loading from "../../../components/Loading/Loading";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -20,22 +20,27 @@ const Profile = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef(null);
   const [validRole, setValidRole] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  //Vì cả 3 role đều có thể truy cập vào trnag này nên không cần check role
   useEffect(() => {
+    setIsLoading(true);
     const fetchRole = async () => {
       if (isLoggedIn) {
         //nếu đang login thì check role phải user hoặc artist không
-        const checkedRoleArtist = await checkData(2);
-        const checkedRoleUser = await checkData(3);
+        // const checkedRoleArtist = await checkData(2);
+        // const checkedRoleUser = await checkData(3);
 
-        if (checkedRoleArtist || checkedRoleUser) {
-          setValidRole(true);
-        }
+        // if (checkedRoleArtist || checkedRoleUser) {
+        //   setValidRole(true);
+        // }
+        setValidRole(true);
         getUserInfo();
       }
     };
 
     fetchRole();
+    setIsLoading(false);
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -95,14 +100,17 @@ const Profile = () => {
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "delete_image");
     }
-
     setIsProcessing(true);
     try {
-      const response = await axiosInstance.put("/account/", userInfoUpdate, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosInstance.put(
+        "/account/update-info/",
+        userInfoUpdate,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response?.status === 200) {
         setUserData(response.data?.user);
@@ -115,8 +123,11 @@ const Profile = () => {
     }
   };
 
+  if (isLoading) {
+    return <Loading message={t("utils.loading")} height="60" />;
+  }
 
-  if (!isLoggedIn || !validRole) {
+  if (!isLoggedIn) {
     return <Forbidden />;
   }
   return (
@@ -124,8 +135,8 @@ const Profile = () => {
       <div className="profile-header">
         <button
           className="profile-back-btn"
-          onClick={() => navigate("/account/overview")}
-          disabled={isProcessing} // Vô hiệu hóa nút khi đang xử lý
+          onClick={() => navigate(-1)}
+          disabled={isProcessing}
         >
           <i className="fas fa-chevron-left"></i>
         </button>
@@ -151,7 +162,7 @@ const Profile = () => {
             ) : null}
             {imageCover === null && (
               <img
-                src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"
+                src="../../images/default-avt-img.jpeg"
                 alt="Album Cover"
                 className="profile-avatar"
               />

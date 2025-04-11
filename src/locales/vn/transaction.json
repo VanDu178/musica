@@ -108,7 +108,8 @@
         "resetPassword": "Đặt lại mật khẩu trên thiết bị",
         "logoutEverywhere": "Đăng xuất ở mọi nơi",
         "help": "Trợ giúp",
-        "spotifySupport": "Nhóm hỗ trợ của Spotify"
+        "spotifySupport": "Nhóm hỗ trợ của Spotify",
+        "changePassword":"Thay đổi mật khẩu"
     },
     "profile": {
         "editProfile": "Chỉnh sửa hồ sơ",
@@ -147,6 +148,26 @@
         "SYSTEM_ERROR": "Lỗi hệ thống, hãy thử lại sau",
         "SERVER_UNAVAILABLE": "Không thể kết nối đến máy chủ. Vui lòng thử lại sau"
     },
+    "change_password": {
+    "title": "Đổi mật khẩu của bạn",
+    "current_password": "Mật khẩu hiện tại",
+    "new_password": "Mật khẩu mới",
+    "confirm_password": "Lặp lại mật khẩu mới",
+    "rules": {
+      "label": "Mật khẩu của bạn phải có ít nhất",
+      "letter": "1 chữ cái",
+      "number_or_special": "1 chữ số hoặc ký tự đặc biệt",
+      "min_length": "10 ký tự"
+    },
+    "save": "Lưu",
+    "saving": "Đang xử lý...",
+    "success": "Đổi mật khẩu thành công!",
+    "errors": {
+      "password_mismatch": "Mật khẩu xác nhận không khớp.",
+      "invalid_current": "Mật khẩu hiện tại không đúng.",
+      "generic": "Đã xảy ra lỗi trong quá trình cập nhật, hãy thử lại."
+    }
+  },
     "playlist": {
         "title": "Tiêu đề",
         "time": "Thời gian"
@@ -328,7 +349,7 @@
             "portal_title": "Nghệ Sĩ",
             "home": "Trang Chủ",
             "music": "Âm Nhạc",
-            "profile": "Hồ Sơ",
+            "profile": "Tài Khoản Của Tôi",
             "upload": "Tải Lên",
             "album": "Album"
         },
@@ -364,6 +385,7 @@
             "account": "Tài Khoản",
             "portal_title": "Quản Trị",
             "accountArtist": "Tài Khoản Nghệ Sĩ",
+            "profile":"Tài Khoản Của Tôi",
             "artistRegistrationRequests": "Yêu Cầu Đăng Ký Nghệ Sĩ",
             "accountManagement": "Quản Lý Tài Khoản"
         },
@@ -388,7 +410,10 @@
             "unban_error": "Có lỗi khi mở khóa tài khoản.",
             "error_fetching_users": "Có lỗi khi lấy thông tin người dùng.",
             "banning": "Đang khóa...",
-            "unbanning": "Đang mở khóa..."
+            "unbanning": "Đang mở khóa...",
+            "email":"Email",
+            "btnBack":"Quay lai",
+            "btnNext":"Tiếp theo"
         },
         "artist_registration_requests": {
             "title": "Yêu cầu Đăng ký Nghệ sĩ",
@@ -405,6 +430,7 @@
             "confirm_reject": "Bạn có chắc chắn muốn từ chối yêu cầu này?",
             "approve_success": "Yêu cầu nghệ sĩ đã được phê duyệt thành công!",
             "approve_error": "Lỗi khi phê duyệt yêu cầu nghệ sĩ.",
+            "artistAlreadyProcessed": "Yêu cầu này đã được xử lý.",
             "reject_success": "Yêu cầu nghệ sĩ đã bị từ chối thành công!",
             "reject_error": "Lỗi khi từ chối yêu cầu nghệ sĩ.",
             "error_fetching": "Lỗi khi lấy dữ liệu yêu cầu đăng ký nghệ sĩ.",
@@ -423,7 +449,10 @@
             "no_identity_proofs": "Không có chứng minh nhân dân nào.",
             "no_artist_images": "Không có hình ảnh nghệ sĩ nào.",
             "approved": "Đã phê duyệt",
-            "pending": "Đang chờ"
+            "pending": "Đang chờ",
+             "btnBack":"Quay lai",
+            "btnNext":"Tiếp theo",
+              "goBack": "Quay lại"
         }
     },
     "artist_registration": {
@@ -466,6 +495,21 @@
         "about": "Giới thiệu",
         "playlists": "Danh sách phát",
         "no_bio": "Chưa có giới thiệu.",
-        "no_playlists": "Chưa có danh sách phát."
-    }
+        "no_playlists": "Chưa có danh sách phát.",
+        "no_albums": "Chưa có alubms."
+    },
+    "resend_activation": {
+        "title": "Tài khoản của bạn chưa kích hoạt",
+        "description": "Nhập email để nhận lại liên kết kích hoạt tài khoản.",
+        "placeholder": "you@example.com",
+        "send_link": "Gửi lại liên kết",
+        "sending": "Đang gửi...",
+        "sent_title": "Đã gửi link kích hoạt",
+        "sent_description": "Vui lòng kiểm tra hộp thư email hoặc phần spam để kích hoạt tài khoản.",
+        "back_to_login": "Quay lại đăng nhập",
+        "errors": {
+          "already_activated": "Tài khoản đã được kích hoạt",
+          "server": "Đã có lỗi xảy ra, hãy thử lại"
+        }
+      }
 }

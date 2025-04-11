@@ -65,6 +65,7 @@ const Header = () => {
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");
     Cookies.remove("secrect_key");
+    Cookies.remove("is_premium");
     setIsLoggedIn(false);
   };
 
@@ -207,40 +208,34 @@ const Header = () => {
         </nav>
       </div>
 
-      {
-        isLoggedIn ? (
-          <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-            <img src={userData.image_path ? userData.image_path : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?semt=ais_hybrid"} alt="User" />
-            {userPanelState && (
-              <div className="hd-user-menu">
-                <ul>
-                  <button onClick={() => { navigate("/account/overview"); }}>{t("header2.account")}</button>
-                  <button>{t("header2.profile")}</button>
-                  {isPremium ? (
-                    // Nếu is_premium là true, hiển thị "Premium User"
-                    <span></span>
-                  ) : (
-                    // Nếu không, hiển thị nút "Upgrade to Premium"
-                    <button
-                      onClick={() => navigate("/premium")}
-                    >
-                      {t("header2.upgradeToPremium")}
-                    </button>
-                  )}
-                  <button>{t("header2.support")}</button>
-                  <button>{t("header2.privateSession")}</button>
-                  <button>{t("header2.setting")}</button>
-                  <button onClick={logout}>{t("header2.logout")}</button>
-                </ul>
-              </div>
-            )}
-          </div>
-        ) : (
-          <a className="hd-login" href="/login">
-            {t("header2.login")}
-          </a>
-        )
-      }
+      {isLoggedIn ? (
+        <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
+          <img src={userData.image_path ? userData.image_path : "../../images/default-avt-img.jpeg"} alt="User"
+            onError={(e) => {
+              e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
+              e.target.src = "../../images/default-avt-img.jpeg";
+            }}
+          />
+          {userPanelState && (
+            <div className="hd-user-menu">
+              <ul>
+                <button onClick={() => { navigate("/account/overview"); }}>{t("header2.account")}</button>
+                <button>{t("header2.profile")}</button>
+                <button onClick={() => navigate("/premium")}>{t("header2.upgradeToPremium")}</button>
+                <button>{t("header2.support")}</button>
+                <button>{t("header2.privateSession")}</button>
+                <button>{t("header2.setting")}</button>
+                <button onClick={logout}>{t("header2.logout")}</button>
+              </ul>
+            </div>
+          )}
+        </div>
+      ) : (
+        <a className="hd-login" href="/login">
+          {t("header2.login")}
+        </a>
+      )}
+
     </header >
   );
 };

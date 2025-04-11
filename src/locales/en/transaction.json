@@ -108,7 +108,8 @@
         "resetPassword": "Reset Password on Device",
         "logoutEverywhere": "Log Out Everywhere",
         "help": "Help",
-        "spotifySupport": "Spotify Support Team"
+        "spotifySupport": "Spotify Support Team",
+        "changePassword": "Change Password"
     },
     "profile": {
         "editProfile": "Edit Profile",
@@ -147,6 +148,26 @@
         "SYSTEM_ERROR": "System error, please try again later.",
         "SERVER_UNAVAILABLE": "Cannot connect to the server. Please try again later."
     },
+    "change_password": {
+        "title": "Change Your Password",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "confirm_password": "Confirm New Password",
+        "rules": {
+          "label": "Your password must have at least",
+          "letter": "1 letter",
+          "number_or_special": "1 number or special character",
+          "min_length": "10 characters"
+        },
+        "save": "Save",
+        "saving": "Processing...",
+        "success": "Password changed successfully!",
+        "errors": {
+          "password_mismatch": "Password confirmation does not match.",
+          "invalid_current": "Current password is incorrect.",
+          "generic": "An error occurred during update. Please try again."
+        }
+      },
     "playlist": {
         "title": "Title",
         "time": "Time"
@@ -328,7 +349,7 @@
             "portal_title": "Artist",
             "home": "Home",
             "music": "Music",
-            "profile": "Profile",
+            "profile": "My Profile",
             "upload": "Upload",
             "album": "Album"
         },
@@ -364,6 +385,7 @@
             "account": "Account",
             "portal_title": "Admin",
             "accountArtist": "Account Artist",
+            "profile":"My Profile",
             "artistRegistrationRequests": "Artist Registration Requests",
             "accountManagement": "Account Management"
         },
@@ -388,7 +410,10 @@
             "unban_error": "Error unbanning user account.",
             "error_fetching_users": "Error fetching user data.",
             "banning": "Banning...",
-            "unbanning": "Unbanning..."
+            "unbanning": "Unbanning...",
+            "email":"Email",
+            "btnBack":"Back",
+            "btnNext":"Next"
         },
         "artist_registration_requests": {
             "title": "Artist Registration Requests",
@@ -405,6 +430,7 @@
             "confirm_reject": "Are you sure you want to reject this request?",
             "approve_success": "Artist request approved successfully!",
             "approve_error": "Error approving artist request.",
+            "artistAlreadyProcessed": "This request has already been processed.",
             "reject_success": "Artist request rejected successfully!",
             "reject_error": "Error rejecting artist request.",
             "error_fetching": "Error fetching artist registration requests.",
@@ -423,7 +449,9 @@
             "no_identity_proofs": "No identity proofs available.",
             "no_artist_images": "No artist images available.",
             "approved": "Approved",
-            "pending": "Pending"
+            "pending": "Pending",
+            "btnBack":"Back",
+            "btnNext":"Next"
         }
     },
     "artist_registration": {
@@ -447,7 +475,8 @@
         "registrationSuccess": "Registration successful, please check your email",
         "errorServer": "An error occurred with the server. Please try again later.",
         "emailAlreadyExists": "This email already exists. Please use a different email.",
-        "phoneAlreadyExists": "This phone number is already in use. Please enter a different number."
+        "phoneAlreadyExists": "This phone number is already in use. Please enter a different number.",
+        "goBack": "Go back"
     },
     "activate_account": {
         "loading": "Activating account...",
@@ -466,6 +495,21 @@
         "about": "About",
         "playlists": "Playlists",
         "no_bio": "No bio available.",
-        "no_playlists": "No playlists available."
+        "no_playlists": "No playlists available.",
+        "no_albums":"No albums available."
+    },
+    "resend_activation": {
+    "title": "Your account is not activated",
+    "description": "Enter your email to receive the activation link again.",
+    "placeholder": "you@example.com",
+    "send_link": "Resend link",
+    "sending": "Sending...",
+    "sent_title": "Activation link sent",
+    "sent_description": "Please check your inbox or spam folder to activate your account.",
+    "back_to_login": "Back to login",
+    "errors": {
+      "already_activated": "Account is already activated",
+      "server": "An error occurred, please try again"
     }
+  }
 }

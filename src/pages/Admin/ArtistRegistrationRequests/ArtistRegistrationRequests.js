@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../config/axiosConfig";
 import { handleError, handleSuccess } from "../../../helpers/toast";
 import { useTranslation } from "react-i18next";
+import { useUserData } from "../../../context/UserDataProvider";
+import { checkData } from "../../../helpers/encryptionHelper";
+import Loading from "../../../components/Loading/Loading";
+import Forbidden from "../../../components/Error/403/403";
 import { ClipLoader } from "react-spinners"; // Import Spinner
 import "./ArtistRegistrationRequests.css";
 
@@ -11,78 +15,165 @@ const ArtistRegistrationRequests = () => {
   const [registrations, setRegistrations] = useState([]);
   const [selectedArtist, setSelectedArtist] = useState(null);
   const [fullscreenImage, setFullscreenImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [isConfirmingApprove, setIsConfirmingApprove] = useState(null);
   const [isConfirmingReject, setIsConfirmingReject] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loading spinner state
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [validRole, setValidRole] = useState(false);
+  const { isLoggedIn } = useUserData();
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    getArtistRegistrationRequests();
-  }, []);
+    const fetchRole = async () => {
+      setIsLoading(true);
+      if (isLoggedIn) {
+        //nếu đang login thì check role phải user không
+        const checkedRoleUser = await checkData(1);
+        if (checkedRoleUser) {
+          setValidRole(true);
+          setIsLoading(false);
+        }
+      } else {
+        //nếu không login thì hiển thị
+        setValidRole(false);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    };
 
-  const getArtistRegistrationRequests = async () => {
+    fetchRole();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    getArtistRegistrationRequests(page);
+  }, [page]);
+
+  //Cách phân trang hiện tại của mình đang dùng là PageNumberPagination.
+  //Cách này có vấn đề là nếu người dùng di chuyển đến trang cuối và xóa hết dữ liệu trang đó thì
+  //giao diện sẽ hiển thị dữ liệu rỗng, vì request xuống backend, page hiện tại vẫn là page đã bị xóa hết dữ liệu
+  //chính vì thế cần check nếu dữ liệu là rỗng và page vẫn đang lớn hơn 1 thì ta quay về page trước đó để request.
+  useEffect(() => {
+    if (registrations.length === 0 && page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  }, [registrations, page]);
+
+  const getArtistRegistrationRequests = async (page = 1) => {
     try {
-      setIsLoading(true); // Set loading state to true when fetching data
+      setIsLoading(true);
       const response = await axiosInstance.get(
-        "/admin/artist-registration-requests/"
+        `/admin/artist-registration-requests/${page}/`
       );
 
       if (response?.status === 200) {
-        // Split the comma-separated strings into arrays for each registration
-        const updatedRegistrations = response?.data.map((registration) => ({
-          ...registration,
-          identity_proofs: registration.identity_proof
-            ? registration.identity_proof
-                .split(",")
-                .filter((url) => url.trim() !== "")
-            : [],
-          artist_images: registration.artist_image
-            ? registration.artist_image
-                .split(",")
-                .filter((url) => url.trim() !== "")
-            : [],
-        }));
+        const updatedRegistrations = response?.data.results.map(
+          (registration) => ({
+            ...registration,
+            identity_proofs:
+              registration.identity_proof?.split(",").filter(Boolean) || [],
+            artist_images:
+              registration.artist_image?.split(",").filter(Boolean) || [],
+          })
+        );
+
         setRegistrations(updatedRegistrations);
+        setPage(page);
+        setTotalPages(Math.ceil(response.data.count / 3));
       }
     } catch (error) {
       handleError(t("admin.artist_registration_requests.error_fetching"));
     } finally {
-      setIsLoading(false); // Reset loading state after fetching
+      setIsLoading(false);
     }
   };
 
+  // const getArtistRegistrationRequests = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await axiosInstance.get(
+  //       "/admin/artist-registration-requests/"
+  //     );
+
+  //     if (response?.status === 200) {
+  //       // Split the comma-separated strings into arrays for each registration
+  //       const updatedRegistrations = response?.data.map((registration) => ({
+  //         ...registration,
+  //         identity_proofs: registration.identity_proof
+  //           ? registration.identity_proof
+  //               .split(",")
+  //               .filter((url) => url.trim() !== "")
+  //           : [],
+  //         artist_images: registration.artist_image
+  //           ? registration.artist_image
+  //               .split(",")
+  //               .filter((url) => url.trim() !== "")
+  //           : [],
+  //       }));
+  //       setRegistrations(updatedRegistrations);
+  //     }
+  //   } catch (error) {
+  //     handleError(t("admin.artist_registration_requests.error_fetching"));
+  //   } finally {
+  //     setIsLoading(false); // Reset loading state after fetching
+  //   }
+  // };
+
   const handleApprove = async (id) => {
     try {
-      setIsLoading(true); // Set loading state to true when approving
-      const response = await axiosInstance.post(`/admin/artist-approve/${id}/`);
+      setIsConfirmingApprove(null);
+      setIsProcessing(true); // Set loading state to true when approving
+      const response = await axiosInstance.post(
+        `/admin/artist-registration/artist-approve/${id}/`
+      );
       if (response.status === 200) {
         setRegistrations((prev) =>
           prev.filter((registration) => registration.id !== id)
         );
         handleSuccess(t("admin.artist_registration_requests.approve_success"));
-        setIsConfirmingApprove(null); // Close confirmation modal
       }
     } catch (error) {
-      handleError(t("admin.artist_registration_requests.approve_error"));
+      if (error.response.status == 409) {
+        handleSuccess(
+          t("admin.artist_registration_requests.artistAlreadyProcessed")
+        );
+        setRegistrations((prev) =>
+          prev.filter((registration) => registration.id !== id)
+        );
+      } else {
+        handleError(t("admin.artist_registration_requests.approve_error"));
+      }
     } finally {
-      setIsLoading(false); // Reset loading state after action
+      setIsProcessing(false); // Reset loading state after action
     }
   };
 
   const handleReject = async (id) => {
     try {
-      setIsLoading(true); // Set loading state to true when rejecting
-      const response = await axiosInstance.post(`/admin/artist-reject/${id}/`);
+      setIsConfirmingReject(null); // Close confirmation modal
+      setIsProcessing(true); // Set loading state to true when rejecting
+      const response = await axiosInstance.post(
+        `/admin/artist-registration/artist-reject/${id}/`
+      );
       if (response.status === 200) {
         setRegistrations((prev) =>
           prev.filter((registration) => registration.id !== id)
         );
         handleSuccess(t("admin.artist_registration_requests.reject_success"));
-        setIsConfirmingReject(null); // Close confirmation modal
       }
     } catch (error) {
-      handleError(t("admin.artist_registration_requests.reject_error"));
+      if (error.response.status == 409) {
+        handleSuccess(
+          t("admin.artist_registration_requests.artistAlreadyProcessed")
+        );
+        setRegistrations((prev) =>
+          prev.filter((registration) => registration.id !== id)
+        );
+      } else {
+        handleError(t("admin.artist_registration_requests.reject_error"));
+      }
     } finally {
-      setIsLoading(false); // Reset loading state after action
+      setIsProcessing(false); // Reset loading state after action
     }
   };
 
@@ -110,16 +201,24 @@ const ArtistRegistrationRequests = () => {
     setFullscreenImage(null);
   };
 
+  if (isLoading) {
+    return <Loading message={t("utils.loading")} height="60" />;
+  }
+
+  if (!validRole) {
+    return <Forbidden />;
+  }
+
   return (
     <div className="artist_registration_requests-container">
       <h2>{t("admin.artist_registration_requests.title")}</h2>
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="artist_registration_requests-loading-container">
           <ClipLoader size={50} color={"#123abc"} loading={isLoading} />{" "}
-          {/* Display spinner */}
           <p>{t("admin.artist_registration_requests.loading")}</p>
         </div>
-      ) : registrations.length === 0 ? (
+      ) :  */}
+      {registrations.length === 0 ? (
         <p>{t("admin.artist_registration_requests.no_requests")}</p>
       ) : (
         <table className="artist_registration_requests-table">
@@ -141,21 +240,21 @@ const ArtistRegistrationRequests = () => {
                   <button
                     onClick={() => handleViewDetails(registration)}
                     className="artist_registration_requests-view-btn"
-                    disabled={isLoading} // Disable button during loading
+                    disabled={isProcessing} // Disable button during loading
                   >
                     {t("admin.artist_registration_requests.view_details")}
                   </button>
                   <button
                     onClick={() => openApproveConfirm(registration.id)}
                     className="artist_registration_requests-approve-btn"
-                    disabled={isLoading} // Disable if already approved or loading
+                    disabled={isProcessing} // Disable if already approved or loading
                   >
                     {t("admin.artist_registration_requests.approve")}
                   </button>
                   <button
                     onClick={() => openRejectConfirm(registration.id)}
                     className="artist_registration_requests-reject-btn"
-                    disabled={isLoading} // Disable if already approved or loading
+                    disabled={isProcessing} // Disable if already approved or loading
                   >
                     {t("admin.artist_registration_requests.reject")}
                   </button>
@@ -163,9 +262,27 @@ const ArtistRegistrationRequests = () => {
               </tr>
             ))}
           </tbody>
+          {registrations.length > 0 && (
+            <div className="artist_registration_requests-pagination">
+              <button
+                onClick={() => getArtistRegistrationRequests(page - 1)}
+                disabled={page === 1 || isLoading}
+              >
+                {t("admin.artist_registration_requests.btnBack")}
+              </button>
+              <span>
+                {page} / {totalPages}
+              </span>
+              <button
+                onClick={() => getArtistRegistrationRequests(page + 1)}
+                disabled={page === totalPages || isLoading}
+              >
+                {t("admin.artist_registration_requests.btnNext")}
+              </button>
+            </div>
+          )}
         </table>
       )}
-
       {selectedArtist && (
         <div
           className="artist_registration_requests-modal-overlay"
@@ -275,7 +392,6 @@ const ArtistRegistrationRequests = () => {
           </div>
         </div>
       )}
-
       {fullscreenImage && (
         <div
           className="artist_registration_requests-fullscreen-modal"
@@ -288,7 +404,6 @@ const ArtistRegistrationRequests = () => {
           />
         </div>
       )}
-
       {/* Modal xác nhận phê duyệt */}
       {isConfirmingApprove !== null && (
         <div className="artist_registration_requests-confirm-modal">
@@ -297,21 +412,20 @@ const ArtistRegistrationRequests = () => {
             <button
               className="artist_registration_requests-confirm-btn"
               onClick={() => handleApprove(isConfirmingApprove)}
-              disabled={isLoading} // Disable button during loading
+              disabled={isProcessing} // Disable button during loading
             >
               {t("admin.artist_registration_requests.yes")}
             </button>
             <button
               className="artist_registration_requests-cancel-btn"
               onClick={() => setIsConfirmingApprove(null)}
-              disabled={isLoading} // Disable button during loading
+              disabled={isProcessing} // Disable button during loading
             >
               {t("admin.artist_registration_requests.no")}
             </button>
           </div>
         </div>
       )}
-
       {/* Modal xác nhận từ chối */}
       {isConfirmingReject !== null && (
         <div className="artist_registration_requests-confirm-modal">
@@ -320,14 +434,14 @@ const ArtistRegistrationRequests = () => {
             <button
               className="artist_registration_requests-confirm-btn"
               onClick={() => handleReject(isConfirmingReject)}
-              disabled={isLoading} // Disable button during loading
+              disabled={isProcessing} // Disable button during loading
             >
               {t("admin.artist_registration_requests.yes")}
             </button>
             <button
               className="artist_registration_requests-cancel-btn"
               onClick={() => setIsConfirmingReject(null)}
-              disabled={isLoading} // Disable button during loading
+              disabled={isProcessing} // Disable button during loading
             >
               {t("admin.artist_registration_requests.no")}
             </button>
