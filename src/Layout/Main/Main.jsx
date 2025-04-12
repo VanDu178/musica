@@ -88,7 +88,7 @@ const Main = ({ children }) => {
                         onClose={closeModal}
                     />
                     {children}
-                    {!location.pathname.includes("/chat") && <Footer />} {/* Updated to use includes */}
+                    {location.pathname.includes("/chat") || !location.pathname.includes("/play-video") && <Footer />} {/* Updated to use includes */}
                 </div>
             </div>
             <MusicPlayerControls />
