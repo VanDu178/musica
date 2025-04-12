@@ -7,14 +7,11 @@ import { RiBookShelfFill, RiBookShelfLine } from "react-icons/ri";
 import "./LeftSidebar.css";
 import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
-
-const libraryItems = [
-    { id: 1, type: "playlist", name: "Liked Songs", details: "Playlist • 228 songs", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D", pinned: true },
-    { id: 2, type: "artist", name: "Camellia", details: "Artist", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D", playing: true },
-    { id: 3, type: "artist", name: "BlackY", details: "Artist", image: "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }
-];
-
+import axiosInstance from "../../config/axiosConfig";
+import { storeCachedData, getCachedData } from "../../helpers/cacheDataHelper"
+import { useNavigate } from "react-router-dom";
 const Left_Sidebar = () => {
+    const navigate = useNavigate();
     const categoryRef = useRef(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [sidebarWidth, setSidebarWidth] = useState("20%");
@@ -24,6 +21,14 @@ const Left_Sidebar = () => {
     const [flexDirection, setFlexDirection] = useState("row");
     const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
+    const [isLoading, setLoading] = useState(false);
+    const [playlists, setPlaylists] = useState([]);
+    const [error, setError] = useState(null);
+    const defaultVisibleCount = 2;
+    const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
+
+
+
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -41,7 +46,6 @@ const Left_Sidebar = () => {
 
         fetchRole();
     }, [isLoggedIn]);
-
 
     const { t } = useTranslation();
 
@@ -65,6 +69,54 @@ const Left_Sidebar = () => {
         setRight_scroll(state2);
     };
 
+
+    //Hàm gọi xuống db để lấy dữ liệu playlist của tk user đó.
+    const fetchPlaylists = async () => {
+        setLoading(true);
+        const CACHE_KEY = "playlistsLeftSideBar";
+        const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 tiếng
+        const cachedData = getCachedData(CACHE_KEY, CACHE_DURATION);
+        if (cachedData) {
+            setPlaylists(cachedData.playlists);
+            setLoading(false);
+            return;
+        }
+        try {
+            const response = await axiosInstance.get(`/playlist/user/`);
+            if (response?.status === 200) {
+                setPlaylists(response?.data);
+                const playlistsData = {
+                    playlists: response?.data
+                }
+                storeCachedData(CACHE_KEY, playlistsData);
+                console.log(response.data)
+            }
+        } catch (err) {
+            setError("Không thể tải danh sách playlist.");
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
+
+    const handleLoadMore = async () => {
+        const CACHE_KEY = "playlistsLeftSideBar";
+        const CACHE_DURATION = 2 * 60 * 60 * 1000;
+        const cachedData = getCachedData(CACHE_KEY, CACHE_DURATION);
+
+        const nextCount = visibleCount + 2;
+
+        if (!cachedData || cachedData.playlists.length < nextCount) {
+            // Cache không đủ hoặc không tồn tại → gọi API để lấy thêm
+            await fetchPlaylists(); // append = true
+        }
+
+        setVisibleCount(nextCount);
+    };
+
+
+
     //nếu không phải role user hoặc chưa đăng nhập không hiển thị
     if (!validRole) {
         return <div style={{ display: 'none' }} />;
@@ -74,35 +126,39 @@ const Left_Sidebar = () => {
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
             <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
                 <div className="ls-library-header" style={{ flexDirection: flexDirection }}>
-                    <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")} >
+                    <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")}>
                         <div>
-                            {sidebarWidth === "56px" ? (<RiBookShelfLine size={32} color="white" />) :
-                                (<RiBookShelfFill size={32} color="white" />)}
+                            {sidebarWidth === "56px" ? <RiBookShelfLine size={32} color="white" /> : <RiBookShelfFill size={32} color="white" />}
                         </div>
                         <span style={{ display: display }}>{t("leftSidebar.library")}</span>
                     </button>
                     <div className="ls-add-expand com-vertical-align">
                         <button className="com-glow-only com-vertical-align" title={t("leftSidebar.createListDesc")}>
                             <IoMdAdd size={20} color="white" />
-                            <span className="ls-create-span" style={{ display: sidebarWidth === "35%" ? "flex" : "none", marginInline: sidebarWidth === "20%" ? "0" : "8px" }}>{t("leftSidebar.createList")}</span>
+                            <span className="ls-create-span" style={{ display: sidebarWidth === "35%" ? "flex" : "none", marginInline: sidebarWidth === "20%" ? "0" : "8px" }}>
+                                {t("leftSidebar.createList")}
+                            </span>
                         </button>
                     </div>
                 </div>
+
                 <div className="ls-category-search" style={{ flexDirection: sidebarWidth === "20%" ? "column" : "row" }}>
                     <div className="ls-category-container" style={{ display: display }}>
-                        <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{ opacity: left_scroll }}><FaChevronLeft /></button>
+                        <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{ opacity: left_scroll }}>
+                            <FaChevronLeft />
+                        </button>
                         <div className="ls-category-holder" ref={categoryRef}>
-                            <button>{t("leftSidebar.playlists")}</button>
-                            <button>{t("leftSidebar.artists")}</button>
-                            <button>Albums</button>
-                            <button>Podcasts</button>
+                            <button onClick={fetchPlaylists}>{t("leftSidebar.playlists")}</button>
                         </div>
-                        <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}><FaChevronRight />
+                        <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
+                            <FaChevronRight />
                         </button>
                     </div>
 
                     <div className="ls-search-sort" style={{ display: display }}>
-                        <button className="com-glow-only"><FaSearch size={14} color="white" /></button>
+                        <button className="com-glow-only">
+                            <FaSearch size={14} color="white" />
+                        </button>
                         <button className="ls-sort-btn com-glow-zoom com-vertical-align">
                             <span>{t("leftSidebar.recents")}</span>
                             <FaList />
@@ -112,22 +168,67 @@ const Left_Sidebar = () => {
             </div>
 
             <div className="ls-library-items">
-                {libraryItems.map((item) => (
-                    <div key={item.id} className={`ls-library-item ${selectedItem === item.id ? "ls-selected" : ""}`} onClick={() => setSelectedItem(item.id)}>
+                {playlists.slice(0, visibleCount).map((item) => (
+                    <div key={item.id} className={`ls-library-item ${selectedItem === item.id ? "ls-selected" : ""}`}
+                        onClick={() => {
+                            setSelectedItem(item.id);
+                            navigate(`/user/playlist/${item.id}`);
+                        }}>
                         <div className="ls-library-item-img com-vertical-align">
-                            <div className="ls-img-play-btn"><FaPlay /></div>
-                            <img src={item.image} alt={item.name} />
+                            <div className="ls-img-play-btn">
+                                <FaPlay />
+                            </div>
+                            <img
+                                src={item?.image_path || "../../images/default-music-img.png"}
+                                alt={item?.name}
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "../../images/default-music-img.png";
+                                }}
+                            />
                         </div>
                         <div className="com-vertical-align" style={{ justifyContent: "space-between", display: display }}>
                             <div className="ls-library-item-info">
-                                <span className="ls-library-item-name">{item.name}</span>
-                                <span className="ls-library-item-details">{item.details}</span>
+                                <span className="ls-library-item-name">{item?.name}</span>
+                                <span className="ls-library-item-details">{item?.description || t("leftSidebar.defaultPlaylistDesc")}</span>
                             </div>
-                            {item.pinned && <span className="ls-pinned" style={{ right: 0 }}>📌</span>}
-                            {item.playing && <BsFillVolumeUpFill size={16} color="green" style={{ right: 0 }} />}
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+                {visibleCount < playlists.length ? (
+                    <button
+                        className="com-glow-only"
+                        onClick={handleLoadMore}
+                        style={{
+                            padding: "8px 16px",
+                            borderRadius: "8px",
+                            background: "#222",
+                            color: "#fff",
+                            border: "none",
+                            cursor: "pointer"
+                        }}
+                    >
+                        {t("leftSidebar.showMore")}
+                    </button>
+                ) : visibleCount > defaultVisibleCount ? (
+                    <button
+                        className="com-glow-only"
+                        onClick={() => setVisibleCount(defaultVisibleCount)}
+                        style={{
+                            padding: "8px 16px",
+                            borderRadius: "8px",
+                            background: "#444",
+                            color: "#fff",
+                            border: "none",
+                            cursor: "pointer"
+                        }}
+                    >
+                        {t("leftSidebar.showLess")}
+                    </button>
+                ) : null}
             </div>
         </div>
     );

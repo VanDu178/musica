@@ -214,15 +214,18 @@
         "repeat": "Lặp lại"
     },
     "leftSidebar": {
-        "library": "Thư viện",
-        "expandLib": "Mở rộng thư viện",
-        "playlists": "Danh sách phát",
-        "artists": "Nghệ sĩ",
-        "artist": "Nghệ sĩ",
-        "createList": "Tạo",
-        "createListDesc": "Tạo danh sách phát hoặc thư mục mới",
-        "recents": "Gần đây"
-    },
+    "artists": "Nghệ sĩ",
+    "artist": "Nghệ sĩ",
+    "expandLib": "Mở rộng thư viện",
+    "library": "Thư viện",
+    "createList": "Tạo",
+    "createListDesc": "Tạo danh sách phát hoặc thư mục mới",
+    "playlists": "Danh sách phát",
+    "recents": "Gần đây",
+    "defaultPlaylistDesc": "playlist nhạc",
+    "showMore": "Xem thêm",
+    "showLess": "Ẩn bớt"
+  },
     "premium": {
         "viewPlanTitle": "Nghe không giới hạn. Dùng thử miễn phí Premium Individual trong 1 tháng.",
         "viewPlanSubtitle": "Sau  ch đ59.000/tháng. Hủy bất cứ lúc nào.",
@@ -387,7 +390,8 @@
             "accountArtist": "Tài Khoản Nghệ Sĩ",
             "profile":"Tài Khoản Của Tôi",
             "artistRegistrationRequests": "Yêu Cầu Đăng Ký Nghệ Sĩ",
-            "accountManagement": "Quản Lý Tài Khoản"
+            "accountManagement": "Quản Lý Tài Khoản",
+            "planManagement":"Quản Lý Gói Tài Khoản"
         },
         "account_management": {
             "title": "Quản lý tài khoản",
@@ -453,7 +457,28 @@
              "btnBack":"Quay lai",
             "btnNext":"Tiếp theo",
               "goBack": "Quay lại"
-        }
+        },
+        "plan_management": {
+            "title": "Quản lý gói tài khoản",
+            "name": "Tên gói",
+            "price": "Giá",
+            "duration_day": "Số ngày sử dụng",
+            "actions": "Hành động",
+            "edit_btn": "Sửa",
+            "delete_btn": "Xóa",
+            "create_btn": "Tạo mới",
+            "update_btn": "Cập nhật",
+            "fetch_error": "Có lỗi xảy ra trong quá trình lấy danh sách gói tài khoản. Vui lòng thử lại sau",
+            "submit_error": "Đã có lỗi xảy ra khi gửi biểu mẫu. Vui lòng thử lại sau",
+            "create_success": "Tạo gói thành công!",
+            "update_success": "Cập nhật gói thành công!",
+            "delete_success": "Xóa gói thành công!",
+            "delete_error": "Đã có lỗi xảy ra khi xóa gói tài khoản. Vui lòng thử lại sau",
+            "exited_premiumsubscription_set":"Có tài khoản đang sử dụng gói tài khoản này, không thể xóa",
+            "btnBack":"Quay lại",
+            "btnNext":"Tiếp theo",
+            "processing_btn":"Đang xử lý"
+          }
     },
     "artist_registration": {
         "registerAsArtist": "Đăng ký nghệ sĩ",

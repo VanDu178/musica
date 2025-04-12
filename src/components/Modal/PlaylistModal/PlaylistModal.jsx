@@ -9,6 +9,7 @@ import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
 import Forbidden from "../../../components/Error/403/403";
 import Loading from "../../../components/Loading/Loading";
+import { storeCachedData, getCachedData } from "../../../helpers/cacheDataHelper"
 
 
 const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
@@ -53,6 +54,7 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
             setLoading(true);
             const response = await axiosInstance.get(`/playlist/user/${idSong}/`);
             setPlaylists(response.data);
+            console.log("playlist cua user", response.data);
         } catch (err) {
             setError("Không thể tải danh sách playlist.");
         } finally {
@@ -110,6 +112,10 @@ const PlaylistModal = ({ isOpen, onClose, onAddToPlaylists }) => {
 
             setIsCreatingNew(false);
             setNewPlaylistName("");
+
+            //Xóa cache
+            const CACHE_KEY = "playlistsLeftSideBar";
+            localStorage.removeItem(CACHE_KEY);
 
         } catch (error) {
             console.log("Lỗi khi tạo playlist hoặc thêm bài hát!");

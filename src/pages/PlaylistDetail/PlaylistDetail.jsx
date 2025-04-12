@@ -24,11 +24,11 @@ const PlaylistDetail = () => {
     const [playlistArrangeSong, setPlaylistArrangeSong] = useState(null);
     const [isArrange, setIsArrange] = useState(false);
     const [isVisibleArrange, setIsVisibleArrange] = useState(false);
-    const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
+    const { addSong, clearPlaylist } = usePlaylist();
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
-    const { isLoggedIn, setIsLoggedIn, userData, setUserData } = useUserData();
+    const { isLoggedIn } = useUserData();
     const { setIsVisiableRootModal } = useIsVisiableRootModal();
     const navigate = useNavigate();
     const [validRole, setValidRole] = useState(false);
@@ -59,7 +59,8 @@ const PlaylistDetail = () => {
         };
 
         fetchRole();
-    }, [isLoggedIn]);
+    }, [isLoggedIn, idPlaylist]);
+
 
     const togglePlay = () => {
         if (isLoggedIn) {
@@ -121,7 +122,7 @@ const PlaylistDetail = () => {
         };
 
         fetchPlaylistData();
-    }, []);
+    }, [idPlaylist]);
 
     const HandleOpenArrange = () => {
         setIsArrange(true);

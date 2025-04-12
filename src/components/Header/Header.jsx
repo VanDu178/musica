@@ -11,6 +11,8 @@ import { useSearch } from "../../context/SearchContext";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import Cookies from "js-cookie";
 import { checkData } from "../../helpers/encryptionHelper";
+import { removeCookie } from "../../helpers/cookiesHelper";
+import { removeCachedData } from "../../helpers/cacheDataHelper";
 import "./Header.css";
 
 const Header = () => {
@@ -62,10 +64,8 @@ const Header = () => {
   }
 
   const logout = async () => {
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
-    Cookies.remove("secrect_key");
-    Cookies.remove("is_premium");
+    removeCookie();
+    removeCachedData("playlistsLeftSideBar");
     setIsLoggedIn(false);
   };
 
