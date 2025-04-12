@@ -20,7 +20,7 @@ const VideoPlayer = () => {
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [controlsVisible, setControlsVisible] = useState(false);
-    const [isSeeking, setIsSeeking] = useState(false); // Thêm state mới
+    const [isSeeking, setIsSeeking] = useState(false);
     const timeoutRef = useRef(null);
 
     const showControls = () => {
@@ -58,7 +58,6 @@ const VideoPlayer = () => {
     };
 
     const handleProgress = ({ played, playedSeconds }) => {
-        // Chỉ cập nhật nếu không đang seek
         if (!isSeeking) {
             setProgress(played * 100);
             setCurrentTime(playedSeconds);
@@ -70,6 +69,12 @@ const VideoPlayer = () => {
         setDuration(duration);
     };
 
+    const handlePlayerSeek = (seconds) => {
+        setCurrentTime(seconds);
+        setProgress((seconds / duration) * 100);
+        setIsSeeking(false);
+    };
+
     const handleSeekMouseDown = () => {
         setIsSeeking(true);
     };
@@ -77,7 +82,6 @@ const VideoPlayer = () => {
     const handleSeek = (e) => {
         const seekValue = parseFloat(e.target.value);
         const seekTime = (seekValue / 100) * duration;
-
         setProgress(seekValue);
         setCurrentTime(seekTime);
     };
@@ -86,10 +90,14 @@ const VideoPlayer = () => {
         const seekValue = parseFloat(e.target.value);
         const seekTime = (seekValue / 100) * duration;
 
-        if (playerRef.current) {
-            playerRef.current.seekTo(seekTime, 'seconds');
+        try {
+            if (playerRef.current) {
+                playerRef.current.seekTo(seekTime, 'seconds');
+            }
+        } catch (err) {
+            console.error('Seek error:', err);
+            setError('Không thể tua video.');
         }
-
         setIsSeeking(false);
     };
 
@@ -98,8 +106,6 @@ const VideoPlayer = () => {
         if (playerRef.current) {
             playerRef.current.seekTo(newTime, 'seconds');
         }
-        setCurrentTime(newTime);
-        setProgress((newTime / duration) * 100);
     };
 
     const handleFastForward = () => {
@@ -107,18 +113,20 @@ const VideoPlayer = () => {
         if (playerRef.current) {
             playerRef.current.seekTo(newTime, 'seconds');
         }
-        setCurrentTime(newTime);
-        setProgress((newTime / duration) * 100);
     };
 
-    const handleError = (err) => {
-        console.error('Lỗi video:', err);
-        setError('Không thể phát video. Vui lòng thử lại.');
+    const handleError = (err, data) => {
+        console.error('Video error:', err, data);
+        setError(`Không thể phát video: ${err.message || 'Lỗi không xác định'}`);
         setIsLoading(false);
     };
 
     const handleBuffer = () => setIsLoading(true);
     const handleBufferEnd = () => setIsLoading(false);
+
+    const handleReady = () => {
+        console.log('Player ready');
+    };
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
@@ -132,7 +140,12 @@ const VideoPlayer = () => {
 
             {!hasStarted && (
                 <div className="play-video-poster-container">
-                    <img src={posterUrl} alt="Video Poster" className="play-video-poster-image" />
+                    <img
+                        // src={posterUrl} 
+                        src='https://d7q8y8k6ari3o.cloudfront.net/542c773598d34c81b75b8a82f1b8e766.jpg'
+                        alt="Video Poster"
+                        className="play-video-poster-image"
+                    />
                     <div className={`play-video-poster-controls ${controlsVisible ? 'controls-visible' : ''}`}>
                         <button
                             className="play-video-poster-play-btn"
@@ -183,20 +196,22 @@ const VideoPlayer = () => {
                         onError={handleError}
                         onBuffer={handleBuffer}
                         onBufferEnd={handleBufferEnd}
+                        onSeek={handlePlayerSeek}
+                        onReady={handleReady}
                         width="100%"
                         height="100%"
                         controls={false}
+                        progressInterval={100}
                         config={{
                             file: {
                                 attributes: {
                                     disablePictureInPicture: true,
                                     controlsList: 'nodownload nofullscreen noremoteplayback',
-                                    style: {
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'contain'
-                                    }
-                                }
+                                    crossOrigin: 'anonymous',
+                                },
+                                forceVideo: true,
+                                forceHLS: false,
+                                forceDASH: false,
                             }
                         }}
                     />
