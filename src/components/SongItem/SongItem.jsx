@@ -86,7 +86,10 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
                                 <FaPlay />
                             </Button>
                         ) : (
-                            songOder + 1
+
+                            <span>
+                                {songOder != null ? songOder + 1 : null}
+                            </span>
                         )}
                     </Col>
                 )

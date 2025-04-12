@@ -35,6 +35,9 @@ import PlanManagement from "./pages/Admin/PlanManagement/PlanManagement";
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
+
+import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
+
 import Search from "./pages/Search/Search";
 
 /*Artist*/
@@ -222,6 +225,10 @@ const App = () => {
                                     <Route
                                       path="/search"
                                       element={<Search />}
+                                    />
+                                    <Route
+                                      path="/play-video"
+                                      element={<VideoPlayer />}
                                     />
                                   </Routes>
                                 </Main>
