@@ -224,7 +224,8 @@
     "recents": "Gần đây",
     "defaultPlaylistDesc": "playlist nhạc",
     "showMore": "Xem thêm",
-    "showLess": "Ẩn bớt"
+    "showLess": "Ẩn bớt",
+    "conversations":"Các cuộc trò chuyện"
   },
     "premium": {
         "viewPlanTitle": "Nghe không giới hạn. Dùng thử miễn phí Premium Individual trong 1 tháng.",
@@ -354,7 +355,9 @@
             "music": "Âm Nhạc",
             "profile": "Tài Khoản Của Tôi",
             "upload": "Tải Lên",
-            "album": "Album"
+            "album": "Album",
+            "changePassword":"Thay đổi mật khẩu",
+            "videoUpload": "Tải Video"
         },
         "artistAlbum": {
             "yourAlbums": "Album của bạn",
@@ -381,7 +384,20 @@
             "submit_button": "Tạo Album",
             "error_message": "Không thể tạo album",
             "loading": "Đang tạo..."
-        }
+        },
+        "video_upload": {
+            "title": "Tải Video Lên",
+            "title_label": "Tiêu đề",
+            "title_placeholder": "Nhập tiêu đề video",
+            "description_label": "Mô tả",
+            "description_placeholder": "Nhập mô tả cho video",
+            "video_label": "Tệp Video (MP4)",
+            "image_label": "Hình Ảnh Đại Diện",
+            "upload_btn": "Tải Video",
+            "processing": "Đang xử lý...",
+            "success": "Tải video lên thành công!",
+            "error": "Tải video lên thất bại. Vui lòng thử lại."
+          }
     },
     "admin": {
         "sidebar": {
@@ -391,7 +407,8 @@
             "profile":"Tài Khoản Của Tôi",
             "artistRegistrationRequests": "Yêu Cầu Đăng Ký Nghệ Sĩ",
             "accountManagement": "Quản Lý Tài Khoản",
-            "planManagement":"Quản Lý Gói Tài Khoản"
+            "planManagement":"Quản Lý Gói Tài Khoản",
+            "changePassword":"Thay đổi mật khẩu"
         },
         "account_management": {
             "title": "Quản lý tài khoản",

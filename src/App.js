@@ -35,9 +35,9 @@ import PlanManagement from "./pages/Admin/PlanManagement/PlanManagement";
 import PlaylistDetail from "./pages/PlaylistDetail/PlaylistDetail";
 import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
+
 import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
-
-
+import VideoUploadForm from "./pages/Artist/VideoUploadForm/VideoUploadForm";
 import Search from "./pages/Search/Search";
 
 /*Artist*/
@@ -153,6 +153,10 @@ const App = () => {
                                       path="/plan-management"
                                       element={<PlanManagement />}
                                     />
+                                    <Route
+                                      path="/change-password"
+                                      element={<ChangePassword />}
+                                    />
                                   </Routes>
                                 </AdminLayout>
                               }
@@ -185,6 +189,14 @@ const App = () => {
                                     <Route
                                       path="/albums/new"
                                       element={<CreateAlbum />}
+                                    />
+                                    <Route
+                                      path="/change-password"
+                                      element={<ChangePassword />}
+                                    />
+                                    <Route
+                                      path="/video-upload"
+                                      element={<VideoUploadForm />}
                                     />
                                   </Routes>
                                 </ArtistLayout>

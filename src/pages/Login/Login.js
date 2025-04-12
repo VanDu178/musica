@@ -98,8 +98,7 @@ const SpotifyLogin = () => {
           response?.data?.access &&
           response?.data?.refresh &&
           role_ID_Hash &&
-          response?.data?.is_premium !== null &&
-          response?.data?.premium_plan !== null
+          response?.data?.is_premium !== null
         ) {
           addCookie(
             response.data.access,
@@ -313,7 +312,6 @@ const SpotifyLogin = () => {
                     password: e.target.value,
                   }))
                 }
-                autoComplete="new-password"
               />
               <span
                 className="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer"

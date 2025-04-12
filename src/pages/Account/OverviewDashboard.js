@@ -9,6 +9,7 @@ const OverviewDashboard = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const premium_plan = Cookies.get("premium_plan");
+  const isPremium = Cookies.get(" is_premium");
   return (
     <div className="overview-container">
       <div className="overview-main">
@@ -36,7 +37,7 @@ const OverviewDashboard = () => {
                 {t("overview.yourPlan")}
               </p>
               <h2 className="overview-title">
-                {premium_plan ? premium_plan : t("overview.spotifyFree")}
+                {isPremium ? premium_plan : t("overview.spotifyFree")}
               </h2>
 
               <button className="overview-button">

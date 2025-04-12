@@ -9,7 +9,7 @@ import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
 import { storeCachedData, getCachedData } from "../../helpers/cacheDataHelper"
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 
 const Left_Sidebar = () => {
     const navigate = useNavigate();
@@ -21,13 +21,16 @@ const Left_Sidebar = () => {
     const [display, setDisplay] = useState("flex");
     const [flexDirection, setFlexDirection] = useState("row");
     const [validRole, setValidRole] = useState(false);
-    const { isLoggedIn } = useUserData();
+    const { isLoggedIn, userData } = useUserData();
     const [isLoading, setLoading] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [error, setError] = useState(null);
     const defaultVisibleCount = 2;
     const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
     const [selected, setSelected] = useState('playlist');
+    const [conversations, setConversations] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState(userData.id);
+
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -47,12 +50,11 @@ const Left_Sidebar = () => {
     }, [isLoggedIn]);
 
     useEffect(() => {
-        if (selected == 'playlist') {
+        if (selected == 'playlists') {
             fetchPlaylists();
         }
-        if (selected == 'user') {
-            alert("fet ds chat");
-            //fet danh sach chat
+        if (selected == 'conversations') {
+            fetchConversations();
         }
 
     }, [selected]);
@@ -84,7 +86,7 @@ const Left_Sidebar = () => {
     const fetchPlaylists = async () => {
         setLoading(true);
         const CACHE_KEY = "playlistsLeftSideBar";
-        const CACHE_DURATION = 2 * 60 * 60 * 1000; // 2 tiếng
+        const CACHE_DURATION = 2 * 60 * 60 * 1000;
         const cachedData = getCachedData(CACHE_KEY, CACHE_DURATION);
         if (cachedData) {
             setPlaylists(cachedData.playlists);
@@ -109,6 +111,38 @@ const Left_Sidebar = () => {
 
     };
 
+
+
+    const fetchConversations = async () => {
+        setLoading(true);
+        try {
+            const response = await axiosInstance.get(`/conversations/user/`);
+            if (response?.status === 200) {
+                setConversations(response?.data);
+                console.log("conservation", response.data);
+            }
+        } catch (err) {
+            setError("Không thể tải danh sách cuoc hoi thoai.");
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
+    const handleConversationClick = async (otherUserId, conversationId) => {
+        console.log("ortherId", otherUserId);
+        try {
+            await axiosInstance.post(`/conversations/mark-read/${conversationId}/`);
+        } catch (error) {
+            console.error('Lỗi khi đánh dấu đã đọc:', error);
+        }
+        // Điều hướng sang trang chat
+        navigate("/user/chat", {
+            state: { otherUserId: otherUserId + "" },
+        });
+    };
+
+
     const handleLoadMore = async () => {
         const CACHE_KEY = "playlistsLeftSideBar";
         const CACHE_DURATION = 2 * 60 * 60 * 1000;
@@ -131,6 +165,7 @@ const Left_Sidebar = () => {
 
     return (
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>
+            {/* Giữ nguyên phần header và category */}
             <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
                 <div className="ls-library-header" style={{ flexDirection: flexDirection }}>
                     <button className="com-vertical-align ls-library-title com-glow-only" title={t("leftSidebar.expandLib")}>
@@ -155,24 +190,15 @@ const Left_Sidebar = () => {
                             <FaChevronLeft />
                         </button>
                         <div className="ls-category-holder" ref={categoryRef}>
-                            <button onClick={() =>
-                                setSelected('playlist')
-                            }
-                            >{t("leftSidebar.playlists")}
-                            </button>
+                            <button onClick={() => setSelected('playlists')}>{t("leftSidebar.playlists")}</button>
                         </div>
                         <div className="ls-category-holder">
-                            <button onClick={() =>
-                                setSelected('user')
-                            }
-                            >{t("leftSidebar.users")}
-                            </button>
+                            <button onClick={() => setSelected('conversations')}>{t("leftSidebar.conversations")}</button>
                         </div>
                         <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
                             <FaChevronRight />
                         </button>
                     </div>
-
                     <div className="ls-search-sort" style={{ display: display }}>
                         <button className="com-glow-only">
                             <FaSearch size={14} color="white" />
@@ -186,13 +212,16 @@ const Left_Sidebar = () => {
             </div>
 
             <div className="ls-library-items">
-                {selected == 'playlist' && (
+                {selected === 'playlists' && (
                     playlists.slice(0, visibleCount).map((item) => (
-                        <div key={item.id} className={`ls-library-item ${selectedItem === item.id ? "ls-selected" : ""}`}
+                        <div
+                            key={item.id}
+                            className={`ls-library-item ls-playlist-item ${selectedItem === item.id ? "ls-selected" : ""}`}
                             onClick={() => {
                                 setSelectedItem(item.id);
                                 navigate(`/user/playlist/${item.id}`);
-                            }}>
+                            }}
+                        >
                             <div className="ls-library-item-img com-vertical-align">
                                 <div className="ls-img-play-btn">
                                     <FaPlay />
@@ -214,10 +243,68 @@ const Left_Sidebar = () => {
                             </div>
                         </div>
                     ))
-                )
-                }
+                )}
+                {selected === 'conversations' && (
+                    conversations.map((conv) => {
+                        // Người còn lại trong cuộc hội thoại
+                        const otherUser = conv.user1.id === currentUserId ? conv.user2 : conv.user1;
 
-            </div>
+                        // Tin nhắn cuối cùng từ API (đã có field `last_message`)
+                        const lastMessage = conv.last_message;
+
+                        return (
+                            <div
+                                key={conv.id}
+                                className="ls-library-item ls-conversation-item"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '10px',
+                                    cursor: 'pointer',
+                                    borderBottom: '1px solid #e0e0e0',
+                                }}
+                                onClick={() => handleConversationClick(otherUser.id, conv.id)}
+
+                            >
+                                {/* Avatar người còn lại */}
+                                <div div style={{ position: 'relative', marginRight: '10px' }}>
+                                    <img
+                                        src={otherUser.image_path || "../../images/default-avatar.png"}
+                                        alt={otherUser.name}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = "../../images/default-avatar.png";
+                                        }}
+                                        style={{ width: '40px', height: '40px', borderRadius: '50%' }}
+                                    />
+                                </div>
+
+                                {/* Nội dung hội thoại */}
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontWeight: 'bold' }}>{otherUser.name}</div>
+                                    <div style={{ fontSize: '0.9em', color: '#b3b3b3' }}>
+                                        {lastMessage ? lastMessage.content : 'Chưa có tin nhắn'}
+                                    </div>
+                                </div>
+
+                                {/* Chấm tròn nếu có tin chưa đọc */}
+                                {conv.has_unread && (
+                                    <span
+                                        style={{
+                                            width: '8px',
+                                            height: '8px',
+                                            backgroundColor: '#1DB954',
+                                            borderRadius: '50%',
+                                            marginLeft: '8px',
+                                        }}
+                                    ></span>
+                                )}
+                            </div>
+                        );
+                    })
+                )}
+
+            </div >
 
             <div style={{ textAlign: "center", marginTop: "10px" }}>
                 {visibleCount < playlists.length ? (
@@ -252,7 +339,7 @@ const Left_Sidebar = () => {
                     </button>
                 ) : null}
             </div>
-        </div>
+        </div >
     );
 };
 
