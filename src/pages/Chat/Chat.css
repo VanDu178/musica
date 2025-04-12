@@ -1,0 +1,137 @@
+/* Tổng thể giao diện */
+.chat-container {
+  display: flex;
+  height: 80vh;
+  background-color: #121212; /* Màu nền đen của Spotify */
+  color: white;
+  border-radius: 12px; /* Bo góc giống Messenger */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Đổ bóng nhẹ */
+  overflow: hidden;
+}
+
+/* Chatbox */
+.chat-chatbox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #181818; /* Màu header đậm hơn */
+  border-bottom: 1px solid #282828;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.chat-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-username {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chat-status {
+  font-size: 12px;
+  color: #1db954; /* Màu xanh Spotify */
+}
+
+/* Messages */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #121212;
+}
+
+/* Tin nhắn */
+.chat-message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  word-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.chat-message.user {
+  background-color: #1db954; /* Xanh Spotify cho người dùng */
+  align-self: flex-end;
+  border-bottom-right-radius: 4px; /* Bo góc giống Messenger */
+}
+
+.chat-message.bot {
+  background-color: #333333; /* Xám đậm cho bot */
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* Input */
+.chat-input-container {
+  display: flex;
+  align-items: center;
+  background-color: #282828; /* Màu input đậm hơn */
+  padding: 10px 15px;
+  margin: 10px 20px;
+  border-radius: 20px; /* Bo góc input giống Messenger */
+  border: 1px solid #3e3e3e;
+}
+
+.chat-input-box {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 8px;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.chat-input-box::placeholder {
+  color: #b3b3b3;
+}
+
+.chat-send-button {
+  background: none;
+  border: none;
+  color: #b3b3b3;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-send-button:hover {
+  color: #1db954; /* Xanh Spotify khi hover */
+}
+
+/* Scrollbar tùy chỉnh */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}

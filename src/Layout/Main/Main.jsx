@@ -13,6 +13,7 @@ import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
 import { useTranslation } from "react-i18next";
 import RootModal from '../../components/Modal/RootModal/RootModal';
+import { useLocation } from "react-router-dom"; // Import useLocation
 
 const Main = ({ children }) => {
     const { isLoggedIn } = useUserData();
@@ -21,6 +22,7 @@ const Main = ({ children }) => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { isVisiableRootModal, setIsVisiableRootModal } = useIsVisiableRootModal();
+    const location = useLocation(); // Get current URL location
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -74,13 +76,19 @@ const Main = ({ children }) => {
                 <div className="sidebar-container">
                     <SideBar />
                 </div>
-                <div className="main-content-container">
+                <div
+                    className={
+                        !location.pathname.includes("/chat")
+                            ? "main-content-container"
+                            : "main-content-container-chat"
+                    }
+                >
                     <RootModal
                         isOpen={isModalOpen}
                         onClose={closeModal}
                     />
                     {children}
-                    < Footer />
+                    {!location.pathname.includes("/chat") && <Footer />} {/* Updated to use includes */}
                 </div>
             </div>
             <MusicPlayerControls />
