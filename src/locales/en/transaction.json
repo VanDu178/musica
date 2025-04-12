@@ -357,7 +357,8 @@
             "profile": "My Profile",
             "upload": "Upload",
             "album": "Album",
-            "changePassword":"Change Password"
+            "changePassword":"Change Password",
+            "videoUpload": "Upload Video"
         },
         "artistAlbum": {
             "yourAlbums": "Your Album",
@@ -384,7 +385,20 @@
             "submit_button": "Create Album",
             "error_message": "Failed to create album",
             "loading": "Creating..."
-        }
+        },
+        "video_upload": {
+        "title": "Upload Your Video",
+        "title_label": "Title",
+        "title_placeholder": "Enter video title",
+        "description_label": "Description",
+        "description_placeholder": "Enter video description",
+        "video_label": "Video File (MP4)",
+        "image_label": "Thumbnail Image",
+        "upload_btn": "Upload Video",
+        "processing": "Processing...",
+        "success": "Video uploaded successfully!",
+        "error": "Failed to upload the video. Please try again."
+    }
     },
     "admin": {
         "sidebar": {

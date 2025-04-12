@@ -37,7 +37,7 @@ import ActivateAccount from "./pages/ActiveAccount/ActivateAccount";
 import PublicProfile from "./pages/PublicProfile/PublicProfile";
 
 import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
-
+import VideoUploadForm from "./pages/Artist/VideoUploadForm/VideoUploadForm";
 import Search from "./pages/Search/Search";
 
 /*Artist*/
@@ -193,6 +193,10 @@ const App = () => {
                                     <Route
                                       path="/change-password"
                                       element={<ChangePassword />}
+                                    />
+                                    <Route
+                                      path="/video-upload"
+                                      element={<VideoUploadForm />}
                                     />
                                   </Routes>
                                 </ArtistLayout>

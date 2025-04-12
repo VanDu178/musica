@@ -40,6 +40,7 @@ const Sidebar = () => {
         { name: t('artist.sidebar.profile'), path: '/artist/my-profile' },
         { name: t('artist.sidebar.changePassword'), path: '/artist/change-password' },
         { name: t('artist.sidebar.upload'), path: '/artist/upload' },
+        { name: t('artist.sidebar.videoUpload'), path: '/artist/video-upload' },
         { name: t('artist.sidebar.album'), path: '/artist/albums' },
 
     ];
