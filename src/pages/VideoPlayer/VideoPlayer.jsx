@@ -6,7 +6,7 @@ import './VideoPlayer.css';
 const VideoPlayer = () => {
     const videoId = '14ApoocFqHn394jDCpA-5a2LjsavKx2e0';
     const videoUrl = `http://localhost:8000/api/video/?id=${videoId}`;
-    const posterUrl = 'https://via.placeholder.com/800x450?text=Video+Poster';
+    const posterUrl = 'https://d7q8y8k6ari3o.cloudfront.net/542c773598d34c81b75b8a82f1b8e766.jpg';
 
     const playerRef = useRef(null);
     const containerRef = useRef(null);
@@ -21,6 +21,7 @@ const VideoPlayer = () => {
     const [currentTime, setCurrentTime] = useState(0);
     const [controlsVisible, setControlsVisible] = useState(false);
     const [isSeeking, setIsSeeking] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
     const timeoutRef = useRef(null);
 
     const showControls = () => {
@@ -117,7 +118,7 @@ const VideoPlayer = () => {
 
     const handleError = (err, data) => {
         console.error('Video error:', err, data);
-        setError(`Không thể phát video: ${err.message || 'Lỗi không xác định'}`);
+        setError(`Không thể phát video`);
         setIsLoading(false);
     };
 
@@ -134,15 +135,31 @@ const VideoPlayer = () => {
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
+    const handleRetry = () => {
+        setError(null);
+        setIsLoading(true);
+        setRetryCount(prev => prev + 1);
+        setIsPlaying(true); // Tự động phát khi thử lại
+    };
+
     return (
         <div className="play-video-video-player-container" ref={containerRef}>
-            {error && <div className="play-video-error-message">{error}</div>}
-
+            {error && (
+                <div className="play-video-error-message">
+                    {error}
+                    <button
+                        className="play-video-retry-btn"
+                        onClick={handleRetry}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Đang thử lại...' : 'Thử lại'}
+                    </button>
+                </div>
+            )}
             {!hasStarted && (
                 <div className="play-video-poster-container">
                     <img
-                        // src={posterUrl} 
-                        src='https://d7q8y8k6ari3o.cloudfront.net/542c773598d34c81b75b8a82f1b8e766.jpg'
+                        src={posterUrl}
                         alt="Video Poster"
                         className="play-video-poster-image"
                     />
@@ -186,8 +203,9 @@ const VideoPlayer = () => {
                 )}
                 <div className="play-video-responsive-player">
                     <ReactPlayer
+                        key={`player-${retryCount}`} // Thêm key này để force re-mount khi retry
+                        url={`${videoUrl}&retry=${retryCount}`} // Thêm param retry để tránh cache
                         ref={playerRef}
-                        url={videoUrl}
                         playing={isPlaying}
                         volume={isMuted ? 0 : volume}
                         muted={isMuted}
