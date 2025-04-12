@@ -10,6 +10,7 @@ import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
 import { storeCachedData, getCachedData } from "../../helpers/cacheDataHelper"
 import { useNavigate } from "react-router-dom";
+
 const Left_Sidebar = () => {
     const navigate = useNavigate();
     const categoryRef = useRef(null);
@@ -26,9 +27,7 @@ const Left_Sidebar = () => {
     const [error, setError] = useState(null);
     const defaultVisibleCount = 2;
     const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
-
-
-
+    const [selected, setSelected] = useState('playlist');
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -46,6 +45,17 @@ const Left_Sidebar = () => {
 
         fetchRole();
     }, [isLoggedIn]);
+
+    useEffect(() => {
+        if (selected == 'playlist') {
+            fetchPlaylists();
+        }
+        if (selected == 'user') {
+            alert("fet ds chat");
+            //fet danh sach chat
+        }
+
+    }, [selected]);
 
     const { t } = useTranslation();
 
@@ -99,7 +109,6 @@ const Left_Sidebar = () => {
 
     };
 
-
     const handleLoadMore = async () => {
         const CACHE_KEY = "playlistsLeftSideBar";
         const CACHE_DURATION = 2 * 60 * 60 * 1000;
@@ -114,8 +123,6 @@ const Left_Sidebar = () => {
 
         setVisibleCount(nextCount);
     };
-
-
 
     //nếu không phải role user hoặc chưa đăng nhập không hiển thị
     if (!validRole) {
@@ -148,7 +155,18 @@ const Left_Sidebar = () => {
                             <FaChevronLeft />
                         </button>
                         <div className="ls-category-holder" ref={categoryRef}>
-                            <button onClick={fetchPlaylists}>{t("leftSidebar.playlists")}</button>
+                            <button onClick={() =>
+                                setSelected('playlist')
+                            }
+                            >{t("leftSidebar.playlists")}
+                            </button>
+                        </div>
+                        <div className="ls-category-holder">
+                            <button onClick={() =>
+                                setSelected('user')
+                            }
+                            >{t("leftSidebar.users")}
+                            </button>
                         </div>
                         <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
                             <FaChevronRight />
@@ -168,33 +186,37 @@ const Left_Sidebar = () => {
             </div>
 
             <div className="ls-library-items">
-                {playlists.slice(0, visibleCount).map((item) => (
-                    <div key={item.id} className={`ls-library-item ${selectedItem === item.id ? "ls-selected" : ""}`}
-                        onClick={() => {
-                            setSelectedItem(item.id);
-                            navigate(`/user/playlist/${item.id}`);
-                        }}>
-                        <div className="ls-library-item-img com-vertical-align">
-                            <div className="ls-img-play-btn">
-                                <FaPlay />
+                {selected == 'playlist' && (
+                    playlists.slice(0, visibleCount).map((item) => (
+                        <div key={item.id} className={`ls-library-item ${selectedItem === item.id ? "ls-selected" : ""}`}
+                            onClick={() => {
+                                setSelectedItem(item.id);
+                                navigate(`/user/playlist/${item.id}`);
+                            }}>
+                            <div className="ls-library-item-img com-vertical-align">
+                                <div className="ls-img-play-btn">
+                                    <FaPlay />
+                                </div>
+                                <img
+                                    src={item?.image_path || "../../images/default-music-img.png"}
+                                    alt={item?.name}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = "../../images/default-music-img.png";
+                                    }}
+                                />
                             </div>
-                            <img
-                                src={item?.image_path || "../../images/default-music-img.png"}
-                                alt={item?.name}
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = "../../images/default-music-img.png";
-                                }}
-                            />
-                        </div>
-                        <div className="com-vertical-align" style={{ justifyContent: "space-between", display: display }}>
-                            <div className="ls-library-item-info">
-                                <span className="ls-library-item-name">{item?.name}</span>
-                                <span className="ls-library-item-details">{item?.description || t("leftSidebar.defaultPlaylistDesc")}</span>
+                            <div className="com-vertical-align" style={{ justifyContent: "space-between", display: display }}>
+                                <div className="ls-library-item-info">
+                                    <span className="ls-library-item-name">{item?.name}</span>
+                                    <span className="ls-library-item-details">{item?.description || t("leftSidebar.defaultPlaylistDesc")}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )
+                }
+
             </div>
 
             <div style={{ textAlign: "center", marginTop: "10px" }}>

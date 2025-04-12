@@ -203,7 +203,7 @@ const App = () => {
                                       path="/playlist/:idPlaylist"
                                       element={<PlaylistDetail />}
                                     />
-                                    <Route path="/chat/:otherUserId" element={<Chat />} />
+                                    <Route path="/chat" element={<Chat />} />
                                     <Route
                                       path="/premium"
                                       element={<Premium />}
