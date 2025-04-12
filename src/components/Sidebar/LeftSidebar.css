@@ -1,23 +1,27 @@
-.com-vertical-align{
+/* Căn chỉnh dọc */
+.com-vertical-align {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.com-horizontal-align{
+/* Căn chỉnh ngang */
+.com-horizontal-align {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.com-hr-left-align{
+/* Căn chỉnh trái */
+.com-hr-left-align {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.com-glow-only{
+/* Hiệu ứng glow đơn giản */
+.com-glow-only {
   border: none;
   padding: 4px;
   border-radius: 50%;
@@ -28,10 +32,11 @@
 
 .com-glow-only:hover {
   opacity: 1;
-  background-color: rgba(255,255,255,0.2) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.com-glow-zoom{
+/* Hiệu ứng glow với zoom */
+.com-glow-zoom {
   border: none;
   padding: 4px;
   opacity: 0.7;
@@ -39,12 +44,13 @@
   transition: all 0.2s ease-out;
 }
 
-.com-glow-zoom:hover{
+.com-glow-zoom:hover {
   transform: scale(1.1);
   opacity: 1;
 }
 
-.com-button-controls button{
+/* Nút điều khiển */
+.com-button-controls button {
   border: none;
   background-color: transparent;
   color: white;
@@ -54,7 +60,8 @@
   transition: all 0.1s ease-out;
   cursor: pointer;
 }
-.com-button-controls button:hover{
+
+.com-button-controls button:hover {
   transform: scale(1.1);
   opacity: 1;
 }
@@ -66,7 +73,7 @@
   gap: 16px;
   padding-inline: 16px;
   padding-block: 8px;
-  background: #121212;
+  background: #121212; /* Màu nền giống Spotify */
   color: white;
   width: 20%;
   height: 80%;
@@ -81,7 +88,8 @@
   display: none;
 }
 
-.ls-library-header{
+/* Tiêu đề thư viện */
+.ls-library-header {
   width: 100%;
   display: flex;
   justify-content: space-between !important;
@@ -99,28 +107,29 @@
   gap: 8px;
   transition: all 0.1s ease-out;
 }
-.ls-library-title span{
+
+.ls-library-title span {
   width: fit-content;
   overflow: hidden;
 }
 
-.ls-library-title:hover{
+.ls-library-title:hover {
   background: transparent !important;
 }
 
-/* Add & Expand Buttons */
+/* Nút thêm và mở rộng */
 .ls-add-expand {
   gap: 8px;
 }
 
-.ls-create-span{
+.ls-create-span {
   color: white;
   font-size: 14px;
   font-weight: bold;
   padding: 0;
 }
 
-.ls-add-expand button{
+.ls-add-expand button {
   width: fit-content;
   min-width: 32px;
   height: 32px;
@@ -128,7 +137,8 @@
   gap: 0px !important;
 }
 
-.ls-category-search{
+/* Tìm kiếm danh mục */
+.ls-category-search {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -142,7 +152,7 @@
   width: 100%;
 }
 
-/* Category Holder */
+/* Vùng chứa danh mục */
 .ls-category-holder {
   display: flex;
   gap: 8px;
@@ -156,7 +166,7 @@
   display: none;
 }
 
-/* Category Buttons */
+/* Nút danh mục */
 .ls-category-holder button {
   padding: 8px 12px;
   border-radius: 14px;
@@ -171,7 +181,7 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Scroll Buttons */
+/* Nút cuộn */
 .ls-scroll-btn {
   position: absolute;
   background: rgba(0, 0, 0, 0.6);
@@ -199,14 +209,15 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
+/* Tìm kiếm và sắp xếp */
 .ls-search-sort {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.ls-search-sort button{
-  background-color: rgba(0,0,0,0);
+.ls-search-sort button {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .ls-search-sort .ls-search-bar {
@@ -233,7 +244,7 @@
   cursor: pointer;
 }
 
-
+/* Danh sách mục thư viện */
 .ls-library-items {
   display: flex;
   flex-direction: column;
@@ -244,7 +255,8 @@
   box-shadow: 20px 0px 20px linear-gradient(90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 
-.ls-library-item {
+/* Mục playlist */
+.ls-playlist-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -253,55 +265,127 @@
   cursor: pointer;
 }
 
-.ls-library-item:hover {
+.ls-playlist-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-.ls-library-item:hover .ls-img-play-btn{
+
+.ls-playlist-item .ls-library-item-img {
+  width: 48px; /* Hình ảnh playlist lớn hơn */
+  height: 48px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  position: relative;
+}
+
+.ls-playlist-item .ls-library-item-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.ls-playlist-item .ls-img-play-btn {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.ls-playlist-item:hover .ls-img-play-btn {
   opacity: 1;
 }
 
-.ls-library-item .ls-selected {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.ls-library-item-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 1);
-}
-.ls-library-item-img img{
-  width: 100%;
-  height: 100%;
-}
-
-.ls-library-item-info {
+.ls-playlist-item .ls-library-item-info {
   display: flex;
   flex-direction: column;
 }
 
-.ls-library-item-name {
+.ls-playlist-item .ls-library-item-name {
   font-weight: bold;
+  font-size: 14px;
 }
 
-.ls-library-item-details {
+.ls-playlist-item .ls-library-item-details {
   font-size: 12px;
-  color: gray;
-  max-width: 50%; /* Giới hạn chiều rộng */
-  white-space: nowrap; /* Ngăn xuống dòng */
-  overflow: hidden; /* Ẩn nội dung vượt quá */
-  text-overflow: ellipsis; /* Hiển thị dấu ... khi bị cắt */
+  color: #b3b3b3;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.ls-img-play-btn{
-  width: 40px;
-  height: 40px;
-  position: static;
+/* Mục hội thoại */
+.ls-conversation-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: rgba(0,0,0,0.3);
-  opacity: 0;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ls-conversation-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ls-conversation-item .ls-library-item-img {
+  width: 40px; /* Avatar nhỏ hơn */
+  height: 40px;
+}
+
+.ls-conversation-item .ls-library-item-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* Avatar tròn */
+}
+
+.ls-conversation-item .ls-library-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.ls-conversation-item .ls-library-item-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.ls-conversation-item .ls-library-item-details {
+  font-size: 12px;
+  color: #b3b3b3;
+  max-width: 100%;
+  white-space: nowrap;
   overflow: hidden;
-  z-index: 2;
+  text-overflow: ellipsis;
+}
+
+/* Khi mục được chọn */
+.ls-selected {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* trạng thái đang online */
+.online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #1DB954; /* Màu xanh */
+  border-radius: 50%;
+  border: 2px solid #121212;
+}
+
+/* Trạng thái tin nhắn chưa được đọc  */
+.unread-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #1DB954; /* Màu xanh */
+  border-radius: 50%;
+  margin-left: 8px;
 }

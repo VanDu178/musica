@@ -225,7 +225,8 @@
         "recents": "Recents",
         "defaultPlaylistDesc": "playlist music",
         "showMore": "Show more",
-        "showLess": "Show less"
+        "showLess": "Show less",
+        "conversations": "Conversations"
       },
     "premium": {
         "viewPlanTitle": "Listen without limits. Try 1 month of Premium Individual for free.",
@@ -355,7 +356,8 @@
             "music": "Music",
             "profile": "My Profile",
             "upload": "Upload",
-            "album": "Album"
+            "album": "Album",
+            "changePassword":"Change Password"
         },
         "artistAlbum": {
             "yourAlbums": "Your Album",
@@ -392,7 +394,8 @@
             "profile":"My Profile",
             "artistRegistrationRequests": "Artist Registration Requests",
             "accountManagement": "Account Management",
-            "planManagement": "Plan Management"
+            "planManagement": "Plan Management",
+            "changePassword":"Change Password"
         },
         "account_management": {
             "title": "Account Management",

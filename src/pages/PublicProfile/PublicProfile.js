@@ -16,7 +16,6 @@ import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
 import { Flashlight } from "lucide-react";
 
-
 const PublicProfile = () => {
   const { t } = useTranslation();
   const [profile, setProfile] = useState({
@@ -40,7 +39,6 @@ const PublicProfile = () => {
   const aboutRef = useRef(null);
   const { profileId } = useParams();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -167,10 +165,11 @@ const PublicProfile = () => {
   };
 
   const HandleMessage = () => {
+    console.log("profile", profileId);
     navigate("/user/chat", {
-      state: { otherUserId: profileId }
+      state: { otherUserId: profileId },
     });
-  }
+  };
 
   const scrollToSection = (ref) => {
     if (ref?.current) {
@@ -202,11 +201,7 @@ const PublicProfile = () => {
             }}
           />
           {/* ******************************** */}
-          <button
-            onClick={HandleMessage}
-          >
-            nhan tin
-          </button>
+          <button onClick={HandleMessage}>nhan tin</button>
           {/* *********************** */}
           <div className="public-profile-info">
             <span className="public-profile-type">

@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { checkData } from "../../../helpers/encryptionHelper";
 import { useUserData } from "../../../context/UserDataProvider";
-import Cookies from "js-cookie";
+import { removeCookie } from "../../../helpers/cookiesHelper";
+import { removeCachedData } from "../../../helpers/cacheDataHelper";
 import './SideBar.css';
 
 const Sidebar = () => {
@@ -37,6 +38,7 @@ const Sidebar = () => {
     const menuItems = [
         { name: t('artist.sidebar.music'), path: '/artist/songs' },
         { name: t('artist.sidebar.profile'), path: '/artist/my-profile' },
+        { name: t('artist.sidebar.changePassword'), path: '/artist/change-password' },
         { name: t('artist.sidebar.upload'), path: '/artist/upload' },
         { name: t('artist.sidebar.album'), path: '/artist/albums' },
 
@@ -48,9 +50,8 @@ const Sidebar = () => {
     };
 
     const handleLogout = async () => {
-        Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
-        Cookies.remove("secrect_key");
+        removeCookie();
+        removeCachedData("playlistsLeftSideBar", "userInfo");
         setIsLoggedIn(false);
         navigate("/");
     };

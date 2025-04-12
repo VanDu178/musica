@@ -39,6 +39,7 @@ const Sidebar = () => {
         { name: t('admin.sidebar.account'), path: '/admin/account' },
         { name: t('admin.sidebar.accountArtist'), path: '/admin/account-artist' },
         { name: t('admin.sidebar.profile'), path: '/admin/my-profile' },
+        { name: t('admin.sidebar.changePassword'), path: '/admin/change-password' },
         { name: t('admin.sidebar.planManagement'), path: '/admin/plan-management' },
         { name: t('admin.sidebar.artistRegistrationRequests'), path: '/admin/artist-registration-requests' },
         { name: t('admin.sidebar.accountManagement'), path: '/admin/account-management' },
@@ -51,7 +52,7 @@ const Sidebar = () => {
 
     const handleLogout = async () => {
         removeCookie();
-        removeCachedData("playlistsLeftSideBar");
+        removeCachedData("playlistsLeftSideBar", "userInfo");
         setIsLoggedIn(false);
         navigate("/");
     };
