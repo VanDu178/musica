@@ -39,14 +39,14 @@ const SpotifyLogin = () => {
     try {
       const response = await axiosInstance.post("/auth/login/", dataLogin);
       if (response?.status === 200) {
+        setIsLoggedIn(true);
         console.log(response.data);
         const role_ID_Hash = await hash(response?.data?.role);
         if (
           response?.data?.access &&
           response?.data?.refresh &&
           role_ID_Hash &&
-          response?.data?.is_premium !== null &&
-          response?.data?.premium_plan !== null
+          response?.data?.is_premium !== null
         ) {
           console.log("datalogin", response);
           addCookie(
@@ -56,7 +56,6 @@ const SpotifyLogin = () => {
             response.data.is_premium,
             response.data.premium_plan
           );
-          setIsLoggedIn(true);
         }
 
         if (response.data.role === 1) {

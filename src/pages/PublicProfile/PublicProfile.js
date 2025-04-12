@@ -10,11 +10,12 @@ import SongItem from "../../components/SongItem/SongItem";
 import { useUserData } from "../../context/UserDataProvider";
 import { hash, checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
 import { Flashlight } from "lucide-react";
+
 
 const PublicProfile = () => {
   const { t } = useTranslation();
@@ -38,6 +39,8 @@ const PublicProfile = () => {
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
   const { profileId } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -163,6 +166,12 @@ const PublicProfile = () => {
     }
   };
 
+  const HandleMessage = () => {
+    navigate("/user/chat", {
+      state: { otherUserId: profileId }
+    });
+  }
+
   const scrollToSection = (ref) => {
     if (ref?.current) {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -192,6 +201,13 @@ const PublicProfile = () => {
               e.target.src = "../../images/default-avt-img.jpeg";
             }}
           />
+          {/* ******************************** */}
+          <button
+            onClick={HandleMessage}
+          >
+            nhan tin
+          </button>
+          {/* *********************** */}
           <div className="public-profile-info">
             <span className="public-profile-type">
               {isArtist ? t("publicProfile.artist") : t("publicProfile.user")}

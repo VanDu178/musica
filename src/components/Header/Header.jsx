@@ -65,7 +65,7 @@ const Header = () => {
 
   const logout = async () => {
     removeCookie();
-    removeCachedData("playlistsLeftSideBar");
+    removeCachedData("playlistsLeftSideBar", "userInfo");
     setIsLoggedIn(false);
   };
 

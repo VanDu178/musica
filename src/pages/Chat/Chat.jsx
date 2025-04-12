@@ -4,9 +4,8 @@ import { Send } from 'lucide-react';
 import axiosInstance from "../../config/axiosConfig";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useParams } from "react-router-dom"; //Thêm dòng này
+import { useLocation } from "react-router-dom"; //Thêm dòng này
 
-// const Chat = ({ otherUserId }) => { mai mốt mở cmt dòng này
 const Chat = () => {
 
     const [messages, setMessages] = useState([]);
@@ -15,7 +14,9 @@ const Chat = () => {
     const messagesEndRef = useRef(null);
     const reconnectAttempts = useRef(0);
     const maxReconnectAttempts = 5;
-    const { otherUserId } = useParams(); //Lấy id từ param
+    const location = useLocation();
+    const { otherUserId } = location.state || {};
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
