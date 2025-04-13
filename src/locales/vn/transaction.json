@@ -18,6 +18,7 @@
         "songTrending": "Bài hát thịnh hành",
         "albumTrending": "Album thịnh hành",
         "playlistTrending": "Danh sách phát thịnh hành",
+        "videoTrending": "Video thịnh hành ",
         "403": "Bạn không có quyền thực hiện hành động này",
         "handleUpdate": "Đang cập nhật...",
         "Update": "Cập nhật",
@@ -109,7 +110,7 @@
         "logoutEverywhere": "Đăng xuất ở mọi nơi",
         "help": "Trợ giúp",
         "spotifySupport": "Nhóm hỗ trợ của Spotify",
-        "changePassword":"Thay đổi mật khẩu"
+        "changePassword": "Thay đổi mật khẩu"
     },
     "profile": {
         "editProfile": "Chỉnh sửa hồ sơ",
@@ -149,25 +150,25 @@
         "SERVER_UNAVAILABLE": "Không thể kết nối đến máy chủ. Vui lòng thử lại sau"
     },
     "change_password": {
-    "title": "Đổi mật khẩu của bạn",
-    "current_password": "Mật khẩu hiện tại",
-    "new_password": "Mật khẩu mới",
-    "confirm_password": "Lặp lại mật khẩu mới",
-    "rules": {
-      "label": "Mật khẩu của bạn phải có ít nhất",
-      "letter": "1 chữ cái",
-      "number_or_special": "1 chữ số hoặc ký tự đặc biệt",
-      "min_length": "10 ký tự"
+        "title": "Đổi mật khẩu của bạn",
+        "current_password": "Mật khẩu hiện tại",
+        "new_password": "Mật khẩu mới",
+        "confirm_password": "Lặp lại mật khẩu mới",
+        "rules": {
+            "label": "Mật khẩu của bạn phải có ít nhất",
+            "letter": "1 chữ cái",
+            "number_or_special": "1 chữ số hoặc ký tự đặc biệt",
+            "min_length": "10 ký tự"
+        },
+        "save": "Lưu",
+        "saving": "Đang xử lý...",
+        "success": "Đổi mật khẩu thành công!",
+        "errors": {
+            "password_mismatch": "Mật khẩu xác nhận không khớp.",
+            "invalid_current": "Mật khẩu hiện tại không đúng.",
+            "generic": "Đã xảy ra lỗi trong quá trình cập nhật, hãy thử lại."
+        }
     },
-    "save": "Lưu",
-    "saving": "Đang xử lý...",
-    "success": "Đổi mật khẩu thành công!",
-    "errors": {
-      "password_mismatch": "Mật khẩu xác nhận không khớp.",
-      "invalid_current": "Mật khẩu hiện tại không đúng.",
-      "generic": "Đã xảy ra lỗi trong quá trình cập nhật, hãy thử lại."
-    }
-  },
     "playlist": {
         "title": "Tiêu đề",
         "time": "Thời gian"
@@ -179,7 +180,8 @@
         "songs": "Bài hát thịnh hành",
         "albums": "Album",
         "artists": "Nghệ sĩ",
-        "users": "Người dùng"
+        "users": "Người dùng",
+        "videos": "Videos"
     },
     "search": {
         "TopResult": "Kết quả hàng đầu",
@@ -189,6 +191,7 @@
         "playlist": "Danh sách phát",
         "artist": "Nghệ sĩ",
         "users": "Những người dùng khác",
+        "videos": "video",
         "loadingMore": "Xem thêm"
     },
     "header2": {
@@ -214,19 +217,19 @@
         "repeat": "Lặp lại"
     },
     "leftSidebar": {
-    "artists": "Nghệ sĩ",
-    "artist": "Nghệ sĩ",
-    "expandLib": "Mở rộng thư viện",
-    "library": "Thư viện",
-    "createList": "Tạo",
-    "createListDesc": "Tạo danh sách phát hoặc thư mục mới",
-    "playlists": "Danh sách phát",
-    "recents": "Gần đây",
-    "defaultPlaylistDesc": "playlist nhạc",
-    "showMore": "Xem thêm",
-    "showLess": "Ẩn bớt",
-    "conversations":"Các cuộc trò chuyện"
-  },
+        "artists": "Nghệ sĩ",
+        "artist": "Nghệ sĩ",
+        "expandLib": "Mở rộng thư viện",
+        "library": "Thư viện",
+        "createList": "Tạo",
+        "createListDesc": "Tạo danh sách phát hoặc thư mục mới",
+        "playlists": "Danh sách phát",
+        "recents": "Gần đây",
+        "defaultPlaylistDesc": "playlist nhạc",
+        "showMore": "Xem thêm",
+        "showLess": "Ẩn bớt",
+        "conversations": "Các cuộc trò chuyện"
+    },
     "premium": {
         "viewPlanTitle": "Nghe không giới hạn. Dùng thử miễn phí Premium Individual trong 1 tháng.",
         "viewPlanSubtitle": "Sau  ch đ59.000/tháng. Hủy bất cứ lúc nào.",
@@ -356,7 +359,7 @@
             "profile": "Tài Khoản Của Tôi",
             "upload": "Tải Lên",
             "album": "Album",
-            "changePassword":"Thay đổi mật khẩu",
+            "changePassword": "Thay đổi mật khẩu",
             "videoUpload": "Tải Video"
         },
         "artistAlbum": {
@@ -397,18 +400,18 @@
             "processing": "Đang xử lý...",
             "success": "Tải video lên thành công!",
             "error": "Tải video lên thất bại. Vui lòng thử lại."
-          }
+        }
     },
     "admin": {
         "sidebar": {
             "account": "Tài Khoản",
             "portal_title": "Quản Trị",
             "accountArtist": "Tài Khoản Nghệ Sĩ",
-            "profile":"Tài Khoản Của Tôi",
+            "profile": "Tài Khoản Của Tôi",
             "artistRegistrationRequests": "Yêu Cầu Đăng Ký Nghệ Sĩ",
             "accountManagement": "Quản Lý Tài Khoản",
-            "planManagement":"Quản Lý Gói Tài Khoản",
-            "changePassword":"Thay đổi mật khẩu"
+            "planManagement": "Quản Lý Gói Tài Khoản",
+            "changePassword": "Thay đổi mật khẩu"
         },
         "account_management": {
             "title": "Quản lý tài khoản",
@@ -432,9 +435,9 @@
             "error_fetching_users": "Có lỗi khi lấy thông tin người dùng.",
             "banning": "Đang khóa...",
             "unbanning": "Đang mở khóa...",
-            "email":"Email",
-            "btnBack":"Quay lai",
-            "btnNext":"Tiếp theo"
+            "email": "Email",
+            "btnBack": "Quay lai",
+            "btnNext": "Tiếp theo"
         },
         "artist_registration_requests": {
             "title": "Yêu cầu Đăng ký Nghệ sĩ",
@@ -471,9 +474,9 @@
             "no_artist_images": "Không có hình ảnh nghệ sĩ nào.",
             "approved": "Đã phê duyệt",
             "pending": "Đang chờ",
-             "btnBack":"Quay lai",
-            "btnNext":"Tiếp theo",
-              "goBack": "Quay lại"
+            "btnBack": "Quay lai",
+            "btnNext": "Tiếp theo",
+            "goBack": "Quay lại"
         },
         "plan_management": {
             "title": "Quản lý gói tài khoản",
@@ -491,11 +494,11 @@
             "update_success": "Cập nhật gói thành công!",
             "delete_success": "Xóa gói thành công!",
             "delete_error": "Đã có lỗi xảy ra khi xóa gói tài khoản. Vui lòng thử lại sau",
-            "exited_premiumsubscription_set":"Có tài khoản đang sử dụng gói tài khoản này, không thể xóa",
-            "btnBack":"Quay lại",
-            "btnNext":"Tiếp theo",
-            "processing_btn":"Đang xử lý"
-          }
+            "exited_premiumsubscription_set": "Có tài khoản đang sử dụng gói tài khoản này, không thể xóa",
+            "btnBack": "Quay lại",
+            "btnNext": "Tiếp theo",
+            "processing_btn": "Đang xử lý"
+        }
     },
     "artist_registration": {
         "registerAsArtist": "Đăng ký nghệ sĩ",
@@ -550,8 +553,8 @@
         "sent_description": "Vui lòng kiểm tra hộp thư email hoặc phần spam để kích hoạt tài khoản.",
         "back_to_login": "Quay lại đăng nhập",
         "errors": {
-          "already_activated": "Tài khoản đã được kích hoạt",
-          "server": "Đã có lỗi xảy ra, hãy thử lại"
+            "already_activated": "Tài khoản đã được kích hoạt",
+            "server": "Đã có lỗi xảy ra, hãy thử lại"
         }
-      }
+    }
 }

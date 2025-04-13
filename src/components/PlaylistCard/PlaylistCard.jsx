@@ -7,7 +7,6 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
-import { checkData } from "../../helpers/encryptionHelper";
 
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, collab }) => {
 
@@ -15,24 +14,8 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
     const { isLoggedIn } = useUserData();
     const { setIdSong } = useSong();
     const { playlist, addSong, removeSong, clearPlaylist } = usePlaylist();
-    const [validRole, setValidRole] = useState(false);
     const { setIsVisiableRootModal } = useIsVisiableRootModal();
 
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user không
-                const checkedRoleUser = await checkData(3);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            } else {
-                setValidRole(true);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
     const handlePlayClick = () => {
         if (idPlaylist) {
             navigate(`/user/playlist/${idPlaylist}`);
@@ -49,10 +32,6 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
             }
         }
     };
-
-    if (!validRole) {
-        return <div style={{ display: 'none' }} />;
-    }
 
     return (
         <div

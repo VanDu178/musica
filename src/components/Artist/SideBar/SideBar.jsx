@@ -13,21 +13,7 @@ const Sidebar = () => {
     const { t, i18n } = useTranslation();
     const [activeLang, setActiveLang] = useState(i18n.language);
     const { isLoggedIn, setIsLoggedIn } = useUserData();
-    const [validRole, setValidRole] = useState(false);
 
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải artist không
-                const checkedRoleUser = await checkData(2);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -56,10 +42,6 @@ const Sidebar = () => {
         setIsLoggedIn(false);
         navigate("/");
     };
-
-    if (!validRole || !isLoggedIn) {
-        return null;
-    }
 
     return (
         <div className="artist-sidebar">
