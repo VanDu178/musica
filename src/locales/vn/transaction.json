@@ -494,7 +494,8 @@
             "exited_premiumsubscription_set":"Có tài khoản đang sử dụng gói tài khoản này, không thể xóa",
             "btnBack":"Quay lại",
             "btnNext":"Tiếp theo",
-            "processing_btn":"Đang xử lý"
+            "processing_btn":"Đang xử lý",
+            "noChanges":"Không có thay đổi nào"
           }
     },
     "artist_registration": {
@@ -538,7 +539,9 @@
         "playlists": "Danh sách phát",
         "no_bio": "Chưa có giới thiệu.",
         "no_playlists": "Chưa có danh sách phát.",
-        "no_albums": "Chưa có alubms."
+        "no_albums": "Chưa có alubms.",
+        "mine": "Chính tôi",
+        "message": "Trò chuyện"
     },
     "resend_activation": {
         "title": "Tài khoản của bạn chưa kích hoạt",
@@ -553,5 +556,8 @@
           "already_activated": "Tài khoản đã được kích hoạt",
           "server": "Đã có lỗi xảy ra, hãy thử lại"
         }
-      }
+      },
+      "chat":{
+        "nameNone": "Không có tên"
+    }
 }

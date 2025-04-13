@@ -494,7 +494,8 @@
             "exited_premiumsubscription_set": "There are accounts currently using this plan, so it cannot be deleted.",
             "btnBack":"Back",
             "btnNext":"Next",
-            "processing_btn":"Processing"
+            "processing_btn":"Processing",
+            "noChanges": "No changes detected"
           }
        
     },
@@ -540,7 +541,9 @@
         "playlists": "Playlists",
         "no_bio": "No bio available.",
         "no_playlists": "No playlists available.",
-        "no_albums":"No albums available."
+        "no_albums":"No albums available.",
+        "mine":"Mine",
+        "message": "Chat"
     },
     "resend_activation": {
     "title": "Your account is not activated",
@@ -555,5 +558,8 @@
       "already_activated": "Account is already activated",
       "server": "An error occurred, please try again"
     }
-  }
+},
+"chat":{
+        "nameNone": "Name not available"
+    }
 }

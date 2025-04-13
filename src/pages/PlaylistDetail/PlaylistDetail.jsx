@@ -26,16 +26,11 @@ const PlaylistDetail = () => {
     const [isVisibleArrange, setIsVisibleArrange] = useState(false);
     const { addSong, clearPlaylist } = usePlaylist();
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
-    const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
     const { isLoggedIn } = useUserData();
-    const { setIsVisiableRootModal } = useIsVisiableRootModal();
     const navigate = useNavigate();
     const [validRole, setValidRole] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    //Ý tưởng thêm playcount: khi người dùng họ nghe một bài hát bất kì trong playlist thì playlist đó được thêm + 1 
-    //+Nếu nghe hết tâtr
-    const [IsCheckingRole, setIsCheckingRole] = useState(true);
     const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
 
     useEffect(() => {
@@ -62,20 +57,6 @@ const PlaylistDetail = () => {
     }, [isLoggedIn, idPlaylist]);
 
 
-    const togglePlay = () => {
-        if (isLoggedIn) {
-            if (playlistData && playlistData.songs.length > 0 && idSong) {
-                setIsPlaying(!isPlaying);
-            }
-            else {
-                setIdSong(playlistData.songs[0].id); // Phát bài hát đầu tiên nếu chưa phát bài nào
-                setIsPlaying(!isPlaying);
-            }
-        }
-        else {
-            setIsVisiableRootModal(true);
-        }
-    };
 
 
     // Hàm gọi xuống backend để lấy danh sách bài hát theo playlistId
@@ -205,16 +186,10 @@ const PlaylistDetail = () => {
                     <p className="playlist-detail">{playlistData.playlist.username}</p> {/* Display username or other details */}
 
                     {/* phải check xem có phải phát nhạc trong playlist hay không? */}
-                    <Button variant="success" className="me-2" onClick={togglePlay}>
-                        {isPlaying ? (
-                            <span>
-                                <FaPause /> Pause
-                            </span>
-                        ) : (
-                            <span>
-                                <FaPlay /> Play
-                            </span>
-                        )}
+                    <Button variant="success" className="me-2">
+                        <span>
+                            <FaPlay /> Play
+                        </span>
                     </Button>
                     <Button variant="outline-light">+ Add</Button>
                 </Col>

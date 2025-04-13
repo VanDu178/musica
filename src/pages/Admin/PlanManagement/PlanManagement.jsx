@@ -88,8 +88,23 @@ const PlanManagement = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            setIsProcessing(true)
+            setIsProcessing(true);
+
             if (editingPlanId) {
+                // Tìm plan đang edit
+                const currentPlan = premiumPlans.find(p => p.id === editingPlanId);
+                if (
+                    currentPlan &&
+                    currentPlan.name === formData.name &&
+                    String(currentPlan.price) === String(formData.price) &&
+                    String(currentPlan.duration_days) === String(formData.duration_days)
+                ) {
+                    handleSuccess(t("admin.plan_management.noChanges")); // Có thể thông báo khác như "Không có thay đổi nào"
+                    setEditingPlanId(null);
+                    setFormData({ name: "", price: "", duration_days: "" });
+                    return;
+                }
+
                 // Edit
                 const response = await axiosInstance.put(`/admin/plans/${editingPlanId}/`, formData);
                 if (response?.status === 200) {
@@ -109,11 +124,11 @@ const PlanManagement = () => {
             }
         } catch (error) {
             handleError(t("admin.plan_management.submit_error"));
-        }
-        finally {
-            setIsProcessing(false)
+        } finally {
+            setIsProcessing(false);
         }
     };
+
 
     const handleEdit = (plan) => {
         setEditingPlanId(plan.id);
@@ -212,10 +227,10 @@ const PlanManagement = () => {
                 </thead>
                 <tbody>
                     {premiumPlans?.map((plan) => (
-                        <tr key={plan.id}>
-                            <td>{plan.name}</td>
-                            <td>{plan.price}</td>
-                            <td>{plan.duration_days}</td>
+                        <tr key={plan?.id}>
+                            <td>{plan?.name}</td>
+                            <td>{plan?.price}</td>
+                            <td>{plan?.duration_days}</td>
                             <td>
                                 <button onClick={() => handleEdit(plan)}>
                                     {t("admin.plan_management.edit_btn")}

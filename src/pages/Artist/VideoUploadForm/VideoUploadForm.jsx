@@ -80,7 +80,9 @@ const VideoUploadForm = () => {
                 },
             });
 
-            if (response.status === 201) {
+            console.log("after upload video", response);
+
+            if (response.status === 200) {
                 handleSuccess(t("artist.video_upload.success"));
             }
         } catch (error) {
@@ -88,14 +90,19 @@ const VideoUploadForm = () => {
             handleError(t("artist.video_upload.error"));
         }
         finally {
-            setIsProcessing(false)
+            setIsProcessing(false);
+            setFormData({
+                title: '',
+                description: '',
+                videoFile: null,
+                imageFile: null,
+            });
+            // Cleanup URL để tránh memory leak
+            if (imagePreview) URL.revokeObjectURL(imagePreview);
+            if (videoPreview) URL.revokeObjectURL(videoPreview);
+            setImagePreview(null);
+            setVideoPreview(null);
         }
-
-        // Cleanup URL để tránh memory leak
-        if (imagePreview) URL.revokeObjectURL(imagePreview);
-        if (videoPreview) URL.revokeObjectURL(videoPreview);
-        setImagePreview(null);
-        setVideoPreview(null);
     };
     if (IsCheckingRole) {
         return <Loading message={t("utils.loading")} height="100" />;

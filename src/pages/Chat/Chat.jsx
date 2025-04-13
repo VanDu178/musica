@@ -5,9 +5,10 @@ import axiosInstance from "../../config/axiosConfig";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom"; //Thêm dòng này
+import { useTranslation } from 'react-i18next';
 
 const Chat = () => {
-
+    const { t } = useTranslation();
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const ws = useRef(null);
@@ -15,7 +16,7 @@ const Chat = () => {
     const reconnectAttempts = useRef(0);
     const maxReconnectAttempts = 5;
     const location = useLocation();
-    const { otherUserId } = location.state || {};
+    const { otherUserId, otherUserName, otherUserAVT } = location.state || {};
 
 
     const scrollToBottom = () => {
@@ -27,7 +28,6 @@ const Chat = () => {
     }, [messages]);
 
     useEffect(() => {
-        alert(otherUserId);
         const fetchMessages = async () => {
             try {
                 const response = await axiosInstance.get(`/messages/${otherUserId}/`);
@@ -162,13 +162,16 @@ const Chat = () => {
             <div className="chat-chatbox">
                 <div className="chat-header">
                     <img
-                        src="https://via.placeholder.com/40"
+                        src={otherUserAVT || "../../images/default-avt-img.jpeg"}
                         alt="Avatar"
                         className="chat-avatar"
+                        onError={(e) => {
+                            e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
+                            e.target.src = "../../images/default-avt-img.jpeg";
+                        }}
                     />
                     <div className="chat-user-info">
-                        <span className="chat-username">User {otherUserId}</span>
-                        <span className="chat-status">Online</span>
+                        <span className="chat-username">{otherUserName !== null ? otherUserName : t("chat.nameNone")}</span>
                     </div>
                 </div>
                 <div className="chat-messages">

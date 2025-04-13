@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, use } from "react";
 import { useTranslation } from "react-i18next";
 import { BsFillVolumeUpFill } from "react-icons/bs";
 import { FaChevronLeft, FaChevronRight, FaList, FaPlay, FaSearch } from "react-icons/fa";
@@ -28,8 +28,11 @@ const Left_Sidebar = () => {
     const defaultVisibleCount = 2;
     const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
     const [selected, setSelected] = useState('playlist');
-    const [conversations, setConversations] = useState([]);
     const [currentUserId, setCurrentUserId] = useState(userData.id);
+    const [conversations, setConversations] = useState([]);
+    const [pageSize, setPageSize] = useState(1);
+    const [nextUrl, setNextUrl] = useState(null);
+    const [hasMore, setHasMore] = useState(false);
 
 
     useEffect(() => {
@@ -111,34 +114,49 @@ const Left_Sidebar = () => {
 
     };
 
-
-
-    const fetchConversations = async () => {
+    const fetchConversations = async (url = `/conversations/user/?page=1&page_size=${pageSize}/`) => {
         setLoading(true);
         try {
-            const response = await axiosInstance.get(`/conversations/user/`);
-            if (response?.status === 200) {
-                setConversations(response?.data);
-                console.log("conservation", response.data);
+            const response = await axiosInstance.get(url);
+            const data = response.data;
+            console.log("ass", response.data)
+
+            if (url.includes("page=1")) {
+                setConversations(data.results); // lần đầu → set luôn
+            } else {
+                setConversations(prev => [...prev, ...data.results]); // load thêm
             }
+
+            setNextUrl(data.next);           // link tiếp theo
+            setHasMore(!!data.next);         // nếu có next thì còn data
         } catch (err) {
-            setError("Không thể tải danh sách cuoc hoi thoai.");
+            setError("Không thể tải danh sách cuộc hội thoại.");
         } finally {
             setLoading(false);
         }
-
     };
 
-    const handleConversationClick = async (otherUserId, conversationId) => {
-        console.log("ortherId", otherUserId);
+
+    const handleConversationClick = async (otherUser, conversationId) => {
+
         try {
             await axiosInstance.post(`/conversations/mark-read/${conversationId}/`);
+            // Cập nhật state conversations
+            setConversations((prevConversations) =>
+                prevConversations.map((conv) =>
+                    conv.id === conversationId ? { ...conv, has_unread: false } : conv
+                )
+            );
         } catch (error) {
             console.error('Lỗi khi đánh dấu đã đọc:', error);
         }
         // Điều hướng sang trang chat
         navigate("/user/chat", {
-            state: { otherUserId: otherUserId + "" },
+            state: {
+                otherUserId: otherUser?.id + "",
+                otherUserName: otherUser?.name || null,
+                otherUserAVT: otherUser?.image_path || null,
+            },
         });
     };
 
@@ -190,10 +208,18 @@ const Left_Sidebar = () => {
                             <FaChevronLeft />
                         </button>
                         <div className="ls-category-holder" ref={categoryRef}>
-                            <button onClick={() => setSelected('playlists')}>{t("leftSidebar.playlists")}</button>
-                        </div>
-                        <div className="ls-category-holder">
-                            <button onClick={() => setSelected('conversations')}>{t("leftSidebar.conversations")}</button>
+                            <button
+                                onClick={() => setSelected('playlists')}
+                                className={selected === 'playlists' ? 'selected' : ''}
+                            >
+                                {t('leftSidebar.playlists')}
+                            </button>
+                            <button
+                                onClick={() => setSelected('conversations')}
+                                className={selected === 'conversations' ? 'selected' : ''}
+                            >
+                                {t('leftSidebar.conversations')}
+                            </button>
                         </div>
                         <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
                             <FaChevronRight />
@@ -213,7 +239,7 @@ const Left_Sidebar = () => {
 
             <div className="ls-library-items">
                 {selected === 'playlists' && (
-                    playlists.slice(0, visibleCount).map((item) => (
+                    playlists?.slice(0, visibleCount).map((item) => (
                         <div
                             key={item.id}
                             className={`ls-library-item ls-playlist-item ${selectedItem === item.id ? "ls-selected" : ""}`}
@@ -245,7 +271,7 @@ const Left_Sidebar = () => {
                     ))
                 )}
                 {selected === 'conversations' && (
-                    conversations.map((conv) => {
+                    conversations?.map((conv) => {
                         // Người còn lại trong cuộc hội thoại
                         const otherUser = conv.user1.id === currentUserId ? conv.user2 : conv.user1;
 
@@ -263,14 +289,14 @@ const Left_Sidebar = () => {
                                     cursor: 'pointer',
                                     borderBottom: '1px solid #e0e0e0',
                                 }}
-                                onClick={() => handleConversationClick(otherUser.id, conv.id)}
+                                onClick={() => handleConversationClick(otherUser, conv.id)}
 
                             >
                                 {/* Avatar người còn lại */}
                                 <div div style={{ position: 'relative', marginRight: '10px' }}>
                                     <img
-                                        src={otherUser.image_path || "../../images/default-avatar.png"}
-                                        alt={otherUser.name}
+                                        src={otherUser?.image_path || "../../images/default-avatar.png"}
+                                        alt={otherUser?.name}
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src = "../../images/default-avatar.png";
@@ -281,7 +307,7 @@ const Left_Sidebar = () => {
 
                                 {/* Nội dung hội thoại */}
                                 <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 'bold' }}>{otherUser.name}</div>
+                                    <div style={{ fontWeight: 'bold' }}>{otherUser?.name}</div>
                                     <div style={{ fontSize: '0.9em', color: '#b3b3b3' }}>
                                         {lastMessage ? lastMessage.content : 'Chưa có tin nhắn'}
                                     </div>
@@ -303,6 +329,27 @@ const Left_Sidebar = () => {
                         );
                     })
                 )}
+
+                {selected === "conversations" && hasMore && (
+                    <div style={{ textAlign: "center", marginTop: "10px" }}>
+                        <button
+                            className="com-glow-only"
+                            onClick={() => fetchConversations(nextUrl)}
+                            style={{
+                                padding: "8px 16px",
+                                borderRadius: "8px",
+                                background: "#222",
+                                color: "#fff",
+                                border: "none",
+                                cursor: "pointer"
+                            }}
+                        >
+                            {t("leftSidebar.showMore")}
+                        </button>
+                    </div>
+                )}
+
+
 
             </div >
 
