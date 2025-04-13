@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { useSong } from "../../context/SongProvider";
 import { FaDownload } from 'react-icons/fa';
+import axiosInstance from "../../config/axiosConfig";
 import './VideoPlayer.css';
 
 const VideoPlayer = () => {
@@ -189,7 +190,20 @@ const VideoPlayer = () => {
         setIsPlayingVideo(true); // Tự động phát khi thử lại
     };
 
-    const handleEnded = () => {
+    const updateHistory = async () => {
+        try {
+            await axiosInstance.post('/video/history/', {
+                video_id: video_id
+            });
+            return;
+        } catch (error) {
+            console.error('Error updating history:', error);
+            // Bạn có thể xử lý lỗi cụ thể ở đây nếu cần
+            throw error; // Nếu bạn muốn component xử lý lỗi
+        }
+    };
+
+    const handleEnded = async () => {
         setHasStarted(false);
         setIsPlayingVideo(false); // Tạm dừng video
         setProgress(0); // Đặt lại thanh tiến trình
@@ -198,6 +212,7 @@ const VideoPlayer = () => {
             playerRef.current.seekTo(0, 'seconds'); // Đặt video về đầu
         }
         setRetryCount(prev => prev + 1);
+        await updateHistory();
     };
 
     const handleDownload = () => {

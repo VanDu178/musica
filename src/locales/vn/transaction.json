@@ -25,7 +25,7 @@
         "Arrange": "Sắp xếp"
     },
     "login": {
-        "title": "Đăng nhập vào Spotify",
+        "title": "Đăng nhập vào ZMusic",
         "continueWithGoogle": "Tiếp tục bằng Google",
         "continueWithFacebook": "Tiếp tục bằng Facebook",
         "continueWithApple": "Tiếp tục bằng Apple",
@@ -35,7 +35,7 @@
         "loginButton": "Đăng nhập",
         "forgotPassword": "Quên mật khẩu của bạn?",
         "noAccount": "Bạn chưa có tài khoản?",
-        "signUp": "Đăng ký Spotify"
+        "signUp": "Đăng ký ZMusic"
     },
     "signup": {
         "title": "Đăng ký để bắt đầu nghe",
@@ -83,7 +83,7 @@
     },
     "resetPassword": {
         "title": "Đặt lại mật khẩu của bạn",
-        "subtitle": "Nhập địa chỉ email liên kết với tài khoản Spotify của bạn để chúng tôi gửi email khôi phục mật khẩu cho bạn.",
+        "subtitle": "Nhập địa chỉ email liên kết với tài khoản ZMusic của bạn để chúng tôi gửi email khôi phục mật khẩu cho bạn.",
         "emailLabel": "Nhập địa chỉ email",
         "helpLink": "Bạn cần hỗ trợ?",
         "submitButton": "Gửi đường liên kết"
@@ -91,7 +91,7 @@
     "overview": {
         "searchPlaceholder": "Tìm kiếm tài khoản hoặc bài viết trợ giúp",
         "yourPlan": "Gói của bạn",
-        "spotifyFree": "Spotify Free",
+        "spotifyFree": "ZMusic Free",
         "learnMore": "Tìm hiểu các gói",
         "account": "Tài khoản",
         "manageSubscription": "Quản lý gói đăng ký",
@@ -109,7 +109,7 @@
         "resetPassword": "Đặt lại mật khẩu trên thiết bị",
         "logoutEverywhere": "Đăng xuất ở mọi nơi",
         "help": "Trợ giúp",
-        "spotifySupport": "Nhóm hỗ trợ của Spotify",
+        "spotifySupport": "Nhóm hỗ trợ của ZMusic",
         "changePassword": "Thay đổi mật khẩu"
     },
     "profile": {
@@ -271,7 +271,7 @@
         "tableTitle": "Trải nghiệm sự khác biệt",
         "tableDesc": "Dùng Premium để toàn quyền kiểm soát trải nghiệm âm nhạc. Hủy bất cứ lúc nào.",
         "tableColumn1": "Lợi ích dành cho bạn",
-        "tableColumn2": "Gói free của Spotify",
+        "tableColumn2": "Gói free của ZMusic",
         "tableRow_1": "Nghe nhạc không quảng cáo",
         "tableRow_2": "Tải bài hát xuống",
         "tableRow_3": "Phát nhạc theo thứ tự bất kỳ",
