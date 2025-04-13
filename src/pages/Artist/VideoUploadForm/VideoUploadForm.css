@@ -120,3 +120,35 @@
   .upload-form button:hover {
     background-color: #1ed760;
   }
+
+
+  /* Input, textarea và button khi disabled */
+.form-group input:disabled,
+.form-group textarea:disabled {
+  background-color: #3a3a3a; /* Màu nền xám hơn để biểu thị không hoạt động */
+  color: #6b6b6b; /* Màu chữ mờ để giảm sự nổi bật */
+  cursor: not-allowed; /* Con trỏ chuột thay đổi để báo hiệu không thể tương tác */
+  opacity: 0.6; /* Làm mờ nhẹ */
+}
+
+.form-group input[type="file"]:disabled::-webkit-file-upload-button {
+  background-color: #6b6b6b; /* Màu nút upload file khi disabled */
+  color: #b3b3b3; /* Màu chữ xám */
+  cursor: not-allowed; /* Con trỏ không cho phép */
+  opacity: 0.6; /* Làm mờ */
+}
+
+.form-group input[type="file"]:disabled::-webkit-file-upload-button:hover {
+  background-color: #6b6b6b; /* Giữ nguyên màu khi hover để tránh hiệu ứng hover */
+}
+
+.upload-form button:disabled {
+  background-color: #6b6b6b; /* Màu nền nút submit khi disabled */
+  color: #b3b3b3; /* Màu chữ xám */
+  cursor: not-allowed; /* Con trỏ không cho phép */
+  opacity: 0.6; /* Làm mờ */
+}
+
+.upload-form button:disabled:hover {
+  background-color: #6b6b6b; /* Giữ nguyên màu khi hover */
+}

@@ -166,6 +166,7 @@
   display: none;
 }
 
+
 /* Nút danh mục */
 .ls-category-holder button {
   padding: 8px 12px;
@@ -175,10 +176,18 @@
   border: none;
   font-size: 14px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .ls-category-holder button:hover {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Nút được chọn */
+.ls-category-holder button.selected {
+  background-color: #1DB954; /* Màu xanh của Spotify */
+  color: white;
+  font-weight: bold;
 }
 
 /* Nút cuộn */

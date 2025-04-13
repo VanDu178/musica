@@ -117,6 +117,15 @@ const ArtistRegistration = () => {
 
       if (response.status === 201) {
         handleSuccess(t("artist_registration.registrationSuccess"));
+        setFormData({
+          artistName: "",
+          phone: "",
+          bio: "",
+          email: "",
+          socialLink: "",
+          proofImages: [],
+          artistImages: [],
+        });
       }
     } catch (error) {
       console.log(error);
@@ -159,6 +168,7 @@ const ArtistRegistration = () => {
               <input
                 type="text"
                 name="artistName"
+                value={formData.artistName}
                 onChange={handleChange}
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterArtistName")}
@@ -173,6 +183,7 @@ const ArtistRegistration = () => {
               <input
                 type="email"
                 name="email"
+                value={formData.email}
                 onChange={handleChange}
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterEmail")}
@@ -189,6 +200,7 @@ const ArtistRegistration = () => {
               <input
                 type="text"
                 name="phone"
+                value={formData.phone}
                 onChange={handleChange}
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterPhoneNumber")}
@@ -205,6 +217,7 @@ const ArtistRegistration = () => {
               <textarea
                 name="bio"
                 onChange={handleChange}
+                value={formData.bio}
                 className="artist_registration-textarea-field"
                 rows="4"
                 placeholder={t("artist_registration.tellUsAboutYourself")}
@@ -219,6 +232,7 @@ const ArtistRegistration = () => {
               <input
                 type="text"
                 name="socialLink"
+                value={formData.socialLink}
                 onChange={handleChange}
                 className="artist_registration-input-field"
                 placeholder={t("artist_registration.enterSocialMediaLink")}

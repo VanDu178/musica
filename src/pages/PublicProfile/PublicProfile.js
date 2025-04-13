@@ -27,18 +27,19 @@ const PublicProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isArtist, setIsArtist] = useState(false);
-  const { idSong, setIdSong } = useSong();
   const { addSong, clearPlaylist } = usePlaylist();
   const { isPlaying, setIsPlaying } = useIsPlaying();
-  const { setIsVisiableRootModal } = useIsVisiableRootModal();
-  const { isLoggedIn } = useUserData();
+  const { isLoggedIn, userData } = useUserData();
   const [validRole, setValidRole] = useState(false);
-  // const [IsCheckingRole, setIsCheckingRole] = useState(false);
   const popularRef = useRef(null);
   const albumsRef = useRef(null);
   const aboutRef = useRef(null);
   const { profileId } = useParams();
   const navigate = useNavigate();
+  const [pageSize, setPageSize] = useState(4); // mỗi lần load 4 playlist
+  const [popularSongs, setPopularSongs] = useState([]);
+  const [nextPopularSongsUrl, setNextPopularSongsUrl] = useState(null);
+  const [hasMorePopularSongs, setHasMorePopularSongs] = useState(false);
 
   useEffect(() => {
     const fetchRole = async () => {
@@ -72,11 +73,9 @@ const PublicProfile = () => {
         } else {
           await fetchPlaylists();
         }
-        // setIsLoading(false);
       } catch (err) {
         console.error("Error loading data:", err);
         setError("Đã xảy ra lỗi khi tải dữ liệu hồ sơ.");
-        // setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
@@ -99,26 +98,39 @@ const PublicProfile = () => {
     }
   };
 
-  const fetchPopularSongs = async () => {
+  const fetchPopularSongs = async (
+    url = `/public-profile/popular-songs/${profileId}/?page=1&page_size=4`
+  ) => {
     try {
-      const response = await axiosInstance.get(
-        `/public-profile/popular-songs/${profileId}/`
-      );
-      if (response?.status === 200) {
-        setProfile((prevState) => ({
-          ...prevState,
-          popularSongs: response?.data?.songs,
-        }));
-        clearPlaylist();
-        response?.data?.songs?.forEach((song) => {
-          addSong({ id: song.id });
-        });
-      }
+      const response = await axiosInstance.get(url);
+      const { results, next } = response.data;
+
+      console.log("popularSongs", response.data);
+
+      // Cập nhật state với dữ liệu mới
+      setProfile((prevState) => ({
+        ...prevState,
+        popularSongs: url.includes("page=1")
+          ? results // Reset nếu là trang đầu tiên
+          : [...prevState.popularSongs, ...results], // Append nếu là các trang tiếp theo
+      }));
+
+      // Xử lý playlist
+      clearPlaylist();
+      results.forEach((song) => {
+        addSong({ id: song.id });
+      });
+
+      // Cập nhật state cho phân trang
+      setNextPopularSongsUrl(next); // Lưu URL của trang tiếp theo
+      setHasMorePopularSongs(!!next); // Kiểm tra xem còn dữ liệu để load không
     } catch (err) {
-      throw new Error("Không thể tải danh sách bài hát phổ biến.");
+      console.error("Error fetching popular songs:", err);
+      setError(
+        err.response?.data?.error || "Không thể tải danh sách bài hát phổ biến."
+      );
     }
   };
-
   const fetchAlbums = async () => {
     try {
       const response = await axiosInstance.get(
@@ -151,23 +163,16 @@ const PublicProfile = () => {
     }
   };
 
-  const togglePlay = () => {
-    if (isLoggedIn) {
-      if (profile.popularSongs && profile.popularSongs.length > 0 && idSong) {
-        setIsPlaying(!isPlaying);
-      } else if (profile.popularSongs.length > 0) {
-        setIdSong(profile.popularSongs[0].id);
-        setIsPlaying(true);
-      }
-    } else {
-      setIsVisiableRootModal(true);
-    }
-  };
-
   const HandleMessage = () => {
-    console.log("profile", profileId);
+    if (isArtist || userData.id === profileId) {
+      return; // không làm gì khi là artist hoặc đang xem chính mình
+    }
     navigate("/user/chat", {
-      state: { otherUserId: profileId },
+      state: {
+        otherUserId: profileId,
+        otherUserName: profile?.inFor?.name || null,
+        otherUserAVT: profile?.inFor?.image_path || null,
+      },
     });
   };
 
@@ -200,12 +205,13 @@ const PublicProfile = () => {
               e.target.src = "../../images/default-avt-img.jpeg";
             }}
           />
-          {/* ******************************** */}
-          <button onClick={HandleMessage}>nhan tin</button>
-          {/* *********************** */}
           <div className="public-profile-info">
             <span className="public-profile-type">
-              {isArtist ? t("publicProfile.artist") : t("publicProfile.user")}
+              {userData.id + "" === profileId
+                ? t("publicProfile.mine")
+                : isArtist
+                ? t("publicProfile.artist")
+                : t("publicProfile.user")}
             </span>
             <div className="public-profile-name-container">
               <h2 className="public-profile-name">{profile?.inFor?.name}</h2>
@@ -217,6 +223,32 @@ const PublicProfile = () => {
                   </span>
                 </div>
               )}
+
+              {/* Nút nhắn tin */}
+              {!isArtist && userData.id + "" !== profileId && (
+                <button
+                  className="public-profile-message-btn"
+                  onClick={HandleMessage}
+                  title={t("publicProfile.message")}
+                >
+                  <svg
+                    className="message-icon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  <span className="message-text">
+                    {t("publicProfile.message")}
+                  </span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -225,12 +257,7 @@ const PublicProfile = () => {
       <div className="public-profile-content">
         {isArtist && (
           <div className="public-profile-play-controls">
-            <button
-              className="public-profile-play-pause-btn"
-              onClick={togglePlay}
-            >
-              {isPlaying ? "❚❚" : "▶"}
-            </button>
+            <button className="public-profile-play-pause-btn">▶</button>
           </div>
         )}
 
@@ -284,6 +311,24 @@ const PublicProfile = () => {
                       <SongItem key={song.id} songId={song.id} song={song} />
                     );
                   })}
+                  {hasMorePopularSongs && (
+                    <div style={{ textAlign: "center", marginTop: "10px" }}>
+                      <button
+                        className="com-glow-only"
+                        onClick={() => fetchPopularSongs(nextPopularSongsUrl)}
+                        style={{
+                          padding: "8px 16px",
+                          borderRadius: "8px",
+                          background: "#222",
+                          color: "#fff",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {t("leftSidebar.showMore")}
+                      </button>
+                    </div>
+                  )}
                 </ListGroup>
               </section>
 
