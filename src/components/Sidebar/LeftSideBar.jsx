@@ -5,7 +5,6 @@ import { FaChevronLeft, FaChevronRight, FaList, FaPlay, FaSearch } from "react-i
 import { IoMdAdd } from "react-icons/io";
 import { RiBookShelfFill, RiBookShelfLine } from "react-icons/ri";
 import "./LeftSidebar.css";
-import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
 import { storeCachedData, getCachedData } from "../../helpers/cacheDataHelper"
@@ -20,7 +19,7 @@ const Left_Sidebar = () => {
     const [right_scroll, setRight_scroll] = useState(1);
     const [display, setDisplay] = useState("flex");
     const [flexDirection, setFlexDirection] = useState("row");
-    const { userData } = useUserData();
+    const { userData, isLoggedIn } = useUserData();
     const [isLoading, setLoading] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [error, setError] = useState(null);
@@ -180,28 +179,32 @@ const Left_Sidebar = () => {
                 </div>
 
                 <div className="ls-category-search" style={{ flexDirection: sidebarWidth === "20%" ? "column" : "row" }}>
-                    <div className="ls-category-container" style={{ display: display }}>
-                        <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{ opacity: left_scroll }}>
-                            <FaChevronLeft />
-                        </button>
-                        <div className="ls-category-holder" ref={categoryRef}>
-                            <button
-                                onClick={() => setSelected('playlists')}
-                                className={selected === 'playlists' ? 'selected' : ''}
-                            >
-                                {t('leftSidebar.playlists')}
+                    {isLoggedIn && (
+                        <div className="ls-category-container" style={{ display: display }}>
+                            <button className="ls-scroll-btn ls-left com-glow-zoom com-vertical-align" onClick={scrollLeft} style={{ opacity: left_scroll }}>
+                                <FaChevronLeft />
                             </button>
-                            <button
-                                onClick={() => setSelected('conversations')}
-                                className={selected === 'conversations' ? 'selected' : ''}
-                            >
-                                {t('leftSidebar.conversations')}
+
+                            <div className="ls-category-holder" ref={categoryRef}>
+                                <button
+                                    onClick={() => setSelected('playlists')}
+                                    className={selected === 'playlists' ? 'selected' : ''}
+                                >
+                                    {t('leftSidebar.playlists')}
+                                </button>
+                                <button
+                                    onClick={() => setSelected('conversations')}
+                                    className={selected === 'conversations' ? 'selected' : ''}
+                                >
+                                    {t('leftSidebar.conversations')}
+                                </button>
+                            </div>
+                            <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
+                                <FaChevronRight />
                             </button>
                         </div>
-                        <button className="ls-scroll-btn ls-right com-glow-zoom com-vertical-align" onClick={scrollRight} style={{ opacity: right_scroll }}>
-                            <FaChevronRight />
-                        </button>
-                    </div>
+                    )
+                    }
                     <div className="ls-search-sort" style={{ display: display }}>
                         <button className="com-glow-only">
                             <FaSearch size={14} color="white" />
