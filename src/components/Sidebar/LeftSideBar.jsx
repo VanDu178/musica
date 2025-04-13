@@ -20,8 +20,7 @@ const Left_Sidebar = () => {
     const [right_scroll, setRight_scroll] = useState(1);
     const [display, setDisplay] = useState("flex");
     const [flexDirection, setFlexDirection] = useState("row");
-    const [validRole, setValidRole] = useState(false);
-    const { isLoggedIn, userData } = useUserData();
+    const { userData } = useUserData();
     const [isLoading, setLoading] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [error, setError] = useState(null);
@@ -34,23 +33,6 @@ const Left_Sidebar = () => {
     const [nextUrl, setNextUrl] = useState(null);
     const [hasMore, setHasMore] = useState(false);
 
-
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user không
-                const checkedRoleUser = await checkData(3);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            } else {
-                //nếu không login thì hiển thị
-                setValidRole(true);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
 
     useEffect(() => {
         if (selected == 'playlists') {
@@ -175,11 +157,6 @@ const Left_Sidebar = () => {
 
         setVisibleCount(nextCount);
     };
-
-    //nếu không phải role user hoặc chưa đăng nhập không hiển thị
-    if (!validRole) {
-        return <div style={{ display: 'none' }} />;
-    }
 
     return (
         <div className="ls-left-sidebar" style={{ width: sidebarWidth, paddingInline: sidebarWidth === "56px" ? "4px" : "16px" }}>

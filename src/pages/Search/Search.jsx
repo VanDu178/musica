@@ -10,6 +10,7 @@ import PlaylistCard from "../../components/PlaylistCard/PlaylistCard";
 import Loading from "../../components/Loading/Loading";
 import SongItem from "../../components/SongItem/SongItem";
 import UserCard from "../../components/UserCard/UserCard";
+import VideoItem from "../../components/VideoItem/VideoItem";
 import axiosInstance from "../../config/axiosConfig";
 import MusicSlider from "../../components/MusicSlider/MusicSlider";
 import { useSearch } from "../../context/SearchContext";
@@ -24,6 +25,7 @@ const HomeTabs = () => {
     const [albums, setAlbums] = useState([]);
     const [artists, setArtists] = useState([]);
     const [users, setUsers] = useState([]);
+    const [videos, setVideos] = useState([]);
     const { searchKeyword, selectedType, setSelectedType, setSearchKeyword } = useSearch();
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -65,13 +67,14 @@ const HomeTabs = () => {
         setIsLoadingMore(true);
         var newOffset = 0;
         setOffset(newOffset);
-        setSongs([]); setPlaylists([]); setAlbums([]); setArtists([]); setUsers([]);
+        setSongs([]); setPlaylists([]); setAlbums([]); setArtists([]); setUsers([]); setVideos([]);
         if (selectedType == 'all') {
             fetchSongs(newOffset);
             fetchArtists(newOffset);
             fetchPlaylists();
             fetchAlbums(newOffset);
             fetchUsers(newOffset);
+            fetchVideos(newOffset);
         } else if (selectedType == 'song') {
             fetchSongs(newOffset);
         }
@@ -83,6 +86,9 @@ const HomeTabs = () => {
         }
         else if (selectedType == 'user') {
             fetchUsers(newOffset);
+        }
+        else if (selectedType == 'video') {
+            fetchVideos(newOffset);
         }
         else {
             fetchArtists(newOffset);
@@ -241,6 +247,36 @@ const HomeTabs = () => {
         }
     };
 
+    const fetchVideos = async (customOffset) => {
+        if (customOffset == 0) {
+            setLoading(true);
+        }
+        let limit = 0;
+        if (selectedType == 'all') {
+            limit = 5;
+        } else {
+            limit = 8;
+        }
+        try {
+            const response = await axiosInstance.get(`/search/`, {
+                params: { selectedType: "videos", searchKeyword, limit, offset: customOffset },
+            });
+            console.log(response);
+            if (response.data) {
+                setVideos((prev) => [...prev, ...response.data]);
+                if (response.data.length < limit) {
+                    setIsLoadingMore(false)
+                }
+            }
+            EndLoading();
+        } catch (error) {
+            EndLoading();
+            console.error("Error fetching users: ", error);
+        } finally {
+            EndLoading();
+        }
+    };
+
     const HandleLoadMore = () => {
         setLoadingMore(true);
         var newOffset = offset + 1;
@@ -256,6 +292,9 @@ const HomeTabs = () => {
         }
         if (selectedType == 'user') {
             fetchUsers(newOffset);
+        }
+        if (selectedType == 'video') {
+            fetchVideos(newOffset);
         }
     }
 
@@ -305,6 +344,12 @@ const HomeTabs = () => {
                         onClick={() => setSelectedType("artist")}
                     >
                         {t("home.artists")}
+                    </button>
+                    <button
+                        className={`custom-btn mx-2 ${selectedType === "video" ? "active" : ""}`}
+                        onClick={() => setSelectedType("video")}
+                    >
+                        {t("home.videos")}
                     </button>
                 </div>
             </nav>
@@ -407,6 +452,17 @@ const HomeTabs = () => {
                                 items={users}
                                 type="user"
                                 titleSlider={t("search.users")}
+                            />
+                        )}
+                    </div>
+
+                    <div className="container mt-4" >
+                        {videos.length > 0 && (
+                            <MusicSlider
+                                isHiddenFaArrow="true"
+                                items={videos}
+                                type="video"
+                                titleSlider={t("search.videos")}
                             />
                         )}
                     </div>
@@ -602,6 +658,41 @@ const HomeTabs = () => {
                 )
             }
             {/* kết thúc type user */}
+
+            {
+                selectedType === "video" && (
+                    <>
+                        <div className="search-list-video">
+                            {videos.length > 0 ? (
+                                videos.map((video, index) => (
+                                    <VideoItem
+                                        key={index}
+                                        video={video}
+                                    />
+                                ))
+                            ) : (
+                                <p className="text-white">
+                                    {t("search.noResult")}
+                                </p>
+                            )}
+                        </div>
+                        {!loadingMore ? (
+                            isloadingMore && (
+                                <div
+                                    className="search-song-btn-loadmore"
+                                    onClick={HandleLoadMore}
+                                >
+                                    {t("search.loadingMore")}
+                                </div>
+                            )
+                        ) : (
+                            <Loading message={t("utils.loading")} className="search-margin-top" />
+                        )}
+
+                    </>
+                )
+            }
+            {/* kết thúc type video */}
 
         </div >
     );

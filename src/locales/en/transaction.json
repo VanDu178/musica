@@ -18,13 +18,14 @@
         "songTrending": "Trending song",
         "albumTrending": "Trending album",
         "playlistTrending": "Trending playlist",
+        "videoTrending": "Trending video ",
         "403": "You do not have permission to perform this action.",
         "handleUpdate": "Updating...",
         "Update": "Update",
         "Arrange": "Arrange the list"
     },
     "login": {
-        "title": "Log in to Spotify",
+        "title": "Log in to ZMusic",
         "continueWithGoogle": "Continue with Google",
         "continueWithFacebook": "Continue with Facebook",
         "continueWithApple": "Continue with Apple",
@@ -34,7 +35,7 @@
         "loginButton": "Log in",
         "forgotPassword": "Forgot your password?",
         "noAccount": "Don't have an account?",
-        "signUp": "Sign up for Spotify"
+        "signUp": "Sign up for ZMusic"
     },
     "signup": {
         "title": "Sign up to start listening",
@@ -82,7 +83,7 @@
     },
     "resetPassword": {
         "title": "Reset Your Password",
-        "subtitle": "Enter the email address associated with your Spotify account and we'll send you a password recovery email.",
+        "subtitle": "Enter the email address associated with your ZMusic account and we'll send you a password recovery email.",
         "emailLabel": "Enter your email address",
         "helpLink": "Need help?",
         "submitButton": "Send Link"
@@ -90,7 +91,7 @@
     "overview": {
         "searchPlaceholder": "Search for accounts or help articles",
         "yourPlan": "Your Plan",
-        "spotifyFree": "Spotify Free",
+        "spotifyFree": "Zmusic Free",
         "learnMore": "Learn More",
         "account": "Account",
         "manageSubscription": "Manage Subscription",
@@ -108,7 +109,7 @@
         "resetPassword": "Reset Password on Device",
         "logoutEverywhere": "Log Out Everywhere",
         "help": "Help",
-        "spotifySupport": "Spotify Support Team",
+        "spotifySupport": "ZMusic Support Team",
         "changePassword": "Change Password"
     },
     "profile": {
@@ -154,20 +155,20 @@
         "new_password": "New Password",
         "confirm_password": "Confirm New Password",
         "rules": {
-          "label": "Your password must have at least",
-          "letter": "1 letter",
-          "number_or_special": "1 number or special character",
-          "min_length": "10 characters"
+            "label": "Your password must have at least",
+            "letter": "1 letter",
+            "number_or_special": "1 number or special character",
+            "min_length": "10 characters"
         },
         "save": "Save",
         "saving": "Processing...",
         "success": "Password changed successfully!",
         "errors": {
-          "password_mismatch": "Password confirmation does not match.",
-          "invalid_current": "Current password is incorrect.",
-          "generic": "An error occurred during update. Please try again."
+            "password_mismatch": "Password confirmation does not match.",
+            "invalid_current": "Current password is incorrect.",
+            "generic": "An error occurred during update. Please try again."
         }
-      },
+    },
     "playlist": {
         "title": "Title",
         "time": "Time"
@@ -179,7 +180,8 @@
         "songs": "Trending songs",
         "albums": "Albums",
         "artists": "Artists",
-        "users": "Users"
+        "users": "Users",
+        "videos": "Videos"
     },
     "search": {
         "TopResult": "Top Results",
@@ -189,6 +191,7 @@
         "playlist": "Playlists",
         "artist": "Artists",
         "users": "Users",
+        "videos": "Videos",
         "loadingMore": "Loading more"
     },
     "header2": {
@@ -213,7 +216,6 @@
         "shuffle": "Shuffle",
         "repeat": "Repeat"
     },
-
     "leftSidebar": {
         "artist": "Artist",
         "artists": "Artists",
@@ -227,7 +229,7 @@
         "showMore": "Show more",
         "showLess": "Show less",
         "conversations": "Conversations"
-      },
+    },
     "premium": {
         "viewPlanTitle": "Listen without limits. Try 1 month of Premium Individual for free.",
         "viewPlanSubtitle": "Only ₫59,000/month after. Cancel anytime.",
@@ -269,7 +271,7 @@
         "tableTitle": "Experience the difference",
         "tableDesc": "Go premium and enjoy full control of your listening. Cancel anytime.",
         "tableColumn1": "What you'll get",
-        "tableColumn2": "Spotify's free plan",
+        "tableColumn2": "ZMusic's free plan",
         "tableRow_1": "Ads free music listening",
         "tableRow_2": "Download songs",
         "tableRow_3": "Play songs in any order",
@@ -357,7 +359,7 @@
             "profile": "My Profile",
             "upload": "Upload",
             "album": "Album",
-            "changePassword":"Change Password",
+            "changePassword": "Change Password",
             "videoUpload": "Upload Video"
         },
         "artistAlbum": {
@@ -387,29 +389,29 @@
             "loading": "Creating..."
         },
         "video_upload": {
-        "title": "Upload Your Video",
-        "title_label": "Title",
-        "title_placeholder": "Enter video title",
-        "description_label": "Description",
-        "description_placeholder": "Enter video description",
-        "video_label": "Video File (MP4)",
-        "image_label": "Thumbnail Image",
-        "upload_btn": "Upload Video",
-        "processing": "Processing...",
-        "success": "Video uploaded successfully!",
-        "error": "Failed to upload the video. Please try again."
-    }
+            "title": "Upload Your Video",
+            "title_label": "Title",
+            "title_placeholder": "Enter video title",
+            "description_label": "Description",
+            "description_placeholder": "Enter video description",
+            "video_label": "Video File (MP4)",
+            "image_label": "Thumbnail Image",
+            "upload_btn": "Upload Video",
+            "processing": "Processing...",
+            "success": "Video uploaded successfully!",
+            "error": "Failed to upload the video. Please try again."
+        }
     },
     "admin": {
         "sidebar": {
             "account": "Account",
             "portal_title": "Admin",
             "accountArtist": "Account Artist",
-            "profile":"My Profile",
+            "profile": "My Profile",
             "artistRegistrationRequests": "Artist Registration Requests",
             "accountManagement": "Account Management",
             "planManagement": "Plan Management",
-            "changePassword":"Change Password"
+            "changePassword": "Change Password"
         },
         "account_management": {
             "title": "Account Management",
@@ -433,9 +435,9 @@
             "error_fetching_users": "Error fetching user data.",
             "banning": "Banning...",
             "unbanning": "Unbanning...",
-            "email":"Email",
-            "btnBack":"Back",
-            "btnNext":"Next"
+            "email": "Email",
+            "btnBack": "Back",
+            "btnNext": "Next"
         },
         "artist_registration_requests": {
             "title": "Artist Registration Requests",
@@ -472,8 +474,8 @@
             "no_artist_images": "No artist images available.",
             "approved": "Approved",
             "pending": "Pending",
-            "btnBack":"Back",
-            "btnNext":"Next"
+            "btnBack": "Back",
+            "btnNext": "Next"
         },
         "plan_management": {
             "title": "Plan Management",
@@ -546,20 +548,20 @@
         "message": "Chat"
     },
     "resend_activation": {
-    "title": "Your account is not activated",
-    "description": "Enter your email to receive the activation link again.",
-    "placeholder": "you@example.com",
-    "send_link": "Resend link",
-    "sending": "Sending...",
-    "sent_title": "Activation link sent",
-    "sent_description": "Please check your inbox or spam folder to activate your account.",
-    "back_to_login": "Back to login",
-    "errors": {
-      "already_activated": "Account is already activated",
-      "server": "An error occurred, please try again"
-    }
-},
-"chat":{
+        "title": "Your account is not activated",
+        "description": "Enter your email to receive the activation link again.",
+        "placeholder": "you@example.com",
+        "send_link": "Resend link",
+        "sending": "Sending...",
+        "sent_title": "Activation link sent",
+        "sent_description": "Please check your inbox or spam folder to activate your account.",
+        "back_to_login": "Back to login",
+        "errors": {
+            "already_activated": "Account is already activated",
+            "server": "An error occurred, please try again"
+        }
+    },
+    "chat":{
         "nameNone": "Name not available"
     }
 }

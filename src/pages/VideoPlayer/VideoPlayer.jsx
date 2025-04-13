@@ -1,18 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactPlayer from 'react-player';
 import { MdReplay10, MdForward10 } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import Forbidden from "../../components/Error/403/403";
+import { checkData } from "../../helpers/encryptionHelper";
+import Loading from "../../components/Loading/Loading";
+import { useUserData } from "../../context/UserDataProvider";
+import { useTranslation } from "react-i18next";
+import { useIsPlaying } from "../../context/IsPlayingProvider";
+import { useSong } from "../../context/SongProvider";
+import { FaDownload } from 'react-icons/fa';
+import axiosInstance from "../../config/axiosConfig";
 import './VideoPlayer.css';
 
 const VideoPlayer = () => {
-    const videoId = '14ApoocFqHn394jDCpA-5a2LjsavKx2e0';
-    const videoUrl = `http://localhost:8000/api/video/?id=${videoId}`;
-    const posterUrl = 'https://d7q8y8k6ari3o.cloudfront.net/542c773598d34c81b75b8a82f1b8e766.jpg';
-
+    const { t } = useTranslation();
+    const { title, video_id, image_path } = useParams();
+    const decodedImagePath = decodeURIComponent(image_path);
+    const videoUrl = `${process.env.REACT_APP_API_URL}/video/play/?id=${video_id}`;
     const playerRef = useRef(null);
     const containerRef = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlayingVideo, setIsPlayingVideo] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [volume, setVolume] = useState(0.8);
+    const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,16 +33,28 @@ const VideoPlayer = () => {
     const [isSeeking, setIsSeeking] = useState(false);
     const [retryCount, setRetryCount] = useState(0);
     const timeoutRef = useRef(null);
+    const { isLoggedIn } = useUserData();
+    const [validRole, setValidRole] = useState(false);
+    const [IsCheckingRole, setIsCheckingRole] = useState(true);
+    const { isPlaying, setIsPlaying } = useIsPlaying();
+    const { idSong, setIdSong } = useSong();
 
-    const showControls = () => {
-        setControlsVisible(true);
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-        timeoutRef.current = setTimeout(() => {
-            setControlsVisible(false);
-        }, 2500);
-    };
+    useEffect(() => {
+        const fetchRole = async () => {
+            setIsCheckingRole(true);
+            if (isLoggedIn) {
+                //nếu đang login thì check role phải user  không
+                const checkedRoleUser = await checkData(3);
+
+                if (checkedRoleUser) {
+                    setValidRole(true);
+                    setIsCheckingRole(false);
+                }
+            }
+            setIsCheckingRole(false);
+        };
+        fetchRole();
+    }, [isLoggedIn]);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -50,12 +72,38 @@ const VideoPlayer = () => {
                 clearTimeout(timeoutRef.current);
             }
         };
+    }, [IsCheckingRole]);
+
+    useEffect(() => {
+        if (isPlayingVideo === true) {
+            setIsPlaying(false);
+        } else {
+            if (idSong != null) {
+                setIsPlaying(true);
+            }
+        }
+    }, [isPlayingVideo]);
+
+    useEffect(() => {
+        if (isPlaying === true) {
+            setIsPlayingVideo(false);
+        }
+    }, [isPlaying]);
+
+    const showControls = useCallback(() => {
+        setControlsVisible(true);
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = setTimeout(() => {
+            setControlsVisible(false);
+        }, 2500);
     }, []);
 
     const togglePlay = () => {
         setError(null);
         setHasStarted(true);
-        setIsPlaying(!isPlaying);
+        setIsPlayingVideo(!isPlayingVideo);
     };
 
     const handleProgress = ({ played, playedSeconds }) => {
@@ -139,126 +187,182 @@ const VideoPlayer = () => {
         setError(null);
         setIsLoading(true);
         setRetryCount(prev => prev + 1);
-        setIsPlaying(true); // Tự động phát khi thử lại
+        setIsPlayingVideo(true); // Tự động phát khi thử lại
     };
 
+    const updateHistory = async () => {
+        try {
+            await axiosInstance.post('/video/history/', {
+                video_id: video_id
+            });
+            return;
+        } catch (error) {
+            console.error('Error updating history:', error);
+            // Bạn có thể xử lý lỗi cụ thể ở đây nếu cần
+            throw error; // Nếu bạn muốn component xử lý lỗi
+        }
+    };
+
+    const handleEnded = async () => {
+        setHasStarted(false);
+        setIsPlayingVideo(false); // Tạm dừng video
+        setProgress(0); // Đặt lại thanh tiến trình
+        setCurrentTime(0); // Đặt lại thời gian hiện tại
+        if (playerRef.current) {
+            playerRef.current.seekTo(0, 'seconds'); // Đặt video về đầu
+        }
+        setRetryCount(prev => prev + 1);
+        await updateHistory();
+    };
+
+    const handleDownload = () => {
+        // Chuyển hướng qua trang download trung gian
+        window.open(`/download/video/${video_id}`, '_blank');
+    };
+
+    if (IsCheckingRole) {
+        return <Loading message={t("utils.loading")} height="100" />;
+    }
+
+    if (!isLoggedIn || !validRole) {
+        return <Forbidden />;
+    }
+
     return (
-        <div className="play-video-video-player-container" ref={containerRef}>
-            {error && (
-                <div className="play-video-error-message">
-                    {error}
-                    <button
-                        className="play-video-retry-btn"
-                        onClick={handleRetry}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Đang thử lại...' : 'Thử lại'}
-                    </button>
-                </div>
-            )}
-            {!hasStarted && (
-                <div className="play-video-poster-container">
-                    <img
-                        src={posterUrl}
-                        alt="Video Poster"
-                        className="play-video-poster-image"
-                    />
-                    <div className={`play-video-poster-controls ${controlsVisible ? 'controls-visible' : ''}`}>
-                        <button
-                            className="play-video-poster-play-btn"
-                            onClick={togglePlay}
-                            disabled={isLoading}
-                        >
-                            {isPlaying ? '❚❚' : '▶'}
-                        </button>
-                    </div>
-                </div>
-            )}
+        <>
+            <div className="play-video-video-player-container" ref={containerRef}>
+                <div
+                    className={`play-video-title ${controlsVisible ? 'controls-visible' : ''}`}
+                >{title}</div>
 
-            <div className={`play-video-video-wrapper ${hasStarted ? '' : 'play-video-hidden'}`}>
-                {isLoading ? (
-                    <div className="play-video-loading-message">Đang tải video...</div>
-                ) : (
-                    <div className={`play-video-center-controls ${controlsVisible ? 'controls-visible' : ''}`}>
-                        <button
-                            className={`play-video-control-btn ${isPlaying ? '' : 'paused'}`}
-                            onClick={handleRewind}
-                        >
-                            <MdReplay10 size={24} />
-                        </button>
-                        <button
-                            className={`play-video-poster-play-btn ${isPlaying ? '' : 'paused'}`}
-                            onClick={togglePlay}
+                {error && (
+                    <div className="play-video-error-message" >
+                        {error}
+                        < button
+                            className="play-video-retry-btn"
+                            onClick={handleRetry}
                             disabled={isLoading}
                         >
-                            {isPlaying ? '❚❚' : '▶'}
+                            {isLoading ? 'Đang thử lại...' : 'Thử lại'}
                         </button>
-                        <button
-                            className={`play-video-control-btn ${isPlaying ? '' : 'paused'}`}
-                            onClick={handleFastForward}
-                        >
-                            <MdForward10 size={24} />
-                        </button>
-                    </div>
+                    </div >
                 )}
-                <div className="play-video-responsive-player">
-                    <ReactPlayer
-                        key={`player-${retryCount}`} // Thêm key này để force re-mount khi retry
-                        url={`${videoUrl}&retry=${retryCount}`} // Thêm param retry để tránh cache
-                        ref={playerRef}
-                        playing={isPlaying}
-                        volume={isMuted ? 0 : volume}
-                        muted={isMuted}
-                        onProgress={handleProgress}
-                        onDuration={handleDuration}
-                        onError={handleError}
-                        onBuffer={handleBuffer}
-                        onBufferEnd={handleBufferEnd}
-                        onSeek={handlePlayerSeek}
-                        onReady={handleReady}
-                        width="100%"
-                        height="100%"
-                        controls={false}
-                        progressInterval={100}
-                        config={{
-                            file: {
-                                attributes: {
-                                    disablePictureInPicture: true,
-                                    controlsList: 'nodownload nofullscreen noremoteplayback',
-                                    crossOrigin: 'anonymous',
-                                },
-                                forceVideo: true,
-                                forceHLS: false,
-                                forceDASH: false,
-                            }
-                        }}
-                    />
-                </div>
-            </div>
+                {
+                    !hasStarted && (
+                        <div className="play-video-poster-container">
+                            <img
+                                src={decodedImagePath}
+                                alt="Video Poster"
+                                className="play-video-poster-image"
+                            />
+                            <div className={`play-video-poster-controls ${controlsVisible ? 'controls-visible' : ''}`}>
+                                <button
+                                    className="play-video-poster-play-btn"
+                                    onClick={togglePlay}
+                                    disabled={isLoading}
+                                >
+                                    {isPlayingVideo ? '❚❚' : '▶'}
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
 
-            {hasStarted && (
-                <div className={`play-video-controls ${controlsVisible ? 'controls-visible' : ''}`}>
-                    <div className="play-video-time-display">
-                        <span>{formatTime(currentTime)}</span>
-                    </div>
-                    <input
-                        type="range"
-                        className="play-video-progress-bar"
-                        value={progress || 0}
-                        onChange={handleSeek}
-                        onMouseDown={handleSeekMouseDown}
-                        onMouseUp={handleSeekMouseUp}
-                        min="0"
-                        max="100"
-                        step="0.1"
-                        style={{ '--progress': `${progress}%` }}
-                    />
-                    <div className="play-video-time-display">
-                        <span>{formatTime(duration)}</span>
+                <div className={`play-video-video-wrapper ${hasStarted ? '' : 'play-video-hidden'}`}>
+                    {isLoading ? (
+                        <div className="play-video-loading-message">Đang tải video...</div>
+                    ) : (
+                        <div className={`play-video-center-controls ${controlsVisible ? 'controls-visible' : ''}`}>
+                            <button
+                                className={`play-video-control-btn ${isPlayingVideo ? '' : 'paused'}`}
+                                onClick={handleRewind}
+                            >
+                                <MdReplay10 size={24} />
+                            </button>
+                            <button
+                                className={`play-video-poster-play-btn ${isPlayingVideo ? '' : 'paused'}`}
+                                onClick={togglePlay}
+                                disabled={isLoading}
+                            >
+                                {isPlayingVideo ? '❚❚' : '▶'}
+                            </button>
+                            <button
+                                className={`play-video-control-btn ${isPlayingVideo ? '' : 'paused'}`}
+                                onClick={handleFastForward}
+                            >
+                                <MdForward10 size={24} />
+                            </button>
+                        </div>
+                    )}
+                    <div className="play-video-responsive-player">
+                        <ReactPlayer
+                            key={`player-${retryCount}`} // Thêm key này để force re-mount khi retry
+                            url={`${videoUrl}&retry=${retryCount}`} // Thêm param retry để tránh cache
+                            ref={playerRef}
+                            playing={isPlayingVideo}
+                            volume={isMuted ? 0 : volume}
+                            muted={isMuted}
+                            onProgress={handleProgress}
+                            onDuration={handleDuration}
+                            onError={handleError}
+                            onBuffer={handleBuffer}
+                            onBufferEnd={handleBufferEnd}
+                            onSeek={handlePlayerSeek}
+                            onReady={handleReady}
+                            onEnded={handleEnded}
+                            width="100%"
+                            height="100%"
+                            controls={false}
+                            progressInterval={100}
+                            config={{
+                                file: {
+                                    attributes: {
+                                        disablePictureInPicture: true,
+                                        controlsList: 'nodownload nofullscreen noremoteplayback',
+                                        crossOrigin: 'anonymous',
+                                    },
+                                    forceVideo: true,
+                                    forceHLS: false,
+                                    forceDASH: false,
+                                }
+                            }}
+                        />
                     </div>
                 </div>
-            )}
-        </div>
+
+                {
+                    hasStarted && (
+                        <div className={`play-video-controls ${controlsVisible ? 'controls-visible' : ''}`}>
+                            <div className="play-video-time-display">
+                                <span>{formatTime(currentTime)}</span>
+                            </div>
+                            <input
+                                type="range"
+                                className="play-video-progress-bar"
+                                value={progress || 0}
+                                onChange={handleSeek}
+                                onMouseDown={handleSeekMouseDown}
+                                onMouseUp={handleSeekMouseUp}
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                style={{ '--progress': `${progress}%` }}
+                            />
+                            <div className="play-video-time-display">
+                                <span>{formatTime(duration)}</span>
+                            </div>
+                            <button
+                                className="play-video-download-btn"
+                                onClick={handleDownload}
+                                title="Download video"
+                            >
+                                <FaDownload size={18} />
+                            </button>
+                        </div>
+                    )
+                }
+            </div >
+        </>
     );
 };
 

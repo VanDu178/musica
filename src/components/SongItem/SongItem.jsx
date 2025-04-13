@@ -4,7 +4,6 @@ import { Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaMusic, FaPause, FaPlay } from "react-icons/fa";
 import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
-import { checkData } from "../../helpers/encryptionHelper";
 import { useUserData } from "../../context/UserDataProvider";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 
@@ -14,26 +13,9 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
     const [isHovered, setIsHovered] = useState(false);
     const { idSong, setIdSong } = useSong();
     const { isPlaying, setIsPlaying } = useIsPlaying();
-    const [validRole, setValidRole] = useState(false);
     const { isLoggedIn } = useUserData();
     const [songIdIsPlaying, setSongIdIsPlaying] = useState(false);
     const { setIsVisiableRootModal } = useIsVisiableRootModal();
-
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user không
-                const checkedRoleUser = await checkData(3);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            } else {
-                setValidRole(true);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -53,10 +35,6 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
             //gọi state hiện modal
             setIsVisiableRootModal(true);
         }
-    }
-
-    if (!validRole) {
-        return <div style={{ display: 'none' }} />;
     }
 
     return (

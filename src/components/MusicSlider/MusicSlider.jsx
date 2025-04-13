@@ -7,35 +7,12 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "./MusicSlider.css";
 import PlaylistCard from "../PlaylistCard/PlaylistCard";
 import AlbumCard from "../AlbumCard/AlbumCard";
-import { useUserData } from "../../context/UserDataProvider";
-import { checkData } from "../../helpers/encryptionHelper";
 import UserCard from "../UserCard/UserCard";
+import VideoItem from "../VideoItem/VideoItem";
 
 
 const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
-
   const swiperRef = useRef(null);
-  const containerRef = useRef(null);
-
-  const { isLoggedIn } = useUserData();
-  const [validRole, setValidRole] = useState(true);
-  useEffect(() => {
-    const fetchRole = async () => {
-      if (isLoggedIn) {
-        //nếu đang login thì check role phải user không
-        const checkedRoleUser = await checkData(3);
-        if (checkedRoleUser) {
-          setValidRole(true);
-        }
-      } else {
-        //nếu không login thì hiển thị
-        setValidRole(true);
-      }
-    };
-
-    fetchRole();
-  }, [isLoggedIn]);
-
   const slidePrev = () => {
     if (swiperRef.current) swiperRef.current.slidePrev();
   };
@@ -43,10 +20,6 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
   const slideNext = () => {
     if (swiperRef.current) swiperRef.current.slideNext();
   };
-
-  if (!validRole) {
-    return <div style={{ display: 'none' }} />;
-  }
 
   return (
     <div className="slider-container">
@@ -76,7 +49,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
           className="mySwiper"
         >
           {items.map((item, index) => (
-            <SwiperSlide key={index} className={`${type === "user" || type === "artist" ? "no-hover" : "slide-item"}`}>              {
+            <SwiperSlide key={index} className={`${type === "user" || type === "artist" || type === "video" ? "no-hover" : "slide-item"}`}>              {
               type === "playlists" ? (
                 <PlaylistCard
                   image={item.image_path}
@@ -110,14 +83,25 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
                   isSlider={true}
                 />
               ) :
-                (
-                  <AlbumCard
-                    title={item.name}
-                    image={item.image_path}
-                    artist={item.username}
-                    idAlbum={item.id}
+                (type === "video") ? (
+                  <VideoItem
+                    video={item}
+                  // name={item.name}
+                  // image={item.image_path}
+                  // role_id={item.role_id}
+                  // type="artist"
+                  // idUser={item.id}
+                  // isSlider={true}
                   />
-                )
+                ) :
+                  (
+                    <AlbumCard
+                      title={item.name}
+                      image={item.image_path}
+                      artist={item.username}
+                      idAlbum={item.id}
+                    />
+                  )
             }
             </SwiperSlide>
           ))}
