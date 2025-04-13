@@ -2,30 +2,9 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlay } from "react-icons/fa";
 import "./AlbumCard.css";
-import { checkData } from "../../helpers/encryptionHelper";
-import { useUserData } from "../../context/UserDataProvider";
 import { useNavigate } from "react-router-dom";
 const AlbumCard = ({ title, image, artist, idAlbum }) => {
-    const [validRole, setValidRole] = useState(false);
-    const { isLoggedIn } = useUserData();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user không
-                const checkedRoleUser = await checkData(3);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            } else {
-                setValidRole(true);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
-
 
     const handlePlayClick = () => {
         if (idAlbum) {
@@ -33,13 +12,6 @@ const AlbumCard = ({ title, image, artist, idAlbum }) => {
         }
         return;
     }
-
-
-    if (!validRole) {
-        return;
-    }
-
-
 
     return (
         <div

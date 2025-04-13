@@ -32,23 +32,23 @@ const Header = () => {
   const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
   const isPremium = Cookies.get('is_premium') === 'true' ? true : false;
 
-  useEffect(() => {
-    const fetchRole = async () => {
-      if (isLoggedIn) {
-        getUserInfo();
-        //nếu đang login thì check role phải user không
-        const checkedRoleUser = await checkData(3);
-        if (checkedRoleUser) {
-          setValidRole(true);
-        }
-      } else {
-        //nếu không login thì hiển thị
-        setValidRole(true);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchRole = async () => {
+  //     if (isLoggedIn) {
+  //       getUserInfo();
+  //       //nếu đang login thì check role phải user không
+  //       const checkedRoleUser = await checkData(3);
+  //       if (checkedRoleUser) {
+  //         setValidRole(true);
+  //       }
+  //     } else {
+  //       //nếu không login thì hiển thị
+  //       setValidRole(true);
+  //     }
+  //   };
 
-    fetchRole();
-  }, [isLoggedIn]);
+  //   fetchRole();
+  // }, [isLoggedIn]);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -104,9 +104,9 @@ const Header = () => {
     }
   }
 
-  if (!validRole) {
-    return <div style={{ display: 'none' }} />;
-  }
+  // if (!validRole) {
+  //   return <div style={{ display: 'none' }} />;
+  // }
 
   return (
     <header className="hd-spotify-header">

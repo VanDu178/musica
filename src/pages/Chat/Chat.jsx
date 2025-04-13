@@ -27,11 +27,9 @@ const Chat = () => {
     }, [messages]);
 
     useEffect(() => {
-        alert(otherUserId);
         const fetchMessages = async () => {
             try {
                 const response = await axiosInstance.get(`/messages/${otherUserId}/`);
-                console.log("du lieu message", response?.data);
                 setMessages(
                     response?.data?.messages.map((msg) => ({
                         sender: msg.sender.toString(),

@@ -36,27 +36,8 @@ const MusicPlayerControl = () => {
   const [isShuffle, setIsShuffle] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [validRole, setValidRole] = useState(false);
   const time = useRef(0);  // Biến lưu giá trị
   const hashUpdateHistory = useRef(0);  // Biến xem đã cập nhật lượt nghe chưa
-
-
-  useEffect(() => {
-    const fetchRole = async () => {
-      if (isLoggedIn) {
-        //nếu đang login thì check role phải user không
-        const checkedRoleUser = await checkData(3);
-        if (checkedRoleUser) {
-          setValidRole(true);
-        }
-      } else {
-        //nếu không login thì hiển thị
-        setValidRole(true);
-      }
-    };
-
-    fetchRole();
-  }, [isLoggedIn]);
 
 
   useEffect(() => {
@@ -289,11 +270,6 @@ const MusicPlayerControl = () => {
     setIsShuffle(!isShuffle);
     // Thêm logic xử lý shuffle tại đây (nếu cần)
   };
-
-  //nếu không phải role user không hiển thị
-  if (!validRole) {
-    return <div style={{ display: 'none' }} />;
-  }
 
   return (
     <>

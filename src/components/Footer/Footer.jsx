@@ -1,35 +1,9 @@
-import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Footer.css";
-import { checkData } from "../../helpers/encryptionHelper";
-import { useUserData } from "../../context/UserDataProvider";
 import { useNavigate } from "react-router-dom";
 
 const Footer = React.memo(() => {
-    const [validRole, setValidRole] = useState(false);
-    const { isLoggedIn } = useUserData();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchRole = async () => {
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user không
-                const checkedRoleUser = await checkData(3);
-                if (checkedRoleUser) {
-                    setValidRole(true);
-                }
-            } else {
-                //nếu không login thì hiển thị
-                setValidRole(true);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn]);
-
-    if (!validRole) {
-        return <div style={{ display: 'none' }} />;
-    }
 
     return (
         <footer className="footer-container" role="contentinfo" aria-label="footer">

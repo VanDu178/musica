@@ -164,4 +164,17 @@
   .search-margin-top{
     margin-top: 3%;
   }
-   
+  .search-list-video {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Khoảng cách giữa các card */
+    justify-content: flex-start; /* Căn trái các card */
+    margin-left: 15px;
+  }
+  
+  .search-list-video > * {
+    flex: 0 0 calc(25% - 20px); /* 4 card mỗi hàng, trừ đi gap */
+    max-width: calc(25% - 20px); /* Đảm bảo không vượt quá 25% */
+    box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến kích thước */
+  }

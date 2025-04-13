@@ -11,12 +11,11 @@ import { checkData } from "../../helpers/encryptionHelper";
 
 const Home = () => {
     const { t } = useTranslation();
-
-    // State để lưu trữ danh sách playlists và albums từ API
     const [playlists, setPlaylists] = useState([]);
     const [albums, setAlbums] = useState([]);
     const [songs, setSongs] = useState([]);
     const [artists, setArtists] = useState([]);
+    const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const { isLoggedIn } = useUserData();
     const [validRole, setValidRole] = useState(false);
@@ -72,6 +71,7 @@ const Home = () => {
                 setSongs(cachedData.songs);
                 setAlbums(cachedData.albums);
                 setArtists(cachedData.artists);
+                setVideos(cachedData.videos);
                 setLoading(false);
                 return; // Kết thúc hàm, không gọi API
             }
@@ -82,13 +82,15 @@ const Home = () => {
                 const songResponse = await axiosInstance.get("/trending/songs/");
                 const albumResponse = await axiosInstance.get("/trending/albums/");
                 const artistResponse = await axiosInstance.get("/trending/artists/");
-
+                const videoResponse = await axiosInstance.get("/trending/videos/");
+                console.log(videoResponse);
 
                 // Cập nhật state với dữ liệu mới
                 setPlaylists(playlistResponse.data.trending_playlists);
                 setSongs(songResponse.data.trending_songs);
                 setAlbums(albumResponse.data.trending_albums);
                 setArtists(artistResponse.data.trending_artists);
+                setVideos(videoResponse.data.trending_videos)
 
                 // Dữ liệu mới để lưu vào localStorage
                 const newData = {
@@ -96,6 +98,7 @@ const Home = () => {
                     songs: songResponse.data.trending_songs,
                     albums: albumResponse.data.trending_albums,
                     artists: artistResponse.data.trending_artists,
+                    videos: videoResponse.data.trending_videos,
                 };
 
                 // Lưu vào localStorage kèm thời gian cập nhật
@@ -150,6 +153,9 @@ const Home = () => {
                     </div>
                     <div className="card-group card-group-scroll">
                         <MusicSlider items={playlists} type="playlists" titleSlider={t("utils.playlistTrending")} />
+                    </div>
+                    <div className="card-group card-group-scroll">
+                        <MusicSlider items={videos} type="video" titleSlider={t("utils.videoTrending")} />
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@
         "songTrending": "Trending song",
         "albumTrending": "Trending album",
         "playlistTrending": "Trending playlist",
+        "videoTrending": "Trending video ",
         "403": "You do not have permission to perform this action.",
         "handleUpdate": "Updating...",
         "Update": "Update",
@@ -154,20 +155,20 @@
         "new_password": "New Password",
         "confirm_password": "Confirm New Password",
         "rules": {
-          "label": "Your password must have at least",
-          "letter": "1 letter",
-          "number_or_special": "1 number or special character",
-          "min_length": "10 characters"
+            "label": "Your password must have at least",
+            "letter": "1 letter",
+            "number_or_special": "1 number or special character",
+            "min_length": "10 characters"
         },
         "save": "Save",
         "saving": "Processing...",
         "success": "Password changed successfully!",
         "errors": {
-          "password_mismatch": "Password confirmation does not match.",
-          "invalid_current": "Current password is incorrect.",
-          "generic": "An error occurred during update. Please try again."
+            "password_mismatch": "Password confirmation does not match.",
+            "invalid_current": "Current password is incorrect.",
+            "generic": "An error occurred during update. Please try again."
         }
-      },
+    },
     "playlist": {
         "title": "Title",
         "time": "Time"
@@ -179,7 +180,8 @@
         "songs": "Trending songs",
         "albums": "Albums",
         "artists": "Artists",
-        "users": "Users"
+        "users": "Users",
+        "videos": "Videos"
     },
     "search": {
         "TopResult": "Top Results",
@@ -189,6 +191,7 @@
         "playlist": "Playlists",
         "artist": "Artists",
         "users": "Users",
+        "videos": "Videos",
         "loadingMore": "Loading more"
     },
     "header2": {
@@ -213,7 +216,6 @@
         "shuffle": "Shuffle",
         "repeat": "Repeat"
     },
-
     "leftSidebar": {
         "artist": "Artist",
         "artists": "Artists",
@@ -227,7 +229,7 @@
         "showMore": "Show more",
         "showLess": "Show less",
         "conversations": "Conversations"
-      },
+    },
     "premium": {
         "viewPlanTitle": "Listen without limits. Try 1 month of Premium Individual for free.",
         "viewPlanSubtitle": "Only ₫59,000/month after. Cancel anytime.",
@@ -357,7 +359,7 @@
             "profile": "My Profile",
             "upload": "Upload",
             "album": "Album",
-            "changePassword":"Change Password",
+            "changePassword": "Change Password",
             "videoUpload": "Upload Video"
         },
         "artistAlbum": {
@@ -387,29 +389,29 @@
             "loading": "Creating..."
         },
         "video_upload": {
-        "title": "Upload Your Video",
-        "title_label": "Title",
-        "title_placeholder": "Enter video title",
-        "description_label": "Description",
-        "description_placeholder": "Enter video description",
-        "video_label": "Video File (MP4)",
-        "image_label": "Thumbnail Image",
-        "upload_btn": "Upload Video",
-        "processing": "Processing...",
-        "success": "Video uploaded successfully!",
-        "error": "Failed to upload the video. Please try again."
-    }
+            "title": "Upload Your Video",
+            "title_label": "Title",
+            "title_placeholder": "Enter video title",
+            "description_label": "Description",
+            "description_placeholder": "Enter video description",
+            "video_label": "Video File (MP4)",
+            "image_label": "Thumbnail Image",
+            "upload_btn": "Upload Video",
+            "processing": "Processing...",
+            "success": "Video uploaded successfully!",
+            "error": "Failed to upload the video. Please try again."
+        }
     },
     "admin": {
         "sidebar": {
             "account": "Account",
             "portal_title": "Admin",
             "accountArtist": "Account Artist",
-            "profile":"My Profile",
+            "profile": "My Profile",
             "artistRegistrationRequests": "Artist Registration Requests",
             "accountManagement": "Account Management",
             "planManagement": "Plan Management",
-            "changePassword":"Change Password"
+            "changePassword": "Change Password"
         },
         "account_management": {
             "title": "Account Management",
@@ -433,9 +435,9 @@
             "error_fetching_users": "Error fetching user data.",
             "banning": "Banning...",
             "unbanning": "Unbanning...",
-            "email":"Email",
-            "btnBack":"Back",
-            "btnNext":"Next"
+            "email": "Email",
+            "btnBack": "Back",
+            "btnNext": "Next"
         },
         "artist_registration_requests": {
             "title": "Artist Registration Requests",
@@ -472,8 +474,8 @@
             "no_artist_images": "No artist images available.",
             "approved": "Approved",
             "pending": "Pending",
-            "btnBack":"Back",
-            "btnNext":"Next"
+            "btnBack": "Back",
+            "btnNext": "Next"
         },
         "plan_management": {
             "title": "Plan Management",
@@ -492,11 +494,10 @@
             "delete_success": "Plan deleted successfully!",
             "delete_error": "An error occurred while delete the form. Please try again later.",
             "exited_premiumsubscription_set": "There are accounts currently using this plan, so it cannot be deleted.",
-            "btnBack":"Back",
-            "btnNext":"Next",
-            "processing_btn":"Processing"
-          }
-       
+            "btnBack": "Back",
+            "btnNext": "Next",
+            "processing_btn": "Processing"
+        }
     },
     "artist_registration": {
         "registerAsArtist": "Register as an Artist",
@@ -540,20 +541,20 @@
         "playlists": "Playlists",
         "no_bio": "No bio available.",
         "no_playlists": "No playlists available.",
-        "no_albums":"No albums available."
+        "no_albums": "No albums available."
     },
     "resend_activation": {
-    "title": "Your account is not activated",
-    "description": "Enter your email to receive the activation link again.",
-    "placeholder": "you@example.com",
-    "send_link": "Resend link",
-    "sending": "Sending...",
-    "sent_title": "Activation link sent",
-    "sent_description": "Please check your inbox or spam folder to activate your account.",
-    "back_to_login": "Back to login",
-    "errors": {
-      "already_activated": "Account is already activated",
-      "server": "An error occurred, please try again"
+        "title": "Your account is not activated",
+        "description": "Enter your email to receive the activation link again.",
+        "placeholder": "you@example.com",
+        "send_link": "Resend link",
+        "sending": "Sending...",
+        "sent_title": "Activation link sent",
+        "sent_description": "Please check your inbox or spam folder to activate your account.",
+        "back_to_login": "Back to login",
+        "errors": {
+            "already_activated": "Account is already activated",
+            "server": "An error occurred, please try again"
+        }
     }
-  }
 }

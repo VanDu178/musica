@@ -39,6 +39,8 @@ import PublicProfile from "./pages/PublicProfile/PublicProfile";
 import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
 import VideoUploadForm from "./pages/Artist/VideoUploadForm/VideoUploadForm";
 import Search from "./pages/Search/Search";
+import VideoDownloadPage from "./pages/VideoDownloadPage/VideoDownloadPage";
+
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
@@ -110,6 +112,7 @@ const App = () => {
                               path="/"
                               element={<Navigate to="/user" replace />}
                             />
+                            <Route path="/download/video/:id" element={<VideoDownloadPage />} />
                           </Routes>
                           {/* <Routes>
                             <Route
@@ -231,7 +234,7 @@ const App = () => {
                                       element={<Search />}
                                     />
                                     <Route
-                                      path="/play-video"
+                                      path="/play-video/:title/:video_id/:image_path"
                                       element={<VideoPlayer />}
                                     />
                                   </Routes>

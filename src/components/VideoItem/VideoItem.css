@@ -1,0 +1,58 @@
+/* Spotify-inspired dark theme with YouTube-like scale and 16:9 aspect ratio */
+.video-item-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    background-color: #181818ab; /* Spotify dark background */
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    max-width: 400px; /* Larger width for YouTube-like card */
+    width: 100%; /* Ensure responsiveness */
+  }
+  
+  .video-item-container:hover {
+    background-color: #2d2d2d;
+  }
+  
+  .video-item-thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Width:Height = 16:9, like YouTube thumbnails */
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .video-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .video-item-title {
+    font-size: 17px; /* Larger font for YouTube-like prominence */
+    font-weight: 400;
+    color: #ffffff; /* White text for contrast */
+    margin: 12px 0 0 0; /* More spacing */
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .video-item-container {
+      padding: 12px;
+      max-width: 100%; /* Full-width on mobile */
+    }
+  
+    .video-item-thumbnail {
+      aspect-ratio: 16 / 9; /* Maintain 16:9 ratio on mobile */
+    }
+  
+    .video-item-title {
+      font-size: 16px; /* Slightly smaller for mobile */
+    }
+  }
