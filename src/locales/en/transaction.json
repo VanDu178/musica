@@ -25,7 +25,7 @@
         "Arrange": "Arrange the list"
     },
     "login": {
-        "title": "Log in to Spotify",
+        "title": "Log in to ZMusic",
         "continueWithGoogle": "Continue with Google",
         "continueWithFacebook": "Continue with Facebook",
         "continueWithApple": "Continue with Apple",
@@ -35,7 +35,7 @@
         "loginButton": "Log in",
         "forgotPassword": "Forgot your password?",
         "noAccount": "Don't have an account?",
-        "signUp": "Sign up for Spotify"
+        "signUp": "Sign up for ZMusic"
     },
     "signup": {
         "title": "Sign up to start listening",
@@ -83,7 +83,7 @@
     },
     "resetPassword": {
         "title": "Reset Your Password",
-        "subtitle": "Enter the email address associated with your Spotify account and we'll send you a password recovery email.",
+        "subtitle": "Enter the email address associated with your ZMusic account and we'll send you a password recovery email.",
         "emailLabel": "Enter your email address",
         "helpLink": "Need help?",
         "submitButton": "Send Link"
@@ -91,7 +91,7 @@
     "overview": {
         "searchPlaceholder": "Search for accounts or help articles",
         "yourPlan": "Your Plan",
-        "spotifyFree": "Spotify Free",
+        "spotifyFree": "Zmusic Free",
         "learnMore": "Learn More",
         "account": "Account",
         "manageSubscription": "Manage Subscription",
@@ -109,7 +109,7 @@
         "resetPassword": "Reset Password on Device",
         "logoutEverywhere": "Log Out Everywhere",
         "help": "Help",
-        "spotifySupport": "Spotify Support Team",
+        "spotifySupport": "ZMusic Support Team",
         "changePassword": "Change Password"
     },
     "profile": {
@@ -271,7 +271,7 @@
         "tableTitle": "Experience the difference",
         "tableDesc": "Go premium and enjoy full control of your listening. Cancel anytime.",
         "tableColumn1": "What you'll get",
-        "tableColumn2": "Spotify's free plan",
+        "tableColumn2": "ZMusic's free plan",
         "tableRow_1": "Ads free music listening",
         "tableRow_2": "Download songs",
         "tableRow_3": "Play songs in any order",
