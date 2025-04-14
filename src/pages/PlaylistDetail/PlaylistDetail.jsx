@@ -1,63 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
 import { FaPlay, FaPause } from "react-icons/fa";
 import SongItem from "../../components/SongItem/SongItem";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import axiosInstance from "../../config/axiosConfig";
-import { useSong } from "../../context/SongProvider";
-import { useIsPlaying } from "../../context/IsPlayingProvider";
-import { useUserData } from "../../context/UserDataProvider";
-import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PlaylistDetail.css";
-import Forbidden from "../../components/Error/403/403";
-import { checkData } from "../../helpers/encryptionHelper";
 import Loading from "../../components/Loading/Loading";
 import { handleDragStart, handleDrop, handleDragOver } from '../../helpers/dragDropHelpers';
 import { handleError } from "../../helpers/toast";
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
-    const [playlistData, setPlaylistData] = useState(null); // Updated state to handle the entire response
+    const [playlistData, setPlaylistData] = useState([]); // Updated state to handle the entire response
     const [playlistArrangeSong, setPlaylistArrangeSong] = useState(null);
     const [isArrange, setIsArrange] = useState(false);
     const [isVisibleArrange, setIsVisibleArrange] = useState(false);
     const { addSong, clearPlaylist } = usePlaylist();
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
-    const { isPlaying, setIsPlaying } = useIsPlaying();
-    const { isLoggedIn } = useUserData();
-    const navigate = useNavigate();
-    const [validRole, setValidRole] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
-
-    useEffect(() => {
-        const fetchRole = async () => {
-            setIsLoading(true);
-            if (isLoggedIn) {
-                //nếu đang login thì check role phải user hoặc artist không
-                const checkedRoleArtist = await checkData(2);
-                const checkedRoleUser = await checkData(3);
-
-                if (checkedRoleArtist || checkedRoleUser) {
-                    setValidRole(true);
-                    setIsLoading(false)
-                }
-            }
-            else {
-                //nếu không login vẫn cho phép xem
-                setValidRole(false);
-                setIsLoading(false);
-            }
-        };
-
-        fetchRole();
-    }, [isLoggedIn, idPlaylist]);
-
-
-
 
     // Hàm gọi xuống backend để lấy danh sách bài hát theo playlistId
     const fetchSongsByPlaylistId = async (playlistId) => {
@@ -98,7 +62,6 @@ const PlaylistDetail = () => {
             }
             finally {
                 setIsLoading(false)
-                setValidRole(false);
             }
         };
 
@@ -167,10 +130,6 @@ const PlaylistDetail = () => {
         return <Loading message={t("utils.loading")} height="100" />;
     }
 
-    if (validRole == false) {
-        return <Forbidden />;
-    }
-
     return (
         <Container className="playlist-container">
             <Row className="align-items-center">
@@ -194,7 +153,7 @@ const PlaylistDetail = () => {
                                 </span>
                             </Button>
                             <Button variant="outline-light">+ Add</Button>
-                        </>) : (<>null</>)
+                        </>) : (null)
                     }
                 </Col>
             </Row>

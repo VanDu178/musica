@@ -1,25 +1,23 @@
-    # 1. For build React app
-    FROM node:lts AS development
-    # Set working directory
-    WORKDIR /app
-    #
-    COPY package.json /app/package.json
-    COPY package-lock.json /app/package-lock.json
-    # Same as npm install
-    RUN npm ci --legacy-peer-deps
-    COPY . /app
-    ENV PORT=3000
-    CMD [ "npm", "start" ]
-    FROM development AS build
-    RUN npm run build
-    # 2. For Nginx setup
-    FROM nginx:alpine
-    # Copy config nginx
-    COPY --from=build /app/.nginx/nginx.conf /etc/nginx/conf.d/default.conf
-    WORKDIR /usr/share/nginx/html
-    # Remove default nginx static assets
-    RUN rm -rf ./*
-    # Copy static assets from builder stage
-    COPY --from=build /app/build .
-    # Containers run nginx with global directives and daemon off
-    ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# Build React app
+FROM node:lts as build
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --legacy-peer-deps
+
+COPY . .
+RUN npm run build
+
+# Serve with `serve`
+FROM node:lts
+WORKDIR /app
+
+# Cài serve
+RUN npm install -g serve
+
+# Copy build từ stage trước
+COPY --from=build /app/build .
+
+# Mặc định `serve` sẽ chạy ở cổng 3000
+EXPOSE 3000
+CMD ["serve", "-s", ".", "-l", "3000"]
