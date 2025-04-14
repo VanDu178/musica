@@ -51,14 +51,14 @@ const Sidebar = () => {
             <hr></hr>
             <nav className="artist-sidebar-menu">
                 <ul>
-                    {menuItems.map((item) => (
+                    {menuItems?.map((item) => (
                         <li
-                            key={item.name}
+                            key={item?.name}
                             className={`artist-sidebar-menu-item ${location.pathname === item.path ? 'active' : ''
                                 }`}
                             onClick={() => handleNavigation(item.path)}
                         >
-                            {item.name}
+                            {item?.name}
                         </li>
                     ))}
                 </ul>

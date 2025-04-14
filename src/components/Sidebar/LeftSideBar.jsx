@@ -219,7 +219,7 @@ const Left_Sidebar = () => {
 
             <div className="ls-library-items">
                 {selected === 'playlists' && (
-                    playlists?.slice(0, visibleCount).map((item) => (
+                    playlists?.slice(0, visibleCount)?.map((item) => (
                         <div
                             key={item.id}
                             className={`ls-library-item ls-playlist-item ${selectedItem === item.id ? "ls-selected" : ""}`}
