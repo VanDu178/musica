@@ -79,12 +79,12 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
                             e.target.src = "../../images/default-music-img.png";
                         }} />
                     <div className="song-info">
-                        <div className="song-title">{song.title}</div>
+                        <div className="song-title">{song?.title}</div>
                         <div className="song-artist">
-                            {song.user}
-                            {song.collab_artists && song.collab_artists.length > 0 && (
+                            {song?.user}
+                            {song?.collab_artists && song?.collab_artists?.length > 0 && (
                                 <>
-                                    {song.collab_artists.map((artist, index) => (
+                                    {song?.collab_artists?.map((artist, index) => (
                                         <span key={index}>, {artist}</span>
                                     ))}
                                 </>
@@ -92,8 +92,8 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
                         </div>
                     </div>
                 </Col>
-                <Col xs={3}>{song.album}</Col>
-                <Col xs={2}>{song.duration}</Col>
+                <Col xs={3}>{song?.album}</Col>
+                <Col xs={2}>{song?.duration}</Col>
             </Row>
         </ListGroup.Item >
     );
