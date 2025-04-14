@@ -136,6 +136,10 @@ const Chat = () => {
     };
 
     useEffect(() => {
+        if (!otherUserId) {
+            return;
+        }
+
         connectWebSocket();
 
         return () => {
