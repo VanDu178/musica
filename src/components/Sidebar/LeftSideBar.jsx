@@ -218,7 +218,7 @@ const Left_Sidebar = () => {
             </div>
 
             <div className="ls-library-items">
-                {selected === 'playlists' && playlists?.length > 0 && (
+                {selected === 'playlists' && Array.isArray(playlists) && playlists.length > 0 && (
                     playlists.slice(0, visibleCount).map((item) => (
                         <div
                             key={item.id}
