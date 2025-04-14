@@ -71,7 +71,7 @@ const ChangePassword = () => {
     setSuccess("");
     setIsProcessing(true);
     const dataUpdate = new FormData();
-    if (formData?.currentPassword && formData.newPassword) {
+    if (formData?.currentPassword && formData?.newPassword) {
       dataUpdate.append("currentPassword", formData.currentPassword);
       dataUpdate.append("newPassword", formData.newPassword);
     }
@@ -86,14 +86,14 @@ const ChangePassword = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         handleSuccess(t("change_password.success"));
         setTimeout(() => {
           navigate(-1);
         }, 2000);
       }
     } catch (err) {
-      if (err.response?.data?.message_code) {
+      if (err?.response?.data?.message_code) {
         const message_code = err.response.data.message_code;
         const errorMessages = {
           INVALID_PASSWORD: t("change_password.errors.invalid_current"),
@@ -163,7 +163,7 @@ const ChangePassword = () => {
               type={showNewPassword ? "text" : "password"}
               id="new-password"
               name="newPassword"
-              value={formData.newPassword}
+              value={formData?.newPassword}
               onChange={handleInputChange}
               required
             />
@@ -180,14 +180,14 @@ const ChangePassword = () => {
           <label>{t("change_password.rules.label")}</label>
           <ul>
             <li>
-              {rules.hasLetter ? "✔" : "○"} {t("change_password.rules.letter")}
+              {rules?.hasLetter ? "✔" : "○"} {t("change_password.rules.letter")}
             </li>
             <li>
-              {rules.hasNumberOrSpecial ? "✔" : "○"}{" "}
+              {rules?.hasNumberOrSpecial ? "✔" : "○"}{" "}
               {t("change_password.rules.number_or_special")}
             </li>
             <li>
-              {rules.hasMinLength ? "✔" : "○"}{" "}
+              {rules?.hasMinLength ? "✔" : "○"}{" "}
               {t("change_password.rules.min_length")}
             </li>
           </ul>
@@ -202,7 +202,7 @@ const ChangePassword = () => {
               type={showConfirmPassword ? "text" : "password"}
               id="confirm-password"
               name="confirmPassword"
-              value={formData.confirmPassword}
+              value={formData?.confirmPassword}
               onChange={handleInputChange}
               required
             />
@@ -213,7 +213,7 @@ const ChangePassword = () => {
               {showConfirmPassword ? "🙈" : "👁️"}
             </span>
           </div>
-          {!passwordMatch && formData.confirmPassword && (
+          {!passwordMatch && formData?.confirmPassword && (
             <p className="change-password-error-message">
               {t("change_password.errors.password_mismatch")}
             </p>
@@ -226,9 +226,9 @@ const ChangePassword = () => {
             className="change-password-save-button"
             disabled={
               isProcessing ||
-              !rules.hasLetter ||
-              !rules.hasNumberOrSpecial ||
-              !rules.hasMinLength ||
+              !rules?.hasLetter ||
+              !rules?.hasNumberOrSpecial ||
+              !rules?.hasMinLength ||
               !passwordMatch
             }
           >

@@ -28,13 +28,6 @@ const Profile = () => {
     setIsLoading(true);
     const fetchRole = async () => {
       if (isLoggedIn) {
-        //nếu đang login thì check role phải user hoặc artist không
-        // const checkedRoleArtist = await checkData(2);
-        // const checkedRoleUser = await checkData(3);
-
-        // if (checkedRoleArtist || checkedRoleUser) {
-        //   setValidRole(true);
-        // }
         setValidRole(true);
         getUserInfo();
       }
@@ -79,25 +72,25 @@ const Profile = () => {
     const userInfoUpdate = new FormData();
     //Khong thay doi gi
     if (
-      userData?.name === userDataUpdate.name &&
+      userData?.name === userDataUpdate?.name &&
       imageCover === userData?.image_path
     ) {
       return;
     } else if (imageCover != userData?.image_path && imageCover != null) {
       //TH co thay doi hinh anh
 
-      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("name", userDataUpdate?.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "change_image");
     } else if (
       imageCover === userData?.image_path &&
-      userData?.name != userDataUpdate.name
+      userData?.name != userDataUpdate?.name
     ) {
-      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("name", userDataUpdate?.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "change_name");
     } else if (imageCover === null && imageCover != userData?.image_path) {
-      userInfoUpdate.append("name", userDataUpdate.name);
+      userInfoUpdate.append("name", userDataUpdate?.name);
       userInfoUpdate.append("image_path", imageCover);
       userInfoUpdate.append("action", "delete_image");
     }
@@ -216,7 +209,7 @@ const Profile = () => {
 
         <input
           type="text"
-          value={userDataUpdate.name || ""}
+          value={userDataUpdate?.name || ""}
           className="profile-input"
           onChange={(e) =>
             setUserDataUpdate({ ...userDataUpdate, name: e.target.value })
@@ -228,7 +221,7 @@ const Profile = () => {
         <input
           className="profile-input"
           type="email"
-          value={userDataUpdate.email || ""}
+          value={userDataUpdate?.email || ""}
           readOnly
           disabled
         />

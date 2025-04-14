@@ -142,21 +142,24 @@ const Home = () => {
         <div className="col home-content">
             <div className="p-3 border rounded-3 home-content">
                 <div>
-                    <div className="card-group card-group-scroll">
+                    {songs && <div className="card-group card-group-scroll">
                         <MusicSlider items={songs} type="song" titleSlider={t("utils.songTrending")} />
-                    </div>
-                    <div className="card-group card-group-scroll">
+                    </div>}
+                    {albums && <div className="card-group card-group-scroll">
                         <MusicSlider items={albums} type="album" titleSlider={t("utils.albumTrending")} />
-                    </div>
-                    <div className="card-group card-group-scroll">
+                    </div>}
+                    {artists && <div className="card-group card-group-scroll">
                         <MusicSlider items={artists} type="artist" titleSlider={t("search.artist")} />
-                    </div>
-                    <div className="card-group card-group-scroll">
+                    </div>}
+                    {playlists && <div className="card-group card-group-scroll">
                         <MusicSlider items={playlists} type="playlists" titleSlider={t("utils.playlistTrending")} />
-                    </div>
-                    <div className="card-group card-group-scroll">
-                        <MusicSlider items={videos} type="video" titleSlider={t("utils.videoTrending")} />
-                    </div>
+                    </div>}
+                    {videos &&
+                        <div className="card-group card-group-scroll">
+                            <MusicSlider items={videos} type="video" titleSlider={t("utils.videoTrending")} />
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>
