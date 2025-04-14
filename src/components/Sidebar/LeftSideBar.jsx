@@ -218,7 +218,7 @@ const Left_Sidebar = () => {
             </div>
 
             <div className="ls-library-items">
-                {selected === 'playlists' && (
+                {selected === 'playlists' && playlists?.length > 0 && (
                     playlists?.slice(0, visibleCount)?.map((item) => (
                         <div
                             key={item.id}
@@ -250,7 +250,7 @@ const Left_Sidebar = () => {
                         </div>
                     ))
                 )}
-                {selected === 'conversations' && (
+                {selected === 'conversations' && conversations?.length > 0 && (
                     conversations?.map((conv) => {
                         // Người còn lại trong cuộc hội thoại
                         const otherUser = conv.user1.id === currentUserId ? conv.user2 : conv.user1;
