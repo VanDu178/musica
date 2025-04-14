@@ -86,76 +86,76 @@ const SpotifyLogin = () => {
     }
   };
 
-  // const googleLogin = async (token_id) => {
-  //   try {
-  //     const response = await axiosInstance.post("/auth/login/google/", {
-  //       access_token: token_id,
-  //     });
+  const googleLogin = async (token_id) => {
+    try {
+      const response = await axiosInstance.post("/auth/login/google/", {
+        access_token: token_id,
+      });
 
-  //     if (response.status === 200) {
-  //       const role_ID_Hash = await hash(response.data.role);
-  //       if (
-  //         response?.data?.access &&
-  //         response?.data?.refresh &&
-  //         role_ID_Hash &&
-  //         response?.data?.is_premium !== null
-  //       ) {
-  //         addCookie(
-  //           response.data.access,
-  //           response.data.refresh,
-  //           role_ID_Hash,
-  //           response.data.is_premium,
-  //           response.data.premium_plan
-  //         );
-  //       }
-  //       setIsLoggedIn(true);
-  //       return { success: true, role: response.data.role };
-  //     }
-  //   } catch (error) {
-  //     if (error.response?.data?.error_code) {
-  //       return {
-  //         success: false,
-  //         error_code: error.response?.data?.error_code,
-  //       };
-  //     }
-  //     // Trường hợp lỗi không xác định
-  //     return {
-  //       success: false,
-  //       error_code: "UNKNOWN_ERROR",
-  //     };
-  //   }
-  // };
+      if (response.status === 200) {
+        const role_ID_Hash = await hash(response.data.role);
+        if (
+          response?.data?.access &&
+          response?.data?.refresh &&
+          role_ID_Hash &&
+          response?.data?.is_premium !== null
+        ) {
+          addCookie(
+            response.data.access,
+            response.data.refresh,
+            role_ID_Hash,
+            response.data.is_premium,
+            response.data.premium_plan
+          );
+        }
+        setIsLoggedIn(true);
+        return { success: true, role: response.data.role };
+      }
+    } catch (error) {
+      if (error.response?.data?.error_code) {
+        return {
+          success: false,
+          error_code: error.response?.data?.error_code,
+        };
+      }
+      // Trường hợp lỗi không xác định
+      return {
+        success: false,
+        error_code: "UNKNOWN_ERROR",
+      };
+    }
+  };
 
-  // const handleGoogleLogin = useGoogleLogin({
-  //   onSuccess: async (tokenResponse) => {
-  //     const response = await googleLogin(tokenResponse.access_token);
-  //     if (response.success) {
-  //       console.log("daya", response);
-  //       if (response.role === 1) {
-  //         navigate("/admin/", { replace: true });
-  //       } else if (response.role === 2) {
-  //         navigate("/artist/", { replace: true });
-  //       } else {
-  //         navigate("/user/", { replace: true });
-  //       }
-  //       handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
-  //     } else {
-  //       const errorCode = response.error_code;
-  //       const errorMessages = {
-  //         ACCESS_TOKEN_REQUIRED: t("messages.accessTokenRequired"),
-  //         INVALID_GOOGLE_TOKEN: t("messages.invalidGoogleToken"),
-  //         EMAIL_ALREADY_EXISTS: t("messages.emailAlreadyExists"),
-  //         ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
-  //         INVALID_TOKEN: t("messages.invalidToken"),
-  //         UNKNOWN_ERROR: t("messages.errorOccurred"),
-  //       };
-  //       handleError(errorMessages[errorCode]);
-  //     }
-  //   },
-  //   onError: () => {
-  //     handleError(t("messages.loginFailed"));
-  //   },
-  // });
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const response = await googleLogin(tokenResponse.access_token);
+      if (response.success) {
+        console.log("daya", response);
+        if (response.role === 1) {
+          navigate("/admin/", { replace: true });
+        } else if (response.role === 2) {
+          navigate("/artist/", { replace: true });
+        } else {
+          navigate("/user/", { replace: true });
+        }
+        handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
+      } else {
+        const errorCode = response.error_code;
+        const errorMessages = {
+          ACCESS_TOKEN_REQUIRED: t("messages.accessTokenRequired"),
+          INVALID_GOOGLE_TOKEN: t("messages.invalidGoogleToken"),
+          EMAIL_ALREADY_EXISTS: t("messages.emailAlreadyExists"),
+          ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+          INVALID_TOKEN: t("messages.invalidToken"),
+          UNKNOWN_ERROR: t("messages.errorOccurred"),
+        };
+        handleError(errorMessages[errorCode]);
+      }
+    },
+    onError: () => {
+      handleError(t("messages.loginFailed"));
+    },
+  });
 
   // nếu đã login thì không cho vào
   if (isLoggedIn) {
@@ -194,7 +194,7 @@ const SpotifyLogin = () => {
               borderRadius: "50px",
               paddingLeft: "5%",
             }}
-            // onClick={handleGoogleLogin}
+            onClick={handleGoogleLogin}
             disabled={isProcessing}
           >
             <img
