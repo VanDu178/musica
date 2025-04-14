@@ -48,7 +48,7 @@ const MusicSlider = ({ items, type, titleSlider, isHiddenFaArrow, title }) => {
           modules={[FreeMode]}
           className="mySwiper"
         >
-          {items.map((item, index) => (
+          {items?.map((item, index) => (
             <SwiperSlide key={index} className={`${type === "user" || type === "artist" || type === "video" ? "no-hover" : "slide-item"}`}>              {
               type === "playlists" ? (
                 <PlaylistCard
