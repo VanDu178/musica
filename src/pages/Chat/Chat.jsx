@@ -156,6 +156,10 @@ const Chat = () => {
         }
     };
 
+    if (typeof otherUserId === 'undefined') {
+        return null;
+    }
+
     return (
         <div className="chat-container">
             <div className="chat-chatbox">
