@@ -6,7 +6,6 @@ import { useUserData } from "../../../context/UserDataProvider";
 import { checkData } from "../../../helpers/encryptionHelper";
 import Loading from "../../../components/Loading/Loading";
 import Forbidden from "../../../components/Error/403/403";
-import { ClipLoader } from "react-spinners"; // Import Spinner
 import "./ArtistRegistrationRequests.css";
 
 const ArtistRegistrationRequests = () => {
