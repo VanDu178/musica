@@ -182,16 +182,20 @@ const PlaylistDetail = () => {
                     />
                 </Col>
                 <Col md={9}>
-                    <h2 className="fw-bold playlist-name">{playlistData.playlist.name}</h2>
-                    <p className="playlist-detail">{playlistData.playlist.username}</p> {/* Display username or other details */}
+                    {
+                        playlistData ? (<>
+                            <h2 className="fw-bold playlist-name">{playlistData?.playlist?.name}</h2>
+                            <p className="playlist-detail">{playlistData?.playlist?.username}</p> {/* Display username or other details */}
 
-                    {/* phải check xem có phải phát nhạc trong playlist hay không? */}
-                    <Button variant="success" className="me-2">
-                        <span>
-                            <FaPlay /> Play
-                        </span>
-                    </Button>
-                    <Button variant="outline-light">+ Add</Button>
+                            {/* phải check xem có phải phát nhạc trong playlist hay không? */}
+                            <Button variant="success" className="me-2">
+                                <span>
+                                    <FaPlay /> Play
+                                </span>
+                            </Button>
+                            <Button variant="outline-light">+ Add</Button>
+                        </>) : (<>null</>)
+                    }
                 </Col>
             </Row>
             <hr />
