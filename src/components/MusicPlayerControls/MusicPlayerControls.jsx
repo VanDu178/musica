@@ -343,7 +343,7 @@ const MusicPlayerControl = () => {
                     value={(currentTime / (song.duration - 1)) * 100}
                     onChange={handleSeek}
                   />
-                  <span>{formatTime(song.duration - 1)}</span>
+                  <span>{formatTime(song.duration)}</span>
                 </div>
               </div>
 
