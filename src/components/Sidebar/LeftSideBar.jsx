@@ -33,7 +33,7 @@ const Left_Sidebar = () => {
     const [pageSize, setPageSize] = useState(20);
     const [nextUrl, setNextUrl] = useState(null);
     const [hasMore, setHasMore] = useState(false);
-
+    const [readed, setReaded] = useState(false);
 
     useEffect(() => {
         if (selected == 'playlists') {
@@ -100,6 +100,8 @@ const Left_Sidebar = () => {
         setLoading(true);
         try {
             const response = await axiosInstance.get(url);
+            console.log(response.data);
+            setReaded(response?.data?.results?.last_message?.is_read)
             const data = response.data;
             if (url.includes("page=1")) {
                 setConversations(data.results); // lần đầu → set luôn
@@ -264,8 +266,10 @@ const Left_Sidebar = () => {
                                     cursor: 'pointer',
                                     borderBottom: '1px solid #e0e0e0',
                                 }}
-                                onClick={() => handleConversationClick(otherUser, conv?.id)}
-
+                                onClick={() => {
+                                    handleConversationClick(otherUser, conv?.id);
+                                    setReaded(true);
+                                }}
                             >
 
                                 <div div style={{ position: 'relative', marginRight: '10px' }}>
@@ -284,7 +288,7 @@ const Left_Sidebar = () => {
                                     </div>
                                 </div>
 
-                                {conv.has_unread && (
+                                {!readed && (
                                     <span
                                         style={{
                                             width: '8px',

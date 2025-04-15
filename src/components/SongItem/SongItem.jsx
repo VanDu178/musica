@@ -44,7 +44,9 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <Row className="align-items-center">
+            <Row className="align-items-center"
+                onClick={handlePlay}
+            >
                 {isArrange ? (
                     <Col xs={1}>
                         <span className="songitem-drag-handle">≡</span>
