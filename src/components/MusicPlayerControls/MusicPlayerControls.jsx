@@ -85,13 +85,12 @@ const MusicPlayerControl = () => {
   };
 
   const handleNext = async () => {
-    if (!playlist || playlist.length === 0) return;
-
     if (isRepeat) {
       if (playlist.length === 1) {
         if (audioRef.current) {
           audioRef.current.currentTime = 0; // Đặt thời gian về 0
           audioRef.current.play(); // Phát lại bài hát
+          hashUpdateHistory.current = 0;//reset trạng thái update
         }
       } else {
         // Lặp lại toàn bộ playlist
@@ -111,6 +110,7 @@ const MusicPlayerControl = () => {
         if (audioRef.current) {
           audioRef.current.currentTime = 0; // Đặt thời gian về 0
           audioRef.current.play(); // Phát lại bài hát
+          hashUpdateHistory.current = 0;//reset trạng thái update
         }
       } else {
         let randomIndex;
@@ -123,6 +123,7 @@ const MusicPlayerControl = () => {
       }
       return;
     }
+
     const fetchNextSong = async () => {
       const checkedRoleUser = await checkData(3);
       if (checkedRoleUser) {
@@ -155,6 +156,7 @@ const MusicPlayerControl = () => {
       fetchNextSong();
       return;
     }
+    fetchNextSong();
   };
 
   const updatePlayHistory = async (songId) => {
@@ -338,10 +340,10 @@ const MusicPlayerControl = () => {
                     type="range"
                     min="0"
                     max="100"
-                    value={(currentTime / song.duration) * 100}
+                    value={(currentTime / (song.duration - 1)) * 100}
                     onChange={handleSeek}
                   />
-                  <span>{formatTime(song.duration)}</span>
+                  <span>{formatTime(song.duration - 1)}</span>
                 </div>
               </div>
 
