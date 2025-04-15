@@ -53,7 +53,7 @@ axiosInstance.interceptors.response.use(
           }
         );
         if (data?.access && data?.refresh) {
-          Cookies.set("access_token", data.access, { expires: 0.02 }); // 30 phút
+          Cookies.set("access_token", data.access, { expires: 7 }); // 30 phút
           Cookies.set("refresh_token", data.refresh, { expires: 7 });
 
           originalRequest.headers.Authorization = `Bearer ${data.access}`;
