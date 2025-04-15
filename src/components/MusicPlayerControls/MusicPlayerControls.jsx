@@ -143,6 +143,7 @@ const MusicPlayerControl = () => {
     // Nếu chỉ có 1 bài, gọi API lấy bài tiếp theo
     if (playlist.length === 1) {
       fetchNextSong();
+      return;
     }
 
     // Chế độ bình thường: Chuyển sang bài tiếp theo
@@ -152,6 +153,7 @@ const MusicPlayerControl = () => {
     } else {
       // Nếu hết danh sách (không có shuffle hay repeat), gọi API lấy bài tiếp theo
       fetchNextSong();
+      return;
     }
   };
 
@@ -211,11 +213,10 @@ const MusicPlayerControl = () => {
       //nếu bài hát kết thúc mà tổng thời gian nghe >= 60s và trạng thái chưa cập nhật thì cập nhật lượt nghe và chuyển trạng thái đã cập nhật
       if (time.current > 250) {
         if (hashUpdateHistory.current === 0) {
-          handleSongEnd(idSong);
+          updatePlayHistory(idSong);
           hashUpdateHistory.current = 1;
         }
       }
-      updatePlayHistory(idSong); // Gọi updatePlayHistory
       handleNext(); // Chuyển sang bài tiếp theo
     };
 
