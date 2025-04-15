@@ -9,6 +9,9 @@ import { useUserData } from "../../context/UserDataProvider";
 import axiosInstance from "../../config/axiosConfig";
 import { storeCachedData, getCachedData } from "../../helpers/cacheDataHelper"
 import { useAsyncError, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/white-logo.png";
+import avtDefault from "../../assets/images/default-avt-img.jpeg";
+
 
 const Left_Sidebar = () => {
     const navigate = useNavigate();
@@ -26,7 +29,6 @@ const Left_Sidebar = () => {
     const defaultVisibleCount = 5;
     const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
     const [selected, setSelected] = useState('playlist');
-    const [currentUserId, setCurrentUserId] = useState(userData.id);
     const [conversations, setConversations] = useState([]);
     const [pageSize, setPageSize] = useState(20);
     const [nextUrl, setNextUrl] = useState(null);
@@ -99,6 +101,7 @@ const Left_Sidebar = () => {
         try {
             const response = await axiosInstance.get(url);
             const data = response.data;
+            console.log("data result", data.results);
 
             if (url.includes("page=1")) {
                 setConversations(data.results); // lần đầu → set luôn
@@ -231,12 +234,8 @@ const Left_Sidebar = () => {
                                     <FaPlay />
                                 </div>
                                 <img
-                                    src={item?.image_path || "../../images/default-music-img.png"}
+                                    src={item?.image_path || logo}
                                     alt={item?.name}
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = "../../images/default-music-img.png";
-                                    }}
                                 />
                             </div>
                             <div className="com-vertical-align" style={{ justifyContent: "space-between", display: display }}>
@@ -250,15 +249,15 @@ const Left_Sidebar = () => {
                 )}
                 {selected === 'conversations' && conversations?.length > 0 && (
                     conversations?.map((conv) => {
-                        // Người còn lại trong cuộc hội thoại
-                        const otherUser = conv.user1.id === currentUserId ? conv.user2 : conv.user1;
 
-                        // Tin nhắn cuối cùng từ API (đã có field `last_message`)
+
+                        const otherUser = conv?.other_user ?? null;
+
                         const lastMessage = conv.last_message;
 
                         return (
                             <div
-                                key={conv.id}
+                                key={conv?.id}
                                 className="ls-library-item ls-conversation-item"
                                 style={{
                                     display: 'flex',
@@ -267,31 +266,26 @@ const Left_Sidebar = () => {
                                     cursor: 'pointer',
                                     borderBottom: '1px solid #e0e0e0',
                                 }}
-                                onClick={() => handleConversationClick(otherUser, conv.id)}
+                                onClick={() => handleConversationClick(otherUser, conv?.id)}
 
                             >
-                                {/* Avatar người còn lại */}
+
                                 <div div style={{ position: 'relative', marginRight: '10px' }}>
                                     <img
-                                        src={otherUser?.image_path || "../../images/default-avatar.png"}
+                                        src={otherUser.image_path || avtDefault}
                                         alt={otherUser?.name}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = "../../images/default-avatar.png";
-                                        }}
                                         style={{ width: '40px', height: '40px', borderRadius: '50%' }}
                                     />
                                 </div>
 
-                                {/* Nội dung hội thoại */}
+
                                 <div style={{ flex: 1 }}>
                                     <div style={{ fontWeight: 'bold' }}>{otherUser?.name}</div>
                                     <div style={{ fontSize: '0.9em', color: '#b3b3b3' }}>
-                                        {lastMessage ? lastMessage.content : 'Chưa có tin nhắn'}
+                                        {lastMessage ? lastMessage?.content : 'Chưa có tin nhắn'}
                                     </div>
                                 </div>
 
-                                {/* Chấm tròn nếu có tin chưa đọc */}
                                 {conv.has_unread && (
                                     <span
                                         style={{

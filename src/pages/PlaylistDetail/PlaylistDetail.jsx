@@ -11,6 +11,8 @@ import "./PlaylistDetail.css";
 import Loading from "../../components/Loading/Loading";
 import { handleDragStart, handleDrop, handleDragOver } from '../../helpers/dragDropHelpers';
 import { handleError } from "../../helpers/toast";
+import logo from "../../assets/images/logo.png";
+
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
@@ -135,7 +137,7 @@ const PlaylistDetail = () => {
             <Row className="align-items-center">
                 <Col md={3}>
                     <Image
-                        src={playlistData?.playlist?.image_path || "https://via.placeholder.com/300"} // Use placeholder if image_path is null
+                        src={playlistData?.playlist?.image_path || logo} // Use placeholder if image_path is null
                         fluid
                         rounded
                     />

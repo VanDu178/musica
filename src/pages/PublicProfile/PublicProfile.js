@@ -3,18 +3,16 @@ import { useTranslation } from "react-i18next";
 import axiosInstance from "../../config/axiosConfig";
 import MusicSlider from "../../components/MusicSlider/MusicSlider";
 import { Row, Col, ListGroup } from "react-bootstrap";
-import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import SongItem from "../../components/SongItem/SongItem";
 import { useUserData } from "../../context/UserDataProvider";
-import { hash, checkData } from "../../helpers/encryptionHelper";
+import { checkData } from "../../helpers/encryptionHelper";
 import Forbidden from "../../components/Error/403/403";
 import { useParams, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
-import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
 import "./PublicProfile.css";
-import { Flashlight } from "lucide-react";
+import avtDefault from "../../assets/images/default-avt-img.jpeg";
 
 const PublicProfile = () => {
   const { t } = useTranslation();
@@ -195,15 +193,9 @@ const PublicProfile = () => {
       <div className="public-profile-header">
         <div className="public-profile-header-content">
           <img
-            src={
-              profile?.inFor?.image_path || "../../images/default-avt-img.jpeg"
-            }
+            src={profile?.inFor?.image_path || avtDefault}
             alt={profile?.inFor?.name}
             className="public-profile-avatar"
-            onError={(e) => {
-              e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-              e.target.src = "../../images/default-avt-img.jpeg";
-            }}
           />
           <div className="public-profile-info">
             <span className="public-profile-type">

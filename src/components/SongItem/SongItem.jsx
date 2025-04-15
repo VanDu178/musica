@@ -6,6 +6,7 @@ import { useSong } from "../../context/SongProvider";
 import { useIsPlaying } from "../../context/IsPlayingProvider";
 import { useUserData } from "../../context/UserDataProvider";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
+import logo from "../../assets/images/logo.png";
 
 import "./SongItem.css";
 
@@ -73,11 +74,7 @@ const SongItem = ({ songId, song, isArrange, songOder }) => {
                 )
                 }
                 <Col xs={5} className="d-flex align-items-center">
-                    <Image src={song?.image_path || "../../images/default-music-img.png"} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px", borderRadius: "5px" }}
-                        onError={(e) => {
-                            e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-                            e.target.src = "../../images/default-music-img.png";
-                        }} />
+                    <Image src={song?.image_path || logo} rounded fluid style={{ width: "50px", height: "50px", marginRight: "10px", borderRadius: "5px" }} />
                     <div className="song-info">
                         <div className="song-title">{song?.title}</div>
                         <div className="song-artist">
