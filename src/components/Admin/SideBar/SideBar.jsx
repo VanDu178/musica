@@ -20,8 +20,6 @@ const Sidebar = () => {
 
     // Danh sách menu items với đường dẫn tương ứng
     const menuItems = [
-        { name: t('admin.sidebar.account'), path: '/admin/account' },
-        { name: t('admin.sidebar.accountArtist'), path: '/admin/account-artist' },
         { name: t('admin.sidebar.profile'), path: '/admin/my-profile' },
         { name: t('admin.sidebar.changePassword'), path: '/admin/change-password' },
         { name: t('admin.sidebar.planManagement'), path: '/admin/plan-management' },

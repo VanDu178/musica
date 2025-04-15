@@ -23,12 +23,12 @@ const Left_Sidebar = () => {
     const [isLoading, setLoading] = useState(false);
     const [playlists, setPlaylists] = useState([]);
     const [error, setError] = useState(null);
-    const defaultVisibleCount = 2;
+    const defaultVisibleCount = 5;
     const [visibleCount, setVisibleCount] = useState(defaultVisibleCount);
     const [selected, setSelected] = useState('playlist');
     const [currentUserId, setCurrentUserId] = useState(userData.id);
     const [conversations, setConversations] = useState([]);
-    const [pageSize, setPageSize] = useState(1);
+    const [pageSize, setPageSize] = useState(20);
     const [nextUrl, setNextUrl] = useState(null);
     const [hasMore, setHasMore] = useState(false);
 
@@ -85,7 +85,6 @@ const Left_Sidebar = () => {
                     playlists: response?.data
                 }
                 storeCachedData(CACHE_KEY, playlistsData);
-                console.log(response.data)
             }
         } catch (err) {
             setError("Không thể tải danh sách playlist.");
@@ -100,7 +99,6 @@ const Left_Sidebar = () => {
         try {
             const response = await axiosInstance.get(url);
             const data = response.data;
-            console.log("ass", response.data)
 
             if (url.includes("page=1")) {
                 setConversations(data.results); // lần đầu → set luôn
@@ -147,7 +145,7 @@ const Left_Sidebar = () => {
         const CACHE_DURATION = 2 * 60 * 60 * 1000;
         const cachedData = getCachedData(CACHE_KEY, CACHE_DURATION);
 
-        const nextCount = visibleCount + 2;
+        const nextCount = visibleCount + 5;
 
         if (!cachedData || cachedData.playlists.length < nextCount) {
             // Cache không đủ hoặc không tồn tại → gọi API để lấy thêm
