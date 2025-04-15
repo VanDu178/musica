@@ -10,6 +10,7 @@ import { useUser } from "../../../context/UserProvider";
 import Forbidden from "../../../components/Error/403/403";
 import Loading from "../../../components/Loading/Loading";
 import { storeCachedData } from "../../../helpers/cacheDataHelper";
+import avtDefault from "../../../assets/images/default-avt-img.jpeg";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -162,7 +163,7 @@ const Profile = () => {
             ) : null}
             {imageCover === null && (
               <img
-                src="../../images/default-avt-img.jpeg"
+                src={avtDefault}
                 alt="Album Cover"
                 className="profile-avatar"
               />

@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useLocation } from "react-router-dom"; //Thêm dòng này
 import { useTranslation } from 'react-i18next';
+import avtDefault from "../../assets/images/default-avt-img.jpeg";
 
 const Chat = () => {
     const { t } = useTranslation();
@@ -169,13 +170,9 @@ const Chat = () => {
             <div className="chat-chatbox">
                 <div className="chat-header">
                     <img
-                        src={otherUserAVT || "../../images/default-avt-img.jpeg"}
+                        src={otherUserAVT || avtDefault}
                         alt="Avatar"
                         className="chat-avatar"
-                        onError={(e) => {
-                            e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-                            e.target.src = "../../images/default-avt-img.jpeg";
-                        }}
                     />
                     <div className="chat-user-info">
                         <span className="chat-username">{otherUserName !== null ? otherUserName : t("chat.nameNone")}</span>

@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./UserCard.css";
 import { useNavigate } from "react-router-dom";
+import avtDefault from "../../assets/images/default-avt-img.jpeg";
 
 
 const UserCard = ({ name, image, type, idUser, isSlider }) => {
@@ -18,13 +19,9 @@ const UserCard = ({ name, image, type, idUser, isSlider }) => {
         <div className="user-card-container" onClick={HandleClick}>
             <div className="user-card-position-relative">
                 <img
-                    src={image || "../../images/default-avt-img.jpeg"}
+                    src={image || avtDefault}
                     alt={name}
                     className={`${isSlider ? "user-card-img-top-slider" : "user-card-img-top"}`}
-                    onError={(e) => {
-                        e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-                        e.target.src = "../../images/default-avt-img.jpeg";
-                    }}
                 />
             </div>
             <div className="user-card-body">

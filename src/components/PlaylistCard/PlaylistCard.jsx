@@ -7,6 +7,7 @@ import { usePlaylist } from "../../context/PlaylistProvider";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../context/UserDataProvider";
 import { useIsVisiableRootModal } from "../../context/IsVisiableRootModal";
+import logo from "../../assets/images/white-logo.png";
 
 const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, collab }) => {
 
@@ -40,14 +41,9 @@ const PlaylistCard = ({ image, title, description, idSong, idPlaylist, idAlbum, 
         >
             <div className="position-relative">
                 <img
-                    src={image || "../../images/default-music-img.png"}
+                    src={image || logo}
                     className="card-img-top"
                     alt={title}
-                    //Nếu đường dẫn image bị lỗi thì lấy ảnh mặc định luôn. 
-                    onError={(e) => {
-                        e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-                        e.target.src = "../../images/default-music-img.png";
-                    }}
                 />
                 <div className="card-img-overlay d-flex align-items-end justify-content-between overlay-gradient">
                     <button

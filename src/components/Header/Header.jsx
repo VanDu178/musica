@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { checkData } from "../../helpers/encryptionHelper";
 import { removeCookie } from "../../helpers/cookiesHelper";
 import { removeCachedData } from "../../helpers/cacheDataHelper";
+import avtDefault from "../../assets/images/default-avt-img.jpeg";
 import "./Header.css";
 
 const Header = () => {
@@ -32,23 +33,15 @@ const Header = () => {
   const isHomePage = location.pathname === "/user" && inputRef?.current?.value === "";
   const isPremium = Cookies.get('is_premium') === 'true' ? true : false;
 
-  // useEffect(() => {
-  //   const fetchRole = async () => {
-  //     if (isLoggedIn) {
-  //       getUserInfo();
-  //       //nếu đang login thì check role phải user không
-  //       const checkedRoleUser = await checkData(3);
-  //       if (checkedRoleUser) {
-  //         setValidRole(true);
-  //       }
-  //     } else {
-  //       //nếu không login thì hiển thị
-  //       setValidRole(true);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (isLoggedIn) {
+        getUserInfo();
 
-  //   fetchRole();
-  // }, [isLoggedIn]);
+      }
+    };
+    fetchRole();
+  }, [isLoggedIn]);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -210,12 +203,7 @@ const Header = () => {
 
       {isLoggedIn ? (
         <div className="hd-user-profile com-vertical-align" onClick={toggleUserPanel}>
-          <img src={userData.image_path ? userData.image_path : "../../images/default-avt-img.jpeg"} alt="User"
-            onError={(e) => {
-              e.target.onerror = null; // tránh vòng lặp nếu fallback cũng lỗi
-              e.target.src = "../../images/default-avt-img.jpeg";
-            }}
-          />
+          <img src={userData.image_path ? userData.image_path : avtDefault} alt="User" />
           {userPanelState && (
             <div className="hd-user-menu">
               <ul>
