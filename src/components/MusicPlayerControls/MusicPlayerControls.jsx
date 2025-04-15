@@ -151,12 +151,12 @@ const MusicPlayerControl = () => {
     if (currentTrackIndex < playlist.length - 1) {
       setCurrentTrackIndex(prevIndex => prevIndex + 1);
       setIdSong(playlist[currentTrackIndex + 1].id);
+      return;
     } else {
       // Nếu hết danh sách (không có shuffle hay repeat), gọi API lấy bài tiếp theo
       fetchNextSong();
       return;
     }
-    fetchNextSong();
   };
 
   const updatePlayHistory = async (songId) => {
