@@ -80,9 +80,7 @@ const VideoUploadForm = () => {
                 },
             });
 
-            console.log("after upload video", response);
-
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 201) {
                 handleSuccess(t("artist.video_upload.success"));
             }
         } catch (error) {
