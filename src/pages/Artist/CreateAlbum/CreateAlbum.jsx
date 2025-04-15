@@ -70,7 +70,6 @@ const CreateAlbum = () => {
         formData.append("songs", JSON.stringify(selectedSongs));
         try {
             const response = await axiosInstance.post("/artist/create-album", formData);
-            console.log(response);
             if (response.status == 201) {
                 navigate("/artist/albums");
             } else {

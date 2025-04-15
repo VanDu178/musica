@@ -124,6 +124,10 @@ const Profile = () => {
     }
   };
 
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
   if (isLoading) {
     return <Loading message={t("utils.loading")} height="60" />;
   }
@@ -147,7 +151,10 @@ const Profile = () => {
       <div className="profile-form">
         <label className="profile-label">{t("profile.avt")}</label>
         <div className="profile-avatar-container">
-          <div className="avatar-wrapper">
+          <div
+            className="avatar-wrapper"
+            onClick={handleImageClick}
+          >
             {imageCover === userData?.image_path && imageCover != null ? (
               <img
                 src={imageCover}
@@ -162,12 +169,21 @@ const Profile = () => {
               />
             ) : null}
             {imageCover === null && (
-              <img
-                src={avtDefault}
-                alt="Album Cover"
-                className="profile-avatar"
-              />
+              <svg
+                className="playlist-detail-image-default-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#808080" /* Màu xám cố định */
+                strokeWidth="1.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
             )}
+
 
             {imageCover && (
               <button
@@ -178,14 +194,23 @@ const Profile = () => {
                 <i className="fas fa-times"></i> {/* Icon xóa */}
               </button>
             )}
+            <div className="playlist-detail-image-placeholder">
+              <svg
+                className="playlist-detail-image-edit-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L15.232 5.232z"
+                />
+              </svg>
+              <span className="playlist-detail-image-text">Chọn ảnh</span>
+            </div>
           </div>
-          <label
-            htmlFor="avatar-upload"
-            className="custom-file-upload"
-            disabled={isProcessing || error}
-          >
-            {t("profile.chooseFile")}
-          </label>
           <input
             id="avatar-upload"
             type="file"

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, ListGroup, Image } from "react-bootstrap";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 import SongItem from "../../components/SongItem/SongItem";
 import { usePlaylist } from "../../context/PlaylistProvider";
 import axiosInstance from "../../config/axiosConfig";
 import "./PlaylistDetail.css";
 import Loading from "../../components/Loading/Loading";
 import { handleDragStart, handleDrop, handleDragOver } from '../../helpers/dragDropHelpers';
+import { updatePlaylistImageInCache } from "../../helpers/cacheDataHelper"
 import { handleError } from "../../helpers/toast";
 import logo from "../../assets/images/logo.png";
-
 
 const PlaylistDetail = () => {
     const { t } = useTranslation();
@@ -24,6 +24,8 @@ const PlaylistDetail = () => {
     const { idPlaylist } = useParams(); // Extract idPlaylist from the URL
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+    const [image, setImage] = useState(null); // Lưu URL ảnh để preview
+    const fileInputRef = useRef(null);
 
     // Hàm gọi xuống backend để lấy danh sách bài hát theo playlistId
     const fetchSongsByPlaylistId = async (playlistId) => {
@@ -36,7 +38,6 @@ const PlaylistDetail = () => {
                 setIsVisibleArrange(response?.data?.isOwner);
                 return response.data; // Trả về dữ liệu bài hát nếu có
             } else {
-                console.log("No songs found for this playlist.");
                 return []; // Trả về mảng rỗng nếu không có bài hát
             }
         } catch (error) {
@@ -70,6 +71,14 @@ const PlaylistDetail = () => {
         fetchPlaylistData();
     }, [idPlaylist]);
 
+    useEffect(() => {
+        if (playlistData?.playlist?.image_path) {
+            setImage(playlistData.playlist.image_path);
+        } else {
+            setImage(null);
+        }
+    }, [playlistData]);
+
     const HandleOpenArrange = () => {
         setIsArrange(true);
     };
@@ -101,7 +110,6 @@ const PlaylistDetail = () => {
             return; // Thoát hàm nếu danh sách giống nhau
         }
         const songIds = playlistArrangeSong.map(song => song.id);
-        console.log(songIds);
         try {
             const response = await axiosInstance.patch(
                 `/premium/update/order-playlist/`,
@@ -127,6 +135,39 @@ const PlaylistDetail = () => {
         setIsArrange(false);
     };
 
+    // Hàm xử lý khi chọn file
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Tạo URL để preview ảnh ngay lập tức
+            const imageUrl = URL.createObjectURL(file);
+            setImage(imageUrl);
+
+            // Gọi hàm change ở backend
+            try {
+                const formData = new FormData();
+                formData.append("cover", file);
+                formData.append("playlistId", idPlaylist);
+                await change(formData);
+            } catch (error) {
+                console.error("Error uploading image:", error);
+                // Xử lý lỗi nếu cần (ví dụ: revert ảnh về trạng thái cũ)
+                setImage(playlistData?.playlist?.image_path || null); // Revert về ảnh cũ nếu lỗi
+            }
+        }
+    };
+
+    // Hàm giả lập gọi API backend
+    const change = async (formData) => {
+        const response = await axiosInstance.patch("/premium/update/image/", formData);
+        updatePlaylistImageInCache(idPlaylist, response.data.image_url);
+    };
+
+    // Khi nhấn vào khu vực ảnh, kích hoạt input file
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
     // if (IsCheckingRole) {
     if (isLoading) {
         return <Loading message={t("utils.loading")} height="100" />;
@@ -135,12 +176,69 @@ const PlaylistDetail = () => {
     return (
         <Container className="playlist-container">
             <Row className="align-items-center">
-                <Col md={3}>
-                    <Image
-                        src={playlistData?.playlist?.image_path || logo} // Use placeholder if image_path is null
-                        fluid
-                        rounded
-                    />
+                <Col md={3} className="text-center">
+                    {isVisibleArrange ? (
+                        <div className="playlist-detail-image-container">
+                            <div
+                                className="playlist-detail-image-wrapper"
+                                onClick={handleImageClick}
+                                style={{
+                                    backgroundImage: image ? `url(${image})` : "none",
+                                    backgroundColor: image ? "transparent" : "#181818",
+                                }}
+                            >
+                                {/* Biểu tượng người dùng chỉ hiển thị khi không có ảnh */}
+                                {!playlistData?.playlist?.image_path && !image && (
+                                    <svg
+                                        className="playlist-detail-image-default-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="1.5"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                                        />
+                                    </svg>
+                                )}
+                                {/* Biểu tượng bút và text luôn tồn tại, hiển thị khi hover */}
+                                <div className="playlist-detail-image-placeholder">
+                                    <svg
+                                        className="playlist-detail-image-edit-icon"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L15.232 5.232z"
+                                        />
+                                    </svg>
+                                    <span className="playlist-detail-image-text">Chọn ảnh</span>
+                                </div>
+                            </div>
+                            <input
+                                id="avatar-upload"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                ref={fileInputRef}
+                                className="playlist-detail-image-input"
+                            />
+                        </div>
+                    ) : (
+                        <Image
+                            src={playlistData?.playlist?.image_path || logo}
+                            fluid
+                            rounded
+                        />
+                    )
+
+                    }
                 </Col>
                 <Col md={9}>
                     {

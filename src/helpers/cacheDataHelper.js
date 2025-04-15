@@ -21,6 +21,7 @@ export const getCachedData = (key, duration) => {
 
 //Hàm lưu trữ dữ liệu cache
 export const storeCachedData = (key, data) => {
+  removeCachedData(key);
   const dataToCache = {
     data,
     timestamp: Date.now(),
@@ -41,4 +42,43 @@ export const removeCachedData = (...keys) => {
       console.error(`Failed to remove cache for key "${key}"`, error);
     }
   });
+};
+
+export const updatePlaylistImageInCache = (playlistId, newImageUrl) => {
+  const cacheKey = 'playlistsLeftSideBar';
+  const cacheDuration = 2 * 60 * 60 * 1000; // 24 giờ, điều chỉnh nếu cần
+
+  try {
+    // Lấy dữ liệu cache hiện tại
+    const cachedData = getCachedData(cacheKey, cacheDuration);
+
+    if (!cachedData || !cachedData.playlists) {
+      console.warn(`No valid cache or playlists found for key "${cacheKey}" or cache expired.`);
+      return;
+    }
+
+    // Kiểm tra xem cachedData.playlists có phải là mảng không
+    if (!Array.isArray(cachedData.playlists)) {
+      console.error(`Cached playlists for key "${cacheKey}" is not an array:`, cachedData.playlists);
+      return;
+    }
+
+    // Cập nhật image_path cho playlist có playlistId
+    const updatedPlaylists = cachedData.playlists.map(playlist =>
+      String(playlist.id) === String(playlistId)
+        ? { ...playlist, image_path: newImageUrl }
+        : playlist
+    );
+
+    // Tạo object cache mới để lưu
+    const updatedCacheData = {
+      ...cachedData,
+      playlists: updatedPlaylists
+    };
+
+    // Lưu lại dữ liệu cache đã cập nhật
+    storeCachedData(cacheKey, updatedCacheData);
+  } catch (error) {
+    console.error(`Failed to update playlist image in cache for playlistId ${playlistId}`, error);
+  }
 };

@@ -220,11 +220,11 @@ const Left_Sidebar = () => {
                 {selected === 'playlists' && Array.isArray(playlists) && playlists.length > 0 && (
                     playlists.slice(0, visibleCount).map((item) => (
                         <div
-                            key={item.id}
-                            className={`ls-library-item ls-playlist-item ${selectedItem === item.id ? "ls-selected" : ""}`}
+                            key={item?.id}
+                            className={`ls-library-item ls-playlist-item ${selectedItem === item?.id ? "ls-selected" : ""}`}
                             onClick={() => {
-                                setSelectedItem(item.id);
-                                navigate(`/user/playlist/${item.id}`);
+                                setSelectedItem(item?.id);
+                                navigate(`/user/playlist/${item?.id}`);
                             }}
                         >
                             <div className="ls-library-item-img com-vertical-align">

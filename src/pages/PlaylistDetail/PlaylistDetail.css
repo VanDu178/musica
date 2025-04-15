@@ -67,4 +67,87 @@
   color: #ffffff;
   cursor: pointer;
 }
-  
+.playlist-detail-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.playlist-detail-image-wrapper {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.playlist-detail-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 50% */
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.playlist-detail-image-wrapper:hover::after {
+  opacity: 1;
+}
+
+.playlist-detail-image-default-icon {
+  width: 48px;
+  height: 48px;
+  color: #b3b3b3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+.playlist-detail-image-wrapper:hover .playlist-detail-image-default-icon {
+  opacity: 0;
+}
+
+.playlist-detail-image-placeholder {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: opacity 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Đảm bảo biểu tượng bút và text nằm trên lớp phủ */
+}
+
+.playlist-detail-image-wrapper:hover .playlist-detail-image-placeholder {
+  opacity: 1;
+}
+
+.playlist-detail-image-edit-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.playlist-detail-image-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.playlist-detail-image-input {
+  display: none;
+}
