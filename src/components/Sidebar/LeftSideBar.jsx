@@ -101,8 +101,6 @@ const Left_Sidebar = () => {
         try {
             const response = await axiosInstance.get(url);
             const data = response.data;
-            console.log("data result", data.results);
-
             if (url.includes("page=1")) {
                 setConversations(data.results); // lần đầu → set luôn
             } else {
