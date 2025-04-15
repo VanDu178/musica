@@ -85,7 +85,6 @@ const MusicPlayerControl = () => {
   };
 
   const handleNext = async () => {
-
     if (isRepeat) {
       if (playlist.length === 1) {
         if (audioRef.current) {
@@ -156,6 +155,7 @@ const MusicPlayerControl = () => {
       fetchNextSong();
       return;
     }
+    fetchNextSong();
   };
 
   const updatePlayHistory = async (songId) => {
