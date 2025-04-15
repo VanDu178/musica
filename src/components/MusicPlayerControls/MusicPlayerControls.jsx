@@ -123,6 +123,7 @@ const MusicPlayerControl = () => {
       }
       return;
     }
+
     const fetchNextSong = async () => {
       const checkedRoleUser = await checkData(3);
       if (checkedRoleUser) {
@@ -339,10 +340,10 @@ const MusicPlayerControl = () => {
                     type="range"
                     min="0"
                     max="100"
-                    value={(currentTime / song.duration) * 100}
+                    value={(currentTime / (song.duration - 1)) * 100}
                     onChange={handleSeek}
                   />
-                  <span>{formatTime(song.duration)}</span>
+                  <span>{formatTime(song.duration - 1)}</span>
                 </div>
               </div>
 
