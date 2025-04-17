@@ -86,7 +86,7 @@ const VNPayPayment = () => {
                 try {
                     const queryParams = new URLSearchParams(window.location.search).toString();
                     const response = await axiosInstance.get(
-                        `http://localhost:8000/api/payment-return/?${queryParams}`
+                        `/payment-return/?${queryParams}`
                     );
 
                     if (response.status === 200) {
