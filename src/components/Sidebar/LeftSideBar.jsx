@@ -288,7 +288,7 @@ const Left_Sidebar = () => {
                                     </div>
                                 </div>
 
-                                {!readed && (
+                                {/* {!readed && (
                                     <span
                                         style={{
                                             width: '8px',
@@ -298,7 +298,7 @@ const Left_Sidebar = () => {
                                             marginLeft: '8px',
                                         }}
                                     ></span>
-                                )}
+                                )} */}
                             </div>
                         );
                     })
