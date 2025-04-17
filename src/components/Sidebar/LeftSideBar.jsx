@@ -170,12 +170,12 @@ const Left_Sidebar = () => {
                         <span style={{ display: display }}>{t("leftSidebar.library")}</span>
                     </button>
                     <div className="ls-add-expand com-vertical-align">
-                        <button className="com-glow-only com-vertical-align" title={t("leftSidebar.createListDesc")}>
+                        {/* <button className="com-glow-only com-vertical-align" title={t("leftSidebar.createListDesc")}>
                             <IoMdAdd size={20} color="white" />
                             <span className="ls-create-span" style={{ display: sidebarWidth === "35%" ? "flex" : "none", marginInline: sidebarWidth === "20%" ? "0" : "8px" }}>
                                 {t("leftSidebar.createList")}
                             </span>
-                        </button>
+                        </button> */}
                     </div>
                 </div>
 
