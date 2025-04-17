@@ -128,7 +128,6 @@ const SpotifyLogin = () => {
     onSuccess: async (tokenResponse) => {
       const response = await googleLogin(tokenResponse.access_token);
       if (response.success) {
-        console.log("daya", response);
         if (response.role === 1) {
           navigate("/admin/", { replace: true });
         } else if (response.role === 2) {
