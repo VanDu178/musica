@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -40,7 +40,6 @@ import VideoPlayer from "./pages/VideoPlayer/VideoPlayer";
 import VideoUploadForm from "./pages/Artist/VideoUploadForm/VideoUploadForm";
 import Search from "./pages/Search/Search";
 import VideoDownloadPage from "./pages/VideoDownloadPage/VideoDownloadPage";
-
 
 /*Artist*/
 import ArtistLayout from "./Layout/ArtistLayout/ArtistLayout";
@@ -112,25 +111,13 @@ const App = () => {
                               path="/"
                               element={<Navigate to="/user" replace />}
                             />
-                            <Route path="/download/video/:id" element={<VideoDownloadPage />} />
-                          </Routes>
-                          {/* <Routes>
                             <Route
-                              path="/admin/*"
-                              element={
-                                <AdminLayout>
-                                  <Routes>
-                                    <Route
-                                      path="/account"
-                                      element={<Upload />}
-                                    />
-                                  </Routes>
-                                </AdminLayout>
-                              }
+                              path="/download/video/:id"
+                              element={<VideoDownloadPage />}
                             />
-                          </Routes> */}
-
-                          <Routes>
+                          </Routes>
+                          {/* ADMIN */}
+                          {/* <Routes>
                             <Route
                               path="/admin/*"
                               element={
@@ -164,10 +151,10 @@ const App = () => {
                                 </AdminLayout>
                               }
                             />
-                          </Routes>
+                          </Routes> */}
 
                           {/* ARTIST */}
-                          <Routes>
+                          {/* <Routes>
                             <Route
                               path="/artist/*"
                               element={
@@ -205,7 +192,7 @@ const App = () => {
                                 </ArtistLayout>
                               }
                             />
-                          </Routes>
+                          </Routes> */}
 
                           {/* USER */}
                           <Routes>
