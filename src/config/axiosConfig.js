@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -21,6 +18,7 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log("Final Axios Request Config:", config);
     return config;
   },
   (error) => {

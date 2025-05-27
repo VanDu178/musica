@@ -531,7 +531,16 @@
         "error": "Account activation failed. The link may be invalid or expired.",
         "redirect_message": "You will be redirected to the login page in {{countdown}} seconds.",
         "redirect_button": "Go to login now",
-        "error_contact_support": "Please contact support for assistance."
+        "error_contact_support": "Please contact support for assistance.",
+        "resend_active_link": "Resend account activation email"
+    },
+     "pendingActiveAccount": {
+    "registerSuccess": "Registration Successful!",
+    "verifyEmailSent": "We have sent a verification email to:",
+    "checkInbox": "Please check your inbox and click the link to activate your account.",
+    "backToLogin": "Back to Login",
+    "resendActivation": "Resend activation email",
+    "resendModalTitle": "Resend Activation Email"
     },
     "publicProfile": {
         "artist": "Artist",
@@ -553,11 +562,12 @@
         "placeholder": "you@example.com",
         "send_link": "Resend link",
         "sending": "Sending...",
-        "sent_title": "Activation link sent",
+        "sent_title": "Activation link has been resent",
         "sent_description": "Please check your inbox or spam folder to activate your account.",
-        "back_to_login": "Back to login",
+        "close": "Close",
         "errors": {
             "already_activated": "Account is already activated",
+            "user_not_found": "Email is not registered",
             "server": "An error occurred, please try again"
         }
     },

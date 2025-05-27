@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isValidEmail } from "../../../helpers/validation";
 import axiosInstance from "../../../config/axiosConfig";
 import { handleError } from "../../../helpers/toast";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./ResendActivationModal.css";
 
-export default function ResendActivationModal({ open, onClose }) {
+export default function ResendActivationModal({ open, onClose, emailRegister, title }) {
     const { t } = useTranslation();
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [sent, setSent] = useState(false);
     const [isValid, setIsValid] = useState(true);
-    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (emailRegister) {
+            setEmail(emailRegister);
+        }
+    }, [])
 
     const handleInputChange = (e) => {
         const { value } = e.target;
@@ -24,11 +28,15 @@ export default function ResendActivationModal({ open, onClose }) {
         setLoading(true);
         setSent(false);
         try {
-            await axiosInstance.post("/auth/resend-active-link/", { email: email });
+            await axiosInstance.post("/auth/resend-active-link", { email: email });
             setSent(true);
         } catch (err) {
+
             if (err.response?.status === 400) {
                 handleError(t("resend_activation.errors.already_activated"));
+            }
+            else if (err.response?.status === 404) {
+                handleError(t("resend_activation.errors.user_not_found"));
             } else if (err.response?.status === 500) {
                 handleError(t("resend_activation.errors.server"));
             }
@@ -55,7 +63,7 @@ export default function ResendActivationModal({ open, onClose }) {
                                 setSent(false);
                             }}
                         >
-                            {t("resend_activation.back_to_login")}
+                            {t("resend_activation.close")}
                         </button>
                     </div>
                 ) : (
@@ -69,7 +77,7 @@ export default function ResendActivationModal({ open, onClose }) {
                         >
                             ×
                         </button>
-                        <h2 className="modal-title">{t("resend_activation.title")}</h2>
+                        <h2 className="modal-title">  {t(title)}</h2>
                         <p className="modal-description">
                             {t("resend_activation.description")}
                         </p>

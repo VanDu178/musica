@@ -74,7 +74,7 @@ const App = () => {
                           <Routes>
                             {/* Các route không cần sidebar,header,footer */}
                             <Route
-                              path="/activate/:uidb64/:token"
+                              path="/verify/:token"
                               element={<ActivateAccount />}
                             />
                             <Route path="/login" element={<SpotifyLogin />} />

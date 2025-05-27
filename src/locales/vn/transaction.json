@@ -529,8 +529,17 @@
         "success": "Kích hoạt tài khoản thành công!",
         "error": "Kích hoạt thất bại. Liên kết có thể không hợp lệ hoặc đã hết hạn.",
         "redirect_message": "Bạn sẽ được chuyển hướng về trang đăng nhập trong {{countdown}} giây.",
-        "redirect_button": "Quay lại ngay",
-        "error_contact_support": "Vui lòng liên hệ hỗ trợ nếu cần trợ giúp."
+        "redirect_button": "Quay lại trang login",
+        "error_contact_support": "Vui lòng liên hệ hỗ trợ nếu cần trợ giúp.",
+        "resend_active_link":"Gửi lại email kích hoạt tài khoản"
+    },
+    "pendingActiveAccount": {
+    "registerSuccess": "Đăng ký thành công!",
+    "verifyEmailSent": "Chúng tôi đã gửi một email xác thực đến:",
+    "checkInbox": "Vui lòng kiểm tra hộp thư và nhấn vào link để kích hoạt tài khoản.",
+    "backToLogin": "Quay về trang đăng nhập",
+    "resendActivation": "Gửi lại email kích hoạt tài khoản",
+    "resendModalTitle": "Gửi lại email kích hoạt tài khoản"
     },
     "publicProfile": {
         "artist": "Nghệ sĩ",
@@ -554,9 +563,10 @@
         "sending": "Đang gửi...",
         "sent_title": "Đã gửi link kích hoạt",
         "sent_description": "Vui lòng kiểm tra hộp thư email hoặc phần spam để kích hoạt tài khoản.",
-        "back_to_login": "Quay lại đăng nhập",
+        "close": "Đóng",
         "errors": {
             "already_activated": "Tài khoản đã được kích hoạt",
+            "user_not_found": "Email chưa được đăng ký",
             "server": "Đã có lỗi xảy ra, hãy thử lại"
         }
       },
