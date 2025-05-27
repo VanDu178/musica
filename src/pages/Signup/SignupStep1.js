@@ -43,7 +43,7 @@ const SignupStep1 = ({ onNext, userData, setUserData }) => {
           type="email"
           className="form-control text-white"
           placeholder="name@domain.com"
-          autoComplete="off"
+          autoComplete="on"
           value={userData.email || ""}
           onChange={(e) => setUserData({ ...userData, email: e.target.value })}
         />

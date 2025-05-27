@@ -1,0 +1,63 @@
+.pending-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;      
+  min-height: 100vh;         
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.pending-title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.pending-text {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.pending-button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pending-button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.pending-button.highlight {
+  background: #28a745; 
+}
+
+.pending-button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.pending-message {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.resend_link_active{
+  margin-top: 12px;
+}

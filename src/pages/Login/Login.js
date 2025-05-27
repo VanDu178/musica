@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { use, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
 import { handleError, handleSuccess } from "../../helpers/toast";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useUserData } from "../../context/UserDataProvider";
@@ -37,57 +36,56 @@ const SpotifyLogin = () => {
   // const [showModal, setShowModal] = useState(false);
   // const navigate = useNavigate();
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   setIsProcessing(true);
-  //   try {
-  //     const response = await axiosInstance.post("/auth/login/", dataLogin);
-  //     if (response?.status === 200) {
-  //       setIsLoggedIn(true);
-  //       const role_ID_Hash = await hash(response?.data?.role);
-  //       if (
-  //         response?.data?.access &&
-  //         response?.data?.refresh &&
-  //         role_ID_Hash &&
-  //         response?.data?.is_premium !== null
-  //       ) {
-  //         addCookie(
-  //           response.data.access,
-  //           response.data.refresh,
-  //           role_ID_Hash,
-  //           response.data.is_premium,
-  //           response.data.premium_plan
-  //         );
-  //       }
-
-  //       if (response.data.role === 1) {
-  //         navigate("/admin/", { replace: true });
-  //       } else if (response.data.role === 2) {
-  //         navigate("/artist/", { replace: true });
-  //       } else {
-  //         navigate("/user/", { replace: true });
-  //       }
-  //       handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
-  //     }
-  //   } catch (error) {
-  //     if (error?.response?.data?.error_code) {
-  //       const errorCode = error.response.data.error_code;
-  //       if (errorCode === "ACCOUNT_NOT_ACTIVATED") {
-  //         setShowModal(true);
-  //       }
-  //       const errorMessages = {
-  //         // ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
-  //         INVALID_CREDENTIALS: t("messages.invalidCredentials"),
-  //         ACCOUNT_WAS_BAN: t("messages.accountWasBan"),
-  //         UNKNOWN_ERROR: t("messages.errorOccurred"),
-  //       };
-  //       setError(errorMessages[errorCode]); // Hiển thị toast lỗi
-  //     }
-  //   } finally {
-  //     setIsProcessing(false); // Hide spinner after finishing
-  //   }
-  // };
+  const handleLogin = async () => {
+    //   e.preventDefault();
+    //   setError("");
+    //   setIsProcessing(true);
+    //   try {
+    //     const response = await axiosInstance.post("/auth/login/", dataLogin);
+    //     if (response?.status === 200) {
+    //       setIsLoggedIn(true);
+    //       const role_ID_Hash = await hash(response?.data?.role);
+    //       if (
+    //         response?.data?.access &&
+    //         response?.data?.refresh &&
+    //         role_ID_Hash &&
+    //         response?.data?.is_premium !== null
+    //       ) {
+    //         addCookie(
+    //           response.data.access,
+    //           response.data.refresh,
+    //           role_ID_Hash,
+    //           response.data.is_premium,
+    //           response.data.premium_plan
+    //         );
+    //       }
+    //       if (response.data.role === 1) {
+    //         navigate("/admin/", { replace: true });
+    //       } else if (response.data.role === 2) {
+    //         navigate("/artist/", { replace: true });
+    //       } else {
+    //         navigate("/user/", { replace: true });
+    //       }
+    //       handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
+    //     }
+    //   } catch (error) {
+    //     if (error?.response?.data?.error_code) {
+    //       const errorCode = error.response.data.error_code;
+    //       if (errorCode === "ACCOUNT_NOT_ACTIVATED") {
+    //         setShowModal(true);
+    //       }
+    //       const errorMessages = {
+    //         // ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+    //         INVALID_CREDENTIALS: t("messages.invalidCredentials"),
+    //         ACCOUNT_WAS_BAN: t("messages.accountWasBan"),
+    //         UNKNOWN_ERROR: t("messages.errorOccurred"),
+    //       };
+    //       setError(errorMessages[errorCode]); // Hiển thị toast lỗi
+    //     }
+    //   } finally {
+    //     setIsProcessing(false); // Hide spinner after finishing
+    //   }
+  };
 
   // const googleLogin = async (token_id) => {
   //   try {
@@ -265,6 +263,7 @@ const SpotifyLogin = () => {
                 type="submit"
                 autoComplete="off"
                 // disabled={isProcessing}
+                onClick={handleLogin}
               >
                 {/* {isProcessing ? (
                   <Spinner
@@ -297,6 +296,7 @@ const SpotifyLogin = () => {
       {/* <ResendActivationModal
         open={showModal}
         onClose={() => setShowModal(false)}
+        title="Tài khoản bạn chưa được kích hoạt"
       /> */}
     </>
   );
