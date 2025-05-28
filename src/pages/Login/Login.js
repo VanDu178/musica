@@ -24,67 +24,63 @@ import { useTranslation } from "react-i18next";
 const SpotifyLogin = () => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
-
-  // const { isLoggedIn, setIsLoggedIn } = useUserData();
-
-  // const [dataLogin, setDataLogin] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-  // const [error, setError] = useState("");
-  // const [isProcessing, setIsProcessing] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
-  // const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useUserData();
+  const [dataLogin, setDataLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
-    //   e.preventDefault();
-    //   setError("");
-    //   setIsProcessing(true);
-    //   try {
-    //     const response = await axiosInstance.post("/auth/login/", dataLogin);
-    //     if (response?.status === 200) {
-    //       setIsLoggedIn(true);
-    //       const role_ID_Hash = await hash(response?.data?.role);
-    //       if (
-    //         response?.data?.access &&
-    //         response?.data?.refresh &&
-    //         role_ID_Hash &&
-    //         response?.data?.is_premium !== null
-    //       ) {
-    //         addCookie(
-    //           response.data.access,
-    //           response.data.refresh,
-    //           role_ID_Hash,
-    //           response.data.is_premium,
-    //           response.data.premium_plan
-    //         );
-    //       }
-    //       if (response.data.role === 1) {
-    //         navigate("/admin/", { replace: true });
-    //       } else if (response.data.role === 2) {
-    //         navigate("/artist/", { replace: true });
-    //       } else {
-    //         navigate("/user/", { replace: true });
-    //       }
-    //       handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
-    //     }
-    //   } catch (error) {
-    //     if (error?.response?.data?.error_code) {
-    //       const errorCode = error.response.data.error_code;
-    //       if (errorCode === "ACCOUNT_NOT_ACTIVATED") {
-    //         setShowModal(true);
-    //       }
-    //       const errorMessages = {
-    //         // ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
-    //         INVALID_CREDENTIALS: t("messages.invalidCredentials"),
-    //         ACCOUNT_WAS_BAN: t("messages.accountWasBan"),
-    //         UNKNOWN_ERROR: t("messages.errorOccurred"),
-    //       };
-    //       setError(errorMessages[errorCode]); // Hiển thị toast lỗi
-    //     }
-    //   } finally {
-    //     setIsProcessing(false); // Hide spinner after finishing
-    //   }
+    setError("");
+    setIsProcessing(true);
+    try {
+      const response = await axiosInstance.post("/auth/login", dataLogin);
+      if (response?.status === 200 && response?.data?.role) {
+        setIsLoggedIn(true);
+        const role_Hash = await hash(response?.data?.role?.name);
+        if (
+          response?.data?.accessToken &&
+          role_Hash
+          // response?.data?.is_premium !== null
+        ) {
+          console.log("co ton tai");
+          addCookie(
+            response.data.accessToken,
+            role_Hash
+            // response.data.is_premium,
+            // response.data.premium_plan
+          );
+        }
+        // if (response.data.role.name === "admin") {
+        //   navigate("/admin/", { replace: true });
+        // } else if (response.data.role.name === "artist") {
+        //   navigate("/artist/", { replace: true });
+        // } else {
+        //   navigate("/user/", { replace: true });
+        // }
+        handleSuccess(t("messages.loginSuccess")); // Hiển thị toast thành công
+      }
+    } catch (error) {
+      if (error?.response?.data?.error_code) {
+        const errorCode = error.response.data.error_code;
+        if (errorCode === "ACCOUNT_NOT_ACTIVATED") {
+          setShowModal(true);
+        }
+        const errorMessages = {
+          // ACCOUNT_NOT_ACTIVATED: t("messages.accountNotActivated"),
+          INVALID_CREDENTIALS: t("messages.invalidCredentials"),
+          ACCOUNT_WAS_BAN: t("messages.accountWasBan"),
+          UNKNOWN_ERROR: t("messages.errorOccurred"),
+        };
+        setError(errorMessages[errorCode]); // Hiển thị toast lỗi
+      }
+    } finally {
+      setIsProcessing(false); // Hide spinner after finishing
+    }
   };
 
   // const googleLogin = async (token_id) => {
@@ -158,9 +154,9 @@ const SpotifyLogin = () => {
   // });
 
   // nếu đã login thì không cho vào
-  // if (isLoggedIn) {
-  //   return <Forbidden />;
-  // }
+  if (isLoggedIn) {
+    return <Forbidden />;
+  }
 
   return (
     <>
@@ -175,7 +171,7 @@ const SpotifyLogin = () => {
           <button
             className="btn btn-outline-light mb-2 login-social-button"
             // onClick={handleGoogleLogin}
-            // disabled={isProcessing}
+            disabled={isProcessing}
           >
             <img
               src={googleIcon}
@@ -187,7 +183,7 @@ const SpotifyLogin = () => {
 
           <button
             className="btn btn-outline-light mb-2 login-social-button"
-            // disabled={isProcessing}
+            disabled={isProcessing}
           >
             <img
               src={facebookIcon}
@@ -198,14 +194,14 @@ const SpotifyLogin = () => {
           </button>
           <button
             className="btn btn-outline-light mb-2 login-social-button"
-            // disabled={isProcessing}
+            disabled={isProcessing}
           >
             <i className="fab fa-apple login-social-icon"></i>
             <span>{t("login.continueWithApple")}</span>
           </button>
           <button
             className="btn btn-outline-light mb-3 login-social-button"
-            // disabled={isProcessing}
+            disabled={isProcessing}
           >
             <i className="fas fa-phone login-social-icon"></i>
             <span>{t("login.continueWithPhone")}</span>
@@ -222,10 +218,10 @@ const SpotifyLogin = () => {
                 type="email"
                 className="login-form-control text-white"
                 placeholder={t("login.enterYourEmail")}
-                // value={dataLogin.email}
-                // onChange={(e) =>
-                //   setDataLogin((prev) => ({ ...prev, email: e.target.value }))
-                // }
+                value={dataLogin.email}
+                onChange={(e) =>
+                  setDataLogin((prev) => ({ ...prev, email: e.target.value }))
+                }
               />
             </div>
             <div>
@@ -238,13 +234,13 @@ const SpotifyLogin = () => {
                 type={showPassword ? "text" : "password"}
                 className="login-form-control text-white"
                 placeholder={t("login.password")}
-                // value={dataLogin.password}
-                // onChange={(e) =>
-                //   setDataLogin((prev) => ({
-                //     ...prev,
-                //     password: e.target.value,
-                //   }))
-                // }
+                value={dataLogin.password}
+                onChange={(e) =>
+                  setDataLogin((prev) => ({
+                    ...prev,
+                    password: e.target.value,
+                  }))
+                }
               />
               <span
                 className="login-password-toggle"
@@ -256,16 +252,16 @@ const SpotifyLogin = () => {
                 ></i>
               </span>
             </div>
-            {/* {error && <div className="text-danger mb-3">{error}</div>} */}
+            {error && <div className="text-danger mb-3">{error}</div>}
             <div className="d-flex justify-content-center">
               <button
                 className="btn btn-success login-btn"
                 type="submit"
                 autoComplete="off"
-                // disabled={isProcessing}
+                disabled={isProcessing}
                 onClick={handleLogin}
               >
-                {/* {isProcessing ? (
+                {isProcessing ? (
                   <Spinner
                     as="span"
                     animation="border"
@@ -273,9 +269,11 @@ const SpotifyLogin = () => {
                     role="status"
                     aria-hidden="true"
                   />
-                ) : ( */}
-                <span className="login-btn-text">{t("login.loginButton")}</span>
-                {/* )} */}
+                ) : (
+                  <span className="login-btn-text">
+                    {t("login.loginButton")}
+                  </span>
+                )}
               </button>
             </div>
           </form>
@@ -293,11 +291,11 @@ const SpotifyLogin = () => {
         </div>
       </div>
 
-      {/* <ResendActivationModal
+      <ResendActivationModal
         open={showModal}
         onClose={() => setShowModal(false)}
         title="Tài khoản bạn chưa được kích hoạt"
-      /> */}
+      />
     </>
   );
 };
