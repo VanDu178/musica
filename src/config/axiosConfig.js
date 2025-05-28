@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true, // BẮT BUỘC để gửi/lưu cookie (HTTPOnly cookies)
 });
 
 axiosInstance.interceptors.request.use(
